@@ -1,0 +1,24 @@
+template:
+  params:
+    bootswatch: cerulean
+
+authors:
+  Myles Lewis:
+    href: https://www.qmul.ac.uk/whri/people/academic-staff/items/lewismyles.html
+  Katriona Goldmann:
+    href: https://github.com/KatrionaGoldmann
+
+
+navbar:
+  components:
+    articles:
+      text: Vignette
+      href: articles/Vignette.html
+    news:
+      text: News
+      menu:
+      - text: "News"
+        href: news/index.html
+    reference:
+      text: "Manual"
+      href: reference/index.html
