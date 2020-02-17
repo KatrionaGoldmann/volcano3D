@@ -101,7 +101,7 @@ Variables used in this vignette:
 |:-----------------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | <b>contrast</b> | the variable by which samples can be split into three groups. |
 | <b>groups</b> | the three levels/categories of the contrast variable. |
-| <b>comparison</b> | two groups between which a statistical test can be performed. There are three comparisons total (since 3!/2 = 3). For the examples outlined in this vignette we look at comparisons: 'lymphoid-myeloid', 'lymphoid-fibroid' and 'myeloid-fibroid' as these are two groups in the pathotype contrast. |
+| <b>comparison</b> | two groups between which a statistical test can be performed. There are three comparisons total. For the examples outlined in this vignette we look at comparisons: 'lymphoid-myeloid', 'lymphoid-fibroid' and 'myeloid-fibroid'. |
 | <b>p</b> | p value |
 | <b>FC</b> | fold change |
 | <b>padj</b> | adjusted p value |
@@ -130,11 +130,11 @@ groups.
 
 ### Creating dep objects
 
-To create a dep object you must provide the create_dep function:
+To create a dep object you must provide the 'create_dep' function with:
 
 * `sampledata`: A data frame containing the sample information. This must 
 contain:
-  * an `ID` column: Containing the sample IDs. This must be titles 'ID'. 
+  * an `ID` column: Containing the sample IDs. This must be titled 'ID'. 
   * a `contrast` column: A column containing the three-level factor used for 
 contrasts.
 * `contrast`: The column name in `sampledata` which contains the three-level 
@@ -267,10 +267,10 @@ radial_plotly(polar = syn_polar,
               label_rows = c("SLAMF6", "PARP16", "ITM2C"))
 ```
 
-By hovering over certain point you can also determine which genes these are for 
+By hovering over certain point you can also determine genes for 
 future interrogation. 
 
-Similarly we can create a ggplot static image using radial_ggplot:
+Similarly we can create a static ggplot image using radial_ggplot:
 
 ```{r, fig.height=5}
 radial_ggplot(polar = syn_polar, 
@@ -311,8 +311,6 @@ plot3 <- boxplot_trio(syn_p_obj,
 ggarrange(plot1, plot2, plot3, ncol = 3)
 ```
 
-Note that these are ggplot objects so can be easily altered. 
-
 ### Three Dimensional Volcano Plots
 
 The final thing we can look at is the 3D volcano plot which projects 
@@ -328,7 +326,7 @@ p <- volcano3D(syn_polar,
 p %>% layout(legend = list(x = 100, y = 0.5))
 ```
 
-Again this produces an interactive plot which can be interrogated. If you have 
+Again this produces an interactive plot. If you have 
 the orca command-line utility installed, this can be used to 
 save static images. To install follow the instructions 
 [here](https://github.com/plotly/orca#installation). 
@@ -423,8 +421,7 @@ radial_ggplot(polar = syn_polar,
 ### Boxplots
 
 We can then interrogate any one specific variable as a boxplot, to investigate
-these differences. This is build using ggplot2 so can easily be edited by the
-user to add features.
+these differences. 
 
 ```{r, fig.height = 2.8, fig.width=5}
 plot1 <- boxplot_trio(syn_mod_p_obj,

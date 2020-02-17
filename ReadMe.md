@@ -15,10 +15,8 @@ visualisation of differentially expressed genes in a three-dimensional
 volcano plot. These plots can be converted to interactive visualisations
 using plotly.
 
-The
-[vignette](file:///Users/kgoldmann/Documents/Analyses/volcano3D/docs/articles/Vignette.html)
-consists of a case study focusing on the PEAC rheumatoid arthritis trial
-(Pathobiology of Early Arthritis Cohort). The methodology has been
+The vignette explores a case study from the PEAC rheumatoid arthritis
+trial (Pathobiology of Early Arthritis Cohort). The methodology has been
 published in [‘Lewis, Myles J., et al. “Molecular portraits of early
 rheumatoid arthritis identify clinical and treatment response
 phenotypes.” Cell reports 28.9 (2019):

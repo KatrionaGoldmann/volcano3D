@@ -4,6 +4,11 @@ Title: Interactive Plotting of Three-Way Differential Expression
         Analysis
 Version: 1.0.0.9000
 Author: Katriona Goldmann, Myles Lewis
+Authors@R: c(
+    person("Katriona", "Goldmann", , "k.goldmann@qmul.ac.uk", role = c("aut", "cre")
+    ),
+    person("Myles", "Lewis", role = "aut")
+    )
 Maintainer: Katriona Goldmann <k.goldmann@qmul.ac.uk>
 URL: https://github.com/KatrionaGoldmann/volcano3D
 BugReports: https://github.com/KatrionaGoldmann/volcano3D/issues
