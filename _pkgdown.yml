@@ -1,6 +1,7 @@
 template:
   params:
     bootswatch: cerulean
+    ganalytics: UA-158679490-1
 
 authors:
   Myles Lewis:
