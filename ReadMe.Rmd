@@ -25,7 +25,10 @@ library(kableExtra)
 [![Codecov test coverage](https://codecov.io/gh/r-lib/volcano3D/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/volcano3D?branch=master)
 [![Downloads](https://cranlogs.r-pkg.org/badges/volcano3D?color=blue)](https://cran.rstudio.com/package=volcano3D)
 
-# Introduction
+ 
+
+
+# volcano3D <img src="logo.png" align="right" alt="" width="200" />
 
 ```{r, echo=FALSE}
 library(ggplot2)
