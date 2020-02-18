@@ -37,6 +37,7 @@
 #' @export
 #' @examples
 #' library(volcano3Ddata)
+#' library(ggplot2)
 #' data(syn_data)
 #' syn_p_obj <- create_dep(sampledata = syn_metadata, 
 #'                     contrast = "Pathotype", 
@@ -46,9 +47,15 @@
 #'                     multi_group_prefix = "LRT", 
 #'                     expression = syn_rld)
 #' syn_polar <- polar_coords(dep = syn_p_obj)
+#' 
 #' radial_ggplot(polar = syn_polar, 
 #'               fc_cutoff = 0.1, 
-#'               label_rows = c("SLAMF6", "PARP16", "ITM2C")) 
+#'               marker_size = 1.5,
+#'               label_size = 2.5,
+#'               axis_label_size = 1.5, 
+#'               axis_title_size = 2.5, 
+#'               legend_size=5, 
+#'               label_rows = c("SLAMF6", "PARP16", "ITM2C"))
 
 radial_ggplot <- function(polar,
                           label_rows = NULL,

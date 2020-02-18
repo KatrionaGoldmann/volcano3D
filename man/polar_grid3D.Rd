@@ -4,14 +4,8 @@
 \alias{polar_grid3D}
 \title{Grid required for 3D volcano plot}
 \usage{
-polar_grid3D(
-  r_vector,
-  z_vector,
-  r_axis_ticks,
-  z_axis_ticks,
-  axis_angle = 5/6,
-  ...
-)
+polar_grid3D(r_vector, z_vector, r_axis_ticks, z_axis_ticks,
+  axis_angle = 5/6, ...)
 }
 \arguments{
 \item{r_vector}{numerical vector of radial coordinates}

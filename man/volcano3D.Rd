@@ -4,17 +4,9 @@
 \alias{volcano3D}
 \title{Three-Dimensional Volcano Plot}
 \usage{
-volcano3D(
-  polar,
-  grid = NULL,
-  fc_or_zscore = "zscore",
-  label_rows = c(),
-  label_size = 14,
-  colour_scale = "discrete",
-  axis_angle = 0.5,
-  z_aspectratio = 1,
-  xy_aspectratio = 1
-)
+volcano3D(polar, grid = NULL, fc_or_zscore = "zscore",
+  label_rows = c(), label_size = 14, colour_scale = "discrete",
+  axis_angle = 0.5, z_aspectratio = 1, xy_aspectratio = 1)
 }
 \arguments{
 \item{polar}{A polar object with created by \code{\link{polar_coords}}.}

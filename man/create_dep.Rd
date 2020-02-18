@@ -4,18 +4,10 @@
 \alias{create_dep}
 \title{Create differential expression pvalues (dep) object}
 \usage{
-create_dep(
-  sampledata,
-  contrast,
-  groups = NULL,
-  pvalues,
-  expression = NULL,
-  p_col_suffix = "pvalues",
-  padj_col_suffix = "padj",
-  fc_col_suffix = "logFC",
-  padjust_method = "BH",
-  multi_group_prefix = NULL
-)
+create_dep(sampledata, contrast, groups = NULL, pvalues,
+  expression = NULL, p_col_suffix = "pvalues",
+  padj_col_suffix = "padj", fc_col_suffix = "logFC",
+  padjust_method = "BH", multi_group_prefix = NULL)
 }
 \arguments{
 \item{sampledata}{A data frame containing the sample information.

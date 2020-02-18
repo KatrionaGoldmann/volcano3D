@@ -4,23 +4,11 @@
 \alias{radial_ggplot}
 \title{Ggplot for Three Way Polar Plot}
 \usage{
-radial_ggplot(
-  polar,
-  label_rows = NULL,
-  grid = NULL,
-  fc_cutoff = 0.3,
-  non_sig_colour = "grey60",
-  marker_alpha = 0.7,
-  marker_size = 3,
-  label_size = 5,
-  axis_title_size = 5,
-  axis_label_size = 3,
-  fc_or_zscore = "zscore",
-  axis_angle = 1/6,
-  arrow_length = 1,
-  legend_size = 20,
-  ...
-)
+radial_ggplot(polar, label_rows = NULL, grid = NULL, fc_cutoff = 0.3,
+  non_sig_colour = "grey60", marker_alpha = 0.7, marker_size = 3,
+  label_size = 5, axis_title_size = 5, axis_label_size = 3,
+  fc_or_zscore = "zscore", axis_angle = 1/6, arrow_length = 1,
+  legend_size = 20, ...)
 }
 \arguments{
 \item{polar}{The coordinates for plotting onto a polar plot.}
@@ -67,6 +55,7 @@ This function creates a radar plot using ggplot for a three-way comparison
 }
 \examples{
 library(volcano3Ddata)
+library(ggplot2)
 data(syn_data)
 syn_p_obj <- create_dep(sampledata = syn_metadata, 
                     contrast = "Pathotype", 
@@ -76,9 +65,15 @@ syn_p_obj <- create_dep(sampledata = syn_metadata,
                     multi_group_prefix = "LRT", 
                     expression = syn_rld)
 syn_polar <- polar_coords(dep = syn_p_obj)
+
 radial_ggplot(polar = syn_polar, 
               fc_cutoff = 0.1, 
-              label_rows = c("SLAMF6", "PARP16", "ITM2C")) 
+              marker_size = 1.5,
+              label_size = 2.5,
+              axis_label_size = 1.5, 
+              axis_title_size = 2.5, 
+              legend_size=5, 
+              label_rows = c("SLAMF6", "PARP16", "ITM2C"))
 }
 \references{
 Lewis, Myles J., et al. (2019).

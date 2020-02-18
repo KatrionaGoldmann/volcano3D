@@ -4,17 +4,9 @@
 \alias{boxplot_trio}
 \title{Boxplot to compare three groups}
 \usage{
-boxplot_trio(
-  dep,
-  value,
-  box_colours = c("green3", "blue", "red"),
-  test = "t.test",
-  levels_order = NULL,
-  my_comparisons = NULL,
-  text_size = 10,
-  stat_size = 3,
-  ...
-)
+boxplot_trio(dep, value, box_colours = c("green3", "blue", "red"),
+  test = "t.test", levels_order = NULL, my_comparisons = NULL,
+  text_size = 10, stat_size = 3, ...)
 }
 \arguments{
 \item{dep}{A dep object with the pvalues between groups of interest. Created

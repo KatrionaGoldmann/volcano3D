@@ -4,14 +4,10 @@
 \alias{polar_coords}
 \title{Coordinates for Three Way Polar Plot}
 \usage{
-polar_coords(
-  dep,
-  primary_colours = c("green3", "blue", "red"),
+polar_coords(dep, primary_colours = c("green3", "blue", "red"),
   secondary_colours = c("cyan", "purple", "gold2"),
-  non_sig_colour = "grey60",
-  non_sig_name = "Not Significant",
-  significance_cutoff = 0.01
-)
+  non_sig_colour = "grey60", non_sig_name = "Not Significant",
+  significance_cutoff = 0.01)
 }
 \arguments{
 \item{dep}{A dep object with the pvalues between groups of interest. Created
