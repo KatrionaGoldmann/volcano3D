@@ -1,5 +1,6 @@
 context("boxplot_trio examples")
 library(volcano3D)
+library(volcano3Ddata)
 
 test_that("boxplot_treio tests", {
     syn_p_obj <- create_dep(sampledata = syn_metadata, 

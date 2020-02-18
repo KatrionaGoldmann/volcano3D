@@ -184,6 +184,7 @@ Using the synovial biopsies from PEAC we can create a dep object for
 differentially expressed genes
 
 ```{r}
+library(volcano3Ddata)
 data("syn_data") 
 
 syn_p_obj <- create_dep(sampledata = syn_metadata, 
@@ -349,6 +350,7 @@ pubmed/23921631).
 ### Creating dep object
 
 ```{r}
+library(volcano3Ddata)
 data("Li_pvalues")
 
 syn_mod_p_obj <- create_dep(sampledata = syn_metadata,

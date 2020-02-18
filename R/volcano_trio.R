@@ -46,6 +46,7 @@
 #' factor. The last element in the list is a combined figure for all three 
 #' plots.
 #' @examples
+#' library(volcano3Ddata)
 #' data(syn_data)
 #' syn_p_obj <- create_dep(sampledata = syn_metadata, 
 #'                     contrast = "Pathotype", 

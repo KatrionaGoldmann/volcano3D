@@ -1,5 +1,6 @@
 context("radial_plotly examples")
 library(volcano3D)
+library(volcano3Ddata)
 
 test_that("radial_plotly tests", {
     syn_p_obj <- create_dep(sampledata = syn_metadata, 

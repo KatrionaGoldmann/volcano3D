@@ -1,5 +1,6 @@
 context("volcano3D function examples")
 library(volcano3D)
+library(volcano3Ddata)
 
 test_that("volcano3D example works", {
     syn_p_obj <- create_dep(sampledata = syn_metadata, 

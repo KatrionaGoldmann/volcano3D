@@ -62,6 +62,7 @@ This function creates a plot using plotly which maps the expression
 onto a polar coordinates.
 }
 \examples{
+library(volcano3Ddata)
 data(syn_data)
 syn_p_obj <- create_dep(sampledata = syn_metadata, 
                     contrast = "Pathotype", 

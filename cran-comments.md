@@ -4,11 +4,4 @@
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 notes
-
-There was 1 NOTE: 
-
-* checking installed package size ... NOTE
-  installed size is 11.5Mb
-  sub-directories of 1Mb or more:
-    data  10.9Mb
+0 errors | 0 warnings | 0 notes

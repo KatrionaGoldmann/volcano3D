@@ -1,5 +1,6 @@
 context("polar_coords examples")
 library(volcano3D)
+library(volcano3Ddata)
 
 test_that("polar_coords tests", {
     syn_p_obj <- create_dep(sampledata = syn_metadata, 

@@ -66,6 +66,7 @@ Returns a polar ggplot featuring variables on a tri-axis radial graph
 This function creates a radar plot using ggplot for a three-way comparison
 }
 \examples{
+library(volcano3Ddata)
 data(syn_data)
 syn_p_obj <- create_dep(sampledata = syn_metadata, 
                     contrast = "Pathotype", 

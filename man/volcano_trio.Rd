@@ -83,6 +83,7 @@ This function creates a volcano plot for all combinations of  groups in a
 factor.
 }
 \examples{
+library(volcano3Ddata)
 data(syn_data)
 syn_p_obj <- create_dep(sampledata = syn_metadata, 
                     contrast = "Pathotype", 

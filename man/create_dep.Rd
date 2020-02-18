@@ -78,6 +78,7 @@ Returns an S4 dep object containing:
 This function creates a dep object from a pvalues data frame.
 }
 \examples{
+library(volcano3Ddata)
 data(syn_data)
 syn_p_obj <- create_dep(sampledata = syn_metadata, 
                     contrast = "Pathotype", 

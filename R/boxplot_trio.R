@@ -32,28 +32,30 @@
 #' \emph{Cell reports}, \strong{28}:9 
 #' @export
 #' @examples
+#' library(volcano3Ddata)
 #' data(syn_data)
-#' syn_p_obj <- create_dep(sampledata = syn_metadata, 
-#'                     contrast = "Pathotype", 
+#' syn_p_obj <- create_dep(sampledata = syn_metadata,
+#'                     contrast = "Pathotype",
 #'                     pvalues = syn_pvalues,
-#'                     p_col_suffix ="pvalue", 
+#'                     p_col_suffix ="pvalue",
 #'                     fc_col_suffix = "log2FoldChange",
-#'                     multi_group_prefix = "LRT", 
+#'                     multi_group_prefix = "LRT",
 #'                     expression = syn_rld)
-#'                     
-#' boxplot_trio(syn_p_obj, 
-#'           value = "SLAMF6", 
-#'           test = "wilcox.test", 
-#'           levels_order = c("Lymphoid", "Myeloid", "Fibroid"), 
+#' 
+#' boxplot_trio(syn_p_obj,
+#'           value = "SLAMF6",
+#'           test = "wilcox.test",
+#'           levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
 #'           box_colours = c("blue", "red", "green3"))
-#'           
-#' boxplot_trio(syn_p_obj, 
-#'           value = "ITM2C", 
-#'           test = "wilcox.test", 
-#'           levels_order = c("Lymphoid", "Myeloid", "Fibroid"), 
-#'           my_comparisons = list(c("Lymphoid", "Myeloid"), 
+#' 
+#' boxplot_trio(syn_p_obj,
+#'           value = "ITM2C",
+#'           test = "wilcox.test",
+#'           levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
+#'           my_comparisons = list(c("Lymphoid", "Myeloid"),
 #'                                 c("Myeloid", "Fibroid")),
 #'           box_colours = c("blue", "red", "green3"))
+
 
 boxplot_trio <- function(dep, 
                          value, 
