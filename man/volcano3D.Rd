@@ -49,7 +49,6 @@ z-axis
 Plots the pvalues from three-way comparisons in 3D space using plotly.
 }
 \examples{
-library(volcano3Ddata)
 data(syn_data)
 syn_p_obj <- create_dep(sampledata = syn_metadata, 
                     contrast = "Pathotype", 

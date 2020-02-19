@@ -21,6 +21,8 @@ source("https://gist.githubusercontent.com/KatrionaGoldmann/3d6dfd6aa4cc5c3940bb
 ```
 
 
+<img src="../logo.png" align="right" alt="" width="200" />
+
 ```{r toc, echo = FALSE}
 render_toc("./Vignette.rmd")
 ```
@@ -33,14 +35,7 @@ render_toc("./Vignette.rmd")
 [![Codecov test coverage](https://codecov.io/gh/r-lib/volcano3D/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/volcano3D?branch=master)
 [![Downloads](https://cranlogs.r-pkg.org/badges/volcano3D?color=blue)](https://cran.rstudio.com/package=volcano3D)
 
-# Introduction
-
-```{r, echo=FALSE}
-library(ggplot2)
-library(ggpubr)
-library(plotly)
-```
-
+# Introduction 
 
 The volcano3D package enables exploration of probes differentially 
 expressed between three groups. Its main purpose is for the
@@ -53,18 +48,19 @@ rheumatoid arthritis study (Pathobiology of Early Arthritis Cohort).
 The methodology has been published in 
 ['Lewis, Myles J., et al. "Molecular portraits of early rheumatoid arthritis 
 identify clinical and treatment response phenotypes." Cell reports 28.9 (2019): 
-2455-2470.'](https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1) 
+2455-2470.'
+(DOI: 10.1016/j.celrep.2019.07.091)](https://doi.org/10.1016/j.celrep.2019.07.091)
 with an interactive web tool available at 
 [https://peac.hpc.qmul.ac.uk](https://peac.hpc.qmul.ac.uk).  
 
-## Installing and Loading the package
+## Getting Started
 
-#### Prerequisite
+### Prerequisites
 
-* ggplot2 
-* ggpubr 
-* ggrepel
-* plotly
+* [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)
+* [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
+* [ggrepel](https://cran.r-project.org/web/packages/ggrepel/index.html)
+* [plotly](https://cran.r-project.org/web/packages/plotly/index.html)
 
 ### Install from CRAN
 
@@ -89,6 +85,11 @@ install_github("KatrionaGoldmann/volcano3D")
 ```{r}
 library(volcano3D)
 ```
+
+### volcano3D data
+
+The PEAC data for this package is automatically loaded from the volcano3Ddata 
+package repo ([source](https://github.com/KatrionaGoldmann/volcano3Ddata)). 
 
 ---
 
@@ -236,8 +237,8 @@ polar_coords function:
 syn_polar <- polar_coords(dep = syn_p_obj)
 ```
 
-The `sig` column in `syn_polar@polar` allows us to determine relative differences 
-in expression between pathotypes. The '+' 
+The `sig` column in `syn_polar@polar` allows us to determine relative 
+differences in expression between pathotypes. The '+' 
 indicates which pathotypes are significantly 'up' compared to others. For 
 example:
 
@@ -278,8 +279,7 @@ radial_ggplot(polar = syn_polar,
               fc_cutoff = 0.1, 
               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
               marker_size = 2.3, 
-              legend_size = 10) + 
-  theme(legend.position = "right")
+              legend_size = 10) 
 ```
 
 ### Boxplots
@@ -309,6 +309,7 @@ plot3 <- boxplot_trio(syn_p_obj,
                                            c("Myeloid", "Fibroid")),
                      box_colours = c("blue", "red", "green3"))
 
+require(ggpubr)
 ggarrange(plot1, plot2, plot3, ncol = 3)
 ```
 
@@ -318,6 +319,7 @@ The final thing we can look at is the 3D volcano plot which projects
 differential gene expression onto cylindrical coordinates. 
 
 ```{r}
+library(plotly)
 p <- volcano3D(syn_polar, 
               label_rows = c("SLAMF6", "PARP16", "ITM2C"), 
               label_size = 10, 
@@ -344,15 +346,12 @@ in ['Li, S., Rouphael, N., Duraisingham, S., Romero-Steiner, S., Presnell, S.,
 Davis, C., ... & Kasturi, S. (2014). Molecular signatures of antibody responses
 derived from a systems biology study of five human vaccines. Nature immunology,
 15(2), 195.'](https://www.nature.com/ni/journal/v15/n2/abs/ni.2789.html). The
-pvalues were generated using [QuSAGE methodology](https://www.ncbi.nlm.nih.gov/
-pubmed/23921631).
+pvalues were generated using 
+[QuSAGE methodology](http://clip.med.yale.edu/qusage/).
 
 ### Creating dep object
 
 ```{r}
-library(volcano3Ddata)
-data("Li_pvalues")
-
 syn_mod_p_obj <- create_dep(sampledata = syn_metadata,
                            contrast = "Pathotype",
                            pvalues = syn_mod_pvalues,

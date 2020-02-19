@@ -17,10 +17,10 @@ using plotly.
 
 The vignette explores a case study from the PEAC rheumatoid arthritis
 trial (Pathobiology of Early Arthritis Cohort). The methodology has been
-published in [‘Lewis, Myles J., et al. “Molecular portraits of early
+published in ‘Lewis, Myles J., et al. “Molecular portraits of early
 rheumatoid arthritis identify clinical and treatment response
-phenotypes.” Cell reports 28.9 (2019):
-2455-2470.’](https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1)
+phenotypes.” Cell reports 28.9 (2019): 2455-2470.’ ([DOI:
+10.1016/j.celrep.2019.07.091](https://doi.org/10.1016/j.celrep.2019.07.091))
 with an interactive web tool available at <https://peac.hpc.qmul.ac.uk>.
 
 This tool acts as a searchable interface to examine relationships
@@ -31,10 +31,10 @@ analysis to be explored for relationships between modules and clinical
 parameters. The PEAC interactive web tool was creating as an [R Shiny
 app](https://shiny.rstudio.com) and deployed to the web using a server.
 
-Installing and Loading the package
-----------------------------------
+Getting Started
+---------------
 
-#### Prerequisites
+### Prerequisites
 
 -   [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)
 -   [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
@@ -54,10 +54,14 @@ Installing and Loading the package
     library(devtools)
     install_github("KatrionaGoldmann/volcano3D")
 
-------------------------------------------------------------------------
+### volcano3D data
+
+The PEAC data for this package is automatically loaded from the
+volcano3Ddata package
+([source](https://github.com/KatrionaGoldmann/volcano3Ddata)).
 
 Citation
-========
+--------
 
 volcano3D was developed by the bioinforamtics team at the [Experimental
 Medicine & Rheumatology department](https://www.qmul.ac.uk/whri/emr/)

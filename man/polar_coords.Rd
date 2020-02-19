@@ -65,7 +65,6 @@ This function creates a data frame for downstream polar plots containing
 the p-values from a three-way group comparison.
 }
 \examples{
-library(volcano3Ddata)
 data(syn_data)
 syn_p_obj <- create_dep(sampledata = syn_metadata, 
                     contrast = "Pathotype", 

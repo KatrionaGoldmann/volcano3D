@@ -145,14 +145,14 @@
 <div id="volcano3d" class="section level1">
 
 <p>The volcano3D package enables exploration of probes differentially expressed between three groups. Its main purpose is for the visualisation of differentially expressed genes in a three-dimensional volcano plot. These plots can be converted to interactive visualisations using plotly.</p>
-<p>The vignette explores a case study from the PEAC rheumatoid arthritis trial (Pathobiology of Early Arthritis Cohort). The methodology has been published in <a href="https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1">‘Lewis, Myles J., et al. “Molecular portraits of early rheumatoid arthritis identify clinical and treatment response phenotypes.” Cell reports 28.9 (2019): 2455-2470.’</a> with an interactive web tool available at <a href="https://peac.hpc.qmul.ac.uk" class="uri">https://peac.hpc.qmul.ac.uk</a>.</p>
+<p>The vignette explores a case study from the PEAC rheumatoid arthritis trial (Pathobiology of Early Arthritis Cohort). The methodology has been published in ‘Lewis, Myles J., et al. “Molecular portraits of early rheumatoid arthritis identify clinical and treatment response phenotypes.” Cell reports 28.9 (2019): 2455-2470.’ (<a href="https://doi.org/10.1016/j.celrep.2019.07.091">DOI: 10.1016/j.celrep.2019.07.091</a>) with an interactive web tool available at <a href="https://peac.hpc.qmul.ac.uk" class="uri">https://peac.hpc.qmul.ac.uk</a>.</p>
 <p>This tool acts as a searchable interface to examine relationships between individual synovial and blood gene transcript levels and histological, clinical, and radiographic parameters, and clinical response at 6 months. An interactive interface allows the gene module analysis to be explored for relationships between modules and clinical parameters. The PEAC interactive web tool was creating as an <a href="https://shiny.rstudio.com">R Shiny app</a> and deployed to the web using a server.</p>
-<div id="installing-and-loading-the-package" class="section level2">
+<div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installing-and-loading-the-package" class="anchor"></a>Installing and Loading the package</h2>
-<div id="prerequisites" class="section level4">
-<h4 class="hasAnchor">
-<a href="#prerequisites" class="anchor"></a>Prerequisites</h4>
+<a href="#getting-started" class="anchor"></a>Getting Started</h2>
+<div id="prerequisites" class="section level3">
+<h3 class="hasAnchor">
+<a href="#prerequisites" class="anchor"></a>Prerequisites</h3>
 <ul>
 <li><a href="https://cran.r-project.org/web/packages/ggplot2/index.html">ggplot2</a></li>
 <li><a href="https://cran.r-project.org/web/packages/ggpubr/index.html">ggpubr</a></li>
@@ -172,13 +172,16 @@
 <p><em>Not yet publicly available:</em></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(devtools)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)</a></code></pre></div>
-<hr>
+</div>
+<div id="volcano3d-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#volcano3d-data" class="anchor"></a>volcano3D data</h3>
+<p>The PEAC data for this package is automatically loaded from the volcano3Ddata package (<a href="https://github.com/KatrionaGoldmann/volcano3Ddata">source</a>).</p>
 </div>
 </div>
-</div>
-<div id="citation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h1>
+<div id="citation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#citation" class="anchor"></a>Citation</h2>
 <p>volcano3D was developed by the bioinforamtics team at the <a href="https://www.qmul.ac.uk/whri/emr/">Experimental Medicine &amp; Rheumatology department</a> and <a href="https://www.qmul.ac.uk/c4tb/">Centre for Translational Bioinformatics</a> at Queen Mary University London.</p>
 <p>If you use this package please cite as:</p>
 <blockquote>
@@ -204,6 +207,7 @@
 <a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">##     note = {R package version 1.0.0.9000},</span></a>
 <a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">##     url = {https://github.com/KatrionaGoldmann/volcano3D},</span></a>
 <a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">##   }</span></a></code></pre></div>
+</div>
 </div>
 
 

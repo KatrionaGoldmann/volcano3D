@@ -221,28 +221,25 @@ treatment response phenotypes.</a>
 <em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>syn_data</span>)
-<span class='no'>syn_p_obj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_dep.html'>create_dep</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>syn_data</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘syn_data’ not found</span></div><div class='input'><span class='no'>syn_p_obj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_dep.html'>create_dep</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
                     <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
                     <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_pvalues</span>,
                     <span class='kw'>p_col_suffix</span> <span class='kw'>=</span><span class='st'>"pvalue"</span>,
                     <span class='kw'>fc_col_suffix</span> <span class='kw'>=</span> <span class='st'>"log2FoldChange"</span>,
                     <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
-                    <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_rld</span>)
-
+                    <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_rld</span>)</div><div class='output co'>#&gt; <span class='error'>Error in class(sampledata) %in% c("data.frame"): object 'syn_metadata' not found</span></div><div class='input'>
 <span class='fu'>boxplot_trio</span>(<span class='no'>syn_p_obj</span>,
           <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"SLAMF6"</span>,
           <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"wilcox.test"</span>,
           <span class='kw'>levels_order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Lymphoid"</span>, <span class='st'>"Myeloid"</span>, <span class='st'>"Fibroid"</span>),
-          <span class='kw'>box_colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"blue"</span>, <span class='st'>"red"</span>, <span class='st'>"green3"</span>))</div><div class='img'><img src='boxplot_trio-1.png' alt='' width='700' height='433' /></div><div class='input'>
+          <span class='kw'>box_colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"blue"</span>, <span class='st'>"red"</span>, <span class='st'>"green3"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in boxplot_trio(syn_p_obj, value = "SLAMF6", test = "wilcox.test",     levels_order = c("Lymphoid", "Myeloid", "Fibroid"), box_colours = c("blue",         "red", "green3")): object 'syn_p_obj' not found</span></div><div class='input'>
 <span class='fu'>boxplot_trio</span>(<span class='no'>syn_p_obj</span>,
           <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"ITM2C"</span>,
           <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"wilcox.test"</span>,
           <span class='kw'>levels_order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Lymphoid"</span>, <span class='st'>"Myeloid"</span>, <span class='st'>"Fibroid"</span>),
           <span class='kw'>my_comparisons</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Lymphoid"</span>, <span class='st'>"Myeloid"</span>),
                                 <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Myeloid"</span>, <span class='st'>"Fibroid"</span>)),
-          <span class='kw'>box_colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"blue"</span>, <span class='st'>"red"</span>, <span class='st'>"green3"</span>))</div><div class='img'><img src='boxplot_trio-2.png' alt='' width='700' height='433' /></div></pre>
+          <span class='kw'>box_colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"blue"</span>, <span class='st'>"red"</span>, <span class='st'>"green3"</span>))</div><div class='output co'>#&gt; <span class='error'>Error in boxplot_trio(syn_p_obj, value = "ITM2C", test = "wilcox.test",     levels_order = c("Lymphoid", "Myeloid", "Fibroid"), my_comparisons = list(c("Lymphoid",         "Myeloid"), c("Myeloid", "Fibroid")), box_colours = c("blue",         "red", "green3")): object 'syn_p_obj' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -50,7 +50,6 @@ Plots the expression of a specific row in expression comparing the three
 groups in a boxplot.
 }
 \examples{
-library(volcano3Ddata)
 data(syn_data)
 syn_p_obj <- create_dep(sampledata = syn_metadata,
                     contrast = "Pathotype",
