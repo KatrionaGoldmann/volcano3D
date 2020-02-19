@@ -6,7 +6,7 @@ status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.
 coverage](https://codecov.io/gh/r-lib/volcano3D/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/volcano3D?branch=master)
 [![Downloads](https://cranlogs.r-pkg.org/badges/volcano3D?color=blue)](https://cran.rstudio.com/package=volcano3D)
 
-volcano3D <img src="logo.png" align="right" alt="" width="120" />
+volcano3D <img src="logo.png" align="right" alt="" width="200" />
 =================================================================
 
 The volcano3D package enables exploration of probes differentially
@@ -34,12 +34,12 @@ app](https://shiny.rstudio.com) and deployed to the web using a server.
 Installing and Loading the package
 ----------------------------------
 
-#### Prerequisite
+#### Prerequisites
 
--   ggplot2
--   ggpubr
--   ggrepel
--   plotly
+-   [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)
+-   [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
+-   [ggrepel](https://cran.r-project.org/web/packages/ggrepel/index.html)
+-   [plotly](https://cran.r-project.org/web/packages/plotly/index.html)
 
 ### Install from CRAN
 
@@ -80,7 +80,7 @@ or using:
     ## 
     ##   Katriona Goldmann and Myles Lewis (2020). volcano3D: Interactive
     ##   Plotting of Three-Way Differential Expression Analysis. R package
-    ##   version 0.1.0.9000. https://github.com/KatrionaGoldmann/volcano3D
+    ##   version 1.0.0.9000. https://github.com/KatrionaGoldmann/volcano3D
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
@@ -89,10 +89,6 @@ or using:
     ## Analysis},
     ##     author = {Katriona Goldmann and Myles Lewis},
     ##     year = {2020},
-    ##     note = {R package version 0.1.0.9000},
+    ##     note = {R package version 1.0.0.9000},
     ##     url = {https://github.com/KatrionaGoldmann/volcano3D},
     ##   }
-    ## 
-    ## ATTENTION: This citation information has been auto-generated from the
-    ## package DESCRIPTION file and may need manual editing, see
-    ## 'help("citation")'.

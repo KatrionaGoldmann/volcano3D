@@ -64,12 +64,12 @@ The PEAC interactive web tool was creating as an
 
 ## Installing and Loading the package
 
-#### Prerequisite
+#### Prerequisites
 
-* ggplot2 
-* ggpubr 
-* ggrepel
-* plotly
+* [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)
+* [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
+* [ggrepel](https://cran.r-project.org/web/packages/ggrepel/index.html)
+* [plotly](https://cran.r-project.org/web/packages/plotly/index.html)
 
 ### Install from CRAN
 

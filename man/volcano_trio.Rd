@@ -4,12 +4,23 @@
 \alias{volcano_trio}
 \title{Volcanos Plots for a three-way comparison}
 \usage{
-volcano_trio(dep, p_cutoff = 0.05, fc_cutoff = 1, label_rows = NULL,
-  label_column = NULL, label_size = 3, text_size = 10,
-  marker_size = 0.7, shared_legend_size = 1, sig_names = NULL,
+volcano_trio(
+  dep,
+  p_cutoff = 0.05,
+  fc_cutoff = 1,
+  label_rows = NULL,
+  label_column = NULL,
+  label_size = 3,
+  text_size = 10,
+  marker_size = 0.7,
+  shared_legend_size = 1,
+  sig_names = NULL,
   colours = c("grey60", "salmon", "steelblue", "limegreen"),
-  fc_line = TRUE, p_line = TRUE, line_colours = c("black", "black"),
-  share_axes = TRUE)
+  fc_line = TRUE,
+  p_line = TRUE,
+  line_colours = c("black", "black"),
+  share_axes = TRUE
+)
 }
 \arguments{
 \item{dep}{A dep object with the pvalues between groups of interest. Created

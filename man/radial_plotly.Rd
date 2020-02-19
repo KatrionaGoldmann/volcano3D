@@ -4,10 +4,21 @@
 \alias{radial_plotly}
 \title{Three-way radial comparison Polar Plot (using plotly)}
 \usage{
-radial_plotly(polar, fc_cutoff = 0.3, non_sig_colour = "grey60",
-  label_rows = NULL, grid = NULL, fc_or_zscore = "zscore",
-  label_size = 14, axis_title_size = 16, axis_label_size = 10,
-  arrow_length = 50, axis_ticks = NULL, axis_angle = 5/6, ...)
+radial_plotly(
+  polar,
+  fc_cutoff = 0.3,
+  non_sig_colour = "grey60",
+  label_rows = NULL,
+  grid = NULL,
+  fc_or_zscore = "zscore",
+  label_size = 14,
+  axis_title_size = 16,
+  axis_label_size = 10,
+  arrow_length = 50,
+  axis_ticks = NULL,
+  axis_angle = 5/6,
+  ...
+)
 }
 \arguments{
 \item{polar}{The coordinates for plotting onto a polar plot}

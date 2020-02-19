@@ -4,11 +4,23 @@
 \alias{radial_ggplot}
 \title{Ggplot for Three Way Polar Plot}
 \usage{
-radial_ggplot(polar, label_rows = NULL, grid = NULL, fc_cutoff = 0.3,
-  non_sig_colour = "grey60", marker_alpha = 0.7, marker_size = 3,
-  label_size = 5, axis_title_size = 5, axis_label_size = 3,
-  fc_or_zscore = "zscore", axis_angle = 1/6, arrow_length = 1,
-  legend_size = 20, ...)
+radial_ggplot(
+  polar,
+  label_rows = NULL,
+  grid = NULL,
+  fc_cutoff = 0.3,
+  non_sig_colour = "grey60",
+  marker_alpha = 0.7,
+  marker_size = 3,
+  label_size = 5,
+  axis_title_size = 5,
+  axis_label_size = 3,
+  fc_or_zscore = "zscore",
+  axis_angle = 1/6,
+  arrow_length = 1,
+  legend_size = 20,
+  ...
+)
 }
 \arguments{
 \item{polar}{The coordinates for plotting onto a polar plot.}
