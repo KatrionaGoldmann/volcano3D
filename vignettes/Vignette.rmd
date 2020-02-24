@@ -117,7 +117,8 @@ Variables used in this vignette:
 This vignette will demonstrate the power of this package using a basic example 
 from the [PEAC data set](http://www.peac-mrc.mds.qmul.ac.uk). This analysis is 
 separated by biopsy/tissue type: blood and synovium. Here we will focus on the 
-synovial data. 
+synovial data. This is stored in the Git repo 
+[volcano3Ddata](https://github.com/KatrionaGoldmann/volcano3Ddata). 
 
 ## 1. Synovial Gene Data
 
@@ -182,7 +183,17 @@ multi-group test (this is typically a likelihood ratio test or ANOVA). Default
 is NULL.
 
 Using the synovial biopsies from PEAC we can create a dep object for 
-differentially expressed genes
+differentially expressed genes. First we will install the volcano3Ddata package
+if necessary:
+
+```{r}
+# Install the data package if required
+if(! "volcano3Ddata" %in% installed.packages()[,"Package"]){
+  install.packages("volcano3Ddata")
+}
+```
+
+Then the data can be loaded:
 
 ```{r}
 library(volcano3Ddata)
