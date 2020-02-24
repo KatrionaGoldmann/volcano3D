@@ -15,12 +15,14 @@ visualisation of differentially expressed genes in a three-dimensional
 volcano plot. These plots can be converted to interactive visualisations
 using plotly.
 
-The vignette explores a case study from the PEAC rheumatoid arthritis
-trial (Pathobiology of Early Arthritis Cohort). The methodology has been
-published in ‘Lewis, Myles J., et al. “Molecular portraits of early
+The
+[vignette](https://katrionagoldmann.github.io/volcano3D/articles/Vignette.html)
+explores a case study from the PEAC rheumatoid arthritis trial
+(Pathobiology of Early Arthritis Cohort). The methodology has been
+published in [‘Lewis, Myles J., et al. “Molecular portraits of early
 rheumatoid arthritis identify clinical and treatment response
-phenotypes.” Cell reports 28.9 (2019): 2455-2470.’ ([DOI:
-10.1016/j.celrep.2019.07.091](https://doi.org/10.1016/j.celrep.2019.07.091))
+phenotypes.” Cell reports 28.9 (2019): 2455-2470.’ (DOI:
+10.1016/j.celrep.2019.07.091)](https://doi.org/10.1016/j.celrep.2019.07.091)
 with an interactive web tool available at <https://peac.hpc.qmul.ac.uk>.
 
 This tool acts as a searchable interface to examine relationships
@@ -84,7 +86,7 @@ or using:
     ## 
     ##   Katriona Goldmann and Myles Lewis (2020). volcano3D: Interactive
     ##   Plotting of Three-Way Differential Expression Analysis. R package
-    ##   version 1.0.0.9000. https://github.com/KatrionaGoldmann/volcano3D
+    ##   version 0.1.0.9000. https://github.com/KatrionaGoldmann/volcano3D
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
@@ -93,6 +95,6 @@ or using:
     ## Analysis},
     ##     author = {Katriona Goldmann and Myles Lewis},
     ##     year = {2020},
-    ##     note = {R package version 1.0.0.9000},
+    ##     note = {R package version 0.1.0.9000},
     ##     url = {https://github.com/KatrionaGoldmann/volcano3D},
     ##   }

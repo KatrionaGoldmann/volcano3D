@@ -90,6 +90,7 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' \emph{Cell reports}, \strong{28}:9
 #' @export
 #' @examples
+#' library(volcano3Ddata)
 #' data(syn_data)
 #' syn_p_obj <- create_dep(sampledata = syn_metadata, 
 #'                     contrast = "Pathotype", 

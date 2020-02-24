@@ -88,7 +88,7 @@ the p-values from a three-way group comparison." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -229,13 +229,21 @@ treatment response phenotypes.</a>
 <em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>syn_data</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘syn_data’ not found</span></div><div class='input'><span class='no'>syn_p_obj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_dep.html'>create_dep</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>syn_data</span>)
+<span class='no'>syn_p_obj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_dep.html'>create_dep</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
                     <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
                     <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_pvalues</span>,
                     <span class='kw'>p_col_suffix</span> <span class='kw'>=</span> <span class='st'>"pvalue"</span>,
                     <span class='kw'>fc_col_suffix</span> <span class='kw'>=</span> <span class='st'>"log2FoldChange"</span>,
                     <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
-                    <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_rld</span>)</div><div class='output co'>#&gt; <span class='error'>Error in class(sampledata) %in% c("data.frame"): object 'syn_metadata' not found</span></div><div class='input'><span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'>polar_coords</span>(<span class='kw'>dep</span> <span class='kw'>=</span> <span class='no'>syn_p_obj</span>)</div><div class='output co'>#&gt; <span class='error'>Error in polar_coords(dep = syn_p_obj): object 'syn_p_obj' not found</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>syn_polar</span>@<span class='kw'>polar</span>$<span class='no'>sig</span>)</div><div class='output co'>#&gt; <span class='error'>Error in table(syn_polar@polar$sig): object 'syn_polar' not found</span></div></pre>
+                    <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_rld</span>)
+<span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'>polar_coords</span>(<span class='kw'>dep</span> <span class='kw'>=</span> <span class='no'>syn_p_obj</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>syn_polar</span>@<span class='kw'>polar</span>$<span class='no'>sig</span>)</div><div class='output co'>#&gt; 
+#&gt;           Fibroid Fibroid+Lymphoid+  Fibroid+Myeloid+          Lymphoid 
+#&gt;               885                19              1504              1793 
+#&gt; Lymphoid+Myeloid+           Myeloid   Not Significant 
+#&gt;               500               119             11415 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
