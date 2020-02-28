@@ -73,17 +73,22 @@ install.packages("volcano3D")
 
 ### Install from Github
 
-*Not yet publicly available:*
-
 ```{r, eval = FALSE}
 library(devtools)
 install_github("KatrionaGoldmann/volcano3D")
 ```
 
-### Load the library
-
 ```{r}
 library(volcano3D)
+```
+
+### Sample Data
+
+The sample data can then also be installed (this can only be done 
+after volcano3D is imported)
+
+```{r, eval=FALSE}
+install.packages("volcano3Ddata")
 ```
 
 ### volcano3D data

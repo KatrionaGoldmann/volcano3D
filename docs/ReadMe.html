@@ -169,14 +169,15 @@
 <div id="install-from-github" class="section level3">
 <h3 class="hasAnchor">
 <a href="#install-from-github" class="anchor"></a>Install from Github</h3>
-<p><em>Not yet publicly available:</em></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(devtools)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(volcano3D)</a></code></pre></div>
 </div>
 <div id="volcano3d-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#volcano3d-data" class="anchor"></a>volcano3D data</h3>
-<p>The PEAC data for this package is automatically loaded from the volcano3Ddata package (<a href="https://github.com/KatrionaGoldmann/volcano3Ddata">source</a>).</p>
+<p>The sample data can then also be installed (this can only be done after volcano3D is imported first or from the <a href="https://github.com/KatrionaGoldmann/volcano3Ddata">source</a>)</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"volcano3Ddata"</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="citation" class="section level2">
@@ -188,25 +189,25 @@
 <p>Lewis, Myles J., et al. “Molecular portraits of early rheumatoid arthritis identify clinical and treatment response phenotypes.” Cell reports 28.9 (2019): 2455-2470.</p>
 </blockquote>
 <p>or using:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="st">"volcano3D"</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">## </span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">## To cite package 'volcano3D' in publications use:</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">## </span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">##   Katriona Goldmann and Myles Lewis (2020). volcano3D: Interactive</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">##   Plotting of Three-Way Differential Expression Analysis. R package</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">##   version 0.1.0.9000. https://github.com/KatrionaGoldmann/volcano3D</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">## </span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">## A BibTeX entry for LaTeX users is</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">## </span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">##   @Manual{,</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">##     title = {volcano3D: Interactive Plotting of Three-Way Differential Expression</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">## Analysis},</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">##     author = {Katriona Goldmann and Myles Lewis},</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">##     year = {2020},</span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">##     note = {R package version 0.1.0.9000},</span></a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">##     url = {https://github.com/KatrionaGoldmann/volcano3D},</span></a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">##   }</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="st">"volcano3D"</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">## </span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">## To cite package 'volcano3D' in publications use:</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">## </span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">##   Katriona Goldmann and Myles Lewis (2020). volcano3D: Interactive</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">##   Plotting of Three-Way Differential Expression Analysis. R package</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">##   version 0.1.0.9000. https://github.com/KatrionaGoldmann/volcano3D</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">## </span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">## A BibTeX entry for LaTeX users is</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">## </span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">##   @Manual{,</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">##     title = {volcano3D: Interactive Plotting of Three-Way Differential Expression</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">## Analysis},</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">##     author = {Katriona Goldmann and Myles Lewis},</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">##     year = {2020},</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">##     note = {R package version 0.1.0.9000},</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">##     url = {https://github.com/KatrionaGoldmann/volcano3D},</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">##   }</span></a></code></pre></div>
 </div>
 </div>
 

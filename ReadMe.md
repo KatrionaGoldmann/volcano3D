@@ -51,16 +51,17 @@ Getting Started
 
 ### Install from Github
 
-*Not yet publicly available:*
-
     library(devtools)
     install_github("KatrionaGoldmann/volcano3D")
+    library(volcano3D)
 
 ### volcano3D data
 
-The PEAC data for this package is automatically loaded from the
-volcano3Ddata package
-([source](https://github.com/KatrionaGoldmann/volcano3Ddata)).
+The sample data can then also be installed (this can only be done after
+volcano3D is imported first or from the
+[source](https://github.com/KatrionaGoldmann/volcano3Ddata))
+
+    install.packages("volcano3Ddata")
 
 Citation
 --------
