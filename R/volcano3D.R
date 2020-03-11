@@ -8,8 +8,14 @@
 #' (default = 'zscore').
 #' @param label_rows character vector of rows (names or indices) to label.
 #' @param label_size font size for labels (default = 14).
+#' @param colours The named vector of colours for the groups. If NULL colours
+#' will be assigned as c("green3", "cyan", "gold2", "blue", "purple" "red")
+#' @param non_sig_colour The colour for non-significant markers according to 
+#' fold change.
 #' @param colour_scale whether to use a "discrete" or "continuous" colour scale 
 #' (default = "discrete").
+#' @param grid_3D Optional grid list output by \code{\link{polar_grid}}. If 
+#' NULL this will be calculated. 
 #' @param axis_angle Angle in radians for the z axis (default = 0.5). 
 #' @param z_aspectratio The aspect ratio for the z axis compared to x and y 
 #' (default = 1). Decreasing this makes the plot appear more squat. 
@@ -48,6 +54,9 @@
 volcano3D <- function(polar,
                       grid = NULL,
                       fc_or_zscore = "zscore",
+                      colours=NULL, 
+                      non_sig_colour = "grey",
+                      grid_3D = NULL, 
                       label_rows = c(),
                       label_size = 14,
                       colour_scale = "discrete",
@@ -57,6 +66,29 @@ volcano3D <- function(polar,
     
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
     polar_df <- polar@polar
+    
+    if(class(try(col2rgb(non_sig_colour),silent = TRUE)) == "try-error") {
+        stop('non_sig_colour must be a valid colour')
+        
+    }
+    if(any(unlist(lapply(colours, function(x) {
+        class(try(col2rgb(x), silent = TRUE)) == "try-error"
+    })))) stop('all values in colours must be valid colours')
+    
+    sig_levels <- levels(polar_df$sig)[levels(polar_df$sig) != 
+                                          polar@non_sig_name]
+    if(is.null(colours)){
+        colours <- setNames(c("green3", "cyan", "gold2", "blue", 
+                             "purple", "red"), 
+                           sig_levels)
+    }
+    if(( ! is.null(names(colours) )) & 
+       length(sig_levels[! sig_levels %in% names(colours)]) != 0) {
+        stop(paste('No colour for', 
+                   paste(sig_levels[! sig_levels %in% names(colours)], 
+                         collapse=", ")))
+    } 
+    
     if(! class(polar_df) %in% c("data.frame")) {
         stop("polar_df must be a data frame")
     }
@@ -81,10 +113,12 @@ volcano3D <- function(polar,
     volcano_toptable$r <- volcano_toptable[, paste0("r_", fc_or_zscore)]
     
     # Create the cylindrical grid for the volcano to sit in
-    grid_3D <- polar_grid3D(r_vector = volcano_toptable$r, 
-                            z_vector = volcano_toptable$logP,
-                            r_axis_ticks = NULL, 
-                            z_axis_ticks = NULL)
+    if(is.null(grid_3D)){
+        grid_3D <- polar_grid3D(r_vector = volcano_toptable$r, 
+                                z_vector = volcano_toptable$logP,
+                                r_axis_ticks = NULL, 
+                                z_axis_ticks = NULL)
+    }
     
     polar_grid <- grid_3D$polar_grid
     axes <- grid_3D$axes
@@ -104,8 +138,12 @@ volcano3D <- function(polar,
     volcano_toptable <- volcano_toptable[! is.na(volcano_toptable$y), ]
     volcano_toptable <- volcano_toptable[! is.na(volcano_toptable$logP), ]
     
+    volcano_toptable$col <- as.character(colours[match(volcano_toptable$sig, 
+                                                       names(colours))])
+    volcano_toptable$col[volcano_toptable$sig == polar@non_sig_name] <- 
+        non_sig_colour
     
-    cols <- setNames(as.character(unique(droplevels(volcano_toptable$col))), 
+    cols <- setNames(as.character(unique(factor(volcano_toptable$col))), 
                      as.character(unique(droplevels(volcano_toptable$sig))))
     cols <- cols[match(levels(droplevels(polar_df$sig)), names(cols))]
     
@@ -122,9 +160,9 @@ volcano3D <- function(polar,
         annot <- lapply(label_rows, function(i) {
             row <- volcano_toptable[volcano_toptable$Name == i, ]
             annot <- list(x = row$x, y = row$y, z = row$logP, text = row$Name, 
-                         textangle = 0, ax = 75, ay = 0, arrowcolor = "black", 
-                         arrowwidth = 1, arrowhead = 6, arrowsize = 1.5, 
-                         xanchor = "left", yanchor = "middle")
+                          textangle = 0, ax = 75, ay = 0, arrowcolor = "black", 
+                          arrowwidth = 1, arrowhead = 6, arrowsize = 1.5, 
+                          xanchor = "left", yanchor = "middle")
         })
     } else {annot <- list()}
     
@@ -140,9 +178,10 @@ volcano3D <- function(polar,
                             "discrete" = cols, 
                             "continuous" = NULL),
             text = ~paste0(rownames(volcano_toptable), 
-                         "<br>Theta = ", as.integer(angle_degrees), "\u00B0",
-                         "<br>r = ", formatC( r, digits = 3), 
-                         "<br>P = ", format(logP, digits = 3, scientific = 3)),
+                           "<br>Theta = ", as.integer(angle_degrees), "\u00B0",
+                           "<br>r = ", formatC( r, digits = 3), 
+                           "<br>P = ", format(logP, digits = 3, 
+                                              scientific = 3)),
             type = "scatter3d", mode = "markers") %>%
         
         add_trace(x = polar_grid$x, y = polar_grid$y, z = polar_grid$z, 
@@ -162,12 +201,12 @@ volcano3D <- function(polar,
                  hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
         # label z axis
         add_text(x = c(rep(1.05*R*sinpi(axis_angle), grid_3D$n_z_breaks), 
-                     1.2*R*sinpi(axis_angle)),
+                       1.2*R*sinpi(axis_angle)),
                  y = c(rep(1.05*R*cospi(axis_angle), grid_3D$n_z_breaks), 
-                     1.2*R*cospi(axis_angle)),
+                       1.2*R*cospi(axis_angle)),
                  z = c(1:grid_3D$n_z_breaks*(h/grid_3D$n_z_breaks), h/2)*0.95,
                  text = c(1:grid_3D$n_z_breaks*(h/grid_3D$n_z_breaks), 
-                        '-log<sub>10</sub>P'),
+                          '-log<sub>10</sub>P'),
                  textposition = 'middle left', textfont = list(size = 10),  
                  color = I("black"), hoverinfo = 'none', showlegend = FALSE, 
                  inherit = FALSE) %>%

@@ -8,6 +8,9 @@ volcano3D(
   polar,
   grid = NULL,
   fc_or_zscore = "zscore",
+  colours = NULL,
+  non_sig_colour = "grey",
+  grid_3D = NULL,
   label_rows = c(),
   label_size = 14,
   colour_scale = "discrete",
@@ -24,6 +27,15 @@ If NULL this will be calculated.}
 
 \item{fc_or_zscore}{whether to use fold change or z-score for the p-values 
 (default = 'zscore').}
+
+\item{colours}{The named vector of colours for the groups. If NULL colours
+will be assigned as c("green3", "cyan", "gold2", "blue", "purple" "red")}
+
+\item{non_sig_colour}{The colour for non-significant markers according to 
+fold change.}
+
+\item{grid_3D}{Optional grid list output by \code{\link{polar_grid}}. If 
+NULL this will be calculated.}
 
 \item{label_rows}{character vector of rows (names or indices) to label.}
 

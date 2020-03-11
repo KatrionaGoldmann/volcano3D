@@ -19,7 +19,7 @@ library(knitr)
 library(kableExtra)
 ```
 
-
+[![HitCount](http://hits.dwyl.com/KatrionaGoldmann/volcano3D.svg)](http://hits.dwyl.com/KatrionaGoldmann/volcano3D)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
 [![Codecov test coverage](https://codecov.io/gh/r-lib/volcano3D/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/volcano3D?branch=master)

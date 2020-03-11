@@ -6,8 +6,8 @@
 #' on the plot.
 #' @param grid Optional grid list output by \code{\link{polar_grid}}. If NULL 
 #' this will be calculated.
-#' @param fc_cutoff The cut-off for fold change, below which markers will be
-#' coloured according to `non_sig_colour`` (default = 0.3).
+#' @param colours The named vector of colours for the groups. If NULL colours
+#' will be assigned as c("green3", "cyan", "gold2", "blue", "purple", "red")
 #' @param non_sig_colour The colour for non-significant markers according to 
 #' fold change.
 #' @param marker_alpha The alpha parameter for 
@@ -48,7 +48,10 @@
 #' syn_polar <- polar_coords(dep = syn_p_obj)
 #' 
 #' radial_ggplot(polar = syn_polar, 
-#'               fc_cutoff = 0.1, 
+#'               colours=setNames(c("green3", "blue", "red", "gold2", 
+#'               "purple", "cyan"),
+#'               c("Fibroid", "Lymphoid", "Myeloid", "Fibroid+Myeloid+",  
+#'               "Lymphoid+Myeloid+", "Fibroid+Lymphoid+")),
 #'               marker_size = 1.5,
 #'               label_size = 2.5,
 #'               axis_label_size = 1.5, 
@@ -59,7 +62,7 @@
 radial_ggplot <- function(polar,
                           label_rows = NULL,
                           grid = NULL,
-                          fc_cutoff = 0.3,
+                          colours = NULL,
                           non_sig_colour = "grey60",
                           marker_alpha = 0.7,
                           marker_size = 3,
@@ -72,8 +75,29 @@ radial_ggplot <- function(polar,
                           legend_size = 20,
                           ...){
     
-    
+    if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
     polar_df <- polar@polar
+    
+    if(class(try(col2rgb(non_sig_colour),silent = TRUE)) == "try-error") {
+        stop('non_sig_colour must be a valid colour')
+        
+    }
+    if(any(unlist(lapply(colours, function(x) {
+        class(try(col2rgb(x), silent = TRUE)) == "try-error"
+    })))) stop('all values in colours must be valid colours')
+   
+    sig_levels <- levels(polar_df$sig)[levels(polar_df$sig) != 
+                                          polar@non_sig_name]
+    if(is.null(colours)){
+        colours <- setNames(c("green3", "cyan", "gold2", "blue", 
+                             "purple", "red"), sig_levels)
+    }
+    if(( ! is.null(names(colours) )) & 
+       length(sig_levels[! sig_levels %in% names(colours)]) != 0) {
+        stop(paste('No colour for', 
+                   paste(sig_levels[! sig_levels %in% names(colours)], 
+                         collapse=", ")))
+    } 
     
     if(! class(polar_df) %in% c("data.frame")) {
         stop("polar_df must be a data frame")
@@ -82,7 +106,7 @@ radial_ggplot <- function(polar,
     if(! fc_or_zscore %in% c("zscore", "fc")) {
         stop("fc_or_zscore must be either 'zscore' or 'fc'")
     }
-    if(! is.numeric(fc_cutoff)) stop('fc_cutoff must be a numeric')
+
     if(! is.numeric(label_size)) stop('label_size must be a numeric')
     if(! is.numeric(axis_title_size)) stop('axis_title_size must be a numeric')
     if(! is.numeric(axis_label_size)) stop('axis_label_size must be a numeric')
@@ -97,8 +121,10 @@ radial_ggplot <- function(polar,
     polar_df$y <- polar_df[, paste0("y_", fc_or_zscore)]
     polar_df$r <- polar_df[, paste0("r_", fc_or_zscore)]
     
-    polar_df$col[polar_df$r < fc_cutoff] <- non_sig_colour
-    polar_df$sig[polar_df$r < fc_cutoff] <- polar@non_sig_name
+    # Set up the colours - pick the most highly expressed group
+    polar_df$col <- as.character(colours[match(polar_df$sig, names(colours))])
+    polar_df$col[polar_df$sig == polar@non_sig_name] <- non_sig_colour
+    
     
     # make sure the non-sig markers are on the bottom - reshuffle the order
     polar_df$sig <- factor(polar_df$sig,
@@ -107,9 +133,9 @@ radial_ggplot <- function(polar,
                                          unique(
                                              polar_df$sig[polar_df$sig !=  
                                                     polar@non_sig_name]))))
-    cols <- setNames(as.character(unique(droplevels(polar_df$col))),
-                     as.character(unique(droplevels(polar_df$sig))))
-    cols <- cols[match(levels(droplevels(polar_df$sig)), names(cols))]
+    colours <- c(colours, "ns"=non_sig_colour)
+    names(colours)[names(colours) == "ns"] <- polar@non_sig_name
+    cols <- colours[match(levels(droplevels(polar_df$sig)), names(colours))]
     
     if(is.null(grid)) grid <- polar_grid(r_vector = polar_df$r, 
                                          axis_ticks = NULL,

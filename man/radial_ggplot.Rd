@@ -8,7 +8,7 @@ radial_ggplot(
   polar,
   label_rows = NULL,
   grid = NULL,
-  fc_cutoff = 0.3,
+  colours = NULL,
   non_sig_colour = "grey60",
   marker_alpha = 0.7,
   marker_size = 3,
@@ -31,8 +31,8 @@ on the plot.}
 \item{grid}{Optional grid list output by \code{\link{polar_grid}}. If NULL 
 this will be calculated.}
 
-\item{fc_cutoff}{The cut-off for fold change, below which markers will be
-coloured according to `non_sig_colour`` (default = 0.3).}
+\item{colours}{The named vector of colours for the groups. If NULL colours
+will be assigned as c("green3", "cyan", "gold2", "blue", "purple", "red")}
 
 \item{non_sig_colour}{The colour for non-significant markers according to 
 fold change.}
@@ -78,7 +78,10 @@ syn_p_obj <- create_dep(sampledata = syn_metadata,
 syn_polar <- polar_coords(dep = syn_p_obj)
 
 radial_ggplot(polar = syn_polar, 
-              fc_cutoff = 0.1, 
+              colours=setNames(c("green3", "blue", "red", "gold2", 
+              "purple", "cyan"),
+              c("Fibroid", "Lymphoid", "Myeloid", "Fibroid+Myeloid+",  
+              "Lymphoid+Myeloid+", "Fibroid+Lymphoid+")),
               marker_size = 1.5,
               label_size = 2.5,
               axis_label_size = 1.5, 

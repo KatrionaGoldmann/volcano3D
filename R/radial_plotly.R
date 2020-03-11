@@ -3,8 +3,8 @@
 #' This function creates a plot using plotly which maps the expression
 #' onto a polar coordinates.
 #' @param polar The coordinates for plotting onto a polar plot
-#' @param fc_cutoff The cut-off for fold change, below which markers will be
-#' coloured according to `non_sig_colour`` (default = 0.3).
+#' @param colours The named vector of colours for the groups. If NULL colours
+#' will be assigned as c("green3", "cyan", "gold2", "blue", "purple" "red")
 #' @param non_sig_colour The colour for non-significant markers according to 
 #' fold change.
 #' @param label_rows A character vector of genes or row numbers to label
@@ -44,11 +44,10 @@
 #'                     expression = syn_rld)
 #' syn_polar <- polar_coords(dep = syn_p_obj)
 #' radial_plotly(polar=syn_polar, 
-#'             fc_cutoff=0.1, 
 #'             label_rows=c("SLAMF6", "PARP16", "ITM2C"))
 
 radial_plotly <- function(polar,
-                          fc_cutoff = 0.3,
+                          colours=NULL, 
                           non_sig_colour = "grey60",
                           label_rows = NULL,
                           grid = NULL,
@@ -61,15 +60,37 @@ radial_plotly <- function(polar,
                           axis_angle = 5/6,
                           ...){
     
-    
+    if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
     polar_df <- polar@polar
+    
+    if(class(try(col2rgb(non_sig_colour),silent = TRUE)) == "try-error") {
+        stop('non_sig_colour must be a valid colour')
+        
+    }
+    if(any(unlist(lapply(colours, function(x) {
+        class(try(col2rgb(x), silent = TRUE)) == "try-error"
+    })))) stop('all values in colours must be valid colours')
+    
+    sig_levels <- levels(polar_df$sig)[levels(polar_df$sig) != 
+                                          polar@non_sig_name]
+    if(is.null(colours)){
+        colours <- setNames(c("green3", "cyan", "gold2", "blue", 
+                             "purple", "red"), 
+                           sig_levels)
+    }
+    if(( ! is.null(names(colours) )) & 
+       length(sig_levels[! sig_levels %in% names(colours)]) != 0) {
+        stop(paste('No colour for', 
+                   paste(sig_levels[! sig_levels %in% names(colours)], 
+                         collapse=", ")))
+    } 
+    
     if(! class(polar_df) %in% c("data.frame")) {
         stop("polar_df must be a data frame")
     }
     if(! fc_or_zscore %in% c("zscore", "fc")) {
         stop("fc_or_zscore must be either 'zscore' or 'fc'")
     }
-    if(! is.numeric(fc_cutoff)) stop('fc_cutoff must be a numeric')
     if(! is.numeric(label_size)) stop('label_size must be a numeric')
     if(! is.numeric(axis_title_size)) stop('axis_title_size must be a numeric')
     if(! is.numeric(axis_label_size)) stop('axis_label_size must be a numeric')
@@ -92,28 +113,21 @@ radial_plotly <- function(polar,
     r <- grid$r
     text_coords <- grid$text_coords
     
-    colour_levels <- setNames(as.character(unique(polar_df$sig)),
-                              as.character(unique(polar_df$col)))
     
-    # grey out modules which do not pass the FC cut-off
-    greyout_list <- as.character(rownames(polar_df)[which(polar_df$r <
-                                                              fc_cutoff)])
-    polar_df$col[rownames(polar_df) %in% greyout_list] <- non_sig_colour
+    # Set up the colours - pick the most highly expressed group
+    polar_df$col <- as.character(colours[match(polar_df$sig, names(colours))])
+    polar_df$col[polar_df$sig == polar@non_sig_name] <- non_sig_colour
+  
+    colours <- c("ns"=non_sig_colour, colours)
+    names(colours)[names(colours) == "ns"] <- polar@non_sig_name
+    colour_levels <- colours  
     
-    # Set up the color vector
-    colour_vector <- factor(polar_df$col,
-                            labels = colour_levels[match(
-                                levels(factor(polar_df$col)),
-                                names(colour_levels))])
-    colour_vector <- factor(colour_vector,
-                            levels = colour_levels[colour_levels %in%
-                                                     levels(colour_vector)])
-    colours_use <- names(colour_levels)[match(levels(colour_vector),
-                                              colour_levels)]
-    
+    # Align the levels
+    polar_df$sig <- factor(polar_df$sig, levels=names(colour_levels))
+    polar_df$col <- factor(polar_df$col, levels=colour_levels)
     
     # Annotate gene labels
-    if (length(label_rows)!= 0) {
+    if (length(label_rows) != 0) {
         if(! all(is.numeric(label_rows))) {
             if(! all(label_rows %in% rownames(polar_df))) {
                 stop("label_rows must be in rownames(polar_df)")
@@ -142,7 +156,8 @@ radial_plotly <- function(polar,
     
     # Plotly plot
     p <- plot_ly(data = polar_df, x = ~x, mode = "none", type = "scatter",
-                 colors = colours_use, source = "BOTH", showlegend = FALSE) %>%
+                 colors = levels(polar_df$col), source = "BOTH", 
+                 showlegend = FALSE) %>%
         #add the grid
         add_trace(x = polar_grid$x, y = polar_grid$y, color = I("#CBCBCB"),
                   line = list(width = 1), showlegend = FALSE, type = "scatter",
@@ -160,11 +175,12 @@ radial_plotly <- function(polar,
                  showlegend = FALSE, inherit = FALSE) %>%
         layout(showlegend = TRUE,
                xaxis = list(title = "", zeroline = FALSE, showline = FALSE,
-                          showticklabels = FALSE, showgrid = FALSE,
-                          scaleratio = 1, scaleanchor = "y", autoscale = TRUE),
+                            showticklabels = FALSE, showgrid = FALSE,
+                            scaleratio = 1, scaleanchor = "y", 
+                            autoscale = TRUE),
                yaxis = list(title = "", range = c(-0.5, 0.5), zeroline = FALSE,
-                          showline = FALSE,	showticklabels = FALSE,
-                          showgrid = FALSE),
+                            showline = FALSE,	showticklabels = FALSE,
+                            showgrid = FALSE),
                plot_bgcolor = "rgba(0,0,0,0)", autosize = TRUE,
                annotations = annot) %>%
         # label radial axis
@@ -176,7 +192,7 @@ radial_plotly <- function(polar,
         add_markers(data = polar_df, x = ~x, y = ~y,
                     marker = list(size = 6, sizemode = 'diameter'),
                     hoverinfo = 'text', key = rownames(polar_df), 
-                    inherit = TRUE, color = colour_vector, type = "scatter", 
+                    inherit = TRUE, color = ~sig, type = "scatter", 
                     mode = "markers", text = rownames(polar_df), 
                     showlegend = TRUE)
     

@@ -6,29 +6,22 @@
 \usage{
 polar_coords(
   dep,
-  primary_colours = c("green3", "blue", "red"),
-  secondary_colours = c("cyan", "purple", "gold2"),
-  non_sig_colour = "grey60",
   non_sig_name = "Not Significant",
-  significance_cutoff = 0.01
+  significance_cutoff = 0.01,
+  fc_cutoff = 0.3
 )
 }
 \arguments{
 \item{dep}{A dep object with the pvalues between groups of interest. Created
 by \code{\link{create_dep}}.}
 
-\item{primary_colours}{The colours for the primary groups. I.e. points up in
-only one of the three groups (default = c('blue', 'red', 'green3')).}
-
-\item{secondary_colours}{The colours for points in secondary groups. I.e.
-those up in two of the three groups (default = c("violet", "gold3", "cyan")).}
-
-\item{non_sig_colour}{Colour of non-significant points}
-
 \item{non_sig_name}{Name to assign non-significant points}
 
 \item{significance_cutoff}{Value defining the significance cut-off (pvalues
 below this will be coloured \code{non_sig_colour})}
+
+\item{fc_cutoff}{The cut-off for fold change, below which markers will be
+coloured according to `non_sig_colour`` (default = 0.3).}
 }
 \value{
 Returns an S4 polar object containing:

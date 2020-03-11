@@ -6,7 +6,7 @@
 \usage{
 radial_plotly(
   polar,
-  fc_cutoff = 0.3,
+  colours = NULL,
   non_sig_colour = "grey60",
   label_rows = NULL,
   grid = NULL,
@@ -23,8 +23,8 @@ radial_plotly(
 \arguments{
 \item{polar}{The coordinates for plotting onto a polar plot}
 
-\item{fc_cutoff}{The cut-off for fold change, below which markers will be
-coloured according to `non_sig_colour`` (default = 0.3).}
+\item{colours}{The named vector of colours for the groups. If NULL colours
+will be assigned as c("green3", "cyan", "gold2", "blue", "purple" "red")}
 
 \item{non_sig_colour}{The colour for non-significant markers according to 
 fold change.}
@@ -73,7 +73,6 @@ syn_p_obj <- create_dep(sampledata = syn_metadata,
                     expression = syn_rld)
 syn_polar <- polar_coords(dep = syn_p_obj)
 radial_plotly(polar=syn_polar, 
-            fc_cutoff=0.1, 
             label_rows=c("SLAMF6", "PARP16", "ITM2C"))
 }
 \references{
