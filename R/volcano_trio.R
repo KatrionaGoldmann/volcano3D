@@ -88,7 +88,7 @@ volcano_trio <- function(dep,
   
   if(class(dep) != "dep") stop('dep must be an object of class dep')
   pvalues <- dep@pvalues
-  
+
   if(! is.null(label_column)) if(! any(grepl(label_column, colnames(pvalues)))){
     stop('label_column must be a column name in pvlaues refering to the rows
            to label')
@@ -116,6 +116,12 @@ volcano_trio <- function(dep,
                  colnames(pvalues)[grepl("pvalue", colnames(pvalues))])
   if(! is.null(dep@multi_group_test)){ 
     groups <- groups[groups != dep@multi_group_test]
+  }
+  
+  if(! all(paste(groups, "logFC") %in% colnames(pvalues)) ) {
+    stop(paste('No', 
+               paste(groups[ ! paste(groups, "logFC") %in% colnames(pvalues)], 
+                     collapse=", "), 'fold-change columns'))
   }
   
   # Create a list of volcano plots showing DEG between groups

@@ -12,7 +12,7 @@ create_dep(
   expression = NULL,
   p_col_suffix = "pvalues",
   padj_col_suffix = "padj",
-  fc_col_suffix = "logFC",
+  fc_col_suffix = NULL,
   padjust_method = "BH",
   multi_group_prefix = NULL
 )
@@ -29,9 +29,12 @@ three-level factor used for contrast.}
 \item{groups}{The groups to be compared (if NULL this defaults
 to \code{levels(sampledata[, 'contrasts'])}).}
 
-\item{pvalues}{A data frame containing three `p_col_suffix` and three
-`fc_col_suffix` columns: one for each comparison between groups.  Similarly 
-it can also contain: three optional `padj_col_suffix` columns (if NULL 
+\item{pvalues}{A data frame containing three `p_col_suffix` columns: one for 
+the pvalue for each comparison between groups. 
+Similarly it can also contain: three optional
+`fc_col_suffix` columns for the fold change between each comparison 
+(if NULL, no Fold CHange columns are included); 
+three optional `padj_col_suffix` columns (if NULL 
 adjusted p values are calculated using `padjust_method``); and the 'p', 
 'padj and 'fc' columns for a three-way test, such as ANOVA or likelihood 
 ratio test, defined by `multi_group_prefix`.}
