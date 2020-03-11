@@ -22,8 +22,6 @@ setClassUnion("df_or_matrix", c("data.frame", "matrix"))
 #'       \item{The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'}
 #'       \item{'angle': The angle in radians for polar coordinates}
 #'       \item{'angle_degrees': The angle in degrees}
-#'       \item{'hue': The continuous colour for volcano3D}
-#'       \item{'col': The discrete colour for volcano3D}
 #'       \item{'maxExp': The maximally expressed group}
 #'       \item{'sig': The significance group}
 #'   }
@@ -42,8 +40,40 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #'
 #' This function creates a data frame for downstream polar plots containing
 #' the p-values from a three-way group comparison. 
-#' @param dep A dep object with the pvalues between groups of interest. Created
-#' by \code{\link{create_dep}}.
+#' @param sampledata A data frame containing the sample information.
+#' This must contain: an ID column containing the sample IDs which can be 
+#' matched to the expression data and a 
+#' contrast column containing the three-level factor used for contrasts.
+#' @param contrast The column name in `sampledata` which contains the 
+#' three-level factor used for contrast.
+#' @param groups The groups to be compared (if NULL this defaults
+#' to \code{levels(sampledata[, 'contrasts'])}).
+#' @param pvalues A data frame containing three `p_col_suffix` columns: one for 
+#' the pvalue for each comparison between groups. 
+#' Similarly it can also contain: three optional
+#' `fc_col_suffix` columns for the fold change between each comparison 
+#' (if NULL, no Fold CHange columns are included); 
+#' three optional `padj_col_suffix` columns (if NULL 
+#' adjusted p values are calculated using `padjust_method``); and the 'p', 
+#' 'padj and 'fc' columns for a three-way test, such as ANOVA or likelihood 
+#' ratio test, defined by `multi_group_prefix`.
+#' @param expression Optional data frame containing expression data for
+#' downstream analysis and visualisation. The rows must contain probes which
+#' match the rows in pvalues and the columns must contain samples which match
+#' \code{sampledata$ID}.
+#' @param p_col_suffix The suffix word to define columns containing p values
+#' (default = 'pvalues').
+#' @param padj_col_suffix The suffix word to define columns containing adjusted
+#' p values (default = 'padj'). If NULL these will be calculated using
+#' padjust_method.
+#' @param fc_col_suffix The suffix word to define columns containing adjusted
+#' p-values (default = 'logFC').
+#' @param padjust_method The method used to calculate adjusted p values if 
+#' padj_col_suffix is NULL (default = 'BH'). See 
+#' \code{\link[stats]{p.adjust}}.
+#' @param multi_group_prefix Optional column prefix for statistics (p, padj, 
+#' and fold change) across all three groups (typically ANOVA or likelihood 
+#' ratio tests). default = NULL.
 #' @param non_sig_name Name to assign non-significant points
 #' @param significance_cutoff Value defining the significance cut-off (pvalues
 #' below this will be coloured \code{non_sig_colour})
@@ -59,8 +89,6 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #'       \item{The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'}
 #'       \item{'angle': The angle in radians for polar coordinates}
 #'       \item{'angle_degrees': The angle in degrees}
-#'       \item{'hue': The continuous colour for volcano3D}
-#'       \item{'col': The discrete colour for volcano3D}
 #'       \item{'maxExp': The maximally expressed group}
 #'       \item{'sig': The significance group}
 #'   }
@@ -99,42 +127,127 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' syn_polar <- polar_coords(dep = syn_p_obj)
 #' table(syn_polar@polar$sig) 
 
-polar_coords <- function(dep,
+polar_coords <- function(sampledata,
+                         contrast,
+                         groups = NULL,
+                         pvalues,
+                         expression = NULL,
+                         p_col_suffix = "pvalues",
+                         padj_col_suffix = "padj",
+                         fc_col_suffix = NULL,
+                         padjust_method = "BH",
+                         multi_group_prefix = NULL,
                          non_sig_name = "Not Significant",
                          significance_cutoff = 0.01, 
                          fc_cutoff=0.3){
     
-    expression <- dep@expression
-    polar_pvalues <- dep@pvalues
-    
+    # Check for errors
+    if(! class(sampledata) %in% c("data.frame")) {
+        stop("sampledata must be a data frame")
+    }
     if(! class(expression) %in% c("data.frame", "matrix")) {
         stop("expression must be a data frame or matrix")
     }
-    if(! class(polar_pvalues) %in% "data.frame") {
-        stop("pvalues must be a data frame")
+    if(! contrast %in% colnames(sampledata)) {
+        stop("contrast is not a column in sampledata")
     }
-    # if(class(try(col2rgb(non_sig_colour),silent = TRUE)) == "try-error") {
-    #     stop('non_sig_colour must be a valid colour')
-    #     
-    # }
-    # if(any(unlist(lapply(primary_colours, function(x) {
-    #     class(try(col2rgb(x), silent = TRUE)) == "try-error"
-    # })))) stop('all primary_colours must be valid colours')
-    # if(any(unlist(lapply(secondary_colours, function(x) {
-    #     class(try(col2rgb(x), silent = TRUE)) == "try-error"
-    # })))) stop('all secondary_colours must be valid colours')
-    
-    sampledata <- dep@sampledata
-    contrast <- dep@contrast
     if(! "ID" %in% colnames(sampledata)) {
-        stop("There is no ID column in the sampledata")
+        stop("There is no ID column in metadata")
     }
-    # if(length(primary_colours) != 3) {
-    #     stop('The colour vector must be of length 3')
-    # }
-    # if(length(secondary_colours) != 3) {
-    #     stop('The colour vector must be of length 3')
-    # }
+    if(! is.null(expression)){
+        if(! identical(rownames(expression), rownames(pvalues))){
+            stop('The expression row names must be identical to the pvalues row 
+           names')
+        }
+        if(! identical(colnames(expression), as.character(sampledata$ID))) {
+            stop('The expression column names must be identical to the 
+                 sampledata$ID')
+        }
+    }
+    
+    # Ensure groups and contrast column are compatible
+    sampledata[, contrast] <- droplevels(factor(sampledata[, contrast]))
+    if(length(levels(sampledata[, contrast])) != 3) {
+        stop("There number of factors in the comparison column does not equal 
+             3")
+    }
+    if(is.null(groups)) {groups <- levels(sampledata[, contrast])}
+    if(length(groups) != 3) stop("There number of groups does not equal 3")
+    if(! is.null(groups)) {
+        if(! all(groups %in% levels(sampledata[, contrast]))) {
+            stop('Make sure all groups are in sampledata[, contrast]')
+        }
+    }
+    
+    comparisons <- c(paste(groups[1], groups[2], sep="-"),
+                     paste(groups[2], groups[3], sep="-"),
+                     paste(groups[3], groups[1], sep="-"))
+    
+    
+    # Check column names of correct format exist in pvalues data frame
+    for(col_suffix in c(p_col_suffix, fc_col_suffix, padj_col_suffix)){
+        comparitiveCols <- paste(c(comparisons, multi_group_prefix), col_suffix)
+        notFinding <- c()
+        if(! all(comparitiveCols %in% colnames(pvalues))) {
+            notFinding <- comparitiveCols[! comparitiveCols %in% colnames(pvalues)]
+            notFinding <- notFinding[! is.na(notFinding)]
+            
+            # check if ordering of groups in column names is the wrong way round
+            check <- strsplit(gsub(" ", "", gsub(col_suffix, "", notFinding)), "-")
+            
+            for (order_check in check){
+                og <- paste0(order_check[1], "-", order_check[2], " ", col_suffix)
+                reverse <- paste0(order_check[2], "-", order_check[1], " ", col_suffix)
+                if(reverse %in% colnames(pvalues)){
+                    colnames(pvalues)[colnames(pvalues) == reverse] <- og
+                    
+                    # Need to reverse order for fold change
+                    if(col_suffix == fc_col_suffix) {
+                        pvalues[, og] <- -1*pvalues[, og]
+                    }
+                    warning(paste(og, "was not found in colnames(pvalues), but", 
+                                  reverse, 
+                                  "was - the column name has now been reversed"))
+                    notFinding <- notFinding[notFinding != og]
+                }
+            }
+        }
+        
+        if(length(notFinding) > 0){  
+            if(length(notFinding) > 1) {
+                notFinding <- paste0("'", 
+                                     paste0(notFinding[1:(length(notFinding)-1)],
+                                            collapse="', '"),
+                                     "' or '", 
+                                     notFinding[length(notFinding)], "'")
+            }
+            stop(paste('Cannot find', paste0(notFinding, collapse=", "),
+                       'in colnames(pvalues)'))
+        }
+    }
+    
+    # If adjusted p is not calculated, calculate
+    if(is.null(padj_col_suffix)) {
+        for(comp in c(comparisons, multi_group_prefix)){
+            pvalues$new <- p.adjust(pvalues[, paste(comp, p_col_suffix)],
+                                    method = padjust_method)
+            colnames(pvalues)[colnames(pvalues) == "new"] <- paste(comp, "padj")
+        }
+        padj_col_suffix <- "padj"
+    }
+    
+    pvalues <- pvalues[, sort(paste(c(comparisons, multi_group_prefix),
+                                    rep(c(p_col_suffix, fc_col_suffix,
+                                          padj_col_suffix),
+                                        each = length(c(comparisons,
+                                                        multi_group_prefix)))))]
+    
+    colnames(pvalues) <- gsub(p_col_suffix, "pvalue", colnames(pvalues))
+    colnames(pvalues) <- gsub(padj_col_suffix, "padj", colnames(pvalues))
+    if(! is.null(fc_col_suffix)) {
+        colnames(pvalues) <- gsub(fc_col_suffix, "logFC", colnames(pvalues))
+    }
+    
     if(! is.numeric(significance_cutoff)) {
         stop('significance_cutoff must be a numeric')
     }
@@ -142,6 +255,7 @@ polar_coords <- function(dep,
         stop('significance_cutoff must be between 0 and 1')
     }
     if(! is.numeric(fc_cutoff)) stop('fc_cutoff must be a numeric')
+    
     # Check alignement
     if(identical(as.character(sampledata$ID), colnames(expression)) == FALSE) {
         stop("sampledata and expression data not properly aligned")
@@ -150,22 +264,22 @@ polar_coords <- function(dep,
     # Capture the expression score for each group (fc and z-score)
     expression_scaled <- t(scale(t(expression)))
     polar_colours <- as.data.frame(t(apply(expression_scaled, 1, function(x) {
-        tapply(x, droplevels(sampledata[, dep@contrast]), mean, na.rm = TRUE)
+        tapply(x, droplevels(sampledata[, contrast]), mean, na.rm = TRUE)
     })))
     polar_coloursFC <- as.data.frame(t(apply(expression, 1, function(x) {
-        tapply(x, droplevels(sampledata[, dep@contrast]), mean, na.rm = TRUE)
+        tapply(x, droplevels(sampledata[, contrast]), mean, na.rm = TRUE)
     })))
     
-    if(! identical(rownames(expression), rownames(dep@pvalues))) {
+    if(! identical(rownames(expression), rownames(pvalues))) {
         stop('expression and pvalues not aligned (rownames are not identical)')
     }
-    if(! identical(rownames(polar_colours), rownames(dep@pvalues))) {
+    if(! identical(rownames(polar_colours), rownames(pvalues))) {
         stop('expression and pvalues not aligned (rownames are not identical)')
     }
     
     polar_colours$Name <- rownames(polar_colours)
-    sampledata$contrast <- droplevels(sampledata[, dep@contrast])
-    contrast_groups <- levels(sampledata[, dep@contrast])
+    sampledata$contrast <- droplevels(sampledata[, contrast])
+    contrast_groups <- levels(sampledata[, contrast])
     if(length(contrast_groups) != 3) {
         stop("The number of variables in the contrast column of sampledata
              does not equal 3")
@@ -191,51 +305,40 @@ polar_coords <- function(dep,
     
     # rotate and modulus
     polar_colours$angle <- (polar_colours$angle + 2/3) %% 1
-    
-    # Calculate the colours by significance
-    raw_hue <- hsv(polar_colours$angle[!is.na(polar_colours$angle)], 1, 1)
-    polar_colours$hue <- 'grey60'
-    #polar_colours$raw_hue <- within(polar_colours, hue[!is.na(angle)] <- )
-    if(! is.null(dep@multi_group_test)){
-        polar_colours$hue[polar_pvalues[, paste(dep@multi_group_test, "padj")]
-                          >= significance_cutoff] <- 'grey60'
-    }
     polar_colours$r_zscore <- with(polar_colours, sqrt(x_zscore^2 + y_zscore^2))
     polar_colours$r_fc <- with(polar_colours, sqrt(x_fc^2 + y_fc^2))
     
     # pick the most highly expressed group
     groups <- as.character(max.col(polar_colours[, 1:3]))
-    if(! is.null(dep@multi_group_test)){
-        groups[polar_pvalues[, paste(dep@multi_group_test, "padj")] >= 
+    if(! is.null(multi_group_prefix)){
+        groups[pvalues[, paste(multi_group_prefix, "padj")] >= 
                    significance_cutoff] <- 'grey60'
     }
     polar_colours$maxExp <- colnames(polar_colours)[max.col(
         polar_colours[, 1:3])]
     comp_map <- colnames(polar_colours)[1:3]
-    comp_cols <- colnames(polar_pvalues)[grepl("pvalue", 
-                                               colnames(polar_pvalues))
-                                         & colnames(polar_pvalues) != 
-                                             paste(dep@multi_group_test, 
-                                                   "pvalue")]
+    comp_cols <- colnames(pvalues)[grepl("pvalue", colnames(pvalues)) & 
+                                       colnames(pvalues) != 
+                                       paste(multi_group_prefix, "pvalue")]
     
-    groups[polar_pvalues[,comp_cols[1]] >= significance_cutoff &
-               polar_pvalues[,comp_cols[2]] >= 
+    groups[pvalues[,comp_cols[1]] >= significance_cutoff &
+               pvalues[,comp_cols[2]] >= 
                significance_cutoff &
-               polar_pvalues[,comp_cols[3]] >= 
+               pvalues[,comp_cols[3]] >= 
                significance_cutoff] <-
         'grey60'
-    polar_colours$maxExp[polar_pvalues[,comp_cols[1]] >= significance_cutoff &
-                             polar_pvalues[,comp_cols[2]] >= 
+    polar_colours$maxExp[pvalues[,comp_cols[1]] >= significance_cutoff &
+                             pvalues[,comp_cols[2]] >= 
                              significance_cutoff &
-                             polar_pvalues[,comp_cols[3]] >= 
+                             pvalues[,comp_cols[3]] >= 
                              significance_cutoff] <-
         non_sig_name
     
     # Calculate which significance group each gene belongs to
     index <- groups != 'grey60' 
     if (any(index != FALSE)){
-        pairwise_comp <- data.frame(polar_pvalues[index, comp_cols],
-                                    row.names = rownames(polar_pvalues)[index])
+        pairwise_comp <- data.frame(pvalues[index, comp_cols],
+                                    row.names = rownames(pvalues)[index])
         colnames(pairwise_comp) <- gsub(" P.Value", "", comp_cols)
         
         # Determine which groups are significant
@@ -283,8 +386,8 @@ polar_coords <- function(dep,
     polar_colours$sig[is.na(polar_colours$sig)] <- non_sig_name
     polar_colours$sig <- factor(polar_colours$sig)
     polar_colours$sig[polar_colours$r_fc < fc_cutoff] <- non_sig_name
-    polar_colours$sig[polar_pvalues[, paste(dep@multi_group_test, "padj")] >= 
-               significance_cutoff] <- non_sig_name
+    polar_colours$sig[pvalues[, paste(multi_group_prefix, "padj")] >= 
+                          significance_cutoff] <- non_sig_name
     
     polar_colours <- polar_colours[, c("Name",
                                        comp_map,
@@ -292,21 +395,24 @@ polar_coords <- function(dep,
                                        "x_fc", "y_fc", "r_fc",
                                        "angle",
                                        "angle_degrees",
-                                       "hue",
                                        "maxExp",
                                        "sig")]
     
-    if(! identical(rownames(polar_colours), rownames(dep@pvalues))) {
+    if(! identical(rownames(polar_colours), rownames(pvalues))) {
         stop('Misalignment of rows in polar and pvalues')
     }
     
+    colnames(polar_colours)[colnames(polar_colours) %in% contrast_groups] <- 
+        paste(colnames(polar_colours)[colnames(polar_colours) %in% 
+                                          contrast_groups], "axis")
+    
     methods::new("polar",
                  polar = polar_colours,
-                 pvalues = dep@pvalues,
-                 sampledata = dep@sampledata,
-                 contrast = dep@contrast,
-                 multi_group_test = dep@multi_group_test,
-                 expression  = dep@expression,
+                 pvalues = pvalues,
+                 sampledata = sampledata,
+                 contrast = contrast,
+                 multi_group_test = multi_group_prefix,
+                 expression  = expression,
                  non_sig_name = non_sig_name)
 } 
 

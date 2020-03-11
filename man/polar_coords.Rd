@@ -5,15 +5,65 @@
 \title{Coordinates for Three Way Polar Plot}
 \usage{
 polar_coords(
-  dep,
+  sampledata,
+  contrast,
+  groups = NULL,
+  pvalues,
+  expression = NULL,
+  p_col_suffix = "pvalues",
+  padj_col_suffix = "padj",
+  fc_col_suffix = NULL,
+  padjust_method = "BH",
+  multi_group_prefix = NULL,
   non_sig_name = "Not Significant",
   significance_cutoff = 0.01,
   fc_cutoff = 0.3
 )
 }
 \arguments{
-\item{dep}{A dep object with the pvalues between groups of interest. Created
-by \code{\link{create_dep}}.}
+\item{sampledata}{A data frame containing the sample information.
+This must contain: an ID column containing the sample IDs which can be 
+matched to the expression data and a 
+contrast column containing the three-level factor used for contrasts.}
+
+\item{contrast}{The column name in `sampledata` which contains the 
+three-level factor used for contrast.}
+
+\item{groups}{The groups to be compared (if NULL this defaults
+to \code{levels(sampledata[, 'contrasts'])}).}
+
+\item{pvalues}{A data frame containing three `p_col_suffix` columns: one for 
+the pvalue for each comparison between groups. 
+Similarly it can also contain: three optional
+`fc_col_suffix` columns for the fold change between each comparison 
+(if NULL, no Fold CHange columns are included); 
+three optional `padj_col_suffix` columns (if NULL 
+adjusted p values are calculated using `padjust_method``); and the 'p', 
+'padj and 'fc' columns for a three-way test, such as ANOVA or likelihood 
+ratio test, defined by `multi_group_prefix`.}
+
+\item{expression}{Optional data frame containing expression data for
+downstream analysis and visualisation. The rows must contain probes which
+match the rows in pvalues and the columns must contain samples which match
+\code{sampledata$ID}.}
+
+\item{p_col_suffix}{The suffix word to define columns containing p values
+(default = 'pvalues').}
+
+\item{padj_col_suffix}{The suffix word to define columns containing adjusted
+p values (default = 'padj'). If NULL these will be calculated using
+padjust_method.}
+
+\item{fc_col_suffix}{The suffix word to define columns containing adjusted
+p-values (default = 'logFC').}
+
+\item{padjust_method}{The method used to calculate adjusted p values if 
+padj_col_suffix is NULL (default = 'BH'). See 
+\code{\link[stats]{p.adjust}}.}
+
+\item{multi_group_prefix}{Optional column prefix for statistics (p, padj, 
+and fold change) across all three groups (typically ANOVA or likelihood 
+ratio tests). default = NULL.}
 
 \item{non_sig_name}{Name to assign non-significant points}
 
@@ -34,8 +84,6 @@ Returns an S4 polar object containing:
       \item{The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'}
       \item{'angle': The angle in radians for polar coordinates}
       \item{'angle_degrees': The angle in degrees}
-      \item{'hue': The continuous colour for volcano3D}
-      \item{'col': The discrete colour for volcano3D}
       \item{'maxExp': The maximally expressed group}
       \item{'sig': The significance group}
   }

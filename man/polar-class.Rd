@@ -35,8 +35,6 @@ expression data}
     \item{The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'}
     \item{'angle': The angle in radians for polar coordinates}
     \item{'angle_degrees': The angle in degrees}
-    \item{'hue': The continuous colour for volcano3D}
-    \item{'col': The discrete colour for volcano3D}
     \item{'maxExp': The maximally expressed group}
     \item{'sig': The significance group}
 }}
