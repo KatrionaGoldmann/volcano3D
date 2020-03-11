@@ -2,8 +2,8 @@
 #'
 #' This function creates a volcano plot for all combinations of  groups in a
 #' factor.
-#' @param dep A dep object with the pvalues between groups of interest. Created
-#' by \code{\link{create_dep}}.
+#' @param polar A polar object with the pvalues between groups of interest. Created
+#' by \code{\link{polar_coords}}.
 #' @param p_cutoff The cut-off for pvalue significance (default = 0.05). 
 #' @param fc_cutoff The cut-off for fold change significance (default = 1). 
 #' @param label_rows Row IDs or rownames for values to be annotated/labelled
@@ -48,14 +48,14 @@
 #' @examples
 #' library(volcano3Ddata)
 #' data(syn_data)
-#' syn_p_obj <- create_dep(sampledata = syn_metadata, 
+#' syn_p_obj <- polar_coords(sampledata = syn_metadata, 
 #'                     contrast = "Pathotype", 
 #'                     pvalues = syn_pvalues,
 #'                     p_col_suffix="pvalue", 
 #'                     fc_col_suffix = "log2FoldChange",
 #'                     multi_group_prefix = "LRT", 
 #'                     expression=syn_rld)
-#' syn_mod_plots <- volcano_trio(dep=syn_p_obj)
+#' syn_mod_plots <- volcano_trio(polar=syn_p_obj)
 #' 
 #' syn_mod_plots$All
 #' syn_mod_plots$`Lymphoid-Myeloid`
@@ -69,7 +69,7 @@
 #' @export
 
 
-volcano_trio <- function(dep,
+volcano_trio <- function(polar,
                          p_cutoff = 0.05,
                          fc_cutoff = 1,
                          label_rows = NULL,
@@ -86,8 +86,8 @@ volcano_trio <- function(dep,
                          line_colours = c("black", "black"),
                          share_axes = TRUE) {
   
-  if(class(dep) != "dep") stop('dep must be an object of class dep')
-  pvalues <- dep@pvalues
+  if(class(polar) != "polar") stop('polar must be an object of class polar')
+  pvalues <- polar@pvalues
 
   if(! is.null(label_column)) if(! any(grepl(label_column, colnames(pvalues)))){
     stop('label_column must be a column name in pvlaues refering to the rows
@@ -114,8 +114,8 @@ volcano_trio <- function(dep,
   # Extract the groups/levels
   groups <- gsub(" pvalue", "",
                  colnames(pvalues)[grepl("pvalue", colnames(pvalues))])
-  if(! is.null(dep@multi_group_test)){ 
-    groups <- groups[groups != dep@multi_group_test]
+  if(! is.null(polar@multi_group_test)){ 
+    groups <- groups[groups != polar@multi_group_test]
   }
   
   if(! all(paste(groups, "logFC") %in% colnames(pvalues)) ) {

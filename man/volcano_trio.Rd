@@ -5,7 +5,7 @@
 \title{Volcanos Plots for a three-way comparison}
 \usage{
 volcano_trio(
-  dep,
+  polar,
   p_cutoff = 0.05,
   fc_cutoff = 1,
   label_rows = NULL,
@@ -23,8 +23,8 @@ volcano_trio(
 )
 }
 \arguments{
-\item{dep}{A dep object with the pvalues between groups of interest. Created
-by \code{\link{create_dep}}.}
+\item{polar}{A polar object with the pvalues between groups of interest. Created
+by \code{\link{polar_coords}}.}
 
 \item{p_cutoff}{The cut-off for pvalue significance (default = 0.05).}
 
@@ -85,14 +85,14 @@ factor.
 \examples{
 library(volcano3Ddata)
 data(syn_data)
-syn_p_obj <- create_dep(sampledata = syn_metadata, 
+syn_p_obj <- polar_coords(sampledata = syn_metadata, 
                     contrast = "Pathotype", 
                     pvalues = syn_pvalues,
                     p_col_suffix="pvalue", 
                     fc_col_suffix = "log2FoldChange",
                     multi_group_prefix = "LRT", 
                     expression=syn_rld)
-syn_mod_plots <- volcano_trio(dep=syn_p_obj)
+syn_mod_plots <- volcano_trio(polar=syn_p_obj)
 
 syn_mod_plots$All
 syn_mod_plots$`Lymphoid-Myeloid`

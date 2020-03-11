@@ -4,16 +4,33 @@
 \alias{polar_grid}
 \title{Polar Grid structure for Three Way Polar Plot}
 \usage{
-polar_grid(r_vector, axis_ticks, axis_angle = 4/3, ...)
+polar_grid(
+  r_vector,
+  z_vector = NULL,
+  r_axis_ticks,
+  z_axis_ticks = NULL,
+  axis_angle = 5/6,
+  n_spokes = 12,
+  ...
+)
 }
 \arguments{
 \item{r_vector}{numerical vector of radial coordinates}
 
+\item{z_vector}{numerical vector of z coordinates. If NULL a 2D polar plot
+will be created}
+
+\item{r_axis_ticks}{a numerical vector of breaks for the radial axis}
+
+\item{z_axis_ticks}{a numerical vector of breaks for the z axis}
+
+\item{axis_angle}{angle to position the radial axis in pi (default = 5/6)}
+
+\item{n_spokes}{the number of outward spokes to be plotted (default = 12)}
+
+\item{...}{optional parameters for \code{\link[base]{pretty}}}
+
 \item{axis_ticks}{a numerical vector of breaks for the radial axis}
-
-\item{axis_angle}{Angle to position the radial axis in pi (default = 4/3)}
-
-\item{...}{optional parameters for \link[base]{pretty}}
 }
 \value{
 Returns a list containing:
@@ -24,17 +41,43 @@ Returns a list containing:
   \item{'r'} The grid radius
   \item{'text_coords'} The coordinates for text labels
 }
+
+Returns a list containing:
+\itemize{
+  \item{'polar_grid'} The coordinates for a radial grid
+  \item{'axes'} The axes features for plotly
+  \item{'axis_labels'} The axis labels
+  \item{'r'} The grid radius
+  \item{'z'} The grid height
+  \item{'text_coords'} The coordinates for text labels
+  \item{'n_r_breaks'} The number of ticks on the r axis
+  \item{'n_r_breaks'} The number of ticks on the z axis
+}
 }
 \description{
 This function creates polar grid of radius r
 }
 \examples{
 polar_grid(r_vector = 1:10, axis_ticks = 1:10)
+Grid required for 3D volcano plot
+
+Generates a cylindrical grid of the appropriate dimensions for a 3D volcano
+plot
+polar_grid3D(r_vector = 1:10, 
+           z_vector = 1:5, 
+           r_axis_ticks = 1:10, 
+           z_axis_ticks = 1:5)
 }
 \references{
 Lewis, Myles J., et al. (2019).
 \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
 "Molecular portraits of early rheumatoid arthritis identify clinical and
+treatment response phenotypes.}
+\emph{Cell reports}, \strong{28}:9
+
+Lewis, Myles J., et al. (2019).
+\href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
+Molecular portraits of early rheumatoid arthritis identify clinical and
 treatment response phenotypes.}
 \emph{Cell reports}, \strong{28}:9
 }

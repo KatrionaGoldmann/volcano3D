@@ -10,6 +10,8 @@ radial_ggplot(
   grid = NULL,
   colours = NULL,
   non_sig_colour = "grey60",
+  colour_scale = "discrete",
+  continuous_shift = 120,
   marker_alpha = 0.7,
   marker_size = 3,
   label_size = 5,
@@ -37,6 +39,14 @@ will be assigned as c("green3", "cyan", "gold2", "blue", "purple", "red")}
 \item{non_sig_colour}{The colour for non-significant markers according to 
 fold change.}
 
+\item{colour_scale}{whether to use a "discrete" or "continuous" colour scale 
+(default = "discrete").}
+
+\item{continuous_shift}{the number of degress (between 0 and 360) 
+corresponding to the angle to offset the continuous colour scale by. The 
+continuous colour scale is calculated by converting the angle to hue where 0 
+degrees corresponds to red and 360 degrees to magenta (defualt = 120).}
+
 \item{marker_alpha}{The alpha parameter for 
 \code{\link[ggplot2]{geom_point}} (default = 0.7).}
 
@@ -57,7 +67,8 @@ fold change.}
 
 \item{legend_size}{Size for the legend text (default = 20).}
 
-\item{...}{Other optional parameters to pass to \code{\link{polar_grid}}}
+\item{...}{Other optional parameters to pass to \code{\link{polar_grid}} or 
+\code{\link[base]{pretty}} to define the radial axis ticks.}
 }
 \value{
 Returns a polar ggplot featuring variables on a tri-axis radial graph

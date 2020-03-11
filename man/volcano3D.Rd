@@ -6,24 +6,22 @@
 \usage{
 volcano3D(
   polar,
-  grid = NULL,
   fc_or_zscore = "zscore",
   colours = NULL,
   non_sig_colour = "grey",
-  grid_3D = NULL,
+  grid = NULL,
   label_rows = c(),
   label_size = 14,
   colour_scale = "discrete",
+  continuous_shift = 120,
   axis_angle = 0.5,
   z_aspectratio = 1,
-  xy_aspectratio = 1
+  xy_aspectratio = 1,
+  ...
 )
 }
 \arguments{
 \item{polar}{A polar object with created by \code{\link{polar_coords}}.}
-
-\item{grid}{grid Optional grid list output by \code{\link{polar_grid3D}}. 
-If NULL this will be calculated.}
 
 \item{fc_or_zscore}{whether to use fold change or z-score for the p-values 
 (default = 'zscore').}
@@ -34,7 +32,7 @@ will be assigned as c("green3", "cyan", "gold2", "blue", "purple" "red")}
 \item{non_sig_colour}{The colour for non-significant markers according to 
 fold change.}
 
-\item{grid_3D}{Optional grid list output by \code{\link{polar_grid}}. If 
+\item{grid}{Optional grid list output by \code{\link{polar_grid}}. If 
 NULL this will be calculated.}
 
 \item{label_rows}{character vector of rows (names or indices) to label.}
@@ -44,6 +42,11 @@ NULL this will be calculated.}
 \item{colour_scale}{whether to use a "discrete" or "continuous" colour scale 
 (default = "discrete").}
 
+\item{continuous_shift}{the number of degress (between 0 and 360) 
+corresponding to the angle to offset the continuous colour scale by. The 
+continuous colour scale is calculated by converting the angle to hue where 0 
+degrees corresponds to red and 360 degrees to magenta (defualt = 120).}
+
 \item{axis_angle}{Angle in radians for the z axis (default = 0.5).}
 
 \item{z_aspectratio}{The aspect ratio for the z axis compared to x and y 
@@ -51,6 +54,9 @@ NULL this will be calculated.}
 
 \item{xy_aspectratio}{The aspect ratio for the xy axis compared to z
 (default = 1). Decreasing this makes the grid wider in the plot window.}
+
+\item{...}{Optional parameters to pass to \code{\link[base]{polar_drid}} or 
+\code{\link[base]{pretty}} to define the radial axis ticks.}
 }
 \value{
 Returns a cylindrical 3D plotly plot featuring variables on a 

@@ -11,6 +11,8 @@ radial_plotly(
   label_rows = NULL,
   grid = NULL,
   fc_or_zscore = "zscore",
+  colour_scale = "discrete",
+  continuous_shift = 120,
   label_size = 14,
   axis_title_size = 16,
   axis_label_size = 10,
@@ -37,6 +39,14 @@ this will be calculated.}
 \item{fc_or_zscore}{Whether to use the z-score or fold change as magnitude
 (options are c("zscore", "fc"))}
 
+\item{colour_scale}{whether to use a "discrete" or "continuous" colour scale 
+(default = "discrete").}
+
+\item{continuous_shift}{the number of degress (between 0 and 360) 
+corresponding to the angle to offset the continuous colour scale by. The 
+continuous colour scale is calculated by converting the angle to hue where 0 
+degrees corresponds to red and 360 degrees to magenta (defualt = 120).}
+
 \item{label_size}{Font size of labels (default = 14)}
 
 \item{axis_title_size}{Font size for axis titles (default = 16)}
@@ -50,8 +60,8 @@ NULL this will be calculated using \code{\link[base]{pretty}}.}
 
 \item{axis_angle}{Angle for the axis labels (default = 5/6).}
 
-\item{...}{Optional parameters to pass to \code{\link[base]{pretty}} to 
-define the radial axis ticks.}
+\item{...}{Optional parameters to pass to \code{\link[base]{polar_drid}} or 
+\code{\link[base]{pretty}} to define the radial axis ticks.}
 }
 \value{
 Returns a polar plotly plot featuring variables on a tri-axis

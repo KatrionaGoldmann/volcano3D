@@ -12,6 +12,12 @@
 #' this will be calculated. 
 #' @param fc_or_zscore Whether to use the z-score or fold change as magnitude
 #' (options are c("zscore", "fc"))
+#' @param colour_scale whether to use a "discrete" or "continuous" colour scale 
+#' (default = "discrete").
+#' @param continuous_shift the number of degress (between 0 and 360) 
+#' corresponding to the angle to offset the continuous colour scale by. The 
+#' continuous colour scale is calculated by converting the angle to hue where 0 
+#' degrees corresponds to red and 360 degrees to magenta (defualt = 120). 
 #' @param label_size Font size of labels (default = 14)
 #' @param axis_title_size Font size for axis titles (default = 16)
 #' @param axis_label_size Font size for axis labels (default = 10)
@@ -19,8 +25,8 @@
 #' @param axis_ticks a numerical vector of tick breaks for the radial axis. If
 #' NULL this will be calculated using \code{\link[base]{pretty}}.
 #' @param axis_angle Angle for the axis labels (default = 5/6).
-#' @param ... Optional parameters to pass to \code{\link[base]{pretty}} to 
-#' define the radial axis ticks.
+#' @param ... Optional parameters to pass to \code{\link[base]{polar_drid}} or 
+#' \code{\link[base]{pretty}} to define the radial axis ticks.
 #' @return Returns a polar plotly plot featuring variables on a tri-axis
 #' radial graph
 #' @importFrom plotly plot_ly add_trace add_text add_markers layout
@@ -52,6 +58,8 @@ radial_plotly <- function(polar,
                           label_rows = NULL,
                           grid = NULL,
                           fc_or_zscore = "zscore",
+                          colour_scale = "discrete",
+                          continuous_shift = 120, 
                           label_size = 14,
                           axis_title_size = 16,
                           axis_label_size = 10,
@@ -102,10 +110,11 @@ radial_plotly <- function(polar,
     polar_df <- polar_df[! is.nan(polar_df$x), ]
     
     if(is.null(grid)) grid <- polar_grid(r_vector = polar_df$r, 
-                                         axis_ticks = NULL,
+                                         r_axis_ticks = NULL,
                                          axis_angle = axis_angle, 
                                          ...)
     
+    grid$polar_grid <- grid$polar_grid[grid$polar_grid$area != "cylinder", ]
     
     polar_grid <- grid$polar_grid
     axes <- grid$axes
@@ -117,6 +126,13 @@ radial_plotly <- function(polar,
     # Set up the colours - pick the most highly expressed group
     polar_df$col <- as.character(colours[match(polar_df$sig, names(colours))])
     polar_df$col[polar_df$sig == polar@non_sig_name] <- non_sig_colour
+    
+    # Calculate the continuous colours
+    offset <- (polar_df$angle_degrees[!is.na(polar_df$angle_degrees)] + 
+                   continuous_shift)/360
+    offset[offset > 1] <- offset[offset > 1] - 1
+    polar_df$hue <- hsv(offset, 1, 1)
+    polar_df$hue[polar_df$sig == polar@non_sig_name] <- non_sig_colour
   
     colours <- c("ns"=non_sig_colour, colours)
     names(colours)[names(colours) == "ns"] <- polar@non_sig_name
@@ -154,9 +170,15 @@ radial_plotly <- function(polar,
         })
     } else {annot <- list()}
     
+    polar_df <- polar_df[c(which(polar_df$hue == non_sig_colour), 
+               which(polar_df$hue != non_sig_colour)), ]
+    
     # Plotly plot
     p <- plot_ly(data = polar_df, x = ~x, mode = "none", type = "scatter",
-                 colors = levels(polar_df$col), source = "BOTH", 
+                 colors = switch(colour_scale,
+                                 "discrete" = levels(polar_df$col),
+                                 "continuous" = NULL),
+                 source = "BOTH", 
                  showlegend = FALSE) %>%
         #add the grid
         add_trace(x = polar_grid$x, y = polar_grid$y, color = I("#CBCBCB"),
@@ -190,11 +212,17 @@ radial_plotly <- function(polar,
                  hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
         # add the markers
         add_markers(data = polar_df, x = ~x, y = ~y,
+                    color = ~switch(colour_scale,
+                                    "discrete" = sig,
+                                    "continuous" = I(hue)),
+                    colors = switch(colour_scale,
+                                    "discrete" = levels(polar_df$col),
+                                    "continuous" = NULL),
                     marker = list(size = 6, sizemode = 'diameter'),
                     hoverinfo = 'text', key = rownames(polar_df), 
-                    inherit = TRUE, color = ~sig, type = "scatter", 
+                    inherit = TRUE, type = "scatter", 
                     mode = "markers", text = rownames(polar_df), 
-                    showlegend = TRUE)
+                    showlegend = (colour_scale == "discrete"))
     
     return(p)
     
