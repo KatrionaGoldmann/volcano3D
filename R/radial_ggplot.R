@@ -15,10 +15,10 @@
 #' @param marker_size Size of the markers (default = 3).
 #' @param colour_scale whether to use a "discrete" or "continuous" colour scale 
 #' (default = "discrete").
-#' @param continuous_shift the number of degress (between 0 and 360) 
+#' @param continuous_shift the number of degrees (between 0 and 360) 
 #' corresponding to the angle to offset the continuous colour scale by. The 
 #' continuous colour scale is calculated by converting the angle to hue where 0 
-#' degrees corresponds to red and 360 degrees to magenta (defualt = 120). 
+#' degrees corresponds to red and 360 degrees to magenta (default = 120). 
 #' @param label_size Font size of labels (default = 5).
 #' @param axis_title_size Font size for axis titles (default = 5)
 #' @param axis_label_size Font size for axis labels (default = 3)
@@ -142,12 +142,12 @@ radial_ggplot <- function(polar,
     
     
     # make sure the non-sig markers are on the bottom - reshuffle the order
-    polar_df$sig <- factor(polar_df$sig,
-                           levels = c(polar@non_sig_name,
-                                      as.character(
-                                          unique(
-                                              polar_df$sig[polar_df$sig !=  
-                                                               polar@non_sig_name]))))
+    polar_df$sig <- 
+        factor(polar_df$sig,
+               levels = c(polar@non_sig_name,
+                          as.character(
+                              unique(polar_df$sig[polar_df$sig !=  
+                                                   polar@non_sig_name]))))
     colours <- c(colours, "ns"=non_sig_colour)
     names(colours)[names(colours) == "ns"] <- polar@non_sig_name
     cols <- colours[match(levels(droplevels(polar_df$sig)), names(colours))]

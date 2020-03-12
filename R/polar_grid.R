@@ -47,15 +47,15 @@ polar_grid <- function(r_vector = NULL,
     r_breaks <- pretty(r_vector, ...)
   } else{ r_breaks <- r_axis_ticks}
   r_breaks <- r_breaks[! is.na(r_breaks)]
-  r_breaks = sort(r_breaks)
+  r_breaks <- sort(r_breaks)
   if(r_breaks[1] != 0) r_breaks <- c(0, r_breaks)
   
   if(is.null(z_axis_ticks)) {
     z_breaks <- pretty(z_vector)
   } else{ z_breaks <- z_axis_ticks }
   z_breaks <- z_breaks[! is.na(z_breaks)]
-  z_breaks = sort(z_breaks)
-  if(z_breaks[1] != 0) z_breaks <- c(0, z_breaks)
+  z_breaks <- sort(z_breaks)
+  if(length(z_breaks) > 0) { if( z_breaks[1] != 0) z_breaks <- c(0, z_breaks)}
   
   n_r_breaks <- length(r_breaks) - 1
   n_z_breaks <- length(z_breaks) - 1
@@ -73,7 +73,7 @@ polar_grid <- function(r_vector = NULL,
   z = 0, area = "cylindrical_grid")
   
   # radial spokes out
-  mz = switch(as.character(is.null(z_breaks)), "TRUE"=0, "FALSE"=max(z_breaks))
+  mz <- switch(as.character(is.null(z_breaks)), "TRUE"=0, "FALSE"=max(z_breaks))
   
   polar_grid_top <- data.frame(
     x = unlist(lapply(c(1:n_spokes), function(i){

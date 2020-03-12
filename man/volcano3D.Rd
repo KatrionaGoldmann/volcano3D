@@ -45,7 +45,7 @@ NULL this will be calculated.}
 \item{continuous_shift}{the number of degress (between 0 and 360) 
 corresponding to the angle to offset the continuous colour scale by. The 
 continuous colour scale is calculated by converting the angle to hue where 0 
-degrees corresponds to red and 360 degrees to magenta (defualt = 120).}
+degrees corresponds to red and 360 degrees to magenta (default = 120).}
 
 \item{axis_angle}{Angle in radians for the z axis (default = 0.5).}
 

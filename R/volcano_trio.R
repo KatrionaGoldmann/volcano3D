@@ -2,8 +2,8 @@
 #'
 #' This function creates a volcano plot for all combinations of  groups in a
 #' factor.
-#' @param polar A polar object with the pvalues between groups of interest. Created
-#' by \code{\link{polar_coords}}.
+#' @param polar A polar object with the pvalues between groups of interest. 
+#' Created by \code{\link{polar_coords}}.
 #' @param p_cutoff The cut-off for pvalue significance (default = 0.05). 
 #' @param fc_cutoff The cut-off for fold change significance (default = 1). 
 #' @param label_rows Row IDs or rownames for values to be annotated/labelled

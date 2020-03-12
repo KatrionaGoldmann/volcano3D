@@ -2,12 +2,12 @@
 % Please edit documentation in R/polar_grid.R
 \name{polar_grid}
 \alias{polar_grid}
-\title{Polar Grid structure for Three Way Polar Plot}
+\title{Grid required for 3D volcano plot and 2D radial plots}
 \usage{
 polar_grid(
-  r_vector,
+  r_vector = NULL,
   z_vector = NULL,
-  r_axis_ticks,
+  r_axis_ticks = NULL,
   z_axis_ticks = NULL,
   axis_angle = 5/6,
   n_spokes = 12,
@@ -29,19 +29,8 @@ will be created}
 \item{n_spokes}{the number of outward spokes to be plotted (default = 12)}
 
 \item{...}{optional parameters for \code{\link[base]{pretty}}}
-
-\item{axis_ticks}{a numerical vector of breaks for the radial axis}
 }
 \value{
-Returns a list containing:
-\itemize{
-  \item{'polar_grid'} The coordinates for a radial grid
-  \item{'axes'} The axes features for plotly
-  \item{'axis_labels'} The axis labels
-  \item{'r'} The grid radius
-  \item{'text_coords'} The coordinates for text labels
-}
-
 Returns a list containing:
 \itemize{
   \item{'polar_grid'} The coordinates for a radial grid
@@ -55,26 +44,16 @@ Returns a list containing:
 }
 }
 \description{
-This function creates polar grid of radius r
-}
-\examples{
-polar_grid(r_vector = 1:10, axis_ticks = 1:10)
-Grid required for 3D volcano plot
-
 Generates a cylindrical grid of the appropriate dimensions for a 3D volcano
 plot
+}
+\examples{
 polar_grid3D(r_vector = 1:10, 
            z_vector = 1:5, 
            r_axis_ticks = 1:10, 
            z_axis_ticks = 1:5)
 }
 \references{
-Lewis, Myles J., et al. (2019).
-\href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
-"Molecular portraits of early rheumatoid arthritis identify clinical and
-treatment response phenotypes.}
-\emph{Cell reports}, \strong{28}:9
-
 Lewis, Myles J., et al. (2019).
 \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
 Molecular portraits of early rheumatoid arthritis identify clinical and

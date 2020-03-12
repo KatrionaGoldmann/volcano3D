@@ -42,10 +42,10 @@ fold change.}
 \item{colour_scale}{whether to use a "discrete" or "continuous" colour scale 
 (default = "discrete").}
 
-\item{continuous_shift}{the number of degress (between 0 and 360) 
+\item{continuous_shift}{the number of degrees (between 0 and 360) 
 corresponding to the angle to offset the continuous colour scale by. The 
 continuous colour scale is calculated by converting the angle to hue where 0 
-degrees corresponds to red and 360 degrees to magenta (defualt = 120).}
+degrees corresponds to red and 360 degrees to magenta (default = 120).}
 
 \item{marker_alpha}{The alpha parameter for 
 \code{\link[ggplot2]{geom_point}} (default = 0.7).}

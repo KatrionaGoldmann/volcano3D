@@ -23,8 +23,8 @@ volcano_trio(
 )
 }
 \arguments{
-\item{polar}{A polar object with the pvalues between groups of interest. Created
-by \code{\link{polar_coords}}.}
+\item{polar}{A polar object with the pvalues between groups of interest. 
+Created by \code{\link{polar_coords}}.}
 
 \item{p_cutoff}{The cut-off for pvalue significance (default = 0.05).}
 

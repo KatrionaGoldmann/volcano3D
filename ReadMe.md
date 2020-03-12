@@ -67,7 +67,7 @@ volcano3D is imported first or from the
 Citation
 --------
 
-volcano3D was developed by the bioinforamtics team at the [Experimental
+volcano3D was developed by the bioinformatics team at the [Experimental
 Medicine & Rheumatology department](https://www.qmul.ac.uk/whri/emr/)
 and [Centre for Translational
 Bioinformatics](https://www.qmul.ac.uk/c4tb/) at Queen Mary University

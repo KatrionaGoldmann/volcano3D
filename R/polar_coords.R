@@ -189,25 +189,33 @@ polar_coords <- function(sampledata,
         comparitiveCols <- paste(c(comparisons, multi_group_prefix), col_suffix)
         notFinding <- c()
         if(! all(comparitiveCols %in% colnames(pvalues))) {
-            notFinding <- comparitiveCols[! comparitiveCols %in% colnames(pvalues)]
+            notFinding <- comparitiveCols[! comparitiveCols %in% 
+                                              colnames(pvalues)]
             notFinding <- notFinding[! is.na(notFinding)]
             
             # check if ordering of groups in column names is the wrong way round
-            check <- strsplit(gsub(" ", "", gsub(col_suffix, "", notFinding)), "-")
+            check <- strsplit(gsub(" ", "", gsub(col_suffix, "", notFinding)), 
+                              "-")
             
             for (order_check in check){
-                og <- paste0(order_check[1], "-", order_check[2], " ", col_suffix)
-                reverse <- paste0(order_check[2], "-", order_check[1], " ", col_suffix)
+                og <- paste0(order_check[1], "-", 
+                             order_check[2], " ", col_suffix)
+                reverse <- paste0(order_check[2], "-", 
+                                  order_check[1], " ", col_suffix)
                 if(reverse %in% colnames(pvalues)){
                     colnames(pvalues)[colnames(pvalues) == reverse] <- og
                     
                     # Need to reverse order for fold change
-                    if(col_suffix == fc_col_suffix) {
-                        pvalues[, og] <- -1*pvalues[, og]
+                    if(! is.null(fc_col_suffix)){
+                        if(col_suffix == fc_col_suffix) {
+                            pvalues[, og] <- -1*pvalues[, og]
+                        }
                     }
-                    warning(paste(og, "was not found in colnames(pvalues), but", 
+                    warning(paste(og, 
+                                  "was not found in colnames(pvalues), but", 
                                   reverse, 
-                                  "was - the column name has now been reversed"))
+                                  "was - the column name has now been 
+                                  reversed"))
                     notFinding <- notFinding[notFinding != og]
                 }
             }
@@ -215,11 +223,11 @@ polar_coords <- function(sampledata,
         
         if(length(notFinding) > 0){  
             if(length(notFinding) > 1) {
-                notFinding <- paste0("'", 
-                                     paste0(notFinding[1:(length(notFinding)-1)],
-                                            collapse="', '"),
-                                     "' or '", 
-                                     notFinding[length(notFinding)], "'")
+                notFinding <- 
+                    paste0("'", paste0(notFinding[1:(length(notFinding)-1)],
+                                  collapse="', '"),
+                           "' or '", 
+                           notFinding[length(notFinding)], "'")
             }
             stop(paste('Cannot find', paste0(notFinding, collapse=", "),
                        'in colnames(pvalues)'))
@@ -231,7 +239,8 @@ polar_coords <- function(sampledata,
         for(comp in c(comparisons, multi_group_prefix)){
             pvalues$new <- p.adjust(pvalues[, paste(comp, p_col_suffix)],
                                     method = padjust_method)
-            colnames(pvalues)[colnames(pvalues) == "new"] <- paste(comp, "padj")
+            colnames(pvalues)[colnames(pvalues) == "new"] <- 
+                paste(comp, "padj")
         }
         padj_col_suffix <- "padj"
     }
@@ -386,8 +395,11 @@ polar_coords <- function(sampledata,
     polar_colours$sig[is.na(polar_colours$sig)] <- non_sig_name
     polar_colours$sig <- factor(polar_colours$sig)
     polar_colours$sig[polar_colours$r_fc < fc_cutoff] <- non_sig_name
-    polar_colours$sig[pvalues[, paste(multi_group_prefix, "padj")] >= 
-                          significance_cutoff] <- non_sig_name
+    
+    if(! is.null(multi_group_prefix)){
+        polar_colours$sig[pvalues[, paste(multi_group_prefix, "padj")] >= 
+                              significance_cutoff] <- non_sig_name
+    } 
     
     polar_colours <- polar_colours[, c("Name",
                                        comp_map,
