@@ -8,9 +8,6 @@
 #' @param fc_cutoff The cut-off for fold change significance (default = 1). 
 #' @param label_rows Row IDs or rownames for values to be annotated/labelled
 #' (default = NULL).
-#' @param label_column The column ID or number to use as an annotation for
-#' label_rows values (default = NULL). If left as NULL, and label_rows is 
-#' selected, the rownames of pvalues will be used.
 #' @param label_size The font size of labels (default = 3)
 #' @param text_size The font size of text (default = 10)
 #' @param marker_size The font size of markers (default = 0.7)
@@ -73,7 +70,6 @@ volcano_trio <- function(polar,
                          p_cutoff = 0.05,
                          fc_cutoff = 1,
                          label_rows = NULL,
-                         label_column = NULL,
                          label_size = 3,
                          text_size = 10,
                          marker_size = 0.7,
@@ -88,11 +84,7 @@ volcano_trio <- function(polar,
   
   if(class(polar) != "polar") stop('polar must be an object of class polar')
   pvalues <- polar@pvalues
-
-  if(! is.null(label_column)) if(! any(grepl(label_column, colnames(pvalues)))){
-    stop('label_column must be a column name in pvlaues refering to the rows
-           to label')
-  }
+  
   if(length(colours) != 4) stop('The colour vector must be of length 4')
   if(length(line_colours) != 2) {
     stop('The line_colour vector must be of length 2 for fc and p cutoff
@@ -126,7 +118,8 @@ volcano_trio <- function(polar,
   
   # Create a list of volcano plots showing DEG between groups
   volcano_plot <- function(comparison){
-    toptable <- pvalues[, grepl(comparison, colnames(pvalues))]
+    toptable <- pvalues[, c(
+      colnames(pvalues)[grepl(comparison, colnames(pvalues))], "label")]
     
     if(is.null(sig_names)){
       sig_names <- c("Not Significant",
@@ -189,21 +182,17 @@ volcano_trio <- function(polar,
     
     # Add labels if any selected
     if(! is.null(label_rows)){
-      if(is.null(label_column)) {
-        labs <- rownames(toptable[label_rows, ])
-        label_df <- toptable[label_rows, ]
-      } else {
-        labs <- toptable[label_rows, label_column]
-        label_df <- toptable[toptable[, label_column] %in% label_rows]
-      }
+      
+      label_df <- toptable[label_rows, ]
+      
       
       p <- p + geom_text_repel(data = label_df, 
-                                        aes(x = label_df$logFC, 
-                                            y = -log10(label_df$pvalue),
-                                            label = labs), 
-                                        size = label_size,
-                                        box.padding = unit(0.35, "lines"),
-                                        point.padding = unit(0.3, "lines"))
+                               aes(x = label_df$logFC, 
+                                   y = -log10(label_df$pvalue),
+                                   label = label_df$label), 
+                               size = label_size,
+                               box.padding = unit(0.35, "lines"),
+                               point.padding = unit(0.3, "lines"))
     }
     
     return(p)

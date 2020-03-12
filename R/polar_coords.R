@@ -52,7 +52,7 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' the pvalue for each comparison between groups. 
 #' Similarly it can also contain: three optional
 #' `fc_col_suffix` columns for the fold change between each comparison 
-#' (if NULL, no Fold CHange columns are included); 
+#' (if NULL, no Fold Change columns are included); 
 #' three optional `padj_col_suffix` columns (if NULL 
 #' adjusted p values are calculated using `padjust_method``); and the 'p', 
 #' 'padj and 'fc' columns for a three-way test, such as ANOVA or likelihood 
@@ -79,6 +79,8 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' below this will be coloured \code{non_sig_colour})
 #' @param fc_cutoff The cut-off for fold change, below which markers will be
 #' coloured according to `non_sig_colour`` (default = 0.3).
+#' @param label_column Optional column name in pvalues for markers to be 
+#' labelled by at plotting stage. If NULL the rownames of pvalues are used. 
 #' @return Returns an S4 polar object containing:
 #' \itemize{
 #'   \item{'polar'} A data.frame containing:
@@ -139,7 +141,8 @@ polar_coords <- function(sampledata,
                          multi_group_prefix = NULL,
                          non_sig_name = "Not Significant",
                          significance_cutoff = 0.01, 
-                         fc_cutoff=0.3){
+                         fc_cutoff=0.3, 
+                         label_column = NULL){
     
     # Check for errors
     if(! class(sampledata) %in% c("data.frame")) {
@@ -150,6 +153,11 @@ polar_coords <- function(sampledata,
     }
     if(! contrast %in% colnames(sampledata)) {
         stop("contrast is not a column in sampledata")
+    }
+    if( ! is.null(label_column)){
+        if( ! label_column %in% colnames(pvalues)) {
+            stop("label_column is not a column in pvalues")
+        }
     }
     if(! "ID" %in% colnames(sampledata)) {
         stop("There is no ID column in metadata")
@@ -164,6 +172,10 @@ polar_coords <- function(sampledata,
                  sampledata$ID')
         }
     }
+    
+    if(is.null(label_column)){
+        pvalues$label <- rownames(pvalues)
+    } else {pvalues$label <- pvalues[, label_column]}
     
     # Ensure groups and contrast column are compatible
     sampledata[, contrast] <- droplevels(factor(sampledata[, contrast]))
@@ -225,7 +237,7 @@ polar_coords <- function(sampledata,
             if(length(notFinding) > 1) {
                 notFinding <- 
                     paste0("'", paste0(notFinding[1:(length(notFinding)-1)],
-                                  collapse="', '"),
+                                       collapse="', '"),
                            "' or '", 
                            notFinding[length(notFinding)], "'")
             }
@@ -245,11 +257,12 @@ polar_coords <- function(sampledata,
         padj_col_suffix <- "padj"
     }
     
-    pvalues <- pvalues[, sort(paste(c(comparisons, multi_group_prefix),
-                                    rep(c(p_col_suffix, fc_col_suffix,
-                                          padj_col_suffix),
-                                        each = length(c(comparisons,
-                                                        multi_group_prefix)))))]
+    pvalues <- pvalues[, c(sort(paste(c(comparisons, multi_group_prefix),
+                                      rep(c(p_col_suffix, fc_col_suffix,
+                                            padj_col_suffix),
+                                          each = length(c(comparisons,
+                                                          multi_group_prefix))))), 
+                           "label")]
     
     colnames(pvalues) <- gsub(p_col_suffix, "pvalue", colnames(pvalues))
     colnames(pvalues) <- gsub(padj_col_suffix, "padj", colnames(pvalues))
@@ -401,6 +414,13 @@ polar_coords <- function(sampledata,
                               significance_cutoff] <- non_sig_name
     } 
     
+    polar_colours$sig = as.character(polar_colours$sig)
+    polar_colours$sig[polar_colours$sig != non_sig_name & 
+                          (! grepl('\\+', polar_colours$sig)) ] <- 
+        paste0(polar_colours$sig[polar_colours$sig != non_sig_name & 
+                                     (! grepl('\\+', polar_colours$sig)) ], '+')
+    polar_colours$sig = factor(polar_colours$sig)
+    
     polar_colours <- polar_colours[, c("Name",
                                        comp_map,
                                        "y_zscore", "x_zscore", "r_zscore",
@@ -417,6 +437,8 @@ polar_coords <- function(sampledata,
     colnames(polar_colours)[colnames(polar_colours) %in% contrast_groups] <- 
         paste(colnames(polar_colours)[colnames(polar_colours) %in% 
                                           contrast_groups], "axis")
+    
+    polar_colours$label <- pvalues$label
     
     methods::new("polar",
                  polar = polar_colours,

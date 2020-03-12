@@ -17,7 +17,8 @@ polar_coords(
   multi_group_prefix = NULL,
   non_sig_name = "Not Significant",
   significance_cutoff = 0.01,
-  fc_cutoff = 0.3
+  fc_cutoff = 0.3,
+  label_column = NULL
 )
 }
 \arguments{
@@ -36,7 +37,7 @@ to \code{levels(sampledata[, 'contrasts'])}).}
 the pvalue for each comparison between groups. 
 Similarly it can also contain: three optional
 `fc_col_suffix` columns for the fold change between each comparison 
-(if NULL, no Fold CHange columns are included); 
+(if NULL, no Fold Change columns are included); 
 three optional `padj_col_suffix` columns (if NULL 
 adjusted p values are calculated using `padjust_method``); and the 'p', 
 'padj and 'fc' columns for a three-way test, such as ANOVA or likelihood 
@@ -72,6 +73,9 @@ below this will be coloured \code{non_sig_colour})}
 
 \item{fc_cutoff}{The cut-off for fold change, below which markers will be
 coloured according to `non_sig_colour`` (default = 0.3).}
+
+\item{label_column}{Optional column name in pvalues for markers to be 
+labelled by at plotting stage. If NULL the rownames of pvalues are used.}
 }
 \value{
 Returns an S4 polar object containing:

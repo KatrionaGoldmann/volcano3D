@@ -41,10 +41,10 @@ The volcano3D package enables exploration of probes differentially
 expressed between three groups. Its main purpose is for the
 visualisation of differentially expressed genes in a three-dimensional
 volcano plot. These plots can be converted to interactive visualisations using
-plotly. 
+[plotly](https://plot.ly/r/). 
   
-This vignette will consist of a number of case studies focusing on the PEAC 
-rheumatoid arthritis study (Pathobiology of Early Arthritis Cohort). 
+This vignette consists of a case study from the PEAC 
+rheumatoid arthritis project (Pathobiology of Early Arthritis Cohort). 
 The methodology has been published in 
 ['Lewis, Myles J., et al. "Molecular portraits of early rheumatoid arthritis 
 identify clinical and treatment response phenotypes." Cell reports 28.9 (2019): 
@@ -89,17 +89,13 @@ library(plotly)
 
 ### Sample Data
 
-The sample data can then also be installed (this can only be done 
-after volcano3D is imported)
+The sample data used in this vignette can be loaded from the 
+[volcano3Ddata package](https://github.com/KatrionaGoldmann/volcano3Ddata). 
+This is only possible after volcano3D is imported. 
 
 ```{r, eval=FALSE}
 install.packages("volcano3Ddata")
 ```
-
-### volcano3D data
-
-The PEAC data for this package is automatically loaded from the volcano3Ddata 
-package repo ([source](https://github.com/KatrionaGoldmann/volcano3Ddata)). 
 
 ---
 
@@ -125,59 +121,57 @@ Variables used in this vignette:
 # Examples
 
 This vignette will demonstrate the power of this package using a basic example
-from the [PEAC data set](http://www.peac-mrc.mds.qmul.ac.uk). This analysis is
-separated by biopsy/tissue type: blood and synovium. Here we will focus on the
-synovial data. This is stored in the Git repo
-[volcano3Ddata](https://github.com/KatrionaGoldmann/volcano3Ddata).
+from the [PEAC data set](http://www.peac-mrc.mds.qmul.ac.uk). Here we will focus 
+on the synovial data from this cohort. 
 
 ## 1. Synovial Gene Data
 
-First we will set up a differential expression pvalues object (dep) containing:
+First we will set up a polar object, using the polar_coords function, which 
+contains:
 
 1. the expression data with columns representing different samples and rows
 representing different variables
 2. the sample data which contains information for each sample in rows.
 3. the pvalues which contains the statistical significance of probes between
 groups.
+4. the polar coordinates to plot the differentially expressed data. 
 
-### Creating polar coordinate objects
 
-To create the polar coordinates you must provide the 'polar_coords' function
-with:
+To create the polar coordinates you must provide:
 
 * `sampledata`: A data frame containing the sample information. This must
 contain:
-* an `ID` column: Containing the sample IDs. This must be titled 'ID'.
-* a `contrast` column: A column containing the three-level factor used for
+  * an `ID` column: Containing the sample IDs. This must be titled 'ID'.
+  * a `contrast` column: A column containing the three-level factor used for
 contrasts.
 * `contrast`: The column name in `sampledata` which contains the three-level
 factor used for contrast.
 * `pvalues`: A data frame containing:
-* three pvalue columns: one for each comparison between groups (column names
+  * three pvalue columns: one for each comparison between groups (column names
 of format `paste0(groups[i], "-", groups[j], " ", p_col_suffix)`). We
 recommend using [limma](https://www.bioconductor.org/packages/devel/workflows/
 vignettes/RNAseq123/inst/doc/limmaWorkflow.html) or
 [DESeq](http://bioconductor.org/packages/release/bioc/vignettes/DESeq/inst/doc/
 DESeq.pdf) pipelines to calculate these pvalues for gene expression.
-* _optional_ fold change columns one for each comparison between groups
-(column namesof format `paste0(groups[i], "-", groups[j], " ",
+  * _optional_ fold change columns one for each comparison between groups
+(column names of format `paste0(groups[i], "-", groups[j], " ",
 fc_col_suffix)`)
-* _optional_ adjusted pvalue columns one for each comparison between groups
-(column namesof format `paste0(groups[i], "-", groups[j], " ",
+  * _optional_ adjusted pvalue columns one for each comparison between groups
+(column names of format `paste0(groups[i], "-", groups[j], " ",
 padj_col_suffix)`)
-* an _optional_ multi-group pvalue column: from a multi-group test (column
+  * an _optional_ multi-group pvalue column: from a multi-group test (column
 names of form `paste(multi_group_prefix, p_col_suffix)`). This is typically
 generated using ANOVA or likelihood ratio tests between all three groups.
-* three fold change columns: one for each comparison between groups
+  * three _optional_ fold change columns: one for each comparison between groups
 (column names of form `paste0(groups[i], "-", groups[j], " ", fcColSuffix)`)
-* an _optional_ multi-group fold change column: from a multi-group test
+  * an _optional_ multi-group fold change column: from a multi-group test
 (column names of form `paste(multi_group_prefix, fc_col_suffix)`). This is
 typically generated using ANOVA or likelihood ratio tests comparing all
 three groups.
-* three _optional_ adjusted pvalue columns: one for each comparison between
+  * three _optional_ adjusted pvalue columns: one for each comparison between
 groups (column names of form `paste0(groups[i], "-", groups[j], " ",
 padj_col_suffix)`)
-* an _optional_ multi-group adjusted pvalue column: from a multi-group test
+  * an _optional_ multi-group adjusted pvalue column: from a multi-group test
 (column names of form `paste(multiGroupPrefix, padjColSuffix)`). This is
 typically generated using ANOVA or likelihood ratio tests comparing all
 three groups.
@@ -198,19 +192,18 @@ provided. Must be one of c('holm', 'hochberg', 'hommel', 'bonferroni', 'BH',
 * `multi_group_prefix`: The prefix for columns containing statistics for a
 multi-group test (this is typically a likelihood ratio test or ANOVA). Default
 is NULL.
+* `label_column`: A column name in pvalues which is to be used to label markers
+of interestt at plotting stage. If NULL the rownames will be used. 
 
-Using the synovial biopsies from PEAC we can create a dep object for
+Using the synovial biopsies from PEAC we can create a polar object for
 differentially expressed genes. First we will install the volcano3Ddata package
 if necessary:
 
-```{r}
-# Install the data package if required
-if(! "volcano3Ddata" %in% installed.packages()[,"Package"]){
-  install.packages("volcano3Ddata")
-}
+```{r, eval=FALSE}
+install.packages("volcano3Ddata")
 ```
 
-Then the data can be loaded:
+Then the data can be loaded and polar coordinates calculated:
 
 ```{r}
 library(volcano3Ddata)
@@ -226,11 +219,13 @@ syn_polar <- polar_coords(sampledata = syn_metadata,
                           multi_group_prefix = "LRT",
                           non_sig_name = "Not Significant",
                           significance_cutoff = 0.01,
-                          fc_cutoff = 0.3)
+                          label_column = NULL,
+                          fc_cutoff = 0.1)
 ```
 
-The pvalues slot should have three statistics for each comparison: pvalue,
-adjusted pvalue and logarithmic fold change:
+The pvalues slot should have at least two statistics for each comparison - 
+pvalue and adjusted pvalue with an optional logarithmic fold change statistic 
+also:
 
 ```{r, eval=FALSE}
 head(syn_polar@pvalues)
@@ -243,23 +238,29 @@ head(syn_polar@pvalues) %>%
 ```
 
 The `sig` column in `syn_polar@polar` allows us to determine relative
-differences in expression between pathotypes. The '+'
+differences in expression between groups (in this case pathotypes). The '+'
 indicates which pathotypes are significantly 'up' compared to others. For
 example:
 
 * genes labelled 'Lymphoid+' are significantly up in Lymphoid vs
-Myeloid **and** Lymphoid vs Fibroid. Genes such as these which are up in only
-one pathotype are coloured
-according to the `primary_colours` variable in `polar_coords`.
+Myeloid **and** Lymphoid vs Fibroid. 
+
 * genes up in two pathotypes such as 'Lymphoid+Myeloid+' are up in both
 Lymphoid **and** Myeloid, therefore Lymphoid vs
-Fibroid and Myeloid vs Fibroid are statistically significant. These genes are
-coloured according to the `secondary_colours`.
-* genes which show now
-significant difference between pathotypes (The 'Not Significant' genes) are
-coloured `not_sig_colour`.
+Fibroid and Myeloid vs Fibroid are statistically significant. 
 
-```{r}
+* genes which show no significant difference between pathotypes are classed 
+according to `non_sig_name`
+
+
+This gives us:
+
+
+```{r, eval=FALSE}
+setNames(data.frame(table(syn_polar@polar$sig)), c("Significance", "Frequency"))
+```
+
+```{r, echo=FALSE}
 table(syn_polar@polar$sig) %>%
   kable(col.names = c("Significance", "Frequency")) %>%
   kable_styling(full_width = F)
@@ -385,14 +386,17 @@ By manually creating a grid object it is possible to change the tick points on
 axes as well as the number of radial spokes (n_spokes).
 
 The default ticks are calculated from r_vector and z_vector using the
-\code{pretty} function. This can be overwritten by passing tick points in
-r_axis_ticks and z_axis_ticks
+`pretty` function. This can be overwritten by passing tick points in
+r_axis_ticks and z_axis_ticks. 
+
+For example we can descrease the number of radial spokes to 4, while altering 
+the z axis ticks:
 
 ```{r}
 four_grid = polar_grid(r_vector=syn_polar@polar$r_zscore,
-                       z_vector=-log10(syn_polar@pvalues$`LRT pvalue`),
+                       z_vector=NULL,
                        r_axis_ticks = NULL,
-                       z_axis_ticks = NULL,
+                       z_axis_ticks = c(0, 8, 16, 32),
                        n_spokes = 4)
 
 volcano3D(syn_polar,
@@ -403,19 +407,35 @@ volcano3D(syn_polar,
           z_aspectratio = 0.9) %>% layout(legend = list(x = 100, y = 0.5))
 ```
 
+similarly to extend the radial aixs and increasing the number of spokes in 2D
+we can apply: 
+
 ```{r}
-three_grid = polar_grid(r_vector=NULL,
-                        z_vector=NULL,
-                        z_axis_ticks = c(0, 8, 16, 32),
+new_grid = polar_grid(r_vector=NULL,
+                        z_vector=-log10(syn_polar@pvalues$`LRT pvalue`),
                         r_axis_ticks = c(1, 2, 3),
+                        z_axis_ticks = NULL,
                         n_spokes = 24)
 
 radial_ggplot(polar = syn_polar,
-              grid = three_grid,
+              grid = new_grid,
               marker_size = 2.3,
               legend_size = 10)
 ```
 
+### Altering the Labels
+
+By default the rownames of the pvalues object is used to label markers of 
+interest. This can be alrtered by amending the label column in the polar object:
+
+```{r}
+syn_polar@polar$label <- paste0(syn_polar@polar$label, "!")
+
+radial_ggplot(polar = syn_polar,
+              label_rows = c("SLAMF6", "PARP16", "ITM2C"),
+              marker_size = 2.3,
+              legend_size = 10)
+```
 
 ## 2. Synovial Modular Data
 
@@ -441,8 +461,8 @@ syn_mod_polar <- polar_coords(sampledata = syn_metadata,
                            fc_col_suffix = "logFC",
                            multi_group_prefix = NULL,
                            expression = syn_mod,
-                           significance_cutoff = 0.05, 
-                           fc_cutoff = 0.3
+                           significance_cutoff = 0.01, 
+                           fc_cutoff = 0.1
                            )
 ```
 
@@ -470,11 +490,11 @@ syn_mod_plots$All
 
 ```{r, warning = FALSE, message = FALSE, out.height = "100%"}
 radial_plotly(polar = syn_mod_polar,
-              colours = c("Fibroid"="green3",  
+              colours = c("Fibroid+"="green3",  
                           "Fibroid+Myeloid+"="gold2",
-                          "Lymphoid"="blue",
+                          "Lymphoid+"="blue",
                           "Lymphoid+Myeloid+"="purple",
-                          "Myeloid"="red"),
+                          "Myeloid+"="red"),
               label_rows = c("M156.0", "M37.2")) %>%
   layout(width = 650, height = 650)
 ```
@@ -484,11 +504,11 @@ Or a ggplot static image using radial_ggplot:
 ```{r, warning = FALSE, fig.height = 5}
 radial_ggplot(polar = syn_mod_polar,
               label_rows = c("M156.0", "M37.2"),
-              colours = c("Fibroid"="green3",  
+              colours = c("Fibroid+"="green3",  
                           "Fibroid+Myeloid+"="gold2",
-                          "Lymphoid"="blue",
+                          "Lymphoid+"="blue",
                           "Lymphoid+Myeloid+"="purple",
-                          "Myeloid"="red"),
+                          "Myeloid+"="red"),
               marker_size = 2.7,
               label_size = 5,
               axis_lab_size = 3,

@@ -14,7 +14,7 @@
 #' fold change.
 #' @param colour_scale whether to use a "discrete" or "continuous" colour scale 
 #' (default = "discrete").
-#' @param continuous_shift the number of degress (between 0 and 360) 
+#' @param continuous_shift the number of degrees (between 0 and 360) 
 #' corresponding to the angle to offset the continuous colour scale by. The 
 #' continuous colour scale is calculated by converting the angle to hue where 0 
 #' degrees corresponds to red and 360 degrees to magenta (default = 120). 
@@ -176,8 +176,8 @@ volcano3D <- function(polar,
                 stop("label_rows not in 1:nrow(polar_df)")
             }}
         annot <- lapply(label_rows, function(i) {
-            row <- volcano_toptable[volcano_toptable$Name == i, ]
-            annot <- list(x = row$x, y = row$y, z = row$logP, text = row$Name, 
+            row <- volcano_toptable[i, ]
+            annot <- list(x = row$x, y = row$y, z = row$logP, text = row$label, 
                           textangle = 0, ax = 75, ay = 0, arrowcolor = "black", 
                           arrowwidth = 1, arrowhead = 6, arrowsize = 1.5, 
                           xanchor = "left", yanchor = "middle")

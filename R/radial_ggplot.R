@@ -256,7 +256,7 @@ radial_ggplot <- function(polar,
             geom_text(data = annotation_df,
                       aes(x = 0.95*annotation_df$xend,
                           y = 0.95*annotation_df$yend,
-                          label = rownames(annotation_df)),
+                          label = annotation_df$label),
                       color = annotation_df$hue, size = label_size) +
             geom_point(data = annotation_df,
                        aes(x = annotation_df$x, y = annotation_df$y),

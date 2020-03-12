@@ -9,7 +9,6 @@ volcano_trio(
   p_cutoff = 0.05,
   fc_cutoff = 1,
   label_rows = NULL,
-  label_column = NULL,
   label_size = 3,
   text_size = 10,
   marker_size = 0.7,
@@ -32,10 +31,6 @@ Created by \code{\link{polar_coords}}.}
 
 \item{label_rows}{Row IDs or rownames for values to be annotated/labelled
 (default = NULL).}
-
-\item{label_column}{The column ID or number to use as an annotation for
-label_rows values (default = NULL). If left as NULL, and label_rows is 
-selected, the rownames of pvalues will be used.}
 
 \item{label_size}{The font size of labels (default = 3)}
 

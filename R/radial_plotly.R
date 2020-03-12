@@ -157,7 +157,7 @@ radial_plotly <- function(polar,
             theta <- atan(row$y/row$x)
             list(x = row$x,
                  y = row$y,
-                 text = i,
+                 text = as.character(row$label),
                  textangle = 0,
                  ax = sign(row$x)*arrow_length*grid$r*cos(theta),
                  ay  = -1*sign(row$x)*arrow_length*grid$r*sin(theta),
