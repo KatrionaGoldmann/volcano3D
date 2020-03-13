@@ -2,36 +2,49 @@
 % Please edit documentation in R/boxplot_trio.R
 \name{boxplot_trio}
 \alias{boxplot_trio}
-\title{Boxplot to compare three groups}
+\title{Boxplot to compare groups}
 \usage{
 boxplot_trio(
-  dep,
+  polar,
   value,
   box_colours = c("green3", "blue", "red"),
-  test = "t.test",
+  test = "polar_pvalue",
   levels_order = NULL,
   my_comparisons = NULL,
   text_size = 10,
   stat_size = 3,
+  step_increase = 0.1,
   ...
 )
 }
 \arguments{
-\item{dep}{A dep object with the pvalues between groups of interest. Created
-by \code{\link{create_dep}}.}
+\item{polar}{A polar object including expression data from groups of 
+interest. Created by \code{\link{polar_coords}}.}
 
-\item{value}{The row name or number in dep@expression to be analysed}
+\item{value}{The row name or number in \code{polar@expression} to be 
+analysed}
 
 \item{box_colours}{The fill colours for each box 
 (default = c('blue', 'red', 'green3') ).}
 
-\item{test}{The statistical test used to compare expression. See method in
-\code{\link[ggpubr]{stat_compare_means}}}
+\item{test}{The statistical test used to compare expression. 
+Allowed values include: \itemize{
+ \item \code{polar_pvalue} (default) and \code{polar_padj} for the pvalues 
+ and adjusted pvalues in the polar object. 
+ \item \code{polar_multi_pvalue} and \code{polar_multi_padj} for the pvalues 
+ and adjusted pvalues accross all groups using the 
+ \code{polar@multi_group_test } columns. 
+ \item \code{\link[stats]{t.test}} (parametric) and
+ \code{\link[stats]{wilcox.test}} (non-parametric). Perform comparison
+ between roups of samples. 
+ \item \code{\link[stats]{anova}} (parametric) and 
+ \code{\link[stats]{kruskal.test}} (non-parametric). Perform one-way ANOVA
+ test comparing multiple groups. }}
 
 \item{levels_order}{A character vector stating the contrast groups to be 
 plotted in order}
 
-\item{my_comparisons}{A list of contrasts to pass to comparisons in 
+\item{my_comparisons}{A list of contrasts to pass to 
 \code{\link[ggpubr]{stat_compare_means}}. If NULL (default) all contrast 
 pvalues are calculated and plotted.}
 
@@ -39,34 +52,40 @@ pvalues are calculated and plotted.}
 
 \item{stat_size}{The font size of statistical parameter (default = 3).}
 
+\item{step_increase}{The distance between statistics on the y-axis 
+(default = 0.1).}
+
 \item{...}{Other parameters for \code{\link[ggpubr]{stat_compare_means}}}
 }
 \value{
-Returns a ggplot boxplot featuring the expression of one row in 
-expression across the three groups in comparison with annotated pvalues.
+Returns a ggplot boxplot featuring the differential expression 
+between groups in comparison with annotated pvalues.
 }
 \description{
-Plots the expression of a specific row in expression comparing the three 
+Plots the expression of a specific row in expression to compare the three 
 groups in a boxplot.
 }
 \examples{
 library(volcano3Ddata)
-data(syn_data)
-syn_p_obj <- create_dep(sampledata = syn_metadata,
-                    contrast = "Pathotype",
-                    pvalues = syn_pvalues,
-                    p_col_suffix ="pvalue",
-                    fc_col_suffix = "log2FoldChange",
-                    multi_group_prefix = "LRT",
-                    expression = syn_rld)
-
-boxplot_trio(syn_p_obj,
+data(syn_data) 
+syn_polar <- polar_coords(sampledata = syn_metadata,
+                         contrast = "Pathotype", 
+                         groups = NULL, 
+                         pvalues = syn_pvalues, 
+                         expression = syn_rld, 
+                         p_col_suffix = "pvalue", 
+                         padj_col_suffix = "padj", 
+                         non_sig_name = "Not Significant", 
+                         multi_group_prefix = "LRT",
+                         significance_cutoff = 0.01, 
+                         fc_cutoff = 0.3)
+                         
+boxplot_trio(syn_polar,
           value = "SLAMF6",
-          test = "wilcox.test",
           levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
           box_colours = c("blue", "red", "green3"))
 
-boxplot_trio(syn_p_obj,
+boxplot_trio(syn_polar,
           value = "ITM2C",
           test = "wilcox.test",
           levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
@@ -83,5 +102,4 @@ treatment response phenotypes.}
 }
 \keyword{boxplot}
 \keyword{plot,}
-\keyword{polar,}
 \keyword{pvalue,}
