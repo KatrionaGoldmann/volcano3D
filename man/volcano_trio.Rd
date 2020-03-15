@@ -29,25 +29,23 @@ Created by \code{\link{polar_coords}}.}
 
 \item{fc_cutoff}{The cut-off for fold change significance (default = 1).}
 
-\item{label_rows}{Row IDs or rownames for values to be annotated/labelled
+\item{label_rows}{Row numbers or names for values to be annotated/labelled
 (default = NULL).}
 
 \item{label_size}{The font size of labels (default = 3)}
 
 \item{text_size}{The font size of text (default = 10)}
 
-\item{marker_size}{The font size of markers (default = 0.7)}
+\item{marker_size}{The size of markers (default = 0.7)}
 
-\item{shared_legend_size}{Size for the legend (default = 1).}
+\item{shared_legend_size}{The size for the legend (default = 1).}
 
 \item{sig_names}{A character vector of labels to be used for: 
 non-significant; adjusted p < p_cutoff; |Fold Change| > fc_cutoff; and 
 finally adjusted p < p_cutoff. 
-default = p_cutoff & |Fold Change| > fc_cutoff markers 
-respectively. 
-(if NULL c('Not Significant', \code{paste('Padj <', `p_cutoff`)},
+If NULL c('Not Significant', \code{paste('Padj <', `p_cutoff`)},
 \code{paste('|FC| >', `fc_cutoff`)},
-\code{paste('Padj <', `p_cutoff`, 'and |FC| >', `fc_cutoff`)}) is used).}
+\code{paste('Padj <', `p_cutoff`, 'and |FC| >', `fc_cutoff`)}) is used.}
 
 \item{colours}{A character vector of colours to be used for non-significant;
 adjusted p < p_cutoff;
@@ -68,29 +66,30 @@ used for fc_line and p_line respectively (default = c('black', 'black')).}
 together.}
 }
 \value{
-Returns a list of volcano plots. The first three elements contain 
-comparisons between all combinations of the three levels in the comparison 
-factor. The last element in the list is a combined figure for all three 
-plots.
+Returns a list of ggplot volcano plots. The first three elements 
+contain comparisons between all contrasts. The last element in the list is a 
+combined figure for all three plots.
 }
 \description{
-This function creates a volcano plot for all combinations of  groups in a
+This function creates a volcano plot for all combinations of groups in a
 factor.
 }
 \examples{
 library(volcano3Ddata)
 data(syn_data)
-syn_p_obj <- polar_coords(sampledata = syn_metadata, 
-                    contrast = "Pathotype", 
-                    pvalues = syn_pvalues,
-                    p_col_suffix="pvalue", 
-                    fc_col_suffix = "log2FoldChange",
-                    multi_group_prefix = "LRT", 
-                    expression=syn_rld)
-syn_mod_plots <- volcano_trio(polar=syn_p_obj)
-
-syn_mod_plots$All
-syn_mod_plots$`Lymphoid-Myeloid`
+syn_polar <- polar_coords(sampledata = syn_metadata,
+                         contrast = "Pathotype",
+                         pvalues = syn_pvalues,
+                         expression = syn_rld,
+                         p_col_suffix = "pvalue",
+                         fc_col_suffix = "log2FoldChange",
+                         non_sig_name = "Not Significant",
+                         significance_cutoff = 0.01,
+                         fc_cutoff = 0.1)
+syn_volcano_plots <- volcano_trio(polar=syn_polar)
+ 
+syn_volcano_plots$All
+syn_volcano_plots$`Lymphoid-Myeloid`
 }
 \references{
 Lewis, Myles J., et al. (2019).

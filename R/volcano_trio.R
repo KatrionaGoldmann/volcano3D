@@ -1,25 +1,23 @@
 #' Volcanos Plots for a three-way comparison
 #'
-#' This function creates a volcano plot for all combinations of  groups in a
+#' This function creates a volcano plot for all combinations of groups in a
 #' factor.
 #' @param polar A polar object with the pvalues between groups of interest. 
 #' Created by \code{\link{polar_coords}}.
 #' @param p_cutoff The cut-off for pvalue significance (default = 0.05). 
 #' @param fc_cutoff The cut-off for fold change significance (default = 1). 
-#' @param label_rows Row IDs or rownames for values to be annotated/labelled
+#' @param label_rows Row numbers or names for values to be annotated/labelled
 #' (default = NULL).
 #' @param label_size The font size of labels (default = 3)
 #' @param text_size The font size of text (default = 10)
-#' @param marker_size The font size of markers (default = 0.7)
-#' @param shared_legend_size Size for the legend (default = 1). 
+#' @param marker_size The size of markers (default = 0.7)
+#' @param shared_legend_size The size for the legend (default = 1). 
 #' @param sig_names A character vector of labels to be used for: 
 #' non-significant; adjusted p < p_cutoff; |Fold Change| > fc_cutoff; and 
 #' finally adjusted p < p_cutoff. 
-#' default = p_cutoff & |Fold Change| > fc_cutoff markers 
-#' respectively. 
-#' (if NULL c('Not Significant', \code{paste('Padj <', `p_cutoff`)},
+#' If NULL c('Not Significant', \code{paste('Padj <', `p_cutoff`)},
 #' \code{paste('|FC| >', `fc_cutoff`)},
-#' \code{paste('Padj <', `p_cutoff`, 'and |FC| >', `fc_cutoff`)}) is used).
+#' \code{paste('Padj <', `p_cutoff`, 'and |FC| >', `fc_cutoff`)}) is used.
 #' @param colours A character vector of colours to be used for non-significant;
 #' adjusted p < p_cutoff;
 #' |Fold Change| >, fc_cutoff; and adjusted p < p_cutoff. default = p_cutoff &
@@ -38,24 +36,10 @@
 #' geom_hline geom_vline unit layer_scales lims
 #' @importFrom ggpubr ggarrange rremove get_legend as_ggplot
 #' @importFrom ggrepel geom_text_repel
-#' @return Returns a list of volcano plots. The first three elements contain 
-#' comparisons between all combinations of the three levels in the comparison 
-#' factor. The last element in the list is a combined figure for all three 
-#' plots.
-#' @examples
-#' library(volcano3Ddata)
-#' data(syn_data)
-#' syn_p_obj <- polar_coords(sampledata = syn_metadata, 
-#'                     contrast = "Pathotype", 
-#'                     pvalues = syn_pvalues,
-#'                     p_col_suffix="pvalue", 
-#'                     fc_col_suffix = "log2FoldChange",
-#'                     multi_group_prefix = "LRT", 
-#'                     expression=syn_rld)
-#' syn_mod_plots <- volcano_trio(polar=syn_p_obj)
-#' 
-#' syn_mod_plots$All
-#' syn_mod_plots$`Lymphoid-Myeloid`
+#' @importFrom stats p.adjust setNames
+#' @return Returns a list of ggplot volcano plots. The first three elements 
+#' contain comparisons between all contrasts. The last element in the list is a 
+#' combined figure for all three plots.
 #' @keywords volcano, pvalues, plot
 #' @references
 #' Lewis, Myles J., et al. (2019).
@@ -64,7 +48,22 @@
 #' treatment response phenotypes.}
 #' \emph{Cell reports}, \strong{28}:9
 #' @export
-
+#' @examples
+#' library(volcano3Ddata)
+#' data(syn_data)
+#' syn_polar <- polar_coords(sampledata = syn_metadata,
+#'                          contrast = "Pathotype",
+#'                          pvalues = syn_pvalues,
+#'                          expression = syn_rld,
+#'                          p_col_suffix = "pvalue",
+#'                          fc_col_suffix = "log2FoldChange",
+#'                          non_sig_name = "Not Significant",
+#'                          significance_cutoff = 0.01,
+#'                          fc_cutoff = 0.1)
+#' syn_volcano_plots <- volcano_trio(polar=syn_polar)
+#'  
+#' syn_volcano_plots$All
+#' syn_volcano_plots$`Lymphoid-Myeloid`
 
 volcano_trio <- function(polar,
                          p_cutoff = 0.05,
@@ -86,10 +85,26 @@ volcano_trio <- function(polar,
   pvalues <- polar@pvalues
   
   if(length(colours) != 4) stop('The colour vector must be of length 4')
+  if(any(unlist(lapply(colours, function(x) {
+    class(try(col2rgb(x), silent = TRUE)) == "try-error"
+  })))) {
+    stop(paste(paste(colours[unlist(lapply(colours, function(x) {
+      class(try(col2rgb(x), silent = TRUE)) == "try-error"
+    }))], collapse=", "), 'is not a valid colour'))
+  }
+  
   if(length(line_colours) != 2) {
     stop('The line_colour vector must be of length 2 for fc and p cutoff
            lines respectively')
   }
+  if( any(unlist(lapply(line_colours, function(x) {
+    class(try(col2rgb(x), silent = TRUE)) == "try-error"
+  }))))  {
+    stop(paste(paste(line_colours[unlist(lapply(line_colours, function(x) {
+      class(try(col2rgb(x), silent = TRUE)) == "try-error"
+    }))], collapse=", "), 'is not a valid colour'))
+  }
+  
   if(! is.logical(fc_line )) {
     stop('fc_line must be a logical dictating whether to add vertical lines
            for fold change cutoff')
@@ -98,10 +113,29 @@ volcano_trio <- function(polar,
     stop('p_line must be a logical dictating whether to add horizontal lines
            for p-value cutoff')
   }
-  if(! is.numeric(p_cutoff)) stop('p_cutoff must be a numeric')
-  if(! is.numeric(fc_cutoff)) stop('fc_cutoff must be a numeric')
-  if(! is.numeric(label_size)) stop('label_size must be a numeric')
+  if(! is.logical(share_axes)) {
+    stop('share_axes must be a logical dictating whether combined plots should 
+         share axes')
+  }
   
+  v <- c("p_cutoff", "label_size", "fc_cutoff", "text_size", "marker_size", 
+         "shared_legend_size")
+  # Error if not numeric
+  if( any(unlist(lapply(v, function(x) ! is.numeric(get(x))))) ) {
+    stop(paste(
+      paste(v[unlist(lapply(v, function(x) ! is.numeric(get(x))))], 
+            collapse=", "),
+      'must be numeric'))
+  }
+  
+  # Error if out of ranges
+  if(! (0 <= p_cutoff & p_cutoff <= 1)) stop('p_cutoff must be between 0 and 1')
+  v <- c("label_size", "fc_cutoff", "text_size", "marker_size", 
+         "shared_legend_size")
+  if(any(unlist(lapply(v, function(x) get(x) <= 0)))) {
+    stop(paste(v[unlist(lapply(v, function(x) get(x) <= 0))], 
+               'must be greater than 0'))
+  }
   
   # Extract the groups/levels
   groups <- gsub(" pvalue", "",
@@ -136,7 +170,7 @@ volcano_trio <- function(polar,
     toptable$cols[toptable$padj <=  p_cutoff] <- sig_names[2]
     toptable$cols[abs(toptable$logFC) > fc_cutoff] <- sig_names[3]
     toptable$cols[toptable$padj <= p_cutoff &
-                    abs(toptable$logFC) > fc_cutoff] <- sig_names[4]
+                  abs(toptable$logFC) > fc_cutoff] <- sig_names[4]
     toptable$cols <- factor(toptable$cols)
     mapping <- setNames(sig_names, colours)
     
@@ -182,6 +216,15 @@ volcano_trio <- function(polar,
     
     # Add labels if any selected
     if(! is.null(label_rows)){
+      if(! all(is.numeric(label_rows))) {
+        if(! all(label_rows %in% rownames(toptable))){
+          stop("label_rows must be in rownames(polar)")
+        }}
+      if(all(is.numeric(label_rows))) {
+        if(! all(label_rows < nrow(toptable))){
+          stop("label_rows not in 1:nrow(polar)")
+        }}
+      
       
       label_df <- toptable[label_rows, ]
       
@@ -198,6 +241,7 @@ volcano_trio <- function(polar,
     return(p)
   }
   plot_outputs <- lapply(groups, volcano_plot)
+  names(plot_outputs) <- groups
   
   # Output the plots using ggpubr and ggarrange
   # Output only one legend when plotting all
