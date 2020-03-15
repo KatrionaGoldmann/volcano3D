@@ -1,36 +1,37 @@
 setClassUnion("character_or_NULL", c("character", "NULL"))
 setClassUnion("df_or_matrix", c("data.frame", "matrix"))
 
-#' An S4 class to define the polar grid and coordinates for polar
+#' An S4 class to define the polar coordinates and pvalues for polar
 #' differential expression plots
 #' 
-#' @slot sampledata Sample data with column ID and contrast
+#' @slot sampledata Sample data with ID and contrast column.
 #' @slot contrast The column name in `sampledata`` which contains the
 #'   three-group contrast factor used for comparisons.
+#' @slot pvalues A data frame containing the p-values, and adjusted p-values,
+#'   for all three comparisons between groups in the 
+#'   contrast factor, as well as optional fold changes and multi-group tests.
 #' @slot multi_group_test Column name prefix for statistical tests between
 #'   all three groups
-#' @slot pvalues A data frame containing the p-values, adjusted p-values,
-#'   and log2(fold changes) for all three comparisons between groups in the 
-#'   contrast factor, as well as optional multi-group tests.
-#' @slot expression An optional data frame or matrix containing the
+#' @slot expression A data frame or matrix containing the
 #'   expression data
-#' @slot polar A data.frame containing:
+#' @slot polar A data frame containing:
 #'   \itemize{
-#'       \item{The mean expression for each of the three groups in comparison}
-#'       \item{The z-score polar coordinates: 'y_zscore', 'x_zscore' and 
-#'       'r_zscore'}
-#'       \item{The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'}
-#'       \item{'angle': The angle in radians for polar coordinates}
-#'       \item{'angle_degrees': The angle in degrees}
-#'       \item{'maxExp': The maximally expressed group}
-#'       \item{'sig': The significance group}
+#'       \item The axis score or mean expression for each of the three groups 
+#'       in comparison
+#'       \item The z-score polar coordinates: 'y_zscore', 'x_zscore' and 
+#'       'r_zscore'
+#'       \item The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'
+#'       \item 'angle': The angle in radians for polar coordinates
+#'       \item 'angle_degrees': The angle in degrees
+#'       \item 'maxExp': The group with the highest expression
+#'       \item 'sig': The significance category
 #'   }
-#' @slot non_sig_name The category name for variables which are classed as not
-#' significant
+#' @slot non_sig_name The category name for variables which are not significant
+
 setClass("polar", slots = list(sampledata = "data.frame",
                                contrast = "character",
-                               multi_group_test = "character_or_NULL",
                                pvalues = "data.frame",
+                               multi_group_test = "character_or_NULL",
                                expression = "df_or_matrix",
                                polar = "df_or_matrix",
                                non_sig_name = "character"))
@@ -38,26 +39,30 @@ setClass("polar", slots = list(sampledata = "data.frame",
 
 #' Coordinates for Three Way Polar Plot
 #'
-#' This function creates a data frame for downstream polar plots containing
-#' the p-values from a three-way group comparison. 
+#' This function creates a polar object of S4 class for downstream plots 
+#' containing the p-values from a three-way group comparison, expression data 
+#' sample data and polar coordinates.
 #' @param sampledata A data frame containing the sample information.
 #' This must contain: an ID column containing the sample IDs which can be 
-#' matched to the expression data and a 
+#' matched to the `expression` data and a 
 #' contrast column containing the three-level factor used for contrasts.
 #' @param contrast The column name in `sampledata` which contains the 
 #' three-level factor used for contrast.
 #' @param groups The groups to be compared (if NULL this defaults
 #' to \code{levels(sampledata[, 'contrasts'])}).
-#' @param pvalues A data frame containing three `p_col_suffix` columns: one for 
+#' @param pvalues A data frame containing: \itemize{
+#' \item three `p_col_suffix` columns: one for 
 #' the pvalue for each comparison between groups. 
-#' Similarly it can also contain: three optional
+#' \item three optional
 #' `fc_col_suffix` columns for the fold change between each comparison 
 #' (if NULL, no Fold Change columns are included); 
-#' three optional `padj_col_suffix` columns (if NULL 
-#' adjusted p values are calculated using `padjust_method``); and the 'p', 
+#' \item three optional `padj_col_suffix` columns (if NULL 
+#' adjusted p values are calculated using `padjust_method``); 
+#' \item and optional 'p', 
 #' 'padj and 'fc' columns for a three-way test, such as ANOVA or likelihood 
 #' ratio test, defined by `multi_group_prefix`.
-#' @param expression Optional data frame containing expression data for
+#' }
+#' @param expression A data frame containing expression data for
 #' downstream analysis and visualisation. The rows must contain probes which
 #' match the rows in pvalues and the columns must contain samples which match
 #' \code{sampledata$ID}.
@@ -65,22 +70,21 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' (default = 'pvalues').
 #' @param padj_col_suffix The suffix word to define columns containing adjusted
 #' p values (default = 'padj'). If NULL these will be calculated using
-#' padjust_method.
-#' @param fc_col_suffix The suffix word to define columns containing adjusted
-#' p-values (default = 'logFC').
+#' \code{padjust_method}.
+#' @param fc_col_suffix The optional suffix word to define columns containing 
+#' log fold change values (default = 'logFC').
 #' @param padjust_method The method used to calculate adjusted p values if 
-#' padj_col_suffix is NULL (default = 'BH'). See 
-#' \code{\link[stats]{p.adjust}}.
+#' padj_col_suffix is NULL (default = 'BH'). See \code{\link[stats]{p.adjust}}.
 #' @param multi_group_prefix Optional column prefix for statistics (p, padj, 
 #' and fold change) across all three groups (typically ANOVA or likelihood 
 #' ratio tests). default = NULL.
-#' @param non_sig_name Name to assign non-significant points
-#' @param significance_cutoff Value defining the significance cut-off (pvalues
-#' below this will be coloured \code{non_sig_colour})
+#' @param non_sig_name Category name to assign to non-significant points
+#' @param significance_cutoff Value defining the significance cut-off (points 
+#' with pvalues below this point will be classed as \code{non_sig_name})
 #' @param fc_cutoff The cut-off for fold change, below which markers will be
-#' coloured according to `non_sig_colour`` (default = 0.3).
+#' lassed as \code{non_sig_name}` (default = 0.3).
 #' @param label_column Optional column name in pvalues for markers to be 
-#' labelled by at plotting stage. If NULL the rownames of pvalues are used. 
+#' labelled with at plotting stage. If NULL the rownames of pvalues are used. 
 #' @return Returns an S4 polar object containing:
 #' \itemize{
 #'   \item{'polar'} A data.frame containing:
@@ -95,8 +99,8 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #'       \item{'sig': The significance group}
 #'   }
 #'   \item{'pvalues'} A data frame containing the p-values, adjusted p-values,
-#'   and log2(fold changes) for all three comparisons between groups in the 
-#'   contrast factor, as well as optional multi-group tests.
+#'   and optional log(fold changes) for all three comparisons between groups in 
+#'   the contrast factor, as well as optional multi-group tests.
 #'   \item{'sampledata'} Sample data with column ID and contrast
 #'   \item{'contrast'} The column name in `sampledata`` which contains the
 #'   three-group contrast factor used for comparisons.
@@ -119,14 +123,17 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' @examples
 #' library(volcano3Ddata)
 #' data(syn_data)
-#' syn_p_obj <- create_dep(sampledata = syn_metadata, 
-#'                     contrast = "Pathotype", 
-#'                     pvalues = syn_pvalues,
-#'                     p_col_suffix = "pvalue", 
-#'                     fc_col_suffix = "log2FoldChange",
-#'                     multi_group_prefix = "LRT", 
-#'                     expression = syn_rld)
-#' syn_polar <- polar_coords(dep = syn_p_obj)
+#' syn_polar <- polar_coords(sampledata = syn_metadata,
+#'                           contrast = "Pathotype", 
+#'                           groups = NULL, 
+#'                           pvalues = syn_pvalues, 
+#'                           expression = syn_rld, 
+#'                           p_col_suffix = "pvalue", 
+#'                           padj_col_suffix = "padj", 
+#'                           non_sig_name = "Not Significant", 
+#'                           multi_group_prefix = "LRT",
+#'                           significance_cutoff = 0.01, 
+#'                           fc_cutoff = 0.3)
 #' table(syn_polar@polar$sig) 
 
 polar_coords <- function(sampledata,
@@ -257,12 +264,11 @@ polar_coords <- function(sampledata,
         padj_col_suffix <- "padj"
     }
     
-    pvalues <- pvalues[, c(sort(paste(c(comparisons, multi_group_prefix),
-                                      rep(c(p_col_suffix, fc_col_suffix,
-                                            padj_col_suffix),
-                                          each = length(c(comparisons,
-                                                          multi_group_prefix))))), 
-                           "label")]
+    pvalues <- pvalues[, c(sort(
+        paste(c(comparisons, multi_group_prefix),
+              rep(c(p_col_suffix, fc_col_suffix, padj_col_suffix),
+                  each = length(c(comparisons, multi_group_prefix))))), 
+        "label")]
     
     colnames(pvalues) <- gsub(p_col_suffix, "pvalue", colnames(pvalues))
     colnames(pvalues) <- gsub(padj_col_suffix, "padj", colnames(pvalues))
@@ -327,7 +333,8 @@ polar_coords <- function(sampledata,
     
     # rotate and modulus
     polar_colours$angle <- (polar_colours$angle + 2/3) %% 1
-    polar_colours$r_zscore <- with(polar_colours, sqrt(x_zscore^2 + y_zscore^2))
+    polar_colours$r_zscore <- with(polar_colours, 
+                                   sqrt(x_zscore^2 + y_zscore^2))
     polar_colours$r_fc <- with(polar_colours, sqrt(x_fc^2 + y_fc^2))
     
     # pick the most highly expressed group
@@ -414,12 +421,12 @@ polar_coords <- function(sampledata,
                               significance_cutoff] <- non_sig_name
     } 
     
-    polar_colours$sig = as.character(polar_colours$sig)
+    polar_colours$sig <- as.character(polar_colours$sig)
     polar_colours$sig[polar_colours$sig != non_sig_name & 
                           (! grepl('\\+', polar_colours$sig)) ] <- 
         paste0(polar_colours$sig[polar_colours$sig != non_sig_name & 
                                      (! grepl('\\+', polar_colours$sig)) ], '+')
-    polar_colours$sig = factor(polar_colours$sig)
+    polar_colours$sig <- factor(polar_colours$sig)
     
     polar_colours <- polar_colours[, c("Name",
                                        comp_map,

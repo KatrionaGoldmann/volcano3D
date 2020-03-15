@@ -24,7 +24,7 @@ polar_coords(
 \arguments{
 \item{sampledata}{A data frame containing the sample information.
 This must contain: an ID column containing the sample IDs which can be 
-matched to the expression data and a 
+matched to the `expression` data and a 
 contrast column containing the three-level factor used for contrasts.}
 
 \item{contrast}{The column name in `sampledata` which contains the 
@@ -33,17 +33,20 @@ three-level factor used for contrast.}
 \item{groups}{The groups to be compared (if NULL this defaults
 to \code{levels(sampledata[, 'contrasts'])}).}
 
-\item{pvalues}{A data frame containing three `p_col_suffix` columns: one for 
+\item{pvalues}{A data frame containing: \itemize{
+\item three `p_col_suffix` columns: one for 
 the pvalue for each comparison between groups. 
-Similarly it can also contain: three optional
+\item three optional
 `fc_col_suffix` columns for the fold change between each comparison 
 (if NULL, no Fold Change columns are included); 
-three optional `padj_col_suffix` columns (if NULL 
-adjusted p values are calculated using `padjust_method``); and the 'p', 
+\item three optional `padj_col_suffix` columns (if NULL 
+adjusted p values are calculated using `padjust_method``); 
+\item and optional 'p', 
 'padj and 'fc' columns for a three-way test, such as ANOVA or likelihood 
-ratio test, defined by `multi_group_prefix`.}
+ratio test, defined by `multi_group_prefix`.
+}}
 
-\item{expression}{Optional data frame containing expression data for
+\item{expression}{A data frame containing expression data for
 downstream analysis and visualisation. The rows must contain probes which
 match the rows in pvalues and the columns must contain samples which match
 \code{sampledata$ID}.}
@@ -53,29 +56,28 @@ match the rows in pvalues and the columns must contain samples which match
 
 \item{padj_col_suffix}{The suffix word to define columns containing adjusted
 p values (default = 'padj'). If NULL these will be calculated using
-padjust_method.}
+\code{padjust_method}.}
 
-\item{fc_col_suffix}{The suffix word to define columns containing adjusted
-p-values (default = 'logFC').}
+\item{fc_col_suffix}{The optional suffix word to define columns containing 
+log fold change values (default = 'logFC').}
 
 \item{padjust_method}{The method used to calculate adjusted p values if 
-padj_col_suffix is NULL (default = 'BH'). See 
-\code{\link[stats]{p.adjust}}.}
+padj_col_suffix is NULL (default = 'BH'). See \code{\link[stats]{p.adjust}}.}
 
 \item{multi_group_prefix}{Optional column prefix for statistics (p, padj, 
 and fold change) across all three groups (typically ANOVA or likelihood 
 ratio tests). default = NULL.}
 
-\item{non_sig_name}{Name to assign non-significant points}
+\item{non_sig_name}{Category name to assign to non-significant points}
 
-\item{significance_cutoff}{Value defining the significance cut-off (pvalues
-below this will be coloured \code{non_sig_colour})}
+\item{significance_cutoff}{Value defining the significance cut-off (points 
+with pvalues below this point will be classed as \code{non_sig_name})}
 
 \item{fc_cutoff}{The cut-off for fold change, below which markers will be
-coloured according to `non_sig_colour`` (default = 0.3).}
+lassed as \code{non_sig_name}` (default = 0.3).}
 
 \item{label_column}{Optional column name in pvalues for markers to be 
-labelled by at plotting stage. If NULL the rownames of pvalues are used.}
+labelled with at plotting stage. If NULL the rownames of pvalues are used.}
 }
 \value{
 Returns an S4 polar object containing:
@@ -92,8 +94,8 @@ Returns an S4 polar object containing:
       \item{'sig': The significance group}
   }
   \item{'pvalues'} A data frame containing the p-values, adjusted p-values,
-  and log2(fold changes) for all three comparisons between groups in the 
-  contrast factor, as well as optional multi-group tests.
+  and optional log(fold changes) for all three comparisons between groups in 
+  the contrast factor, as well as optional multi-group tests.
   \item{'sampledata'} Sample data with column ID and contrast
   \item{'contrast'} The column name in `sampledata`` which contains the
   three-group contrast factor used for comparisons.
@@ -106,20 +108,24 @@ Returns an S4 polar object containing:
 }
 }
 \description{
-This function creates a data frame for downstream polar plots containing
-the p-values from a three-way group comparison.
+This function creates a polar object of S4 class for downstream plots 
+containing the p-values from a three-way group comparison, expression data 
+sample data and polar coordinates.
 }
 \examples{
 library(volcano3Ddata)
 data(syn_data)
-syn_p_obj <- create_dep(sampledata = syn_metadata, 
-                    contrast = "Pathotype", 
-                    pvalues = syn_pvalues,
-                    p_col_suffix = "pvalue", 
-                    fc_col_suffix = "log2FoldChange",
-                    multi_group_prefix = "LRT", 
-                    expression = syn_rld)
-syn_polar <- polar_coords(dep = syn_p_obj)
+syn_polar <- polar_coords(sampledata = syn_metadata,
+                          contrast = "Pathotype", 
+                          groups = NULL, 
+                          pvalues = syn_pvalues, 
+                          expression = syn_rld, 
+                          p_col_suffix = "pvalue", 
+                          padj_col_suffix = "padj", 
+                          non_sig_name = "Not Significant", 
+                          multi_group_prefix = "LRT",
+                          significance_cutoff = 0.01, 
+                          fc_cutoff = 0.3)
 table(syn_polar@polar$sig) 
 }
 \references{
