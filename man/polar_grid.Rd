@@ -15,23 +15,29 @@ polar_grid(
 )
 }
 \arguments{
-\item{r_vector}{numerical vector of radial coordinates}
+\item{r_vector}{An optional numerical vector for the  radial coordinates. 
+This is used to calculate breaks on the r axis using 
+\code{\link[base]{pretty}}. If this is NULL the r_axis_ticks are used as 
+breaks.}
 
-\item{z_vector}{numerical vector of z coordinates. If NULL a 2D polar plot
-will be created}
+\item{z_vector}{An optional numerical vector for the z coordinates. 
+This is used to calculate breaks on the z axis using \code{pretty}. If this 
+is NULL the z_axis_ticks are used as breaks.}
 
-\item{r_axis_ticks}{a numerical vector of breaks for the radial axis}
+\item{r_axis_ticks}{A numerical vector of breaks for the radial axis (used 
+if r_vector is NULL).}
 
-\item{z_axis_ticks}{a numerical vector of breaks for the z axis}
+\item{z_axis_ticks}{A numerical vector of breaks for the z axis (used 
+if z_vector is NULL).}
 
 \item{axis_angle}{angle to position the radial axis in pi (default = 5/6)}
 
 \item{n_spokes}{the number of outward spokes to be plotted (default = 12)}
 
-\item{...}{optional parameters for \code{\link[base]{pretty}}}
+\item{...}{optional parameters for \code{\link[base]{pretty}} on the r axis}
 }
 \value{
-Returns a list containing:
+Returns an S4 grid object containing:
 \itemize{
   \item{'polar_grid'} The coordinates for a radial grid
   \item{'axes'} The axes features for plotly
@@ -48,10 +54,21 @@ Generates a cylindrical grid of the appropriate dimensions for a 3D volcano
 plot
 }
 \examples{
-polar_grid3D(r_vector = 1:10, 
-           z_vector = 1:5, 
-           r_axis_ticks = 1:10, 
-           z_axis_ticks = 1:5)
+library(volcano3Ddata)
+data(syn_data)
+syn_p_obj <- create_dep(sampledata = syn_metadata, 
+                    contrast = "Pathotype", 
+                    pvalues = syn_pvalues,
+                    p_col_suffix = "pvalue", 
+                    fc_col_suffix = "log2FoldChange",
+                    multi_group_prefix = "LRT", 
+                    expression = syn_rld)
+                    
+polar_grid(r_vector=syn_polar@polar$r_zscore,
+           z_vector=NULL,
+           r_axis_ticks = NULL,
+           z_axis_ticks = c(0, 8, 16, 32),
+           n_spokes = 4)
 }
 \references{
 Lewis, Myles J., et al. (2019).

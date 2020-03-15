@@ -1,16 +1,51 @@
+setClassUnion("numeric_or_integer", c("numeric", "integer"))
+
+#' An S4 class to define the polar grid coordinates system.
+#' 
+#' @slot polar_grid The coordinates for the cylindrical grid segments with 
+#' x,y,z coordinates
+#' @slot axes The axes features for plotly
+#' @slot axis_labs The axis labels
+#' @slot r The grid radius
+#' @slot z The grid height
+#' @slot text_coords data frame for axis label cartesian coordinates (x, y, z)
+#' @slot n_r_breaks The number of ticks on the r axis
+#' @slot n_z_breaks The number of ticks on the z axis
+#' @slot r_breaks The r axis ticks as a numeric
+#' @slot z_breaks The z axis ticks as a numeric
+
+setClass("grid", slots = list(
+  polar_grid = "data.frame",
+  axes = "data.frame",
+  axis_labs = "list",
+  r = "numeric",
+  z = "numeric",
+  text_coords = "data.frame",
+  n_r_breaks = "numeric_or_integer",
+  n_z_breaks = "numeric_or_integer", 
+  r_breaks = "numeric_or_integer",
+  z_breaks = "numeric_or_integer"
+))
+
 #' Grid required for 3D volcano plot and 2D radial plots
 #'
 #' Generates a cylindrical grid of the appropriate dimensions for a 3D volcano
 #' plot
-#' @param r_vector numerical vector of radial coordinates
-#' @param r_axis_ticks a numerical vector of breaks for the radial axis
-#' @param z_vector numerical vector of z coordinates. If NULL a 2D polar plot
-#' will be created
-#' @param z_axis_ticks a numerical vector of breaks for the z axis
+#' @param r_vector An optional numerical vector for the  radial coordinates. 
+#' This is used to calculate breaks on the r axis using 
+#' \code{\link[base]{pretty}}. If this is NULL the r_axis_ticks are used as 
+#' breaks. 
+#' @param z_vector An optional numerical vector for the z coordinates. 
+#' This is used to calculate breaks on the z axis using \code{pretty}. If this 
+#' is NULL the z_axis_ticks are used as breaks. 
+#' @param r_axis_ticks A numerical vector of breaks for the radial axis (used 
+#' if r_vector is NULL). 
+#' @param z_axis_ticks A numerical vector of breaks for the z axis (used 
+#' if z_vector is NULL). 
 #' @param axis_angle angle to position the radial axis in pi (default = 5/6)
 #' @param n_spokes the number of outward spokes to be plotted (default = 12)
-#' @param ... optional parameters for \code{\link[base]{pretty}}
-#' @return Returns a list containing:
+#' @param ... optional parameters for \code{\link[base]{pretty}} on the r axis
+#' @return Returns an S4 grid object containing:
 #' \itemize{
 #'   \item{'polar_grid'} The coordinates for a radial grid
 #'   \item{'axes'} The axes features for plotly
@@ -30,10 +65,21 @@
 #' @keywords pvalue, polar, plot
 #' @export
 #' @examples
-#' polar_grid3D(r_vector = 1:10, 
-#'            z_vector = 1:5, 
-#'            r_axis_ticks = 1:10, 
-#'            z_axis_ticks = 1:5)
+#' library(volcano3Ddata)
+#' data(syn_data)
+#' syn_p_obj <- create_dep(sampledata = syn_metadata, 
+#'                     contrast = "Pathotype", 
+#'                     pvalues = syn_pvalues,
+#'                     p_col_suffix = "pvalue", 
+#'                     fc_col_suffix = "log2FoldChange",
+#'                     multi_group_prefix = "LRT", 
+#'                     expression = syn_rld)
+#'                     
+#' polar_grid(r_vector=syn_polar@polar$r_zscore,
+#'            z_vector=NULL,
+#'            r_axis_ticks = NULL,
+#'            z_axis_ticks = c(0, 8, 16, 32),
+#'            n_spokes = 4)
 
 polar_grid <- function(r_vector = NULL,
                        z_vector = NULL,
@@ -65,12 +111,12 @@ polar_grid <- function(r_vector = NULL,
   # (Circles split by NA to make discontinuous)
   cylindrical_grid <- data.frame(
     x = unlist(lapply(1:n_r_breaks, function(i){
-    c(max(r_breaks)/n_r_breaks*i*cospi(0:200/100), NA)
-  })),
-  y = unlist(lapply(1:n_r_breaks, function(i){
-    c(max(r_breaks)/n_r_breaks*i*sinpi(0:200/100), NA)
-  })),
-  z = 0, area = "cylindrical_grid")
+      c(max(r_breaks)/n_r_breaks*i*cospi(0:200/100), NA)
+    })),
+    y = unlist(lapply(1:n_r_breaks, function(i){
+      c(max(r_breaks)/n_r_breaks*i*sinpi(0:200/100), NA)
+    })),
+    z = 0, area = "cylindrical_grid")
   
   # radial spokes out
   mz <- switch(as.character(is.null(z_breaks)), "TRUE"=0, "FALSE"=max(z_breaks))
@@ -138,14 +184,15 @@ polar_grid <- function(r_vector = NULL,
                                           digits = 2))
   
   
-  return(list("polar_grid" = polar_grid,
-              "axes" = axes,
-              "axis_labs" = axis_labs,
-              "r" = max(r_breaks),
-              "z" = mz,
-              "text_coords" = text_coords,
-              "n_r_breaks" = n_r_breaks,
-              "n_z_breaks" = n_z_breaks, 
-              "r_breaks" = r_breaks[2:length(r_breaks)],
-              "z_breaks" = z_breaks[2:length(z_breaks)]))
+  methods::new("grid",
+              polar_grid = polar_grid,
+              axes = axes,
+              axis_labs = axis_labs,
+              r = max(r_breaks),
+              z = mz,
+              text_coords = text_coords,
+              n_r_breaks = n_r_breaks,
+              n_z_breaks = n_z_breaks, 
+              r_breaks = r_breaks[2:length(r_breaks)],
+              z_breaks = z_breaks[2:length(z_breaks)])
 }
