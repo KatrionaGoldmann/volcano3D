@@ -6,38 +6,34 @@
 \usage{
 radial_ggplot(
   polar,
-  label_rows = NULL,
-  grid = NULL,
   colours = NULL,
   non_sig_colour = "grey60",
   colour_scale = "discrete",
   continuous_shift = 120,
-  marker_alpha = 0.7,
-  marker_size = 3,
+  label_rows = NULL,
+  arrow_length = 1,
+  grid = NULL,
+  fc_or_zscore = "zscore",
   label_size = 5,
   axis_title_size = 5,
   axis_label_size = 3,
-  fc_or_zscore = "zscore",
+  marker_alpha = 0.7,
+  marker_size = 3,
   axis_angle = 1/6,
-  arrow_length = 1,
   legend_size = 20,
   ...
 )
 }
 \arguments{
-\item{polar}{The coordinates for plotting onto a polar plot.}
+\item{polar}{A polar object with the pvalues between groups of interest and 
+polar coordinates. Created by \code{\link{polar_coords}}.}
 
-\item{label_rows}{A list of row names or indices in polar to be labelled
-on the plot.}
+\item{colours}{A named vector of colours for the groups. If NULL colours
+will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
+unnamed colours will be assigned in polar@polar$sig level order.}
 
-\item{grid}{Optional grid list output by \code{\link{polar_grid}}. If NULL 
-this will be calculated.}
-
-\item{colours}{The named vector of colours for the groups. If NULL colours
-will be assigned as c("green3", "cyan", "gold2", "blue", "purple", "red")}
-
-\item{non_sig_colour}{The colour for non-significant markers according to 
-fold change.}
+\item{non_sig_colour}{non_sig_colour The colour for non-significant markers 
+(default = "grey60").}
 
 \item{colour_scale}{whether to use a "discrete" or "continuous" colour scale 
 (default = "discrete").}
@@ -47,31 +43,37 @@ corresponding to the angle to offset the continuous colour scale by. The
 continuous colour scale is calculated by converting the angle to hue where 0 
 degrees corresponds to red and 360 degrees to magenta (default = 120).}
 
-\item{marker_alpha}{The alpha parameter for 
-\code{\link[ggplot2]{geom_point}} (default = 0.7).}
+\item{label_rows}{A vector of row names or numbers to label.}
 
-\item{marker_size}{Size of the markers (default = 3).}
+\item{arrow_length}{length of label arrow (default = 1).}
 
-\item{label_size}{Font size of labels (default = 5).}
+\item{grid}{An optional grid object. If NULL this will be calculated using 
+default values of  \code{\link{polar_grid}}.}
+
+\item{fc_or_zscore}{Whether to use the z-score or fold change as magnitude.
+Options are 'zscore' (default) or 'fc'.}
+
+\item{label_size}{Font size of labels/annotations (default = 5).}
 
 \item{axis_title_size}{Font size for axis titles (default = 5)}
 
 \item{axis_label_size}{Font size for axis labels (default = 3)}
 
-\item{fc_or_zscore}{Whether to use the z-score or fold change as magnitude
-(options are c("zscore", "fc")).}
+\item{marker_alpha}{The alpha parameter for markers (default = 0.7).}
 
-\item{axis_angle}{Angle for the axis labels (default = 1/6).}
+\item{marker_size}{Size of the markers (default = 3).}
 
-\item{arrow_length}{length of label arrow (default = 1).}
+\item{axis_angle}{Angle for the radial axis labels in pi radians
+(default = 1/6).}
 
 \item{legend_size}{Size for the legend text (default = 20).}
 
-\item{...}{Other optional parameters to pass to \code{\link{polar_grid}} or 
-\code{\link[base]{pretty}} to define the radial axis ticks.}
+\item{...}{Optional grid parameters to pass to 
+\code{\link[volcano3D]{polar_grid}}.}
 }
 \value{
-Returns a polar ggplot featuring variables on a tri-axis radial graph
+Returns a polar ggplot object featuring variables on a tri-axis 
+radial graph
 }
 \description{
 This function creates a radar plot using ggplot for a three-way comparison
@@ -79,26 +81,17 @@ This function creates a radar plot using ggplot for a three-way comparison
 \examples{
 library(volcano3Ddata)
 data(syn_data)
-syn_p_obj <- create_dep(sampledata = syn_metadata, 
-                    contrast = "Pathotype", 
-                    pvalues = syn_pvalues,
-                    p_col_suffix = "pvalue", 
-                    fc_col_suffix = "log2FoldChange",
-                    multi_group_prefix = "LRT", 
-                    expression = syn_rld)
-syn_polar <- polar_coords(dep = syn_p_obj)
-
-radial_ggplot(polar = syn_polar, 
-              colours=setNames(c("green3", "blue", "red", "gold2", 
-              "purple", "cyan"),
-              c("Fibroid", "Lymphoid", "Myeloid", "Fibroid+Myeloid+",  
-              "Lymphoid+Myeloid+", "Fibroid+Lymphoid+")),
-              marker_size = 1.5,
-              label_size = 2.5,
-              axis_label_size = 1.5, 
-              axis_title_size = 2.5, 
-              legend_size=5, 
-              label_rows = c("SLAMF6", "PARP16", "ITM2C"))
+syn_polar <- polar_coords(sampledata = syn_metadata,
+                          contrast = "Pathotype",
+                          pvalues = syn_pvalues, 
+                          expression = syn_rld, 
+                          p_col_suffix = "pvalue", 
+                          padj_col_suffix = "padj", 
+                          non_sig_name = "Not Significant", 
+                          significance_cutoff = 0.01, 
+                          fc_cutoff = 0.3)
+                          
+radial_ggplot(polar = syn_polar, label_rows = c("SLAMF6"))
 }
 \references{
 Lewis, Myles J., et al. (2019).

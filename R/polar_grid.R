@@ -1,4 +1,4 @@
-setClassUnion("numeric_or_integer", c("numeric", "integer"))
+setClassUnion("numeric_or_integer_or_NULL", c("numeric", "integer", "NULL"))
 
 #' An S4 class to define the polar grid coordinates system.
 #' 
@@ -21,10 +21,10 @@ setClass("grid", slots = list(
   r = "numeric",
   z = "numeric",
   text_coords = "data.frame",
-  n_r_breaks = "numeric_or_integer",
-  n_z_breaks = "numeric_or_integer", 
-  r_breaks = "numeric_or_integer",
-  z_breaks = "numeric_or_integer"
+  n_r_breaks = "numeric_or_integer_or_NULL",
+  n_z_breaks = "numeric_or_integer_or_NULL", 
+  r_breaks = "numeric_or_integer_or_NULL",
+  z_breaks = "numeric_or_integer_or_NULL"
 ))
 
 #' Grid required for 3D volcano plot and 2D radial plots

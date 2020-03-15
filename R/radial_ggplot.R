@@ -1,39 +1,42 @@
 #' Ggplot for Three Way Polar Plot
 #'
 #' This function creates a radar plot using ggplot for a three-way comparison
-#' @param polar The coordinates for plotting onto a polar plot.
-#' @param label_rows A list of row names or indices in polar to be labelled
-#' on the plot.
-#' @param grid Optional grid list output by \code{\link{polar_grid}}. If NULL 
-#' this will be calculated.
-#' @param colours The named vector of colours for the groups. If NULL colours
-#' will be assigned as c("green3", "cyan", "gold2", "blue", "purple", "red")
-#' @param non_sig_colour The colour for non-significant markers according to 
-#' fold change.
-#' @param marker_alpha The alpha parameter for 
-#' \code{\link[ggplot2]{geom_point}} (default = 0.7).
-#' @param marker_size Size of the markers (default = 3).
+#' @param polar A polar object with the pvalues between groups of interest and 
+#' polar coordinates. Created by \code{\link{polar_coords}}.
+#' @param colours A named vector of colours for the groups. If NULL colours
+#' will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
+#' unnamed colours will be assigned in polar@polar$sig level order. 
+#' @param non_sig_colour non_sig_colour The colour for non-significant markers 
+#' (default = "grey60"). 
 #' @param colour_scale whether to use a "discrete" or "continuous" colour scale 
 #' (default = "discrete").
 #' @param continuous_shift the number of degrees (between 0 and 360) 
 #' corresponding to the angle to offset the continuous colour scale by. The 
 #' continuous colour scale is calculated by converting the angle to hue where 0 
 #' degrees corresponds to red and 360 degrees to magenta (default = 120). 
-#' @param label_size Font size of labels (default = 5).
+#' @param label_rows A vector of row names or numbers to label.
+#' @param arrow_length length of label arrow (default = 1).
+#' @param grid An optional grid object. If NULL this will be calculated using 
+#' default values of  \code{\link{polar_grid}}. 
+#' @param fc_or_zscore Whether to use the z-score or fold change as magnitude.
+#' Options are 'zscore' (default) or 'fc'.
+#' @param label_size Font size of labels/annotations (default = 5).
 #' @param axis_title_size Font size for axis titles (default = 5)
 #' @param axis_label_size Font size for axis labels (default = 3)
-#' @param fc_or_zscore Whether to use the z-score or fold change as magnitude
-#' (options are c("zscore", "fc")).
-#' @param axis_angle Angle for the axis labels (default = 1/6).
-#' @param arrow_length length of label arrow (default = 1).
+#' @param marker_alpha The alpha parameter for markers (default = 0.7).
+#' @param marker_size Size of the markers (default = 3).
+#' @param axis_angle Angle for the radial axis labels in pi radians
+#' (default = 1/6).
 #' @param legend_size Size for the legend text (default = 20). 
-#' @param ... Other optional parameters to pass to \code{\link{polar_grid}} or 
-#' \code{\link[base]{pretty}} to define the radial axis ticks.
-#' @return Returns a polar ggplot featuring variables on a tri-axis radial graph
+#' @param ... Optional grid parameters to pass to 
+#' \code{\link[volcano3D]{polar_grid}}.
+#' @return Returns a polar ggplot object featuring variables on a tri-axis 
+#' radial graph
 #' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate 
 #' geom_point scale_color_manual aes element_blank coord_fixed geom_segment
 #' arrow unit
 #' @importFrom graphics text 
+#' @importFrom grDevices hsv
 #' @keywords pvalue, polar, plot, ggplot
 #' @references
 #' Lewis, Myles J., et al. (2019).
@@ -45,42 +48,33 @@
 #' @examples
 #' library(volcano3Ddata)
 #' data(syn_data)
-#' syn_p_obj <- create_dep(sampledata = syn_metadata, 
-#'                     contrast = "Pathotype", 
-#'                     pvalues = syn_pvalues,
-#'                     p_col_suffix = "pvalue", 
-#'                     fc_col_suffix = "log2FoldChange",
-#'                     multi_group_prefix = "LRT", 
-#'                     expression = syn_rld)
-#' syn_polar <- polar_coords(dep = syn_p_obj)
-#' 
-#' radial_ggplot(polar = syn_polar, 
-#'               colours=setNames(c("green3", "blue", "red", "gold2", 
-#'               "purple", "cyan"),
-#'               c("Fibroid", "Lymphoid", "Myeloid", "Fibroid+Myeloid+",  
-#'               "Lymphoid+Myeloid+", "Fibroid+Lymphoid+")),
-#'               marker_size = 1.5,
-#'               label_size = 2.5,
-#'               axis_label_size = 1.5, 
-#'               axis_title_size = 2.5, 
-#'               legend_size=5, 
-#'               label_rows = c("SLAMF6", "PARP16", "ITM2C"))
+#' syn_polar <- polar_coords(sampledata = syn_metadata,
+#'                           contrast = "Pathotype",
+#'                           pvalues = syn_pvalues, 
+#'                           expression = syn_rld, 
+#'                           p_col_suffix = "pvalue", 
+#'                           padj_col_suffix = "padj", 
+#'                           non_sig_name = "Not Significant", 
+#'                           significance_cutoff = 0.01, 
+#'                           fc_cutoff = 0.3)
+#'                           
+#' radial_ggplot(polar = syn_polar, label_rows = c("SLAMF6"))
 
 radial_ggplot <- function(polar,
-                          label_rows = NULL,
-                          grid = NULL,
                           colours = NULL,
                           non_sig_colour = "grey60",
                           colour_scale = "discrete",
                           continuous_shift = 120, 
-                          marker_alpha = 0.7,
-                          marker_size = 3,
+                          label_rows = NULL,
+                          arrow_length = 1,
+                          grid = NULL,
+                          fc_or_zscore = "zscore",
                           label_size = 5,
                           axis_title_size = 5,
                           axis_label_size = 3,
-                          fc_or_zscore = "zscore",
+                          marker_alpha = 0.7,
+                          marker_size = 3,
                           axis_angle = 1/6,
-                          arrow_length = 1,
                           legend_size = 20,
                           ...){
     
@@ -96,12 +90,16 @@ radial_ggplot <- function(polar,
     
     sig_levels <- levels(polar_df$sig)[levels(polar_df$sig) != 
                                            polar@non_sig_name]
+    
     if(is.null(colours)){
-        colours <- setNames(c("green3", "cyan", "gold2", "blue", 
-                              "purple", "red"), sig_levels)
+        colours <- c("green3", "cyan", "gold2", "blue", "purple", "red")
     }
-    if(( ! is.null(names(colours) )) & 
-       length(sig_levels[! sig_levels %in% names(colours)]) != 0) {
+    if(is.null(names(colours))){
+        warning("Colour vector is unnamed - assigning in order of sig levels")
+        colours <- setNames(colours, sig_levels)
+    }
+    
+    if(length(sig_levels[! sig_levels %in% names(colours)]) != 0) {
         stop(paste('No colour for', 
                    paste(sig_levels[! sig_levels %in% names(colours)], 
                          collapse=", ")))
@@ -140,24 +138,25 @@ radial_ggplot <- function(polar,
     polar_df$hue <- hsv(offset, 1, 1)
     polar_df$hue[polar_df$sig == polar@non_sig_name] <- non_sig_colour
     
-    
     # make sure the non-sig markers are on the bottom - reshuffle the order
     polar_df$sig <- 
         factor(polar_df$sig,
                levels = c(polar@non_sig_name,
                           as.character(
                               unique(polar_df$sig[polar_df$sig !=  
-                                                   polar@non_sig_name]))))
+                                                      polar@non_sig_name]))))
     colours <- c(colours, "ns"=non_sig_colour)
     names(colours)[names(colours) == "ns"] <- polar@non_sig_name
     cols <- colours[match(levels(droplevels(polar_df$sig)), names(colours))]
     
-    if(is.null(grid)) grid <- polar_grid(r_vector = polar_df$r, 
-                                         r_axis_ticks = NULL,
-                                         axis_angle = axis_angle, 
-                                         ...)
+    if(is.null(grid)) {
+        grid <- polar_grid(r_vector = polar_df$r, 
+                           r_axis_ticks = NULL,
+                           axis_angle = axis_angle, 
+                           ...)
+    } else {  if(class(grid) != "grid") stop('grid must be a grid object')}
     
-    grid$polar_grid <- grid$polar_grid[grid$polar_grid$area != "cylinder", ]
+    grid@polar_grid <- grid@polar_grid[grid@polar_grid$area != "cylinder", ]
     
     
     if(! is.null(label_rows)){
@@ -172,9 +171,9 @@ radial_ggplot <- function(polar,
         annotation_df <- polar_df[label_rows, ]
         annotation_df$theta <- atan(annotation_df$y/annotation_df$x)
         annotation_df$xend  <- arrow_length*sign(annotation_df$x)*
-            abs(grid$r*cos(annotation_df$theta))
+            abs(grid@r*cos(annotation_df$theta))
         annotation_df$yend <- arrow_length*sign(annotation_df$y)*
-            abs(grid$r*sin(annotation_df$theta))
+            abs(grid@r*sin(annotation_df$theta))
     }
     
     # markers are plotted in order of rows so push ns to the bottom of plot
@@ -182,32 +181,32 @@ radial_ggplot <- function(polar,
                            which(polar_df$sig !=  polar@non_sig_name)), ]
     
     # alignment for text
-    hadj <- -1*sign(grid$axis_labs$x)
+    hadj <- -1*sign(grid@axis_labs$x)
     hadj[hadj ==  -1] <- 0
     
     p <- ggplot(polar_df, aes(x = polar_df$x, y = polar_df$y)) +
         labs(x = "", y = "", color = "") +
         
         # Concentric circles and radial spokes
-        geom_path(data = grid$polar_grid, 
-                  aes(x = grid$polar_grid$x, y = grid$polar_grid$y), 
+        geom_path(data = grid@polar_grid, 
+                  aes(x = grid@polar_grid$x, y = grid@polar_grid$y), 
                   alpha = 0.2) +
         
         # Three radial axes
-        geom_path(data = grid$axes, aes(x = grid$axes$x, y = grid$axes$y)) +
+        geom_path(data = grid@axes, aes(x = grid@axes$x, y = grid@axes$y)) +
         
         # radial axes ticks
-        geom_text(data = grid$text_coords,
-                  aes(x = grid$text_coords$x,
-                      y = grid$text_coords$y,
-                      label = grid$text_coords$text),
+        geom_text(data = grid@text_coords,
+                  aes(x = grid@text_coords$x,
+                      y = grid@text_coords$y,
+                      label = grid@text_coords$text),
                   vjust = -1,
                   size = axis_label_size) +
         
         # Axes titles (three groups)
-        annotate(geom = "text", x = grid$axis_labs$x,  y = grid$axis_labs$y,
+        annotate(geom = "text", x = grid@axis_labs$x,  y = grid@axis_labs$y,
                  hjust = hadj,
-                 vjust = -1*sign(grid$axis_labs$y),
+                 vjust = -1*sign(grid@axis_labs$y),
                  label = levels(polar@sampledata[, polar@contrast]),
                  color = "black", size = axis_title_size) +
         
@@ -241,8 +240,8 @@ radial_ggplot <- function(polar,
         
         # Fix the aspect ratio
         coord_fixed(ratio = 1,
-                    xlim = c(-grid$r, grid$r*1.25),
-                    ylim = c(-grid$r, grid$r))
+                    xlim = c(-grid@r, grid@r*1.25),
+                    ylim = c(-grid@r, grid@r))
     
     # Add any labelling desired
     if(! is.null(label_rows)){

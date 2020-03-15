@@ -8,82 +8,85 @@ radial_plotly(
   polar,
   colours = NULL,
   non_sig_colour = "grey60",
-  label_rows = NULL,
-  grid = NULL,
-  fc_or_zscore = "zscore",
   colour_scale = "discrete",
   continuous_shift = 120,
+  label_rows = NULL,
+  arrow_length = 50,
+  grid = NULL,
+  fc_or_zscore = "zscore",
   label_size = 14,
   axis_title_size = 16,
   axis_label_size = 10,
-  arrow_length = 50,
   axis_ticks = NULL,
   axis_angle = 5/6,
   ...
 )
 }
 \arguments{
-\item{polar}{The coordinates for plotting onto a polar plot}
+\item{polar}{A polar object with the pvalues between groups of interest and 
+polar coordinates. Created by \code{\link{polar_coords}}.}
 
-\item{colours}{The named vector of colours for the groups. If NULL colours
-will be assigned as c("green3", "cyan", "gold2", "blue", "purple" "red")}
+\item{colours}{A named vector of colours for the groups. If NULL colours
+will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
+unnamed colours will be assigned in polar@polar$sig level order.}
 
-\item{non_sig_colour}{The colour for non-significant markers according to 
-fold change.}
+\item{non_sig_colour}{The colour for non-significant markers 
+(default = "grey60").}
 
-\item{label_rows}{A character vector of genes or row numbers to label}
+\item{colour_scale}{whether to use a 'discrete' or 'continuous' colour scale 
+(default = 'discrete').}
 
-\item{grid}{Optional grid list output by \code{\link{polar_grid}}. If NULL 
-this will be calculated.}
+\item{continuous_shift}{The number of degrees (between 0 and 360) 
+to offset the continuous colour scale by. This is calculated by converting 
+the angle to a hue using \code{\link[grDevices]{hsv}} where 0 corresponds to
+the colour scale starting wih red and 360 with magenta (default = 120).}
 
-\item{fc_or_zscore}{Whether to use the z-score or fold change as magnitude
-(options are c("zscore", "fc"))}
+\item{label_rows}{A vector of row names or numbers to label.}
 
-\item{colour_scale}{whether to use a "discrete" or "continuous" colour scale 
-(default = "discrete").}
+\item{arrow_length}{The length of label arrows (default = 50).}
 
-\item{continuous_shift}{the number of degrees (between 0 and 360) 
-corresponding to the angle to offset the continuous colour scale by. The 
-continuous colour scale is calculated by converting the angle to hue where 0 
-degrees corresponds to red and 360 degrees to magenta (default = 120).}
+\item{grid}{An optional grid object. If NULL this will be calculated using 
+default values of  \code{\link{polar_grid}}.}
 
-\item{label_size}{Font size of labels (default = 14)}
+\item{fc_or_zscore}{Whether to use the z-score or fold change as magnitude.
+Options are 'zscore' (default) or 'fc'.}
+
+\item{label_size}{Font size of labels/annotations (default = 14)}
 
 \item{axis_title_size}{Font size for axis titles (default = 16)}
 
 \item{axis_label_size}{Font size for axis labels (default = 10)}
 
-\item{arrow_length}{length of label arrow (default = 50)}
-
-\item{axis_ticks}{a numerical vector of tick breaks for the radial axis. If
+\item{axis_ticks}{A numerical vector of radial axis tick breaks. If
 NULL this will be calculated using \code{\link[base]{pretty}}.}
 
-\item{axis_angle}{Angle for the axis labels (default = 5/6).}
+\item{axis_angle}{Angle in  pi radians for the radiial axis (default = 5/6).}
 
-\item{...}{Optional parameters to pass to \code{\link[base]{polar_drid}} or 
-\code{\link[base]{pretty}} to define the radial axis ticks.}
+\item{...}{Optional grid parameters to pass to 
+\code{\link[volcano3D]{polar_grid}}.}
 }
 \value{
-Returns a polar plotly plot featuring variables on a tri-axis
+Returns a plotly plot featuring variables on a tri-axis
 radial graph
 }
 \description{
-This function creates a plot using plotly which maps the expression
-onto a polar coordinates.
+This function creates an interactive plotly object which maps differential 
+expression onto a polar coordinates.
 }
 \examples{
 library(volcano3Ddata)
 data(syn_data)
-syn_p_obj <- create_dep(sampledata = syn_metadata, 
-                    contrast = "Pathotype", 
-                    pvalues = syn_pvalues,
-                    p_col_suffix = "pvalue", 
-                    fc_col_suffix = "log2FoldChange",
-                    multi_group_prefix = "LRT", 
-                    expression = syn_rld)
-syn_polar <- polar_coords(dep = syn_p_obj)
-radial_plotly(polar=syn_polar, 
-            label_rows=c("SLAMF6", "PARP16", "ITM2C"))
+syn_polar <- polar_coords(sampledata = syn_metadata,
+                          contrast = "Pathotype",
+                          pvalues = syn_pvalues, 
+                          expression = syn_rld, 
+                          p_col_suffix = "pvalue", 
+                          padj_col_suffix = "padj", 
+                          non_sig_name = "Not Significant", 
+                          significance_cutoff = 0.01, 
+                          fc_cutoff = 0.3)
+                          
+radial_plotly(polar = syn_polar, label_rows = c("SLAMF6"))
 }
 \references{
 Lewis, Myles J., et al. (2019).

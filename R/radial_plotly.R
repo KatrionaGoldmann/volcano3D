@@ -1,35 +1,39 @@
 #' Three-way radial comparison Polar Plot (using plotly)
 #'
-#' This function creates a plot using plotly which maps the expression
-#' onto a polar coordinates.
-#' @param polar The coordinates for plotting onto a polar plot
-#' @param colours The named vector of colours for the groups. If NULL colours
-#' will be assigned as c("green3", "cyan", "gold2", "blue", "purple" "red")
-#' @param non_sig_colour The colour for non-significant markers according to 
-#' fold change.
-#' @param label_rows A character vector of genes or row numbers to label
-#' @param grid Optional grid list output by \code{\link{polar_grid}}. If NULL 
-#' this will be calculated. 
-#' @param fc_or_zscore Whether to use the z-score or fold change as magnitude
-#' (options are c("zscore", "fc"))
-#' @param colour_scale whether to use a "discrete" or "continuous" colour scale 
-#' (default = "discrete").
-#' @param continuous_shift the number of degrees (between 0 and 360) 
-#' corresponding to the angle to offset the continuous colour scale by. The 
-#' continuous colour scale is calculated by converting the angle to hue where 0 
-#' degrees corresponds to red and 360 degrees to magenta (default = 120). 
-#' @param label_size Font size of labels (default = 14)
+#' This function creates an interactive plotly object which maps differential 
+#' expression onto a polar coordinates.
+#' @param polar A polar object with the pvalues between groups of interest and 
+#' polar coordinates. Created by \code{\link{polar_coords}}.
+#' @param colours A named vector of colours for the groups. If NULL colours
+#' will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
+#' unnamed colours will be assigned in polar@polar$sig level order. 
+#' @param non_sig_colour The colour for non-significant markers 
+#' (default = "grey60").
+#' @param colour_scale whether to use a 'discrete' or 'continuous' colour scale 
+#' (default = 'discrete').
+#' @param continuous_shift The number of degrees (between 0 and 360) 
+#' to offset the continuous colour scale by. This is calculated by converting 
+#' the angle to a hue using \code{\link[grDevices]{hsv}} where 0 corresponds to
+#' the colour scale starting wih red and 360 with magenta (default = 120). 
+#' @param label_rows A vector of row names or numbers to label. 
+#' @param arrow_length The length of label arrows (default = 50).
+#' @param grid An optional grid object. If NULL this will be calculated using 
+#' default values of  \code{\link{polar_grid}}. 
+#' @param fc_or_zscore Whether to use the z-score or fold change as magnitude.
+#' Options are 'zscore' (default) or 'fc'.
+#' @param label_size Font size of labels/annotations (default = 14)
 #' @param axis_title_size Font size for axis titles (default = 16)
 #' @param axis_label_size Font size for axis labels (default = 10)
-#' @param arrow_length length of label arrow (default = 50)
-#' @param axis_ticks a numerical vector of tick breaks for the radial axis. If
+#' @param axis_ticks A numerical vector of radial axis tick breaks. If
 #' NULL this will be calculated using \code{\link[base]{pretty}}.
-#' @param axis_angle Angle for the axis labels (default = 5/6).
-#' @param ... Optional parameters to pass to \code{\link[base]{polar_drid}} or 
-#' \code{\link[base]{pretty}} to define the radial axis ticks.
-#' @return Returns a polar plotly plot featuring variables on a tri-axis
+#' @param axis_angle Angle in  pi radians for the radiial axis (default = 5/6).
+#' @param ... Optional grid parameters to pass to 
+#' \code{\link[volcano3D]{polar_grid}}.
+#' @return Returns a plotly plot featuring variables on a tri-axis
 #' radial graph
 #' @importFrom plotly plot_ly add_trace add_text add_markers layout
+#' @importFrom stats p.adjust setNames
+#' @importFrom grDevices hsv
 #' @references
 #' Lewis, Myles J., et al. (2019).
 #' \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
@@ -41,31 +45,32 @@
 #' @examples
 #' library(volcano3Ddata)
 #' data(syn_data)
-#' syn_p_obj <- create_dep(sampledata = syn_metadata, 
-#'                     contrast = "Pathotype", 
-#'                     pvalues = syn_pvalues,
-#'                     p_col_suffix = "pvalue", 
-#'                     fc_col_suffix = "log2FoldChange",
-#'                     multi_group_prefix = "LRT", 
-#'                     expression = syn_rld)
-#' syn_polar <- polar_coords(dep = syn_p_obj)
-#' radial_plotly(polar=syn_polar, 
-#'             label_rows=c("SLAMF6", "PARP16", "ITM2C"))
+#' syn_polar <- polar_coords(sampledata = syn_metadata,
+#'                           contrast = "Pathotype",
+#'                           pvalues = syn_pvalues, 
+#'                           expression = syn_rld, 
+#'                           p_col_suffix = "pvalue", 
+#'                           padj_col_suffix = "padj", 
+#'                           non_sig_name = "Not Significant", 
+#'                           significance_cutoff = 0.01, 
+#'                           fc_cutoff = 0.3)
+#'                           
+#' radial_plotly(polar = syn_polar, label_rows = c("SLAMF6"))
 
 radial_plotly <- function(polar,
                           colours=NULL, 
                           non_sig_colour = "grey60",
-                          label_rows = NULL,
-                          grid = NULL,
-                          fc_or_zscore = "zscore",
                           colour_scale = "discrete",
                           continuous_shift = 120, 
+                          label_rows = NULL,
+                          arrow_length = 50,
+                          grid = NULL,
+                          fc_or_zscore = "zscore",
                           label_size = 14,
                           axis_title_size = 16,
                           axis_label_size = 10,
-                          arrow_length = 50,
                           axis_ticks = NULL,
-                          axis_angle = 5/6,
+                          axis_angle = 5/6, 
                           ...){
     
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
@@ -80,14 +85,17 @@ radial_plotly <- function(polar,
     })))) stop('all values in colours must be valid colours')
     
     sig_levels <- levels(polar_df$sig)[levels(polar_df$sig) != 
-                                          polar@non_sig_name]
+                                           polar@non_sig_name]
+    
     if(is.null(colours)){
-        colours <- setNames(c("green3", "cyan", "gold2", "blue", 
-                             "purple", "red"), 
-                           sig_levels)
+        colours <- c("green3", "cyan", "gold2", "blue", "purple", "red")
     }
-    if(( ! is.null(names(colours) )) & 
-       length(sig_levels[! sig_levels %in% names(colours)]) != 0) {
+    if(is.null(names(colours))){
+        warning("Colour vector is unnamed - assigning in order of sig levels")
+        colours <- setNames(colours, sig_levels)
+    }
+    
+    if(length(sig_levels[! sig_levels %in% names(colours)]) != 0) {
         stop(paste('No colour for', 
                    paste(sig_levels[! sig_levels %in% names(colours)], 
                          collapse=", ")))
@@ -109,19 +117,21 @@ radial_plotly <- function(polar,
     polar_df$r <- polar_df[, paste0("r_", fc_or_zscore)]
     polar_df <- polar_df[! is.nan(polar_df$x), ]
     
-    if(is.null(grid)) grid <- polar_grid(r_vector = polar_df$r, 
-                                         r_axis_ticks = NULL,
-                                         axis_angle = axis_angle, 
-                                         ...)
+    if(is.null(grid)) {
+        grid <- polar_grid(r_vector = polar_df$r, 
+                           r_axis_ticks = NULL,
+                           axis_angle = axis_angle, 
+                           ...)
+    } else{
+        if(class(grid) != "grid") stop('grid must be a grid object')
+    }
     
-    grid$polar_grid <- grid$polar_grid[grid$polar_grid$area != "cylinder", ]
-    
-    polar_grid <- grid$polar_grid
-    axes <- grid$axes
-    axis_labs <- grid$axis_labs
-    r <- grid$r
-    text_coords <- grid$text_coords
-    
+    grid@polar_grid <- grid@polar_grid[grid@polar_grid$area != "cylinder", ]
+    polar_grid <- grid@polar_grid
+    axes <- grid@axes
+    axis_labs <- grid@axis_labs
+    r <- grid@r
+    text_coords <- grid@text_coords
     
     # Set up the colours - pick the most highly expressed group
     polar_df$col <- as.character(colours[match(polar_df$sig, names(colours))])
@@ -133,7 +143,7 @@ radial_plotly <- function(polar,
     offset[offset > 1] <- offset[offset > 1] - 1
     polar_df$hue <- hsv(offset, 1, 1)
     polar_df$hue[polar_df$sig == polar@non_sig_name] <- non_sig_colour
-  
+    
     colours <- c("ns"=non_sig_colour, colours)
     names(colours)[names(colours) == "ns"] <- polar@non_sig_name
     colour_levels <- colours  
@@ -159,8 +169,8 @@ radial_plotly <- function(polar,
                  y = row$y,
                  text = as.character(row$label),
                  textangle = 0,
-                 ax = sign(row$x)*arrow_length*grid$r*cos(theta),
-                 ay  = -1*sign(row$x)*arrow_length*grid$r*sin(theta),
+                 ax = sign(row$x)*arrow_length*grid@r*cos(theta),
+                 ay  = -1*sign(row$x)*arrow_length*grid@r*sin(theta),
                  font = list(color = gsub("[[:digit:]]+", "", row$col),
                              size = label_size),
                  arrowcolor = gsub("[[:digit:]]+", "", row$col),
@@ -171,7 +181,7 @@ radial_plotly <- function(polar,
     } else {annot <- list()}
     
     polar_df <- polar_df[c(which(polar_df$hue == non_sig_colour), 
-               which(polar_df$hue != non_sig_colour)), ]
+                           which(polar_df$hue != non_sig_colour)), ]
     
     # Plotly plot
     p <- plot_ly(data = polar_df, x = ~x, mode = "none", type = "scatter",
