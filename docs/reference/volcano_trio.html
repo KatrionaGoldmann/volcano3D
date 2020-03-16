@@ -43,7 +43,7 @@
 
 
 <meta property="og:title" content="Volcanos Plots for a three-way comparison — volcano_trio" />
-<meta property="og:description" content="This function creates a volcano plot for all combinations of  groups in a
+<meta property="og:description" content="This function creates a volcano plot for all combinations of groups in a
 factor." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -88,7 +88,7 @@ factor." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
       </span>
     </div>
 
@@ -103,20 +103,23 @@ factor." />
 <li>
   <a href="../reference/index.html">Manual</a>
 </li>
-<li>
-  <a href="../articles/Vignette.html">Vignette</a>
-</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    News
+    Vignettes
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../news/index.html">News</a>
+      <a href="../articles/Vignette.html">Vignette</a>
+    </li>
+    <li>
+      <a href="../articles/pvalues_generator.html">Creating Pvalues</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -145,16 +148,15 @@ factor." />
     </div>
 
     <div class="ref-description">
-    <p>This function creates a volcano plot for all combinations of  groups in a
+    <p>This function creates a volcano plot for all combinations of groups in a
 factor.</p>
     </div>
 
     <pre class="usage"><span class='fu'>volcano_trio</span>(
-  <span class='no'>dep</span>,
+  <span class='no'>polar</span>,
   <span class='kw'>p_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
   <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>label_column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>label_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>marker_size</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
@@ -171,9 +173,9 @@ factor.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dep</th>
-      <td><p>A dep object with the pvalues between groups of interest. Created
-by <code><a href='create_dep.html'>create_dep</a></code>.</p></td>
+      <th>polar</th>
+      <td><p>A polar object with the pvalues between groups of interest. 
+Created by <code><a href='polar_coords.html'>polar_coords</a></code>.</p></td>
     </tr>
     <tr>
       <th>p_cutoff</th>
@@ -185,14 +187,8 @@ by <code><a href='create_dep.html'>create_dep</a></code>.</p></td>
     </tr>
     <tr>
       <th>label_rows</th>
-      <td><p>Row IDs or rownames for values to be annotated/labelled
+      <td><p>Row numbers or names for values to be annotated/labelled
 (default = NULL).</p></td>
-    </tr>
-    <tr>
-      <th>label_column</th>
-      <td><p>The column ID or number to use as an annotation for
-label_rows values (default = NULL). If left as NULL, and label_rows is 
-selected, the rownames of pvalues will be used.</p></td>
     </tr>
     <tr>
       <th>label_size</th>
@@ -204,22 +200,20 @@ selected, the rownames of pvalues will be used.</p></td>
     </tr>
     <tr>
       <th>marker_size</th>
-      <td><p>The font size of markers (default = 0.7)</p></td>
+      <td><p>The size of markers (default = 0.7)</p></td>
     </tr>
     <tr>
       <th>shared_legend_size</th>
-      <td><p>Size for the legend (default = 1).</p></td>
+      <td><p>The size for the legend (default = 1).</p></td>
     </tr>
     <tr>
       <th>sig_names</th>
       <td><p>A character vector of labels to be used for: 
 non-significant; adjusted p &lt; p_cutoff; |Fold Change| &gt; fc_cutoff; and 
 finally adjusted p &lt; p_cutoff. 
-default = p_cutoff &amp; |Fold Change| &gt; fc_cutoff markers 
-respectively. 
-(if NULL c('Not Significant', <code><a href='https://rdrr.io/r/base/paste.html'>paste('Padj &lt;', `p_cutoff`)</a></code>,
+If NULL c('Not Significant', <code><a href='https://rdrr.io/r/base/paste.html'>paste('Padj &lt;', `p_cutoff`)</a></code>,
 <code><a href='https://rdrr.io/r/base/paste.html'>paste('|FC| &gt;', `fc_cutoff`)</a></code>,
-<code><a href='https://rdrr.io/r/base/paste.html'>paste('Padj &lt;', `p_cutoff`, 'and |FC| &gt;', `fc_cutoff`)</a></code>) is used).</p></td>
+<code><a href='https://rdrr.io/r/base/paste.html'>paste('Padj &lt;', `p_cutoff`, 'and |FC| &gt;', `fc_cutoff`)</a></code>) is used.</p></td>
     </tr>
     <tr>
       <th>colours</th>
@@ -253,10 +247,9 @@ together.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a list of volcano plots. The first three elements contain 
-comparisons between all combinations of the three levels in the comparison 
-factor. The last element in the list is a combined figure for all three 
-plots.</p>
+    <p>Returns a list of ggplot volcano plots. The first three elements 
+contain comparisons between all contrasts. The last element in the list is a 
+combined figure for all three plots.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Lewis, Myles J., et al. (2019).
@@ -268,16 +261,17 @@ treatment response phenotypes.</a>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>syn_data</span>)
-<span class='no'>syn_p_obj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_dep.html'>create_dep</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
-                    <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
-                    <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_pvalues</span>,
-                    <span class='kw'>p_col_suffix</span><span class='kw'>=</span><span class='st'>"pvalue"</span>,
-                    <span class='kw'>fc_col_suffix</span> <span class='kw'>=</span> <span class='st'>"log2FoldChange"</span>,
-                    <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
-                    <span class='kw'>expression</span><span class='kw'>=</span><span class='no'>syn_rld</span>)
-<span class='no'>syn_mod_plots</span> <span class='kw'>&lt;-</span> <span class='fu'>volcano_trio</span>(<span class='kw'>dep</span><span class='kw'>=</span><span class='no'>syn_p_obj</span>)
-
-<span class='no'>syn_mod_plots</span>$<span class='no'>All</span></div><div class='img'><img src='volcano_trio-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>syn_mod_plots</span>$<span class='no'>`Lymphoid-Myeloid`</span></div><div class='output co'>#&gt; NULL</div></pre>
+<span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
+                         <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
+                         <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_pvalues</span>,
+                         <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_rld</span>,
+                         <span class='kw'>p_col_suffix</span> <span class='kw'>=</span> <span class='st'>"pvalue"</span>,
+                         <span class='kw'>fc_col_suffix</span> <span class='kw'>=</span> <span class='st'>"log2FoldChange"</span>,
+                         <span class='kw'>non_sig_name</span> <span class='kw'>=</span> <span class='st'>"Not Significant"</span>,
+                         <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+                         <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
+<span class='no'>syn_volcano_plots</span> <span class='kw'>&lt;-</span> <span class='fu'>volcano_trio</span>(<span class='kw'>polar</span><span class='kw'>=</span><span class='no'>syn_polar</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$cols` is discouraged. Use `cols` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$logFC` is discouraged. Use `logFC` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$pvalue` is discouraged. Use `pvalue` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$cols` is discouraged. Use `cols` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$logFC` is discouraged. Use `logFC` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$pvalue` is discouraged. Use `pvalue` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$cols` is discouraged. Use `cols` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$logFC` is discouraged. Use `logFC` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$pvalue` is discouraged. Use `pvalue` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$cols` is discouraged. Use `cols` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$logFC` is discouraged. Use `logFC` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$pvalue` is discouraged. Use `pvalue` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$cols` is discouraged. Use `cols` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$logFC` is discouraged. Use `logFC` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$pvalue` is discouraged. Use `pvalue` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$cols` is discouraged. Use `cols` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$logFC` is discouraged. Use `logFC` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$pvalue` is discouraged. Use `pvalue` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$cols` is discouraged. Use `cols` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$logFC` is discouraged. Use `logFC` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$pvalue` is discouraged. Use `pvalue` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$cols` is discouraged. Use `cols` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$logFC` is discouraged. Use `logFC` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$pvalue` is discouraged. Use `pvalue` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$cols` is discouraged. Use `cols` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$logFC` is discouraged. Use `logFC` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$pvalue` is discouraged. Use `pvalue` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$cols` is discouraged. Use `cols` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$logFC` is discouraged. Use `logFC` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$pvalue` is discouraged. Use `pvalue` instead.</span></div><div class='input'>
+<span class='no'>syn_volcano_plots</span>$<span class='no'>All</span></div><div class='img'><img src='volcano_trio-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>syn_volcano_plots</span>$<span class='no'>`Lymphoid-Myeloid`</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$cols` is discouraged. Use `cols` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$logFC` is discouraged. Use `logFC` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `toptable$pvalue` is discouraged. Use `pvalue` instead.</span></div><div class='img'><img src='volcano_trio-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

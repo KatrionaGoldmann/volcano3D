@@ -124,7 +124,7 @@ This vignette will demonstrate the power of this package using a basic example
 from the [PEAC data set](http://www.peac-mrc.mds.qmul.ac.uk). Here we will focus
 on the synovial data from this cohort.
 
-## 1. Synovial Gene Data
+## Synovial Gene Data
 
 First we will set up a polar object, using the polar_coords function, which
 contains:
@@ -137,61 +137,33 @@ groups.
 
 To create the polar coordinates you must provide:
 
-* `sampledata`: A data frame containing the sample information. This must
-contain:
-  * an `ID` column: Containing the sample IDs. This must be titled 'ID'.
-  * a `contrast` column: A column containing the three-level factor used for
-contrasts.
-* `contrast`: The column name in `sampledata` which contains the three-level
-factor used for contrast.
-* `pvalues`: A data frame containing:
-  * three pvalue columns: one for each comparison between groups (column names
-of format `paste0(groups[i], "-", groups[j], " ", p_col_suffix)`). We
-recommend using [limma](https://www.bioconductor.org/packages/devel/workflows/
-vignettes/RNAseq123/inst/doc/limmaWorkflow.html) or
-[DESeq](http://bioconductor.org/packages/release/bioc/vignettes/DESeq/inst/doc/
-DESeq.pdf) pipelines to calculate these pvalues for gene expression.
-  * _optional_ fold change columns one for each comparison between groups
-(column names of format `paste0(groups[i], "-", groups[j], " ",
-fc_col_suffix)`)
-  * _optional_ adjusted pvalue columns one for each comparison between groups
-(column names of format `paste0(groups[i], "-", groups[j], " ",
-padj_col_suffix)`)
-  * an _optional_ multi-group pvalue column: from a multi-group test (column
-names of form `paste(multi_group_prefix, p_col_suffix)`). This is typically
-generated using ANOVA or likelihood ratio tests between all three groups.
-  * three _optional_ fold change columns: one for each comparison between groups
-(column names of form `paste0(groups[i], "-", groups[j], " ", fcColSuffix)`)
-  * an _optional_ multi-group fold change column: from a multi-group test
-(column names of form `paste(multi_group_prefix, fc_col_suffix)`). This is
-typically generated using ANOVA or likelihood ratio tests comparing all
-three groups.
-  * three _optional_ adjusted pvalue columns: one for each comparison between
-groups (column names of form `paste0(groups[i], "-", groups[j], " ",
-padj_col_suffix)`)
-  * an _optional_ multi-group adjusted pvalue column: from a multi-group test
-(column names of form `paste(multiGroupPrefix, padjColSuffix)`). This is
-typically generated using ANOVA or likelihood ratio tests comparing all
-three groups.
+| <span style="color:maroon">Dataframe</span> | <span style="color:maroon">Column(s) </span>                               | <span style="color:maroon">Purpose  </span>                                                                                                                                                                                                       |   |
+|------------|------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---|
+| sampledata | ID                                       | Contains the sample IDs. This must be titled 'ID'.                                                                                                                                                              |   |
+|            | contrast                                 | A column containing the three-level factor used for contrasts. This column name must match the contrast variable                                                                                                |   |
+| pvalues    | pvalue                                   | Three pvalues columns with the differential expression between groups.  Column names are of format `paste0(groups[i], "-", groups[j], " ", p_col_suffix)`                                                       |   |
+|            | fold change _(optional, x3)_             | Three optional fold change columns. One for each comparison between groups. Column names are of format `paste0(groups[i], "-", groups[j], " ", fc_col_suffix)`.                                                 |   |
+|            | adjusted pvalue _(optional, x3)_         | Three optional adjusted pvalue columns. One for each comparison between groups. Column names are of format `paste0(groups[i], "-", groups[j], " ", padj_col_suffix)`.                                           |   |
+|            | multi-group pvalue _(optional)_          | An optional multi-group pvalue column. This is typically generated using ANOVA or likelihood ratio tests between all three groups.  Column names of form `paste(multi_group_prefix, p_col_suffix)`             |   |
+|            | multi-group fold change _(optional)_     | An optional multi-group fold change column. This is typically generated using ANOVA or likelihood ratio tests between all three groups.  Column names of form `paste(multi_group_prefix, fc_col_suffix)`       |   |
+|            | multi-group adjusted pvalue _(optional)_ | An optional multi-group adjusted pvalue column. This is typically generated using ANOVA or likelihood ratio tests between all three groups.  Column names of form `paste(multi_group_prefix, padj_col_suffix)` |   |
+|            | label _(optional)_ | An optional character column with probe labels for downstream plotting.  |   |
 
-with optional:
+with additional arguments:
 
-* `groups`: The groups to be compared (in order). If NULL this defaults to
-`levels(sampledata[, 'contrasts'])`.
-* `p_col_suffix`: The suffix of column names with pvalues (default is 'pvalue').
-* `padj_col_suffix`: The suffix of column names with adjusted pvalues (default
-is 'padj'). If NULL the adjusted pvalue is calculated using `p_col_suffix` and
-pvalue_method.
-* `padjust_method`: The method to calculate adjusted pvalues if not already
-provided. Must be one of c('holm', 'hochberg', 'hommel', 'bonferroni', 'BH',
-'BY', 'fdr', 'none'). Default is 'BH'.
-* `fc_col_suffix`: The suffix of column names with log(fold change) values
-(default is 'logFC').
-* `multi_group_prefix`: The prefix for columns containing statistics for a
-multi-group test (this is typically a likelihood ratio test or ANOVA). Default
-is NULL.
-* `label_column`: A column name in pvalues which is to be used to label markers
-of interest at plotting stage. If NULL the rownames will be used.
+| <span style="color:maroon">Variable </span>          | <span style="color:maroon">Purpose </span>                                                                                                                                                                    |
+|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| contrast           | The column name in sampledata which contains the variable by which samples can be split into three groups.                                                                  |
+| groups _(optional)_            | The groups to be compared (in order). If NULL this defaults to levels(sampledata[, 'contrasts'])`.                                                                          |
+| p_col_suffix _(optional)_      | The suffix of column names with pvalues (default is 'pvalue').                                                                                                              |
+| padj_col_suffix _(optional)_   | The suffix of column names with adjusted pvalues (defaults 'padj').  If NULL the adjusted pvalue is calculated using p_col_suffix and padjust_method.                       |
+| padjust_method  _(optional)_   | The method to calculate adjusted pvalues if not already provided. Must be one of  c('holm', 'hochberg', 'hommel', 'bonferroni', 'BH', BY', 'fdr', 'none'). Default is 'BH'. |
+| fc_col_suffix _(optional)_     | The suffix of column names with log(fold change) values default is 'logFC').                                                                                                |
+| multi_group_prefix _(optional)_| The prefix for columns containing statistics for a multi-group test  (this is typically a likelihood ratio test or ANOVA). Default is NULL.                                 |
+| label_column _(optional)_      | A column name in pvalues which is to be used to label markers of interest at plotting stage.  If NULL the rownames will be used.                                            |
+
+A vignette with examples to calculate the pvalues dataframes can be found in the
+[pvalues vignette](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html). 
 
 Using the synovial biopsies from PEAC we can create a polar object for
 differentially expressed genes. First we will install the volcano3Ddata package
@@ -296,26 +268,17 @@ radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "PARP16", "ITM2C"))
 By hovering over certain point you can also determine genes for
 future interrogation.
 
-Similarly we can create a static ggplot image using radial_ggplot:
-
-```{r, fig.height=5}
-radial_ggplot(polar = syn_polar,
-              label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-              marker_size = 2.3,
-              legend_size = 10)
-```
-
-Alternatively a continuous colour scale can be produced by converting the angle
+Similarly we can create a static ggplot image using radial_ggplot. We can also 
+convert to a continuous colour scale by converting the angle
 to a hsv variable. This angle can be offset by `continuous_shift`.
 
-```{r}
+```{r,  fig.height=5}
 radial_ggplot(polar = syn_polar,
               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
               marker_size = 2.3,
               marker_alpha=0.3,
               colour_scale = "continuous",
-              continuous_shift=120,
-              legend_size = 10)
+              continuous_shift=120)
 ```
 
 
@@ -325,40 +288,30 @@ We can then interrogate any one specific variable as a boxplot, to investigate
 these differences. This is build using ggplot2 so can easily be edited by the
 user to add features.
 
-```{r, fig.height = 2.8}
+```{r, fig.height = 2.8, fig.width=7.5}
 plot1 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
                       test = "polar_padj",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       box_colours = c("blue", "red", "green3"),
                       step_increase = 0.1) +
-  labs(title="Adjusted Pvalues bewteen SLAMF6 Expression")
+  labs(title="Adjusted Pvalues")
 
 plot2 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
                       test = "polar_multi_padj",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       box_colours = c("blue", "red", "green3")) +
-  labs(title="Significance bewteen SLAMF6 Expression")
+  labs(title="Overall Adjusted Pvalue")
 
 plot3 <- boxplot_trio(syn_polar,
                       value = "PARP16",
                       test = "t.test",
                       levels_order = c("Myeloid", "Fibroid"),
                       box_colours = c("red", "green3")) +
-  labs(title="T-test Pvalues bewteen PARP16 Expression")
+  labs(title="T-test")
 
-plot4 <- boxplot_trio(syn_polar,
-                      value = "ITM2C",
-                      test = "wilcox.test",
-                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                      my_comparisons = list(c("Lymphoid", "Myeloid"),
-                                            c("Myeloid", "Fibroid")),
-                      box_colours = c("blue", "red", "green3"),
-                      step_increase = 0.1) +
-  labs(title="Wilcox Pvalues bewteen ITM2C Expression")
-
-ggarrange(plot1, plot2, plot3, plot4, ncol = 4)
+ggarrange(plot1, plot2, plot3, ncol = 3)
 ```
 
 ### Three Dimensional Volcano Plots
@@ -407,13 +360,6 @@ four_grid = polar_grid(r_vector=syn_polar@polar$r_zscore,
                        r_axis_ticks = NULL,
                        z_axis_ticks = c(0, 8, 16, 32),
                        n_spokes = 4)
-
-volcano3D(syn_polar,
-          grid = four_grid,
-          label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-          label_size = 10,
-          xy_aspectratio = 1,
-          z_aspectratio = 0.9) %>% layout(legend = list(x = 100, y = 0.5))
 ```
 
 similarly to extend the radial axis and increasing the number of spokes in 2D
@@ -425,11 +371,6 @@ new_grid = polar_grid(r_vector=NULL,
                         r_axis_ticks = c(1, 2, 3),
                         z_axis_ticks = NULL,
                         n_spokes = 24)
-
-radial_ggplot(polar = syn_polar,
-              grid = new_grid,
-              marker_size = 2.3,
-              legend_size = 10)
 ```
 
 ### Altering the Labels
@@ -442,110 +383,94 @@ syn_polar@polar$label <- paste0(syn_polar@polar$label, "!")
 
 radial_ggplot(polar = syn_polar,
               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
+              grid = new_grid,
               marker_size = 2.3,
-              legend_size = 10)
+              legend_size = 10) + 
+  theme(legend.position=c(1.1, 1))
 ```
 
-## 2. Synovial Modular Data
+<!-- ## 2. Synovial Modular Data -->
 
-We can then collapse this into a modular analysis using a list of gene sets.
-In this example we have used the blood transcript modules curated by Li et. al.
-in ['Li, S., Rouphael, N., Duraisingham, S., Romero-Steiner, S., Presnell, S.,
-Davis, C., ... & Kasturi, S. (2014). Molecular signatures of antibody responses
-derived from a systems biology study of five human vaccines. Nature immunology,
-15(2), 195.'](https://www.nature.com/ni/journal/v15/n2/abs/ni.2789.html). The
-pvalues were generated using
-[QuSAGE methodology](http://clip.med.yale.edu/qusage/).
+<!-- We can then collapse this into a modular analysis using a list of gene sets. -->
+<!-- In this example we have used the blood transcript modules curated by Li et. al. -->
+<!-- in ['Li, S., Rouphael, N., Duraisingham, S., Romero-Steiner, S., Presnell, S., -->
+<!-- Davis, C., ... & Kasturi, S. (2014). Molecular signatures of antibody responses -->
+<!-- derived from a systems biology study of five human vaccines. Nature immunology, -->
+<!-- 15(2), 195.'](https://www.nature.com/ni/journal/v15/n2/abs/ni.2789.html). The -->
+<!-- pvalues were generated using -->
+<!-- [QuSAGE methodology](http://clip.med.yale.edu/qusage/). -->
 
-### Creating polar coordinates
+<!-- ### Creating polar coordinates -->
 
-```{r}
-data(Li_pvalues)
+<!-- ```{r} -->
+<!-- data(Li_pvalues) -->
 
-syn_mod_polar <- polar_coords(sampledata = syn_metadata,
-                           contrast = "Pathotype",
-                           pvalues = syn_mod_pvalues,
-                           p_col_suffix = "p.value",
-                           padj_col_suffix = "q.value",
-                           fc_col_suffix = "logFC",
-                           multi_group_prefix = NULL,
-                           expression = syn_mod,
-                           significance_cutoff = 0.01,
-                           fc_cutoff = 0.1
-                           )
-```
-
-
-### Volcano Plots
-
-We can now investigate the comparisons between pathotypes using the
-volcano_trio function.
-
-```{r, message = FALSE, fig.height = 2.8}
-syn_mod_plots <- volcano_trio(polar = syn_mod_polar,
-                              label_rows = c("M156.0", "M37.2"),
-                              shared_legend_size = 1,
-                              sig_names = c("Not Sig",
-                                            paste("Padj <", 0.05),
-                                            paste("|FC| >", 1),
-                                            paste("Padj <", 0.05,
-                                                  "&\n|FC| >", 1)))
-
-syn_mod_plots$All
-```
-
-### Radial Plots
+<!-- syn_mod_polar <- polar_coords(sampledata = syn_metadata, -->
+<!--                            contrast = "Pathotype", -->
+<!--                            pvalues = syn_mod_pvalues, -->
+<!--                            p_col_suffix = "p.value", -->
+<!--                            padj_col_suffix = "q.value", -->
+<!--                            fc_col_suffix = "logFC", -->
+<!--                            multi_group_prefix = NULL, -->
+<!--                            expression = syn_mod, -->
+<!--                            significance_cutoff = 0.01, -->
+<!--                            fc_cutoff = 0.1 -->
+<!--                            ) -->
+<!-- ``` -->
 
 
-```{r, warning = FALSE, message = FALSE, out.height = "100%"}
-radial_plotly(polar = syn_mod_polar,
-              colours = c("Fibroid+"="green3",
-                          "Fibroid+Myeloid+"="gold2",
-                          "Lymphoid+"="blue",
-                          "Lymphoid+Myeloid+"="purple",
-                          "Myeloid+"="red"),
-              label_rows = c("M156.0", "M37.2")) %>%
-  layout(width = 650, height = 650)
-```
+<!-- ### Volcano Plots -->
 
-Or a ggplot static image using radial_ggplot:
+<!-- We can now investigate the comparisons between pathotypes using the -->
+<!-- volcano_trio function. -->
 
-```{r, warning = FALSE, fig.height = 5}
-radial_ggplot(polar = syn_mod_polar,
-              label_rows = c("M156.0", "M37.2"),
-              colours = c("Fibroid+"="green3",
-                          "Fibroid+Myeloid+"="gold2",
-                          "Lymphoid+"="blue",
-                          "Lymphoid+Myeloid+"="purple",
-                          "Myeloid+"="red"),
-              marker_size = 2.7,
-              label_size = 5,
-              axis_lab_size = 3,
-              axis_title_size = 5,
-              legend_size = 10) +
-  theme(legend.position = "right")
-```
+<!-- ```{r, message = FALSE, fig.height = 2.8} -->
+<!-- syn_mod_plots <- volcano_trio(polar = syn_mod_polar, -->
+<!--                               label_rows = c("M156.0", "M37.2"), -->
+<!--                               shared_legend_size = 1, -->
+<!--                               sig_names = c("Not Sig", -->
+<!--                                             paste("Padj <", 0.05), -->
+<!--                                             paste("|FC| >", 1), -->
+<!--                                             paste("Padj <", 0.05, -->
+<!--                                                   "&\n|FC| >", 1))) -->
 
-### Boxplots
+<!-- syn_mod_plots$All -->
+<!-- ``` -->
 
-We can then interrogate any one specific variable as a boxplot, to investigate
-these differences.
+<!-- ### Radial Plots -->
 
-```{r, fig.height = 2.8, fig.width=5}
-plot1 <- boxplot_trio(syn_mod_polar,
-                     value = "M156.0",
-                     test = "wilcox.test",
-                     levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                     box_colours = c("blue", "red", "green3"))
 
-plot2 <- boxplot_trio(syn_mod_polar,
-                     value = "M37.2",
-                     test = "wilcox.test",
-                     levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                     box_colours = c("blue", "red", "green3"))
+<!-- ```{r, warning = FALSE, message = FALSE, out.height = "100%"} -->
+<!-- radial_plotly(polar = syn_mod_polar, -->
+<!--               colours = c("Fibroid+"="green3", -->
+<!--                           "Fibroid+Myeloid+"="gold2", -->
+<!--                           "Lymphoid+"="blue", -->
+<!--                           "Lymphoid+Myeloid+"="purple", -->
+<!--                           "Myeloid+"="red"), -->
+<!--               label_rows = c("M156.0", "M37.2")) %>% -->
+<!--   layout(width = 650, height = 650) -->
+<!-- ``` -->
 
-ggarrange(plot1, plot2)
-```
+<!-- ### Boxplots -->
+
+<!-- We can then interrogate any one specific variable as a boxplot, to investigate -->
+<!-- these differences. -->
+
+<!-- ```{r, fig.height = 2.8, fig.width=5} -->
+<!-- plot1 <- boxplot_trio(syn_mod_polar, -->
+<!--                      value = "M156.0", -->
+<!--                      test = "wilcox.test", -->
+<!--                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"), -->
+<!--                      box_colours = c("blue", "red", "green3")) -->
+
+<!-- plot2 <- boxplot_trio(syn_mod_polar, -->
+<!--                      value = "M37.2", -->
+<!--                      test = "wilcox.test", -->
+<!--                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"), -->
+<!--                      box_colours = c("blue", "red", "green3")) -->
+
+<!-- ggarrange(plot1, plot2) -->
+<!-- ``` -->
 
 ---
 

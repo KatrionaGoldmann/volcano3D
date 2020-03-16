@@ -33,7 +33,8 @@
 #' @param ... Other parameters for \code{\link[ggpubr]{stat_compare_means}}
 #' @return Returns a ggplot boxplot featuring the differential expression 
 #' between groups in comparison with annotated pvalues. 
-#' @importFrom ggpubr ggboxplot stat_pvalue_manual
+#' @importFrom ggpubr ggboxplot stat_pvalue_manual stat_compare_means 
+#' compare_means
 #' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate 
 #' geom_point scale_color_manual aes geom_jitter
 #' @importFrom utils combn

@@ -67,19 +67,21 @@ setClass("grid", slots = list(
 #' @examples
 #' library(volcano3Ddata)
 #' data(syn_data)
-#' syn_p_obj <- create_dep(sampledata = syn_metadata, 
-#'                     contrast = "Pathotype", 
-#'                     pvalues = syn_pvalues,
-#'                     p_col_suffix = "pvalue", 
-#'                     fc_col_suffix = "log2FoldChange",
-#'                     multi_group_prefix = "LRT", 
-#'                     expression = syn_rld)
+#' syn_polar <- polar_coords(sampledata = syn_metadata,
+#'                           contrast = "Pathotype",
+#'                           pvalues = syn_pvalues, 
+#'                           expression = syn_rld, 
+#'                           p_col_suffix = "pvalue", 
+#'                           padj_col_suffix = "padj", 
+#'                           non_sig_name = "Not Significant", 
+#'                           significance_cutoff = 0.01, 
+#'                           fc_cutoff = 0.3)
 #'                     
-#' polar_grid(r_vector=syn_polar@polar$r_zscore,
-#'            z_vector=NULL,
-#'            r_axis_ticks = NULL,
-#'            z_axis_ticks = c(0, 8, 16, 32),
-#'            n_spokes = 4)
+#' grid <- polar_grid(r_vector=syn_polar@polar$r_zscore,
+#'                    z_vector=NULL,
+#'                    r_axis_ticks = NULL,
+#'                    z_axis_ticks = c(0, 8, 16, 32),
+#'                    n_spokes = 4)
 
 polar_grid <- function(r_vector = NULL,
                        z_vector = NULL,
@@ -185,14 +187,14 @@ polar_grid <- function(r_vector = NULL,
   
   
   methods::new("grid",
-              polar_grid = polar_grid,
-              axes = axes,
-              axis_labs = axis_labs,
-              r = max(r_breaks),
-              z = mz,
-              text_coords = text_coords,
-              n_r_breaks = n_r_breaks,
-              n_z_breaks = n_z_breaks, 
-              r_breaks = r_breaks[2:length(r_breaks)],
-              z_breaks = z_breaks[2:length(z_breaks)])
+               polar_grid = polar_grid,
+               axes = axes,
+               axis_labs = axis_labs,
+               r = max(r_breaks),
+               z = mz,
+               text_coords = text_coords,
+               n_r_breaks = n_r_breaks,
+               n_z_breaks = n_z_breaks, 
+               r_breaks = r_breaks[2:length(r_breaks)],
+               z_breaks = z_breaks[2:length(z_breaks)])
 }

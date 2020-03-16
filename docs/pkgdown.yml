@@ -3,4 +3,5 @@ pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
   Vignette: Vignette.html
+  pvalues_generator: pvalues_generator.html
 

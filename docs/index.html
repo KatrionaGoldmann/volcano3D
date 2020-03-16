@@ -46,7 +46,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
       </span>
     </div>
 
@@ -61,20 +61,23 @@
 <li>
   <a href="reference/index.html">Manual</a>
 </li>
-<li>
-  <a href="articles/Vignette.html">Vignette</a>
-</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    News
+    Vignettes
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="news/index.html">News</a>
+      <a href="articles/Vignette.html">Vignette</a>
+    </li>
+    <li>
+      <a href="articles/pvalues_generator.html">Creating Pvalues</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="news/index.html">News</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -128,7 +131,7 @@
 <h3 class="hasAnchor">
 <a href="#install-from-github" class="anchor"></a>Install from Github</h3>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(devtools)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(volcano3D)</a></code></pre></div>
 </div>
 <div id="volcano3d-data" class="section level3">
@@ -141,7 +144,7 @@
 <div id="citation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
-<p>volcano3D was developed by the bioinforamtics team at the <a href="https://www.qmul.ac.uk/whri/emr/">Experimental Medicine &amp; Rheumatology department</a> and <a href="https://www.qmul.ac.uk/c4tb/">Centre for Translational Bioinformatics</a> at Queen Mary University London.</p>
+<p>volcano3D was developed by the bioinformatics team at the <a href="https://www.qmul.ac.uk/whri/emr/">Experimental Medicine &amp; Rheumatology department</a> and <a href="https://www.qmul.ac.uk/c4tb/">Centre for Translational Bioinformatics</a> at Queen Mary University London.</p>
 <p>If you use this package please cite as:</p>
 <blockquote>
 <p>Lewis, Myles J., et al. “Molecular portraits of early rheumatoid arthritis identify clinical and treatment response phenotypes.” Cell reports 28.9 (2019): 2455-2470.</p>
@@ -154,7 +157,7 @@
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">## </span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">##   Katriona Goldmann and Myles Lewis (2020). volcano3D: Interactive</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">##   Plotting of Three-Way Differential Expression Analysis. R package</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">##   version 0.1.0.9000. https://github.com/KatrionaGoldmann/volcano3D</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">##   version 1.0.0.9000. https://github.com/KatrionaGoldmann/volcano3D</span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">## </span></a>
 <a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">## A BibTeX entry for LaTeX users is</span></a>
 <a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">## </span></a>
@@ -163,7 +166,7 @@
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">## Analysis},</span></a>
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">##     author = {Katriona Goldmann and Myles Lewis},</span></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">##     year = {2020},</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">##     note = {R package version 0.1.0.9000},</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">##     note = {R package version 1.0.0.9000},</span></a>
 <a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">##     url = {https://github.com/KatrionaGoldmann/volcano3D},</span></a>
 <a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">##   }</span></a></code></pre></div>
 </div>
@@ -200,6 +203,7 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
+<li><a href="http://hits.dwyl.com/KatrionaGoldmann/volcano3D"><img src="http://hits.dwyl.com/KatrionaGoldmann/volcano3D.svg" alt="HitCount"></a></li>
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 <li><a href="https://cran.r-project.org/package=volcano3D"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a></li>
 <li><a href="https://codecov.io/gh/r-lib/volcano3D?branch=master"><img src="https://codecov.io/gh/r-lib/volcano3D/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
