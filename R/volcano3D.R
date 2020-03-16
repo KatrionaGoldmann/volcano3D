@@ -2,29 +2,28 @@
 #'
 #' Plots the pvalues from three-way comparisons in 3D space using plotly.
 #' @param polar A polar object with created by \code{\link{polar_coords}}.
-#' @param grid Optional grid list output by \code{\link{polar_grid}}. If 
-#' NULL this will be calculated. 
-#' @param fc_or_zscore whether to use fold change or z-score for the p-values 
-#' (default = 'zscore').
-#' @param label_rows character vector of rows (names or indices) to label.
-#' @param label_size font size for labels (default = 14).
-#' @param colours The named vector of colours for the groups. If NULL colours
-#' will be assigned as c("green3", "cyan", "gold2", "blue", "purple" "red")
+#' @param colours A named vector of colours for the groups. If NULL colours
+#' will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
+#' unnamed colours will be assigned in polar@polar$sig level order. 
 #' @param non_sig_colour The colour for non-significant markers according to 
-#' fold change.
-#' @param colour_scale whether to use a "discrete" or "continuous" colour scale 
-#' (default = "discrete").
+#' fold change (default='grey60').
+#' @param colour_scale whether to use a 'discrete' or 'continuous' colour scale 
+#' (default = 'discrete').
 #' @param continuous_shift the number of degrees (between 0 and 360) 
 #' corresponding to the angle to offset the continuous colour scale by. The 
-#' continuous colour scale is calculated by converting the angle to hue where 0 
-#' degrees corresponds to red and 360 degrees to magenta (default = 120). 
+#' continuous colour scale is calculated by converting the angle to hue where 
+#' @param label_rows A vector of row names or numbers to label.
+#' @param grid An optional grid object. If NULL this will be calculated using 
+#' default values of  \code{\link{polar_grid}}. 
+#' @param fc_or_zscore whether to use fold change or z-score for the p-values 
+#' (default = 'zscore').
+#' @param label_size font size for labels (default = 14).
 #' @param axis_angle Angle in radians for the z axis (default = 0.5). 
 #' @param z_aspectratio The aspect ratio for the z axis compared to x and y 
 #' (default = 1). Decreasing this makes the plot appear more squat. 
 #' @param xy_aspectratio The aspect ratio for the xy axis compared to z
 #' (default = 1). Decreasing this makes the grid wider in the plot window. 
-#' @param ... Optional parameters to pass to \code{\link[base]{polar_drid}} or 
-#' \code{\link[base]{pretty}} to define the radial axis ticks.
+#' @param ... Optional parameters to pass to \code{\link[base]{polar_grid}}.
 #' @return Returns a cylindrical 3D plotly plot featuring variables on a 
 #' tri-axis radial graph with the -log10(multi-group test p-value) on the 
 #' z-axis
@@ -56,14 +55,14 @@
 
 
 volcano3D <- function(polar,
-                      fc_or_zscore = "zscore",
                       colours=NULL, 
-                      non_sig_colour = "grey",
-                      grid = NULL, 
-                      label_rows = c(),
-                      label_size = 14,
+                      non_sig_colour = "grey60",
                       colour_scale = "discrete",
                       continuous_shift = 120, 
+                      label_rows = c(),
+                      grid = NULL, 
+                      fc_or_zscore = "zscore",
+                      label_size = 14,
                       axis_angle = 0.5, 
                       z_aspectratio = 1, 
                       xy_aspectratio = 1, 
@@ -72,7 +71,7 @@ volcano3D <- function(polar,
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
     polar_df <- polar@polar
     
-    if(class(try(col2rgb(non_sig_colour),silent = TRUE)) == "try-error") {
+    if(class(try(col2rgb(non_sig_colour), silent = TRUE)) == "try-error") {
         stop('non_sig_colour must be a valid colour')
         
     }
@@ -136,14 +135,14 @@ volcano3D <- function(polar,
                            r_axis_ticks = NULL, 
                            z_axis_ticks = NULL, 
                            ...)
-    }
+    } else { if(class(grid) != "grid") stop('grid must be a grid object')}
     
-    polar_grid <- grid$polar_grid
-    axes <- grid$axes
-    axis_labels <- grid$axis_labs
+    polar_grid <- grid@polar_grid
+    axes <- grid@axes
+    axis_labels <- grid@axis_labs
     
-    h <- as.numeric(grid$z)
-    R <- as.numeric(grid$r)
+    h <- as.numeric(grid@z)
+    R <- as.numeric(grid@r)
     
     axis_settings <- list(title = "", zeroline = FALSE, showline = FALSE, 
                           showticklabels = FALSE, showgrid = FALSE, 
@@ -184,7 +183,7 @@ volcano3D <- function(polar,
         })
     } else {annot <- list()}
     
-    axis_settings_xy[['range']] <- c(-1*(grid$r+1), grid$r+1)
+    axis_settings_xy[['range']] <- c(-1*(grid@r+1), grid@r+1)
     
     plot_ly(data = volcano_toptable, x = ~x, y = ~y, z = ~logP,
             marker = list(size = 2.6), 
@@ -218,12 +217,12 @@ volcano3D <- function(polar,
                  textfont = list(size = 16),textposition = 'middle center', 
                  hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
         # label z axis
-        add_text(x = c(rep(1.05*R*sinpi(axis_angle), grid$n_z_breaks), 
+        add_text(x = c(rep(1.05*R*sinpi(axis_angle), grid@n_z_breaks), 
                        1.2*R*sinpi(axis_angle)),
-                 y = c(rep(1.05*R*cospi(axis_angle), grid$n_z_breaks), 
+                 y = c(rep(1.05*R*cospi(axis_angle), grid@n_z_breaks), 
                        1.2*R*cospi(axis_angle)),
-                 z = c(grid$z_breaks, h/2)*0.95,
-                 text = c(grid$z_breaks, '-log<sub>10</sub>P'),
+                 z = c(grid@z_breaks, h/2)*0.95,
+                 text = c(grid@z_breaks, '-log<sub>10</sub>P'),
                  textposition = 'middle left', textfont = list(size = 10),  
                  color = I("black"), hoverinfo = 'none', showlegend = FALSE, 
                  inherit = FALSE) %>%
@@ -234,8 +233,8 @@ volcano3D <- function(polar,
                   hoverinfo = "none", inherit = FALSE) %>%
         
         # label radial axis
-        add_text(x = grid$text_coords$x, y = grid$text_coords$y, z = 0.05,
-                 text = grid$text_coords$text, textposition = 'top center', 
+        add_text(x = grid@text_coords$x, y = grid@text_coords$y, z = 0.05,
+                 text = grid@text_coords$text, textposition = 'top center', 
                  textfont = list(size = 10), color = I("black"), 
                  hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
         

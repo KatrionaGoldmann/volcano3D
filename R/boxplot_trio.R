@@ -10,19 +10,19 @@
 #' (default = c('blue', 'red', 'green3') ).
 #' @param test The statistical test used to compare expression. 
 #' Allowed values include: \itemize{
-#'  \item \code{polar_pvalue} (default) and \code{polar_padj} for the pvalues 
+#'  \item \code{polar_pvalue} (default) and 'polar_padj' for the pvalues 
 #'  and adjusted pvalues in the polar object. 
 #'  \item \code{polar_multi_pvalue} and \code{polar_multi_padj} for the pvalues 
-#'  and adjusted pvalues accross all groups using the 
+#'  and adjusted pvalues across all groups using the 
 #'  \code{polar@multi_group_test } columns. 
 #'  \item \code{\link[stats]{t.test}} (parametric) and
 #'  \code{\link[stats]{wilcox.test}} (non-parametric). Perform comparison
-#'  between roups of samples. 
+#'  between groups of samples. 
 #'  \item \code{\link[stats]{anova}} (parametric) and 
 #'  \code{\link[stats]{kruskal.test}} (non-parametric). Perform one-way ANOVA
 #'  test comparing multiple groups. }
 #' @param levels_order A character vector stating the contrast groups to be 
-#' plotted in order
+#' plotted, in order.
 #' @param my_comparisons A list of contrasts to pass to 
 #' \code{\link[ggpubr]{stat_compare_means}}. If NULL (default) all contrast 
 #' pvalues are calculated and plotted. 
@@ -50,13 +50,11 @@
 #' data(syn_data) 
 #' syn_polar <- polar_coords(sampledata = syn_metadata,
 #'                          contrast = "Pathotype", 
-#'                          groups = NULL, 
 #'                          pvalues = syn_pvalues, 
 #'                          expression = syn_rld, 
 #'                          p_col_suffix = "pvalue", 
 #'                          padj_col_suffix = "padj", 
 #'                          non_sig_name = "Not Significant", 
-#'                          multi_group_prefix = "LRT",
 #'                          significance_cutoff = 0.01, 
 #'                          fc_cutoff = 0.3)
 #'                          
@@ -192,7 +190,7 @@ boxplot_trio <- function(polar,
         pvals <- data.frame(t(pvals))
         pvals_sc$new_p <- pvals[match(pvals_sc$comp, rownames(pvals)), 1]
         pvals_sc$new_p_label <- format(pvals_sc$new_p, digits = 2)
-        pvals_sc$y.position <- max(df$row, na.rm=T)
+        pvals_sc$y.position <- max(df$row, na.rm=TRUE)
         
         p <- p + stat_pvalue_manual(
             data = pvals_sc, label = "new_p_label",
@@ -212,4 +210,5 @@ boxplot_trio <- function(polar,
         
     } 
     
+    return(p)
 }

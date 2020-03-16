@@ -19,8 +19,7 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5)
 Imports: ggplot2, plotly, ggpubr, ggrepel, methods
-BiocViews: GeneExpressionWorkflow, Visualization
-Suggests: knitr, kableExtra, volcano3Ddata
+Suggests: knitr, kableExtra, volcano3Ddata, testthat, stats
 Additional_repositories: http://KatrionaGoldmann.github.io/volcano3Ddata
 VignetteBuilder: knitr
 RoxygenNote: 7.0.2

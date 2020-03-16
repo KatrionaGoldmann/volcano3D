@@ -121,12 +121,12 @@ Variables used in this vignette:
 # Examples
 
 This vignette will demonstrate the power of this package using a basic example
-from the [PEAC data set](http://www.peac-mrc.mds.qmul.ac.uk). Here we will focus 
-on the synovial data from this cohort. 
+from the [PEAC data set](http://www.peac-mrc.mds.qmul.ac.uk). Here we will focus
+on the synovial data from this cohort.
 
 ## 1. Synovial Gene Data
 
-First we will set up a polar object, using the polar_coords function, which 
+First we will set up a polar object, using the polar_coords function, which
 contains:
 
 1. the expression data with columns representing different samples and rows
@@ -134,8 +134,6 @@ representing different variables
 2. the sample data which contains information for each sample in rows.
 3. the pvalues which contains the statistical significance of probes between
 groups.
-4. the polar coordinates to plot the differentially expressed data. 
-
 
 To create the polar coordinates you must provide:
 
@@ -193,7 +191,7 @@ provided. Must be one of c('holm', 'hochberg', 'hommel', 'bonferroni', 'BH',
 multi-group test (this is typically a likelihood ratio test or ANOVA). Default
 is NULL.
 * `label_column`: A column name in pvalues which is to be used to label markers
-of interestt at plotting stage. If NULL the rownames will be used. 
+of interest at plotting stage. If NULL the rownames will be used.
 
 Using the synovial biopsies from PEAC we can create a polar object for
 differentially expressed genes. First we will install the volcano3Ddata package
@@ -223,8 +221,8 @@ syn_polar <- polar_coords(sampledata = syn_metadata,
                           fc_cutoff = 0.1)
 ```
 
-The pvalues slot should have at least two statistics for each comparison - 
-pvalue and adjusted pvalue with an optional logarithmic fold change statistic 
+The pvalues slot should have at least two statistics for each comparison -
+pvalue and adjusted pvalue with an optional logarithmic fold change statistic
 also:
 
 ```{r, eval=FALSE}
@@ -243,13 +241,13 @@ indicates which pathotypes are significantly 'up' compared to others. For
 example:
 
 * genes labelled 'Lymphoid+' are significantly up in Lymphoid vs
-Myeloid **and** Lymphoid vs Fibroid. 
+Myeloid **and** Lymphoid vs Fibroid.
 
 * genes up in two pathotypes such as 'Lymphoid+Myeloid+' are up in both
 Lymphoid **and** Myeloid, therefore Lymphoid vs
-Fibroid and Myeloid vs Fibroid are statistically significant. 
+Fibroid and Myeloid vs Fibroid are statistically significant.
 
-* genes which show no significant difference between pathotypes are classed 
+* genes which show no significant difference between pathotypes are classed
 according to `non_sig_name`
 
 
@@ -292,8 +290,7 @@ These can be output to an interactive radar plot using radial_plotly. The
 `labelRows` variable allows any markers of interest to be labelled.
 
 ```{r, warning = FALSE, message = FALSE, out.height = "100%"}
-radial_plotly(polar = syn_polar,
-              label_rows = c("SLAMF6", "PARP16", "ITM2C"))
+radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "PARP16", "ITM2C"))
 ```
 
 By hovering over certain point you can also determine genes for
@@ -315,7 +312,7 @@ to a hsv variable. This angle can be offset by `continuous_shift`.
 radial_ggplot(polar = syn_polar,
               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
               marker_size = 2.3,
-              marker_alpha=0.3, 
+              marker_alpha=0.3,
               colour_scale = "continuous",
               continuous_shift=120,
               legend_size = 10)
@@ -331,25 +328,37 @@ user to add features.
 ```{r, fig.height = 2.8}
 plot1 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
-                      test = "wilcox.test",
+                      test = "polar_padj",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                      box_colours = c("blue", "red", "green3"))
+                      box_colours = c("blue", "red", "green3"),
+                      step_increase = 0.1) +
+  labs(title="Adjusted Pvalues bewteen SLAMF6 Expression")
 
 plot2 <- boxplot_trio(syn_polar,
-                      value = "PARP16",
-                      test = "wilcox.test",
-                      levels_order = c("Myeloid", "Fibroid"),
-                      box_colours = c("red", "green3"))
+                      value = "SLAMF6",
+                      test = "polar_multi_padj",
+                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
+                      box_colours = c("blue", "red", "green3")) +
+  labs(title="Significance bewteen SLAMF6 Expression")
 
 plot3 <- boxplot_trio(syn_polar,
+                      value = "PARP16",
+                      test = "t.test",
+                      levels_order = c("Myeloid", "Fibroid"),
+                      box_colours = c("red", "green3")) +
+  labs(title="T-test Pvalues bewteen PARP16 Expression")
+
+plot4 <- boxplot_trio(syn_polar,
                       value = "ITM2C",
                       test = "wilcox.test",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       my_comparisons = list(c("Lymphoid", "Myeloid"),
                                             c("Myeloid", "Fibroid")),
-                      box_colours = c("blue", "red", "green3"))
+                      box_colours = c("blue", "red", "green3"),
+                      step_increase = 0.1) +
+  labs(title="Wilcox Pvalues bewteen ITM2C Expression")
 
-ggarrange(plot1, plot2, plot3, ncol = 3)
+ggarrange(plot1, plot2, plot3, plot4, ncol = 4)
 ```
 
 ### Three Dimensional Volcano Plots
@@ -387,9 +396,9 @@ axes as well as the number of radial spokes (n_spokes).
 
 The default ticks are calculated from r_vector and z_vector using the
 `pretty` function. This can be overwritten by passing tick points in
-r_axis_ticks and z_axis_ticks. 
+r_axis_ticks and z_axis_ticks.
 
-For example we can descrease the number of radial spokes to 4, while altering 
+For example we can decrease the number of radial spokes to 4, while altering
 the z axis ticks:
 
 ```{r}
@@ -407,8 +416,8 @@ volcano3D(syn_polar,
           z_aspectratio = 0.9) %>% layout(legend = list(x = 100, y = 0.5))
 ```
 
-similarly to extend the radial aixs and increasing the number of spokes in 2D
-we can apply: 
+similarly to extend the radial axis and increasing the number of spokes in 2D
+we can apply:
 
 ```{r}
 new_grid = polar_grid(r_vector=NULL,
@@ -425,8 +434,8 @@ radial_ggplot(polar = syn_polar,
 
 ### Altering the Labels
 
-By default the rownames of the pvalues object is used to label markers of 
-interest. This can be alrtered by amending the label column in the polar object:
+By default the rownames of the pvalues object is used to label markers of
+interest. This can be altered by amending the label column in the polar object:
 
 ```{r}
 syn_polar@polar$label <- paste0(syn_polar@polar$label, "!")
@@ -461,7 +470,7 @@ syn_mod_polar <- polar_coords(sampledata = syn_metadata,
                            fc_col_suffix = "logFC",
                            multi_group_prefix = NULL,
                            expression = syn_mod,
-                           significance_cutoff = 0.01, 
+                           significance_cutoff = 0.01,
                            fc_cutoff = 0.1
                            )
 ```
@@ -490,7 +499,7 @@ syn_mod_plots$All
 
 ```{r, warning = FALSE, message = FALSE, out.height = "100%"}
 radial_plotly(polar = syn_mod_polar,
-              colours = c("Fibroid+"="green3",  
+              colours = c("Fibroid+"="green3",
                           "Fibroid+Myeloid+"="gold2",
                           "Lymphoid+"="blue",
                           "Lymphoid+Myeloid+"="purple",
@@ -504,7 +513,7 @@ Or a ggplot static image using radial_ggplot:
 ```{r, warning = FALSE, fig.height = 5}
 radial_ggplot(polar = syn_mod_polar,
               label_rows = c("M156.0", "M37.2"),
-              colours = c("Fibroid+"="green3",  
+              colours = c("Fibroid+"="green3",
                           "Fibroid+Myeloid+"="gold2",
                           "Lymphoid+"="blue",
                           "Lymphoid+Myeloid+"="purple",

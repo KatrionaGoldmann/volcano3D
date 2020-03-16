@@ -74,7 +74,7 @@ ratio tests). default = NULL.}
 with pvalues below this point will be classed as \code{non_sig_name})}
 
 \item{fc_cutoff}{The cut-off for fold change, below which markers will be
-lassed as \code{non_sig_name}` (default = 0.3).}
+classed as \code{non_sig_name}` (default = 0.3).}
 
 \item{label_column}{Optional column name in pvalues for markers to be 
 labelled with at plotting stage. If NULL the rownames of pvalues are used.}

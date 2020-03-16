@@ -39,7 +39,7 @@ unnamed colours will be assigned in polar@polar$sig level order.}
 \item{continuous_shift}{The number of degrees (between 0 and 360) 
 to offset the continuous colour scale by. This is calculated by converting 
 the angle to a hue using \code{\link[grDevices]{hsv}} where 0 corresponds to
-the colour scale starting wih red and 360 with magenta (default = 120).}
+the colour scale starting with red and 360 with magenta (default = 120).}
 
 \item{label_rows}{A vector of row names or numbers to label.}
 
@@ -60,7 +60,7 @@ Options are 'zscore' (default) or 'fc'.}
 \item{axis_ticks}{A numerical vector of radial axis tick breaks. If
 NULL this will be calculated using \code{\link[base]{pretty}}.}
 
-\item{axis_angle}{Angle in  pi radians for the radiial axis (default = 5/6).}
+\item{axis_angle}{Angle in  pi radians for the radial axis (default = 5/6).}
 
 \item{...}{Optional grid parameters to pass to 
 \code{\link[volcano3D]{polar_grid}}.}

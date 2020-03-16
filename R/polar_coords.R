@@ -82,7 +82,7 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' @param significance_cutoff Value defining the significance cut-off (points 
 #' with pvalues below this point will be classed as \code{non_sig_name})
 #' @param fc_cutoff The cut-off for fold change, below which markers will be
-#' lassed as \code{non_sig_name}` (default = 0.3).
+#' classed as \code{non_sig_name}` (default = 0.3).
 #' @param label_column Optional column name in pvalues for markers to be 
 #' labelled with at plotting stage. If NULL the rownames of pvalues are used. 
 #' @return Returns an S4 polar object containing:

@@ -6,14 +6,14 @@
 \usage{
 volcano3D(
   polar,
-  fc_or_zscore = "zscore",
   colours = NULL,
-  non_sig_colour = "grey",
-  grid = NULL,
-  label_rows = c(),
-  label_size = 14,
+  non_sig_colour = "grey60",
   colour_scale = "discrete",
   continuous_shift = 120,
+  label_rows = c(),
+  grid = NULL,
+  fc_or_zscore = "zscore",
+  label_size = 14,
   axis_angle = 0.5,
   z_aspectratio = 1,
   xy_aspectratio = 1,
@@ -23,29 +23,29 @@ volcano3D(
 \arguments{
 \item{polar}{A polar object with created by \code{\link{polar_coords}}.}
 
-\item{fc_or_zscore}{whether to use fold change or z-score for the p-values 
-(default = 'zscore').}
-
-\item{colours}{The named vector of colours for the groups. If NULL colours
-will be assigned as c("green3", "cyan", "gold2", "blue", "purple" "red")}
+\item{colours}{A named vector of colours for the groups. If NULL colours
+will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
+unnamed colours will be assigned in polar@polar$sig level order.}
 
 \item{non_sig_colour}{The colour for non-significant markers according to 
-fold change.}
+fold change (default='grey60').}
 
-\item{grid}{Optional grid list output by \code{\link{polar_grid}}. If 
-NULL this will be calculated.}
-
-\item{label_rows}{character vector of rows (names or indices) to label.}
-
-\item{label_size}{font size for labels (default = 14).}
-
-\item{colour_scale}{whether to use a "discrete" or "continuous" colour scale 
-(default = "discrete").}
+\item{colour_scale}{whether to use a 'discrete' or 'continuous' colour scale 
+(default = 'discrete').}
 
 \item{continuous_shift}{the number of degrees (between 0 and 360) 
 corresponding to the angle to offset the continuous colour scale by. The 
-continuous colour scale is calculated by converting the angle to hue where 0 
-degrees corresponds to red and 360 degrees to magenta (default = 120).}
+continuous colour scale is calculated by converting the angle to hue where}
+
+\item{label_rows}{A vector of row names or numbers to label.}
+
+\item{grid}{An optional grid object. If NULL this will be calculated using 
+default values of  \code{\link{polar_grid}}.}
+
+\item{fc_or_zscore}{whether to use fold change or z-score for the p-values 
+(default = 'zscore').}
+
+\item{label_size}{font size for labels (default = 14).}
 
 \item{axis_angle}{Angle in radians for the z axis (default = 0.5).}
 
@@ -55,8 +55,7 @@ degrees corresponds to red and 360 degrees to magenta (default = 120).}
 \item{xy_aspectratio}{The aspect ratio for the xy axis compared to z
 (default = 1). Decreasing this makes the grid wider in the plot window.}
 
-\item{...}{Optional parameters to pass to \code{\link[base]{polar_drid}} or 
-\code{\link[base]{pretty}} to define the radial axis ticks.}
+\item{...}{Optional parameters to pass to \code{\link[base]{polar_grid}}.}
 }
 \value{
 Returns a cylindrical 3D plotly plot featuring variables on a 

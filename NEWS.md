@@ -5,7 +5,7 @@ News
 
 * Combined create\_dep and polar\_coord functions so no longer backwards compatible. 
 * Combined the 3D and 2D functions of polar\_grid
-* Moved colour selecion to individual ploting functions to make it more intuitive
+* Moved colour selection to individual plotting functions to make it more intuitive
 * Made the fold change columns optional
 * Allowed custom grid to be passed in
 

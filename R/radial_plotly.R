@@ -14,7 +14,7 @@
 #' @param continuous_shift The number of degrees (between 0 and 360) 
 #' to offset the continuous colour scale by. This is calculated by converting 
 #' the angle to a hue using \code{\link[grDevices]{hsv}} where 0 corresponds to
-#' the colour scale starting wih red and 360 with magenta (default = 120). 
+#' the colour scale starting with red and 360 with magenta (default = 120). 
 #' @param label_rows A vector of row names or numbers to label. 
 #' @param arrow_length The length of label arrows (default = 50).
 #' @param grid An optional grid object. If NULL this will be calculated using 
@@ -26,7 +26,7 @@
 #' @param axis_label_size Font size for axis labels (default = 10)
 #' @param axis_ticks A numerical vector of radial axis tick breaks. If
 #' NULL this will be calculated using \code{\link[base]{pretty}}.
-#' @param axis_angle Angle in  pi radians for the radiial axis (default = 5/6).
+#' @param axis_angle Angle in  pi radians for the radial axis (default = 5/6).
 #' @param ... Optional grid parameters to pass to 
 #' \code{\link[volcano3D]{polar_grid}}.
 #' @return Returns a plotly plot featuring variables on a tri-axis

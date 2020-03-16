@@ -88,7 +88,7 @@ or using:
     ## 
     ##   Katriona Goldmann and Myles Lewis (2020). volcano3D: Interactive
     ##   Plotting of Three-Way Differential Expression Analysis. R package
-    ##   version 0.1.0.9000. https://github.com/KatrionaGoldmann/volcano3D
+    ##   version 1.0.0.9000. https://github.com/KatrionaGoldmann/volcano3D
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
@@ -97,6 +97,6 @@ or using:
     ## Analysis},
     ##     author = {Katriona Goldmann and Myles Lewis},
     ##     year = {2020},
-    ##     note = {R package version 0.1.0.9000},
+    ##     note = {R package version 1.0.0.9000},
     ##     url = {https://github.com/KatrionaGoldmann/volcano3D},
     ##   }

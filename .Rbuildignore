@@ -3,3 +3,5 @@
 ^git*
 ^README.Rmd$
 ^pkgdown*
+^tests*
+^pvalues_generator*
