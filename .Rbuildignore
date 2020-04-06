@@ -5,3 +5,4 @@
 ^pkgdown*
 ^tests*
 ^pvalues_generator*
+^shiny_builder*

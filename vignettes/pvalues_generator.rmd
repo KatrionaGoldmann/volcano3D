@@ -55,9 +55,7 @@ install.packages("volcano3D")
 ```{r, eval = FALSE}
 library(devtools)
 install_github("KatrionaGoldmann/volcano3D")
-```
 
-```{r}
 library(volcano3D)
 ```
 
@@ -71,62 +69,54 @@ install.packages("volcano3Ddata")
 
 ---
 
+## Setup
+
 To create a pvalues data frame we require:
 
 1. the txi or expression data with columns representing different samples and 
 rows representing different variables
 2. The sample data which contains information for each sample in rows. 
 
+These can both be loaded from the syn_txi dataset in the volcano3Ddata package. 
+
 ```{r}
 library(volcano3Ddata)
-data("syn_data")
-```
-
-```{r, eval=FALSE}
 data("syn_txi")
 ```
 
-```{r, echo=FALSE}
-load("~/Downloads/syn_txi.rdata")
-```
-
-Check the alignment. 
+Check the alignment and make sure there are only three possible contrasts (in 
+this case three unique Pathotypes)
 
 ```{r}
 if(! identical(syn_metadata$ID, colnames(syn_txi$abundance))){
-    print("mis-aligned")
+    stop("mis-aligned")
 }
-```
 
-Make sure there are only three possible contrasts (i.e. three unique Pathotypes)
-
-```{r}
 if(length(levels(syn_metadata$Pathotype)) != 3){
-    print("The number of unique pathotypes must qual 3")
+    stop("The number of unique pathotypes must qual 3")
 }
-```
 
-Comparisons of interest:
-
-```{r, results="markup"}
 groups <- levels(syn_metadata$Pathotype)
 contrasts <- c(paste(groups[1], groups[2], sep="-"), 
                paste(groups[2], groups[3], sep="-"), 
                paste(groups[3], groups[1], sep="-"))
-
-print(paste(contrasts, collapse=", "))
 ```
 
-```{r, echo=FALSE}
-load("~/Desktop/Pvalues.rdata")
-```
+Our comparisons of interest are set up as: `r print(paste(contrasts, collapse=", "))`
 
-# DESeq method
+In this vignette we will outline two methods to determine the differential
+gene expression: 
+
+1. [DESeq](#deseq)
+2. [Limma-voom](#limma)
+
+
+# DESeq method {#deseq}
 
 Use the DESeq package to calculate the differential expression between groups. 
 The vignette for this package can be found [here](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html)
 
-```{r, eval=FALSE}
+```{r}
 library(DESeq2)
 dds = DESeqDataSetFromTximport(txi = syn_txi, 
                                colData = syn_metadata, 
@@ -136,9 +126,10 @@ dds_DE <- DESeq(dds)
 dds_LRT <- DESeq(dds, test = "LRT", reduced = ~Batch+Gender, parallel = TRUE) 
 ```
 
-Output the results into a dataframe. First for each contrast:
+Output the results into one dataframe. First get the results for each 
+contrast:
 
-```{r, eval=FALSE}
+```{r}
 Pvals_DESeq_DE <- lapply(contrasts, function(x){
     vars <- unlist(strsplit(x, split="-"))
     out <- results(dds_DE, contrast=c("Pathotype", vars))
@@ -147,23 +138,25 @@ Pvals_DESeq_DE <- lapply(contrasts, function(x){
 })
 ```
 
-Then for a multi-group test. In this case we use the Likelihood ratio test. 
+Then get the multi-group test results. In this case we use the Likelihood ratio 
+test - this compares the model using `~Pathotype+Batch+Gender` to the reduced 
+model using `~Batch+Gender`. 
 
-```{r, eval=FALSE}
+```{r}
 LRT <- results(dds_LRT, parallel=TRUE)[, c("pvalue", "padj", "log2FoldChange")]
 LRT <- LRT[match(rownames(syn_txi$counts), rownames(LRT)), ]
 ```
 
-Combine these into one pvalues object: 
+The results can then be combined into one pvalues data frame: 
 
-```{r, eval=FALSE}
+```{r}
 Pvals_DESeq <- cbind(Pvals_DESeq_DE[[1]], 
                      Pvals_DESeq_DE[[2]], 
                      Pvals_DESeq_DE[[3]], 
                      LRT)
 colnames(Pvals_DESeq) <- c(paste(rep(contrasts, each=3), 
-                           rep(colnames(Pvals_DESeq_DE[[1]]), 3)), 
-                     paste("LRT", colnames(LRT)))
+                                 rep(colnames(Pvals_DESeq_DE[[1]]), 3)), 
+                           paste("LRT", colnames(LRT)))
 
 Pvals_DESeq <- data.frame(Pvals_DESeq[complete.cases(Pvals_DESeq), ], 
                           check.names = FALSE)
@@ -171,106 +164,166 @@ Pvals_DESeq <- data.frame(Pvals_DESeq[complete.cases(Pvals_DESeq), ],
 
 Now we can inspect:
 
-```{r, eval=FALSE}
-head(Pvals_DESeq)
-```
-
-```{r, echo=FALSE}
+```{r}
 head(Pvals_DESeq) %>%
     kable() %>%
     kable_styling(font_size=8.7)
 ```
 
-<!-- # Limma method -->
+# Limma-voom method {#limma}
 
-<!-- Use the Limma and edgeR package to calculate the differential expression  -->
-<!-- between groups. The vignette for this package can be found [here](https://www.bioconductor.org/packages/devel/workflows/vignettes/RNAseq123/inst/doc/limmaWorkflow.html) -->
+Use the Limma package to calculate the differential expression between groups. 
+The limma vignette can be found 
+[here](https://bioconductor.org/packages/release/bioc/vignettes/limma/inst/doc/usersguide.pdf)
+and limma-voom vignette 
+[here](https://ucdavis-bioinformatics-training.github.io/2018-June-RNA-Seq-Workshop/thursday/DE.html).
 
-<!-- ```{r} -->
-<!-- library(limma) -->
-<!-- library(edgeR) -->
-<!-- load("~/Downloads/syn_txi.rdata") -->
-<!-- ``` -->
+```{r}
+library(limma)
+library(edgeR)
 
-<!-- Define the design for Limma -->
+syn_tpm = syn_txi$counts
 
-<!-- ```{r, eval=FALSE} -->
-<!-- design.df <- model.matrix(~ 0 + Pathotype + Batch + Gender, data=syn_metadata)  -->
-<!-- colnames(design.df) <- gsub("[[:punct:]]|factor|syn_metadata|Pathotype|Batch",  -->
-<!--                             "", colnames(design.df)) -->
+# build the design matrix and contrast matrix
+design <- model.matrix(~ 0 + syn_metadata$Pathotype + syn_metadata$Batch)  
+colnames(design) <- gsub("syn_metadata\\$Pathotype", "", colnames(design))
+colnames(design) <- gsub("syn_metadata\\$Batch", "", colnames(design))
 
-<!-- contrast.matrix <- makeContrasts(contrasts=c(contrasts, "B", "GenderB"),  -->
-<!--                                  levels = c(groups,"B", "GenderB") ) -->
-<!-- ``` -->
+contrast.matrix <- makeContrasts(
+    paste0(colnames(design)[1] , "-", colnames(design)[2]),
+    paste0(colnames(design)[2] , "-", colnames(design)[3]),
+    paste0(colnames(design)[3] , "-", colnames(design)[1]),
+    levels = design)
 
-<!-- Remove the batch effect: -->
+# filter data and normalise
+dge <- DGEList(counts = syn_tpm)     
+keep <- filterByExpr(dge, design)
+dge <- dge[keep, , keep.lib.sizes=FALSE]
+dge <- calcNormFactors(dge)
 
-<!-- ```{r} -->
-<!-- exp <- data.frame(apply(syn_rld, 2, as.numeric)) -->
-<!-- rownames(exp) <- make.names(rownames(syn_rld), unique=T) -->
-<!-- ``` -->
+# filter expression data to match
+syn_tpm_limma = data.frame(syn_tpm[keep, ])
 
-<!-- Calculate the differential expression -->
+# voom
+v <- voom(dge, design, plot=FALSE)
+fit1 <- lmFit(v, design)
+fit <- contrasts.fit(fit1, contrast.matrix) 
+fit <- eBayes(fit)
+```
 
-<!-- ```{r, eval=FALSE} -->
-<!-- fit <- lmFit(exp, design.df) -->
-<!-- fit2  <- contrasts.fit(fit, contrasts=contrast.matrix) -->
-<!-- fit3  <- eBayes(fit2, trend = TRUE) -->
-<!-- ``` -->
+Now we can get the model fit results. 
 
-<!-- Output the p-values first for individual comparisons: -->
+```{r}
+contrasts <- colnames(coefficients(fit))
 
-<!-- ```{r, eval=FALSE} -->
-<!-- Pvals_limma_DE <- lapply(contrasts, function(x){ -->
-<!--     out <- topTable(fit3,  -->
-<!--              coef=which(colnames(fit3$coefficients) == x),  -->
-<!--              number=Inf,  -->
-<!--              sort.by="P")[,c("P.Value", "adj.P.Val", "logFC")] -->
-<!--     out <- out[match(rownames(exp), rownames(out)), ] -->
-<!--     colnames(out) <- c("pvalue", "padj", "log2FoldChange") -->
-<!--     out -->
-<!-- }) -->
-<!-- ``` -->
+Pvals_limma_DE <- lapply(contrasts, function(x){
+    id = which(colnames(coefficients(fit)) == x)
+    
+    out <- topTable(fit, adjust.method = "fdr", coef= id, number=Inf, 
+                    sort.by="none")
+    rownames(out) <- make.names(out$ID, unique=T)
+    out <- out[,c("P.Value", "adj.P.Val", "logFC")]
+    colnames(out) <- c("pvalue", "padj", "log2FoldChange")
+    out
+})
 
-<!-- Then for an empirical Bayes multi-group test: -->
+Pvals_overall <- topTable(fit, coef=1:3, adjust.method="fdr", number=Inf, 
+                          sort.by="none")[,c("P.Value", "adj.P.Val")]
+colnames(Pvals_overall) <- c("pvalue", "padj")
+```
 
-<!-- ```{r, eval=FALSE} -->
-<!-- eB <- topTable(fit3, number=Inf,  -->
-<!--                 coef=which(colnames(fit3$coefficients) %in% contrasts)) -->
-<!-- eB <- eB[match(rownames(exp), rownames(eB)), ] -->
-<!-- eB <- eB[, ! colnames(eB) %in% c("AveExpr", "F")] -->
-<!-- colnames(eB) = c(contrasts,  "pvalue", "padj" ) -->
-<!-- ``` -->
+The results can then be combined into one pvalues data frame: 
 
-<!-- Combined into one object -->
+```{r}
+Pvals_limma <- cbind(Pvals_limma_DE[[1]], 
+                     Pvals_limma_DE[[2]], 
+                     Pvals_limma_DE[[3]], 
+                     Pvals_overall)
 
-<!-- ```{r, eval=FALSE} -->
-<!-- Pvals_limma <- cbind(Pvals_limma_DE[[1]],  -->
-<!--                      Pvals_limma_DE[[2]],  -->
-<!--                      Pvals_limma_DE[[3]],  -->
-<!--                      "eBayes" = eB) -->
-<!-- colnames(Pvals_limma) <- c(paste(rep(contrasts, each=3),  -->
-<!--                            rep(colnames(Pvals_limma_DE[[1]]), 3)),  -->
-<!--                      paste("eBayes", colnames(eB))) -->
+colnames(Pvals_limma) <- c(paste(rep(contrasts, each=3), 
+                                 rep(colnames(Pvals_limma_DE[[1]]), 3)), 
+                           paste("Overall", colnames(Pvals_overall)))
+```
 
-<!-- Pvals_limma <- data.frame(Pvals_limma[complete.cases(Pvals_limma), ],  -->
-<!--                           check.names = FALSE) -->
-<!-- ``` -->
+Now we can inspect:
 
-<!-- Now we can inspect: -->
+```{r, echo=FALSE}
+head(Pvals_limma) %>%
+    kable() %>%
+    kable_styling(font_size=8.7)
+```
 
-<!-- ```{r, eval=FALSE} -->
-<!-- head(Pvals_limma) -->
-<!-- ``` -->
+# Using the Pvalues Objects
 
-<!-- ```{r, echo=FALSE} -->
-<!-- Pvals_limma[, 1:(ncol(Pvals_limma)-1)] = format( -->
-<!--     Pvals_limma[, 1:(ncol(Pvals_limma)-1)], digits = 3) -->
+Both the deseq and limma-voom pvalues objects can then be used to create various
+plots with the volcano3D package as outlined in the [vignette](https://katrionagoldmann.github.io/volcano3D/articles/Vignette.html). 
 
-<!-- head(Pvals_limma) %>% -->
-<!--     kable() %>% -->
-<!--     kable_styling(font_size=8.7) -->
-<!-- ``` -->
+## With DESeq
 
-<!-- These objects can be used as pvalues dataframes in downstream analysis with the -->
-<!-- volcano3D package.  -->
+```{r}
+syn_counts = syn_txi$counts[intersect(rownames(Pvals_DESeq), 
+                                      rownames(syn_txi$counts)), ]
+
+syn_polar_deseq <- polar_coords(sampledata = syn_metadata,
+                          contrast = "Pathotype",
+                          pvalues = Pvals_DESeq,
+                          expression = syn_rld,
+                          p_col_suffix = "pvalue",
+                          padj_col_suffix = "padj",
+                          fc_col_suffix = "log2FoldChange",
+                          multi_group_prefix = "LRT",
+                          non_sig_name = "Not Significant",
+                          significance_cutoff = 0.01,
+                          label_column = NULL,
+                          fc_cutoff = 0.1)
+```
+
+```{r}
+radial_plotly(polar = syn_polar_deseq, 
+              label_rows = c("SLAMF6", "PARP16", "ITM2C"))
+```
+
+```{r}
+p <- volcano3D(syn_polar_deseq,
+               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
+               label_size = 10,
+               xy_aspectratio = 1,
+               z_aspectratio = 0.9)
+
+p %>% plotly::layout(legend = list(x = 100, y = 0.5))
+```
+
+## With Limma
+
+The only difference here is we chanfe the multi_group_prefix to "Overall" and 
+remove the fold change paramtere. 
+
+```{r}
+syn_polar_limma <- polar_coords(sampledata = syn_metadata,
+                          contrast = "Pathotype",
+                          pvalues = Pvals_limma,
+                          expression = syn_tpm_limma,
+                          p_col_suffix = "pvalue",
+                          padj_col_suffix = "padj",
+                          fc_col_suffix = NULL,
+                          multi_group_prefix = "Overall",
+                          non_sig_name = "Not Significant",
+                          significance_cutoff = 0.01,
+                          label_column = NULL,
+                          fc_cutoff = 0.1)
+```
+
+```{r}
+radial_plotly(polar = syn_polar_limma, 
+              label_rows = c("SLAMF6", "PARP16", "ITM2C"))
+```
+
+```{r}
+p <- volcano3D(syn_polar_limma,
+               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
+               label_size = 10,
+               xy_aspectratio = 1,
+               z_aspectratio = 0.9)
+
+p %>% plotly::layout(legend = list(x = 100, y = 0.5))
+```

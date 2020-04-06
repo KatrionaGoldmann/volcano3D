@@ -1,0 +1,490 @@
+---
+title: "Building a Shiny App"
+author: "Katriona Goldmann"
+output: rmarkdown::html_document
+---
+
+```{r setup, include = FALSE, echo = FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      warning = FALSE, 
+                      message = FALSE, 
+                      fig.height = 7, 
+                      fig.width=7, 
+                      fig.align = "center")
+library(knitr)
+library(kableExtra)
+source("https://gist.githubusercontent.com/KatrionaGoldmann/3d6dfd6aa4cc5c3940bb72dc49beae02/raw/26e78c78a7a9d096d695c708e8a45830a1d1121a/render_toc.R")
+```
+
+
+<img src="../logo.png" align="right" alt="" width="200" />
+
+```{r toc, echo = FALSE}
+render_toc("./shiny_builder.rmd")
+```
+
+---
+
+# Introduction 
+
+This vignette provides an example for deploying the interactive visualisations
+created in the volcano3D package as [Shiny Apps](https://shiny.rstudio.com). 
+
+The purpose if this is to generate a similar tool to the web page available at
+[https://peac.hpc.qmul.ac.uk](https://peac.hpc.qmul.ac.uk) which supplements
+the results found in 
+['Lewis, Myles J., et al. "Molecular portraits of early rheumatoid arthritis 
+identify clinical and treatment response phenotypes." Cell reports 28.9 (2019): 
+2455-2470.'
+(DOI: 10.1016/j.celrep.2019.07.091)](https://doi.org/10.1016/j.celrep.2019.07.091)
+with an interactive web tool available at 
+
+
+## Getting Started
+
+### Install Shiny
+
+```{r, eval=FALSE}
+install.packages("shiny")
+```
+
+### Install volcano3D
+
+Either from CRAN *Not yet publicly available*:
+
+```{r, eval = FALSE}
+install.packages("volcano3D")
+```
+
+or from Github
+
+```{r, eval = FALSE}
+library(devtools)
+install_github("KatrionaGoldmann/volcano3D")
+```
+
+```{r}
+library(volcano3D)
+```
+
+The sample data used in this vignette can be loaded from the 
+[volcano3Ddata package](https://github.com/KatrionaGoldmann/volcano3Ddata). 
+This is only possible after volcano3D is imported. 
+
+```{r, eval=FALSE}
+install.packages("volcano3Ddata")
+```
+
+---
+
+# Creating the shiny app
+
+## 1. Describe how to create the shiny app in general - the general structure 
+
+Shiny is an R package that makes it easy to build interactive web applications 
+straight from R.
+
+### Structure of a Shiny App
+
+Shiny apps  has three components:
+
+- a user interface object
+
+- a server function
+
+- a call to the shinyApp function
+
+The user interface (ui) object controls the layout and appearance of your app. 
+The server function contains the instructions that your computer needs to build 
+your app. Finally the shinyApp function creates Shiny app objects from an 
+explicit UI/server pair.
+
+To find out more information about shiny, as well as tutorials and examples 
+visit the [shiny website](https://shiny.rstudio.com/tutorial/).
+
+
+### Basic Example
+
+Using the 1st example from the shiny website we can create a very basic shiny 
+app. When run locally this will act as an interactive app, but for 
+the sake of this vignette it is  has been left as non-interactive. 
+
+
+```{r}
+library(shiny)
+
+shinyApp(
+    ui = ui <- fluidPage(
+        titlePanel("Hello Shiny!"),
+        sidebarLayout(
+            sidebarPanel(
+                sliderInput("bins", label = "No. of bins:", min = 1, max = 50, 
+                            value = 30)
+            ),
+            mainPanel(plotOutput(outputId = "distPlot"))
+        )
+    ), 
+    server = function(input, output) {
+        output$distPlot <- renderPlot({
+            x    <- faithful$waiting
+            bins <- seq(min(x), max(x), length.out = input$bins + 1)
+            hist(x, breaks = bins, col = "#75AADB", border = "white",
+                 xlab = "Waiting time to next eruption (in mins)",
+                 main = "Histogram of waiting times")
+        })
+    }
+)
+```
+
+## 2. Volcano plot on the PEAC webpage
+
+To create the 3D volcano for the PEAC webpage, first we will curate the objects 
+we need:
+
+```{r}
+library(volcano3D)
+library(volcano3Ddata)
+data(syn_data)
+```
+
+Create the volcano3D object:
+
+```{r}
+syn_polar <- polar_coords(sampledata = syn_metadata,
+                          contrast = "Pathotype",
+                          pvalues = syn_pvalues,
+                          expression = syn_rld,
+                          p_col_suffix = "pvalue",
+                          padj_col_suffix = "padj",
+                          fc_col_suffix = "log2FoldChange",
+                          multi_group_prefix = "LRT",
+                          non_sig_name = "Not Significant",
+                          significance_cutoff = 0.01,
+                          label_column = NULL,
+                          fc_cutoff = 0.1)
+```
+
+
+
+
+```{r}
+library(shinycssloaders)
+# Define UI for application that plots random distributions 
+ui <- navbarPage(
+    windowTitle="PEAC RNA-Seq", selected="a", fluid=TRUE, 
+    tags$style(type="text/css", "body {padding-top: 0px;}"),
+    id="mainNavbarPage", 
+    tags$head(tags$link(rel="shortcut icon", href="favicon.ico")),
+    
+    # Tab 5 (about) set-up
+    tabPanel(
+        div(
+            img(
+                src="http://qm-web.chem.qmul.ac.uk/qm-resources/images/crown_tab.gif", 
+                height=30, style="padding: 0px 0px;"), "PEAC RNA-Seq"), 
+        value="a", fluidPage(
+            fluidRow(
+                column(12, align="center",
+                       actionLink("link_to_tabpanel_v", 
+                                  div(img(src="../logo.png", height=280, width=280), 
+                                      style="display: inline-block; padding: 0px 10px 0px 10px;")),
+                       actionLink("link_to_tabpanel_g", 
+                                  div(img(src="../logo.png", height=280, width=280), 
+                                      style="display: inline-block; padding: 0px 10px 0px 10px;")),
+                       actionLink("link_to_tabpanel_c", 
+                                  div(img(src="../logo.png", height=280, width=280), 
+                                      style="display: inline-block; padding: 0px 10px 0px 10px;")))
+            ),
+            fluidRow(htmlOutput("credits"))
+        )),
+    
+    
+    # Tab 1 (volcano) set-up:
+    # -- input plottype- option of which tissue; datatype- option of z score or 
+    # fold change; coltype- the color scale you are interested in.
+    # -- output volc3d- the 3D volcano plot; scatterplot- the boxplots; table- the tables of p values for that gene.
+    tabPanel("Volcano", value="v",
+             fluidPage(
+                 fluidRow(
+                     column(8, withSpinner(plotlyOutput("volc3d", height=720))),
+                     column(4, 
+                            fluidRow(
+                                # option for data type
+                                column(4,
+                                       radioButtons("data_type", 
+                                                    label=h5("Polar radius"),
+                                                    choices=list("Z score"=1, 
+                                                                 "Fold change"=2),
+                                                    selected=1)),
+                                # option for colour scheme
+                                column(4,
+                                       radioButtons("colour_type", 
+                                                    label=h5("Colour scheme"),
+                                                    choices=list("Pairwise"=1, 
+                                                                 "Hue"=2),
+                                                    selected=1))),
+                            fluidRow(
+                                verbatimTextOutput("hover")
+                                #plotlyOutput("boxplots", height=400)
+                                )#,
+                            #        tableOutput("table")
+                     )))
+    )#,
+    
+    # Tab 2 (Search) set-up:
+    # -- input tissue- option of which tissue; gene- which gene; downloadPlot- button to download plots as pdf.
+    # -- output gene.boxplot- the boxplots; gene.table- the tables of p values for that gene; gene.corr- correlation plots; gene.download- the download button
+    # tabPanel("Genes", value="g",
+    #          fluidPage(
+    #              fluidRow(
+    #                  column(3, 
+    #                         radioButtons("tissue", label = h5("Tissue"), 
+    #                                      choices = list("Synovium" = 1, "Blood" = 2), 
+    #                                      selected = 1),
+    #                         selectizeInput("gene", label = h5("Select a Gene"), 
+    #                                        choices=unique(c(pathotype.z$genesh, 
+    #                                                         blood.pathotype.z$genesh)),
+    #                                        options=list(onInitialize = I('function() { this.setValue(""); }'))))),
+    #              fluidRow(
+    #                  conditionalPanel(condition="input.gene!=''",
+    #                                   downloadButton("gene.download", 
+    #                                                  "Download Plots as PDF")), 
+    #                  plotOutput("gene.corr"))
+    #          )
+    # ),
+    
+    # Tab 3 (table) set-up:
+    # -- output Table- the tables of p values for all significant genes.
+    # tabPanel("Table", value="t",
+    #          fluidPage(
+    #              column(2, 
+    #                     checkboxGroupInput('selgroup', 
+    #                                        'Select upregulated groups', 
+    #                                        levels(fulltable2$Group)[-1], 
+    #                                        selected = levels(fulltable2$Group)[-1])),
+    #              column(10, dataTableOutput("fulltable"))
+    #          )
+    
+)    
+```
+
+```{r}
+server <- function(input, output, session) {
+    
+    observeEvent(input$link_to_tabpanel_v, {
+        updateNavbarPage(session, "mainNavbarPage", "v")})
+    observeEvent(input$link_to_tabpanel_g, {
+        updateNavbarPage(session, "mainNavbarPage", "g")})
+    observeEvent(input$link_to_tabpanel_t, {
+        updateNavbarPage(session, "mainNavbarPage", "t")})
+    
+    # # Volcano Tab
+    output$volc3d <- renderPlotly({
+        
+        data_type <- as.numeric(input$data_type)
+        colour_scheme <- as.numeric(input$colour_type)
+        
+        if (length(data_type) == 0) data_type <- 1
+        if (length(colour_scheme) == 0) colour_scheme <- 1
+        
+        p <- volcano3D(syn_polar,
+                       colour_scale = switch(colour_scheme, 
+                                             "discrete", "continuous"),
+                       fc_or_zscore = switch(data_type, "zscore", "fc"),
+                       xy_aspectratio = 1,
+                       z_aspectratio = 0.9) %>%
+            layout(showlegend = switch(colour_scheme, T, F)) #%>%
+            #event_register("plotly_selecting")
+    })
+    
+    output$hover <- renderPrint({
+    d <- event_data("plotly_hover")
+    d2 <- rownames(syn_polar@pvalues)[as.numeric(d$pointNumber)]
+    if (is.null(d)) "Hover events appear here (unhover to clear)" else d
+  })
+    
+    output$boxplots <- renderPlotly({
+        s <- event_data("plotly_click")
+        #req(length(s) > 0)
+        # if (length(s)) {
+        #     p <- s[["pointNumber"]]
+        #     c <- s[["curveNumber"]]
+        #     ct <- as.numeric(input$coltype)
+        #     pt <- as.numeric(input$plottype)
+        #     if (length(ct)==0) ct <- 1
+        #     if (length(pt)==0) pt <- 1
+        #     if ((pt==1) & ((ct==1 & c < 7) | (ct==2 & c==0))) {
+        #         # synovium boxplot
+        #         gene <- switch(ct, genelookup[[c+1]][p+1], genelookupHue[p+1])
+        #         genename <- sub("\\.[^.]*$", "", gene)  # remove suffix after .
+        #         plot_ly(x=metadata.pathotype[, "Pathotype"], y=rldMatrix[gene, noUngraded], type='box',
+        #                 color=metadata.pathotype[, "Pathotype"], colors=c('blue', 'red', 'green3'), marker=list(size=5), boxpoints = "all", jitter = 0.4, pointpos = 0) %>%
+        #             layout(title=genename, yaxis=list(title=genename), showlegend=F,
+        #                    margin=list(t=100,l=50,r=50,b=50))
+        #     } 
+        # } else {plotly_empty()}
+        
+        plotly_empty() %>% layout(title=s)
+    })
+    # output$table <- renderTable({
+    #     s <- event_data("plotly_click", source = "volc3d")
+    #     req(length(s) > 0)
+    #     if (length(s)) {
+    #         p <- s[["pointNumber"]]
+    #         c <- s[["curveNumber"]]
+    #         ct <- as.numeric(input$coltype)
+    #         if (length(ct)==0) ct <- 1
+    #         pt <- as.numeric(input$plottype)
+    #         if (length(pt)==0) pt <- 1
+    #         if ((pt==1) & ((ct==1 & c < 7) | (ct==2 & c==0))) {
+    #             gene <- switch(ct, genelookup[[c+1]][p+1], genelookupHue[p+1])
+    #             genename <- sub("\\.[^.]*$", "", gene)  # remove suffix after .
+    #             table <- data.frame(
+    #                 P_value =c(LVsM[gene, 'pvalue'], MVsF[gene, 'pvalue'], LVsF[gene, 'pvalue']),
+    #                 P_adj=c(LVsM[gene, 'padj2'], MVsF[gene, 'padj2'], LVsF[gene, 'padj2']),
+    #                 row.names=c("Lymphoid v Myeloid", "Myeloid v Fibroid", "Lymphoid v Fibroid"))
+    #             format(table, digits=2, nsmall=1)
+    #         } else if ((pt==2) & (ct==1 & c < length(bloodgenelookup)) | (ct==2 & c==0)) {
+    #             gene <- switch(ct, bloodgenelookup[[c+1]][p+1], bloodgenelookupHue[p+1])
+    #             genename <- sub("\\.[^.]*$", "", gene)
+    #             table <- data.frame(
+    #                 P_value=c(bloodLVsM[gene, 'pvalue'], bloodMVsF[gene, 'pvalue'], bloodLVsF[gene, 'pvalue']),
+    #                 P_adj=c(bloodLVsM[gene, 'padj2'], bloodMVsF[gene, 'padj2'], bloodLVsF[gene, 'padj2']),
+    #                 row.names=c("Lymphoid v Myeloid", "Myeloid v Fibroid", "Lymphoid v Fibroid"))
+    #             format(table, digits=2, nsmall=1)
+    #         }}
+    # }, spacing='xs', rownames=T)
+    # 
+    # # Search Tab
+    # output$gene.boxplot <- renderPlotly({
+    #     if (input$tissue==1) {
+    #         s <- input$gene
+    #         req(s != "")
+    #         if (input$gene %in% pathotype.z$genesh) {
+    #             # synovium boxplot
+    #             genename <- input$gene
+    #             gene <- pathotype.z$gene[pathotype.z$genesh==genename]
+    #             plot_ly(x=metadata.pathotype[, "Pathotype"], y=rldMatrix[gene, noUngraded], type='box',
+    #                     color=metadata.pathotype[, "Pathotype"], colors=c('blue', 'red', 'green3'),
+    #                     marker=list(size=5), boxpoints = "all", jitter = 0.4, pointpos = 0) %>%
+    #                 layout(title=paste("Synovium", genename), yaxis=list(title=genename), showlegend=F, 
+    #                        margin=list(t=100,l=50,r=50,b=50))
+    #         } else {
+    #             if (input$gene != ""){
+    #                 plotly_empty() %>%
+    #                     layout(title="Gene not detected in synovium")
+    #             } else {
+    #                 plotly_empty() %>%
+    #                     layout(title="")}
+    #         }
+    #     } else {		
+    #         s <- input$gene
+    #         if (input$gene %in% blood.pathotype.z$genesh) {
+    #             # blood boxplot
+    #             genename <- input$gene
+    #             gene <- blood.pathotype.z$gene[blood.pathotype.z$genesh==input$gene]
+    #             plot_ly(x=bloodmetadata.pathotype[, "Pathotype"], y=blood.rldMatrix[gene, bloodnoUngraded], 
+    #                     type='box', color=bloodmetadata.pathotype[, "Pathotype"], colors=c('blue', 'red', 'green3'),
+    #                     marker=list(size=5), boxpoints = "all", jitter = 0.4, pointpos = 0) %>%
+    #                 layout(title=paste("Blood", genename), yaxis=list(title=genename), showlegend=F,
+    #                        margin=list(t=100,l=50,r=50,b=50))
+    #         } else {
+    #             if (input$gene != ""){
+    #                 plotly_empty() %>%
+    #                     layout(title="Gene not detected in blood")
+    #             } else {
+    #                 plotly_empty() %>%
+    #                     layout(title="")}
+    #         } 
+    #     }
+    #     
+    # })
+    # output$gene.table  <- renderTable({
+    #     if (input$tissue==1) {
+    #         s <- input$gene
+    #         req(s != "")
+    #         if (input$gene %in% pathotype.z$genesh) {
+    #             # synovium table
+    #             gene <- pathotype.z$gene[pathotype.z$genesh==input$gene]
+    #             genename <- input$gene
+    #             table <- data.frame(
+    #                 P_value=c(LVsM[gene, 'pvalue'], MVsF[gene, 'pvalue'], LVsF[gene, 'pvalue']),
+    #                 P_adj=c(LVsM[gene, 'padj2'], MVsF[gene, 'padj2'], LVsF[gene, 'padj2']),
+    #                 row.names=c("Lymphoid v Myeloid", "Myeloid v Fibroid", "Lymphoid v Fibroid"))
+    #             format(table, digits=2, nsmall=1)
+    #         } 
+    #     } else{
+    #         s <- input$gene
+    #         if (input$gene %in% blood.pathotype.z$genesh) {
+    #             genename <- input$gene
+    #             gene <- blood.pathotype.z$gene[blood.pathotype.z$genesh==input$gene]
+    #             table <- data.frame(
+    #                 P_value=c(bloodLVsM[gene, 'pvalue'], bloodMVsF[gene, 'pvalue'], bloodLVsF[gene, 'pvalue']),
+    #                 P_adj=c(bloodLVsM[gene, 'padj2'], bloodMVsF[gene, 'padj2'], bloodLVsF[gene, 'padj2']),
+    #                 row.names=c("Lymphoid v Myeloid", "Myeloid v Fibroid", "Lymphoid v Fibroid"))
+    #             format(table, digits=2, nsmall=1)
+    #         }
+    #     }
+    # }, spacing='xs', rownames=T)
+    # output$gene.corr  <- renderPlot({
+    #     req(input$gene != "")
+    #     download.gene(input.gene=input$gene, input.tissue=input$tissue, title.master="")
+    # }, height=(100*length(parameters)))
+    # output$gene.download <- downloadHandler(filename = function(){paste(input$gene,"_",switch(as.numeric(input$tissue),"synovium","blood"),".pdf",sep='')}, 
+    #                                         content = function(file) {
+    #                                             pdf(file, width=15, height=length(parameters))
+    #                                             print(download.gene(input$gene, input$tissue, as.character(input$gene)))
+    #                                             dev.off()
+    #                                         }, contentType = 'application/pdf')
+    # 
+    # # Table Tab
+    # output$fulltable <- renderDataTable({
+    #     fulltable2[fulltable2$Group %in% input$selgroup,]   
+    # }, options = list(bInfo=TRUE))  
+    # # binfo removes the showing # of # at foot of table (since NaN was appearing) 
+    # 
+    
+    # About Tab
+    output$credits <- renderUI({
+        str0 <- paste("<b>Web design and maintenance </b><br/>")
+        str0names <- paste("Myles Lewis <br/> Katriona Goldmann (", 
+                           a("Email", href="mailto:k.goldmann@qmul.ac.uk"),
+                           ")<br/> Vladan Petrovic <br/><br/><br/><br/>", 
+                           sep="")
+        
+        contact <- paste(a(
+            "Centre for Experimental Medicine & Rheumatology,", 
+            "William Harvey Research Institute, Queen Mary's", 
+            "University London.", href="http://www.whri.qmul.ac.uk/"), 
+            "<br/><br/><br/>")
+        about <- paste("<br/><br/><br/><b> About this page </b> <br/>",
+                       "This webpage provides supplementary material to the",
+                       "paper <i> 'Molecular Portraits of Early Rheumatoid", 
+                       "Arthritis'. </i> <br/>")
+        str1 <- paste("<b>Bioinformatics:</b> Myles J. Lewis, Kevin Blighe,", 
+                      "Michael R. Barnes, Katriona Goldmann, Sharmila Rana,", 
+                      "Christopher R. John, David Watson, Jamie Floyd")
+        str2 <- paste("<b>Clinical:</b>  Costantino Pitzalis, Frances Humby,", 
+                      "Stephen Kelly, Michele Bombardieri, Nora Ng,", 
+                      "Maria DiCicco")
+        str3 <- paste("<b>Laboratory:</b> Rebecca Hands, Sudeh Riahi,", 
+                      "Vidalba Rocher, Felice Rivellese")
+        str4 <- paste("<b>Genentech:</b> Michael Townsend, Jason Hackney <br/>")
+        HTML(paste(about, str1, str2, str3, str4, str0, str0names, sep='<br/>'))
+    })
+}
+```
+
+
+```{r}
+library(plotly)
+shinyApp(ui = ui, server = server)
+```
+
+
+## 3. Deploying shiny apps
+
+1. Docker - reference links
+2. server hpc - reference links
+
+

@@ -197,12 +197,13 @@ volcano3D <- function(polar,
             colors = switch(colour_scale,
                             "discrete" = cols,
                             "continuous" = NULL),
-            text = ~paste0(rownames(volcano_toptable), 
+            text = ~paste0(label, 
                            "<br>Theta = ", as.integer(angle_degrees), "\u00B0",
                            "<br>r = ", formatC(r, digits = 3), 
                            "<br>P = ", format(logP, digits = 3, 
                                               scientific = 3)),
-            type = "scatter3d", mode = "markers") %>%
+            type = "scatter3d", mode = "markers", 
+            key = ~ label) %>%
         
         add_trace(x = polar_grid$x, y = polar_grid$y, z = polar_grid$z, 
                   color = I("#CBCBCB"), line = list(width = 2),

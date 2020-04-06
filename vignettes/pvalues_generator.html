@@ -386,8 +386,10 @@ summary {
 <li><a href="#install-from-cran">Install from CRAN</a></li>
 <li><a href="#install-from-github">Install from Github</a></li>
 </ul></li>
+<li><a href="#setup">Setup</a></li>
 </ul></li>
-<li><a href="#deseq-method">DESeq method</a></li>
+<li><a href="#deseq">DESeq method</a></li>
+<li><a href="#limma">Limma-voom method</a></li>
 </ul>
 <hr />
 <div id="introduction" class="section level1">
@@ -404,39 +406,46 @@ summary {
 <div id="install-from-github" class="section level3">
 <h3>Install from Github</h3>
 <pre class="r"><code>library(devtools)
-install_github(&quot;KatrionaGoldmann/volcano3D&quot;)</code></pre>
-<pre class="r"><code>library(volcano3D)</code></pre>
+install_github(&quot;KatrionaGoldmann/volcano3D&quot;)
+
+library(volcano3D)</code></pre>
 <p>The sample data used in this vignette can be loaded from the <a href="https://github.com/KatrionaGoldmann/volcano3Ddata">volcano3Ddata package</a>. This is only possible after volcano3D is imported.</p>
 <pre class="r"><code>install.packages(&quot;volcano3Ddata&quot;)</code></pre>
 <hr />
+</div>
+</div>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
 <p>To create a pvalues data frame we require:</p>
 <ol style="list-style-type: decimal">
 <li>the txi or expression data with columns representing different samples and rows representing different variables</li>
 <li>The sample data which contains information for each sample in rows.</li>
 </ol>
 <pre class="r"><code>library(volcano3Ddata)
-data(&quot;syn_data&quot;)</code></pre>
-<pre class="r"><code>data(&quot;syn_txi&quot;)</code></pre>
-<p>Check the alignment.</p>
+data(&quot;syn_data&quot;)
+data(&quot;syn_txi&quot;)</code></pre>
+<p>Check the alignment and make sure there are only three possible contrasts (in this case three unique Pathotypes)</p>
 <pre class="r"><code>if(! identical(syn_metadata$ID, colnames(syn_txi$abundance))){
-    print(&quot;mis-aligned&quot;)
-}</code></pre>
-<p>Make sure there are only three possible contrasts (i.e. three unique Pathotypes)</p>
-<pre class="r"><code>if(length(levels(syn_metadata$Pathotype)) != 3){
-    print(&quot;The number of unique pathotypes must qual 3&quot;)
-}</code></pre>
-<p>Comparisons of interest:</p>
-<pre class="r"><code>groups &lt;- levels(syn_metadata$Pathotype)
+    stop(&quot;mis-aligned&quot;)
+}
+
+if(length(levels(syn_metadata$Pathotype)) != 3){
+    stop(&quot;The number of unique pathotypes must qual 3&quot;)
+}
+
+groups &lt;- levels(syn_metadata$Pathotype)
 contrasts &lt;- c(paste(groups[1], groups[2], sep=&quot;-&quot;), 
                paste(groups[2], groups[3], sep=&quot;-&quot;), 
-               paste(groups[3], groups[1], sep=&quot;-&quot;))
-
-print(paste(contrasts, collapse=&quot;, &quot;))</code></pre>
-<pre><code>## [1] &quot;Fibroid-Lymphoid, Lymphoid-Myeloid, Myeloid-Fibroid&quot;</code></pre>
+               paste(groups[3], groups[1], sep=&quot;-&quot;))</code></pre>
+<p>Our comparisons of interest are set up as:</p>
+<p>In this vignette we will outline two methods to determine the differential gene expression:</p>
+<ol style="list-style-type: decimal">
+<li><a href="#deseq">DESeq</a></li>
+<li><a href="#limma">Limma-voom</a></li>
+</ol>
 </div>
 </div>
-</div>
-<div id="deseq-method" class="section level1">
+<div id="deseq" class="section level1">
 <h1>DESeq method</h1>
 <p>Use the DESeq package to calculate the differential expression between groups. The vignette for this package can be found <a href="http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html">here</a></p>
 <pre class="r"><code>library(DESeq2)
@@ -446,29 +455,31 @@ dds = DESeqDataSetFromTximport(txi = syn_txi,
 
 dds_DE &lt;- DESeq(dds)
 dds_LRT &lt;- DESeq(dds, test = &quot;LRT&quot;, reduced = ~Batch+Gender, parallel = TRUE) </code></pre>
-<p>Output the results into a dataframe. First for each contrast:</p>
+<p>Output the results into one dataframe. First get the results for each contrast:</p>
 <pre class="r"><code>Pvals_DESeq_DE &lt;- lapply(contrasts, function(x){
     vars &lt;- unlist(strsplit(x, split=&quot;-&quot;))
     out &lt;- results(dds_DE, contrast=c(&quot;Pathotype&quot;, vars))
     out &lt;- out[match(rownames(syn_txi$counts), rownames(out)), ]
     out &lt;- out[,c(&quot;pvalue&quot;, &quot;padj&quot;, &quot;log2FoldChange&quot;)]
 })</code></pre>
-<p>Then for a multi-group test. In this case we use the Likelihood ratio test.</p>
+<p>Then get the multi-group test results. In this case we use the Likelihood ratio test - this compares the model using <code>~Pathotype+Batch+Gender</code> to the reduced model using <code>~Batch+Gender</code>.</p>
 <pre class="r"><code>LRT &lt;- results(dds_LRT, parallel=TRUE)[, c(&quot;pvalue&quot;, &quot;padj&quot;, &quot;log2FoldChange&quot;)]
 LRT &lt;- LRT[match(rownames(syn_txi$counts), rownames(LRT)), ]</code></pre>
-<p>Combine these into one pvalues object:</p>
+<p>The results can then be combined into one pvalues data frame:</p>
 <pre class="r"><code>Pvals_DESeq &lt;- cbind(Pvals_DESeq_DE[[1]], 
                      Pvals_DESeq_DE[[2]], 
                      Pvals_DESeq_DE[[3]], 
                      LRT)
 colnames(Pvals_DESeq) &lt;- c(paste(rep(contrasts, each=3), 
-                           rep(colnames(Pvals_DESeq_DE[[1]]), 3)), 
-                     paste(&quot;LRT&quot;, colnames(LRT)))
+                                 rep(colnames(Pvals_DESeq_DE[[1]]), 3)), 
+                           paste(&quot;LRT&quot;, colnames(LRT)))
 
 Pvals_DESeq &lt;- data.frame(Pvals_DESeq[complete.cases(Pvals_DESeq), ], 
                           check.names = FALSE)</code></pre>
 <p>Now we can inspect:</p>
-<pre class="r"><code>head(Pvals_DESeq)</code></pre>
+<pre class="r"><code>head(Pvals_DESeq) %&gt;%
+    kable() %&gt;%
+    kable_styling(font_size=8.7)</code></pre>
 <table class="table" style="font-size: 8.7px; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -761,78 +772,336 @@ AACS
 </tr>
 </tbody>
 </table>
-<!-- # Limma method -->
-<!-- Use the Limma and edgeR package to calculate the differential expression  -->
-<!-- between groups. The vignette for this package can be found [here](https://www.bioconductor.org/packages/devel/workflows/vignettes/RNAseq123/inst/doc/limmaWorkflow.html) -->
-<!-- ```{r} -->
-<!-- library(limma) -->
-<!-- library(edgeR) -->
-<!-- load("~/Downloads/syn_txi.rdata") -->
-<!-- ``` -->
-<!-- Define the design for Limma -->
-<!-- ```{r, eval=FALSE} -->
-<!-- design.df <- model.matrix(~ 0 + Pathotype + Batch + Gender, data=syn_metadata)  -->
-<!-- colnames(design.df) <- gsub("[[:punct:]]|factor|syn_metadata|Pathotype|Batch",  -->
-<!--                             "", colnames(design.df)) -->
-<!-- contrast.matrix <- makeContrasts(contrasts=c(contrasts, "B", "GenderB"),  -->
-<!--                                  levels = c(groups,"B", "GenderB") ) -->
-<!-- ``` -->
-<!-- Remove the batch effect: -->
-<!-- ```{r} -->
-<!-- exp <- data.frame(apply(syn_rld, 2, as.numeric)) -->
-<!-- rownames(exp) <- make.names(rownames(syn_rld), unique=T) -->
-<!-- ``` -->
-<!-- Calculate the differential expression -->
-<!-- ```{r, eval=FALSE} -->
-<!-- fit <- lmFit(exp, design.df) -->
-<!-- fit2  <- contrasts.fit(fit, contrasts=contrast.matrix) -->
-<!-- fit3  <- eBayes(fit2, trend = TRUE) -->
-<!-- ``` -->
-<!-- Output the p-values first for individual comparisons: -->
-<!-- ```{r, eval=FALSE} -->
-<!-- Pvals_limma_DE <- lapply(contrasts, function(x){ -->
-<!--     out <- topTable(fit3,  -->
-<!--              coef=which(colnames(fit3$coefficients) == x),  -->
-<!--              number=Inf,  -->
-<!--              sort.by="P")[,c("P.Value", "adj.P.Val", "logFC")] -->
-<!--     out <- out[match(rownames(exp), rownames(out)), ] -->
-<!--     colnames(out) <- c("pvalue", "padj", "log2FoldChange") -->
-<!--     out -->
-<!-- }) -->
-<!-- ``` -->
-<!-- Then for an empirical Bayes multi-group test: -->
-<!-- ```{r, eval=FALSE} -->
-<!-- eB <- topTable(fit3, number=Inf,  -->
-<!--                 coef=which(colnames(fit3$coefficients) %in% contrasts)) -->
-<!-- eB <- eB[match(rownames(exp), rownames(eB)), ] -->
-<!-- eB <- eB[, ! colnames(eB) %in% c("AveExpr", "F")] -->
-<!-- colnames(eB) = c(contrasts,  "pvalue", "padj" ) -->
-<!-- ``` -->
-<!-- Combined into one object -->
-<!-- ```{r, eval=FALSE} -->
-<!-- Pvals_limma <- cbind(Pvals_limma_DE[[1]],  -->
-<!--                      Pvals_limma_DE[[2]],  -->
-<!--                      Pvals_limma_DE[[3]],  -->
-<!--                      "eBayes" = eB) -->
-<!-- colnames(Pvals_limma) <- c(paste(rep(contrasts, each=3),  -->
-<!--                            rep(colnames(Pvals_limma_DE[[1]]), 3)),  -->
-<!--                      paste("eBayes", colnames(eB))) -->
-<!-- Pvals_limma <- data.frame(Pvals_limma[complete.cases(Pvals_limma), ],  -->
-<!--                           check.names = FALSE) -->
-<!-- ``` -->
-<!-- Now we can inspect: -->
-<!-- ```{r, eval=FALSE} -->
-<!-- head(Pvals_limma) -->
-<!-- ``` -->
-<!-- ```{r, echo=FALSE} -->
-<!-- Pvals_limma[, 1:(ncol(Pvals_limma)-1)] = format( -->
-<!--     Pvals_limma[, 1:(ncol(Pvals_limma)-1)], digits = 3) -->
-<!-- head(Pvals_limma) %>% -->
-<!--     kable() %>% -->
-<!--     kable_styling(font_size=8.7) -->
-<!-- ``` -->
-<!-- These objects can be used as pvalues dataframes in downstream analysis with the -->
-<!-- volcano3D package.  -->
+</div>
+<div id="limma" class="section level1">
+<h1>Limma-voom method</h1>
+<p>Use the Limma package to calculate the differential expression between groups. The limma vignette can be found <a href="https://bioconductor.org/packages/release/bioc/vignettes/limma/inst/doc/usersguide.pdf">here</a> and limma-voom vignette <a href="https://ucdavis-bioinformatics-training.github.io/2018-June-RNA-Seq-Workshop/thursday/DE.html">here</a>.</p>
+<pre class="r"><code>library(limma)
+library(edgeR)
+
+syn_tpm = syn_txi$counts
+
+# build the design matrix and contrast matrix
+design &lt;- model.matrix(~ 0 + syn_metadata$Pathotype + syn_metadata$Batch)  
+colnames(design) &lt;- gsub(&quot;syn_metadata\\$Pathotype&quot;, &quot;&quot;, colnames(design))
+colnames(design) &lt;- gsub(&quot;syn_metadata\\$Batch&quot;, &quot;&quot;, colnames(design))
+
+contrast.matrix &lt;- makeContrasts(
+    paste0(colnames(design)[1] , &quot;-&quot;, colnames(design)[2]),
+    paste0(colnames(design)[2] , &quot;-&quot;, colnames(design)[3]),
+    paste0(colnames(design)[3] , &quot;-&quot;, colnames(design)[1]),
+    levels = design)
+
+# filter data and normalise
+dge &lt;- DGEList(counts = syn_tpm)     
+keep &lt;- filterByExpr(dge, design)
+dge &lt;- dge[keep, , keep.lib.sizes=FALSE]
+dge &lt;- calcNormFactors(dge)
+
+# voom
+v &lt;- voom(dge, design, plot=FALSE)
+fit1 &lt;- lmFit(v, design)
+fit &lt;- contrasts.fit(fit1, contrast.matrix) 
+fit &lt;- eBayes(fit)</code></pre>
+<p>Now we can get the model fit results.</p>
+<pre class="r"><code>contrasts &lt;- colnames(coefficients(fit))
+
+Pvals_limma_DE &lt;- lapply(contrasts, function(x){
+    id = which(colnames(coefficients(fit)) == x)
+    
+    out &lt;- topTable(fit, adjust.method = &quot;fdr&quot;, coef= id, number=Inf, 
+                    sort.by=&quot;none&quot;)
+    rownames(out) &lt;- make.names(out$ID, unique=T)
+    out &lt;- out[,c(&quot;P.Value&quot;, &quot;adj.P.Val&quot;, &quot;logFC&quot;)]
+    colnames(out) &lt;- c(&quot;pvalue&quot;, &quot;padj&quot;, &quot;log2FoldChange&quot;)
+    out
+})
+
+
+Pvals_overall &lt;- topTable(fit, coef=1:3, adjust.method=&quot;fdr&quot;, number=Inf, 
+                          sort.by=&quot;none&quot;)[,c(&quot;P.Value&quot;, &quot;adj.P.Val&quot;)]
+colnames(Pvals_overall) &lt;- c(&quot;pvalue&quot;, &quot;padj&quot;)</code></pre>
+<p>The results can then be combined into one pvalues data frame:</p>
+<pre class="r"><code>Pvals_limma &lt;- cbind(Pvals_limma_DE[[1]], 
+                     Pvals_limma_DE[[2]], 
+                     Pvals_limma_DE[[3]], 
+                     Pvals_overall
+                     )
+colnames(Pvals_limma) &lt;- c(paste(rep(contrasts, each=3), 
+                                 rep(colnames(Pvals_limma_DE[[1]]), 3)), 
+                           paste(&quot;Overall&quot;, colnames(Pvals_overall)))</code></pre>
+<p>Now we can inspect:</p>
+<table class="table" style="font-size: 8.7px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Fibroid-Lymphoid pvalue
+</th>
+<th style="text-align:right;">
+Fibroid-Lymphoid padj
+</th>
+<th style="text-align:right;">
+Fibroid-Lymphoid log2FoldChange
+</th>
+<th style="text-align:right;">
+Lymphoid-Myeloid pvalue
+</th>
+<th style="text-align:right;">
+Lymphoid-Myeloid padj
+</th>
+<th style="text-align:right;">
+Lymphoid-Myeloid log2FoldChange
+</th>
+<th style="text-align:right;">
+Myeloid-Fibroid pvalue
+</th>
+<th style="text-align:right;">
+Myeloid-Fibroid padj
+</th>
+<th style="text-align:right;">
+Myeloid-Fibroid log2FoldChange
+</th>
+<th style="text-align:right;">
+Overall pvalue
+</th>
+<th style="text-align:right;">
+Overall padj
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A2M
+</td>
+<td style="text-align:right;">
+0.5170499
+</td>
+<td style="text-align:right;">
+0.6366674
+</td>
+<td style="text-align:right;">
+-0.1121413
+</td>
+<td style="text-align:right;">
+0.2279382
+</td>
+<td style="text-align:right;">
+0.4481883
+</td>
+<td style="text-align:right;">
+-0.1979652
+</td>
+<td style="text-align:right;">
+0.1303462
+</td>
+<td style="text-align:right;">
+0.4559284
+</td>
+<td style="text-align:right;">
+0.3101065
+</td>
+<td style="text-align:right;">
+0.2869610
+</td>
+<td style="text-align:right;">
+0.4293019
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A2ML1
+</td>
+<td style="text-align:right;">
+0.0144789
+</td>
+<td style="text-align:right;">
+0.0390096
+</td>
+<td style="text-align:right;">
+1.2145059
+</td>
+<td style="text-align:right;">
+0.0602010
+</td>
+<td style="text-align:right;">
+0.1877927
+</td>
+<td style="text-align:right;">
+-0.8634615
+</td>
+<td style="text-align:right;">
+0.5167596
+</td>
+<td style="text-align:right;">
+0.7917087
+</td>
+<td style="text-align:right;">
+-0.3510444
+</td>
+<td style="text-align:right;">
+0.0239250
+</td>
+<td style="text-align:right;">
+0.0629112
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A4GALT
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1.0208963
+</td>
+<td style="text-align:right;">
+0.0000197
+</td>
+<td style="text-align:right;">
+0.0006240
+</td>
+<td style="text-align:right;">
+-0.5925725
+</td>
+<td style="text-align:right;">
+0.0114855
+</td>
+<td style="text-align:right;">
+0.1786983
+</td>
+<td style="text-align:right;">
+-0.4283238
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A4GNT
+</td>
+<td style="text-align:right;">
+0.0967374
+</td>
+<td style="text-align:right;">
+0.1782220
+</td>
+<td style="text-align:right;">
+-0.9478684
+</td>
+<td style="text-align:right;">
+0.8495848
+</td>
+<td style="text-align:right;">
+0.9298853
+</td>
+<td style="text-align:right;">
+0.0924637
+</td>
+<td style="text-align:right;">
+0.1800195
+</td>
+<td style="text-align:right;">
+0.5235976
+</td>
+<td style="text-align:right;">
+0.8554047
+</td>
+<td style="text-align:right;">
+0.2318880
+</td>
+<td style="text-align:right;">
+0.3676664
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AAAS
+</td>
+<td style="text-align:right;">
+0.4801279
+</td>
+<td style="text-align:right;">
+0.6027211
+</td>
+<td style="text-align:right;">
+0.0810740
+</td>
+<td style="text-align:right;">
+0.9907265
+</td>
+<td style="text-align:right;">
+0.9954684
+</td>
+<td style="text-align:right;">
+-0.0012020
+</td>
+<td style="text-align:right;">
+0.5395954
+</td>
+<td style="text-align:right;">
+0.8042311
+</td>
+<td style="text-align:right;">
+-0.0798720
+</td>
+<td style="text-align:right;">
+0.7611265
+</td>
+<td style="text-align:right;">
+0.8432504
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AACS
+</td>
+<td style="text-align:right;">
+0.2047727
+</td>
+<td style="text-align:right;">
+0.3179074
+</td>
+<td style="text-align:right;">
+0.2305878
+</td>
+<td style="text-align:right;">
+0.1038665
+</td>
+<td style="text-align:right;">
+0.2708610
+</td>
+<td style="text-align:right;">
+-0.2669746
+</td>
+<td style="text-align:right;">
+0.8557094
+</td>
+<td style="text-align:right;">
+0.9511441
+</td>
+<td style="text-align:right;">
+0.0363868
+</td>
+<td style="text-align:right;">
+0.1867949
+</td>
+<td style="text-align:right;">
+0.3139590
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 
