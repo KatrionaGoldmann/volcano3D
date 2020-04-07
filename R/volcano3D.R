@@ -23,7 +23,7 @@
 #' (default = 1). Decreasing this makes the plot appear more squat. 
 #' @param xy_aspectratio The aspect ratio for the xy axis compared to z
 #' (default = 1). Decreasing this makes the grid wider in the plot window. 
-#' @param ... Optional parameters to pass to \code{\link[base]{polar_grid}}.
+#' @param ... Optional parameters to pass to \code{\link{polar_grid}}.
 #' @return Returns a cylindrical 3D plotly plot featuring variables on a 
 #' tri-axis radial graph with the -log10(multi-group test p-value) on the 
 #' z-axis

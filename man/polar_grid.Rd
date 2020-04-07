@@ -56,13 +56,16 @@ plot
 \examples{
 library(volcano3Ddata)
 data(syn_data)
-syn_p_obj <- create_dep(sampledata = syn_metadata, 
-                    contrast = "Pathotype", 
-                    pvalues = syn_pvalues,
-                    p_col_suffix = "pvalue", 
-                    fc_col_suffix = "log2FoldChange",
-                    multi_group_prefix = "LRT", 
-                    expression = syn_rld)
+syn_polar <- polar_coords(sampledata = syn_metadata,
+                       contrast = "Pathotype",
+                       pvalues = syn_pvalues, 
+                       expression = syn_rld, 
+                       p_col_suffix = "pvalue", 
+                       padj_col_suffix = "padj", 
+                       non_sig_name = "Not Significant", 
+                       multi_group_prefix = "LRT",
+                       significance_cutoff = 0.01, 
+                       fc_cutoff = 0.3)
                     
 polar_grid(r_vector=syn_polar@polar$r_zscore,
            z_vector=NULL,
