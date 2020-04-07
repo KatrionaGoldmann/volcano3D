@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -45,7 +49,6 @@
 <meta property="og:title" content="Ggplot for Three Way Polar Plot — radial_ggplot" />
 <meta property="og:description" content="This function creates a radar plot using ggplot for a three-way comparison" />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -73,7 +76,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -87,7 +90,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
       </span>
     </div>
 
@@ -102,25 +105,33 @@
 <li>
   <a href="../reference/index.html">Manual</a>
 </li>
-<li>
-  <a href="../articles/Vignette.html">Vignette</a>
-</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    News
+    Vignettes
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../news/index.html">News</a>
+      <a href="../articles/Vignette.html">Volcano3D Vignette</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Additional Tutorials</li>
+    <li>
+      <a href="../articles/pvalues_generator.html">Generating Pvalues Objects</a>
+    </li>
+    <li>
+      <a href="../articles/shiny_builder.html">Using Volcano3D to create Shiny Apps</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/KatrionaGoldmann/volcano3D">
+  <a href="https://github.com/KatrionaGoldmann/volcano3D/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -149,18 +160,20 @@
 
     <pre class="usage"><span class='fu'>radial_ggplot</span>(
   <span class='no'>polar</span>,
-  <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>grid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>,
+  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>non_sig_colour</span> <span class='kw'>=</span> <span class='st'>"grey60"</span>,
-  <span class='kw'>marker_alpha</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>marker_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>colour_scale</span> <span class='kw'>=</span> <span class='st'>"discrete"</span>,
+  <span class='kw'>continuous_shift</span> <span class='kw'>=</span> <span class='fl'>120</span>,
+  <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>arrow_length</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>grid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>fc_or_zscore</span> <span class='kw'>=</span> <span class='st'>"zscore"</span>,
   <span class='kw'>label_size</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>axis_title_size</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>axis_label_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>fc_or_zscore</span> <span class='kw'>=</span> <span class='st'>"zscore"</span>,
+  <span class='kw'>marker_alpha</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
+  <span class='kw'>marker_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>axis_angle</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>6</span>,
-  <span class='kw'>arrow_length</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>legend_size</span> <span class='kw'>=</span> <span class='fl'>20</span>,
   <span class='no'>...</span>
 )</pre>
@@ -170,40 +183,53 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>polar</th>
-      <td><p>The coordinates for plotting onto a polar plot.</p></td>
+      <td><p>A polar object with the pvalues between groups of interest and 
+polar coordinates. Created by <code><a href='polar_coords.html'>polar_coords</a></code>.</p></td>
     </tr>
     <tr>
-      <th>label_rows</th>
-      <td><p>A list of row names or indices in polar to be labelled
-on the plot.</p></td>
-    </tr>
-    <tr>
-      <th>grid</th>
-      <td><p>Optional grid list output by <code><a href='polar_grid.html'>polar_grid</a></code>. If NULL 
-this will be calculated.</p></td>
-    </tr>
-    <tr>
-      <th>fc_cutoff</th>
-      <td><p>The cut-off for fold change, below which markers will be
-coloured according to `non_sig_colour`` (default = 0.3).</p></td>
+      <th>colours</th>
+      <td><p>A named vector of colours for the groups. If NULL colours
+will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
+unnamed colours will be assigned in polar@polar$sig level order.</p></td>
     </tr>
     <tr>
       <th>non_sig_colour</th>
-      <td><p>The colour for non-significant markers according to 
-fold change.</p></td>
+      <td><p>non_sig_colour The colour for non-significant markers 
+(default = "grey60").</p></td>
     </tr>
     <tr>
-      <th>marker_alpha</th>
-      <td><p>The alpha parameter for 
-<code><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></code> (default = 0.7).</p></td>
+      <th>colour_scale</th>
+      <td><p>whether to use a "discrete" or "continuous" colour scale 
+(default = "discrete").</p></td>
     </tr>
     <tr>
-      <th>marker_size</th>
-      <td><p>Size of the markers (default = 3).</p></td>
+      <th>continuous_shift</th>
+      <td><p>the number of degrees (between 0 and 360) 
+corresponding to the angle to offset the continuous colour scale by. The 
+continuous colour scale is calculated by converting the angle to hue where 0 
+degrees corresponds to red and 360 degrees to magenta (default = 120).</p></td>
+    </tr>
+    <tr>
+      <th>label_rows</th>
+      <td><p>A vector of row names or numbers to label.</p></td>
+    </tr>
+    <tr>
+      <th>arrow_length</th>
+      <td><p>length of label arrow (default = 1).</p></td>
+    </tr>
+    <tr>
+      <th>grid</th>
+      <td><p>An optional grid object. If NULL this will be calculated using 
+default values of  <code><a href='polar_grid.html'>polar_grid</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>fc_or_zscore</th>
+      <td><p>Whether to use the z-score or fold change as magnitude.
+Options are 'zscore' (default) or 'fc'.</p></td>
     </tr>
     <tr>
       <th>label_size</th>
-      <td><p>Font size of labels (default = 5).</p></td>
+      <td><p>Font size of labels/annotations (default = 5).</p></td>
     </tr>
     <tr>
       <th>axis_title_size</th>
@@ -214,17 +240,17 @@ fold change.</p></td>
       <td><p>Font size for axis labels (default = 3)</p></td>
     </tr>
     <tr>
-      <th>fc_or_zscore</th>
-      <td><p>Whether to use the z-score or fold change as magnitude
-(options are c("zscore", "fc")).</p></td>
+      <th>marker_alpha</th>
+      <td><p>The alpha parameter for markers (default = 0.7).</p></td>
+    </tr>
+    <tr>
+      <th>marker_size</th>
+      <td><p>Size of the markers (default = 3).</p></td>
     </tr>
     <tr>
       <th>axis_angle</th>
-      <td><p>Angle for the axis labels (default = 1/6).</p></td>
-    </tr>
-    <tr>
-      <th>arrow_length</th>
-      <td><p>length of label arrow (default = 1).</p></td>
+      <td><p>Angle for the radial axis labels in pi radians
+(default = 1/6).</p></td>
     </tr>
     <tr>
       <th>legend_size</th>
@@ -232,13 +258,15 @@ fold change.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Other optional parameters to pass to <code><a href='polar_grid.html'>polar_grid</a></code></p></td>
+      <td><p>Optional grid parameters to pass to 
+<code><a href='polar_grid.html'>polar_grid</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a polar ggplot featuring variables on a tri-axis radial graph</p>
+    <p>Returns a polar ggplot object featuring variables on a tri-axis 
+radial graph</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Lewis, Myles J., et al. (2019).
@@ -250,33 +278,22 @@ treatment response phenotypes.</a>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>syn_data</span>)
-<span class='no'>syn_p_obj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_dep.html'>create_dep</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
-                    <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
-                    <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_pvalues</span>,
-                    <span class='kw'>p_col_suffix</span> <span class='kw'>=</span> <span class='st'>"pvalue"</span>,
-                    <span class='kw'>fc_col_suffix</span> <span class='kw'>=</span> <span class='st'>"log2FoldChange"</span>,
-                    <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
-                    <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_rld</span>)
-<span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>dep</span> <span class='kw'>=</span> <span class='no'>syn_p_obj</span>)
+<span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
+                          <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
+                          <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_pvalues</span>,
+                          <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_rld</span>,
+                          <span class='kw'>p_col_suffix</span> <span class='kw'>=</span> <span class='st'>"pvalue"</span>,
+                          <span class='kw'>padj_col_suffix</span> <span class='kw'>=</span> <span class='st'>"padj"</span>,
+                          <span class='kw'>non_sig_name</span> <span class='kw'>=</span> <span class='st'>"Not Significant"</span>,
+                          <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+                          <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
 
-<span class='fu'>radial_ggplot</span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>,
-              <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-              <span class='kw'>marker_size</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
-              <span class='kw'>label_size</span> <span class='kw'>=</span> <span class='fl'>2.5</span>,
-              <span class='kw'>axis_label_size</span> <span class='kw'>=</span> <span class='fl'>1.5</span>,
-              <span class='kw'>axis_title_size</span> <span class='kw'>=</span> <span class='fl'>2.5</span>,
-              <span class='kw'>legend_size</span><span class='kw'>=</span><span class='fl'>5</span>,
-              <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>, <span class='st'>"PARP16"</span>, <span class='st'>"ITM2C"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_path).</span></div><div class='img'><img src='radial_ggplot-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>radial_ggplot</span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>, <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Colour vector is unnamed - assigning in order of sig levels</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `polar_df$sig` is discouraged. Use `sig` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `polar_df$hue` is discouraged. Use `hue` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `polar_df$x` is discouraged. Use `x` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `polar_df$y` is discouraged. Use `y` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$x` is discouraged. Use `x` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$y` is discouraged. Use `y` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$xend` is discouraged. Use `xend` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$yend` is discouraged. Use `yend` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$xend` is discouraged. Use `xend` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$yend` is discouraged. Use `yend` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$label` is discouraged. Use `label` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$x` is discouraged. Use `x` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$y` is discouraged. Use `y` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='radial_ggplot-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -287,7 +304,7 @@ treatment response phenotypes.</a>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
 </div>
 
       </footer>

@@ -1,6 +1,6 @@
 template:
   params:
-    bootswatch: cerulean
+    bootswatch: cosmo
     ganalytics: UA-158679490-1
 
 authors:
@@ -13,13 +13,19 @@ authors:
 navbar:
   components:
     articles:
-      text: Vignette
-      href: articles/Vignette.html
+      text: Vignettes
+      menu:
+      - text: Volcano3D Vignette
+        href: articles/Vignette.html
+      - text: -------
+      - text: "Additional Tutorials"
+      - text: "Generating Pvalues Objects"
+        href: articles/pvalues_generator.html
+      - text: "Using Volcano3D to create Shiny Apps"
+        href: articles/shiny_builder.html
     news:
       text: News
-      menu:
-      - text: "News"
-        href: news/index.html
+      href: news/index.html
     reference:
       text: "Manual"
       href: reference/index.html

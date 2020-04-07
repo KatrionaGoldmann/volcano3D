@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="pkgdown.css" rel="stylesheet">
@@ -44,7 +48,6 @@
 
 <meta property="og:title" content="volcano3D " />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -72,7 +75,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -86,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
       </span>
     </div>
 
@@ -101,25 +104,33 @@
 <li>
   <a href="reference/index.html">Manual</a>
 </li>
-<li>
-  <a href="articles/Vignette.html">Vignette</a>
-</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    News
+    Vignettes
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="news/index.html">News</a>
+      <a href="articles/Vignette.html">Volcano3D Vignette</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Additional Tutorials</li>
+    <li>
+      <a href="articles/pvalues_generator.html">Generating Pvalues Objects</a>
+    </li>
+    <li>
+      <a href="articles/shiny_builder.html">Using Volcano3D to create Shiny Apps</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="news/index.html">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/KatrionaGoldmann/volcano3D">
+  <a href="https://github.com/KatrionaGoldmann/volcano3D/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -141,12 +152,17 @@
     </div>
 
 
-<p><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <a href="https://cran.r-project.org/package=volcano3D"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a> <a href="https://codecov.io/gh/r-lib/volcano3D?branch=master"><img src="https://codecov.io/gh/r-lib/volcano3D/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://cran.rstudio.com/package=volcano3D"><img src="https://cranlogs.r-pkg.org/badges/volcano3D?color=blue" alt="Downloads"></a></p>
+<p><a href="http://hits.dwyl.com/KatrionaGoldmann/volcano3D"><img src="http://hits.dwyl.com/KatrionaGoldmann/volcano3D.svg" alt="HitCount"></a> <a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a> <a href="https://cran.r-project.org/package=volcano3D"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a> <a href="https://codecov.io/gh/r-lib/volcano3D?branch=master"><img src="https://codecov.io/gh/r-lib/volcano3D/branch/master/graph/badge.svg" alt="Codecov test coverage"></a> <a href="https://cran.rstudio.com/package=volcano3D"><img src="https://cranlogs.r-pkg.org/badges/volcano3D?color=blue" alt="Downloads"></a></p>
 <div id="volcano3d" class="section level1">
 
 <p>The volcano3D package enables exploration of probes differentially expressed between three groups. Its main purpose is for the visualisation of differentially expressed genes in a three-dimensional volcano plot. These plots can be converted to interactive visualisations using plotly.</p>
-<p>The <a href="https://katrionagoldmann.github.io/volcano3D/articles/Vignette.html">vignette</a> explores a case study from the PEAC rheumatoid arthritis trial (Pathobiology of Early Arthritis Cohort). The methodology has been published in <a href="https://doi.org/10.1016/j.celrep.2019.07.091">‘Lewis, Myles J., et al. “Molecular portraits of early rheumatoid arthritis identify clinical and treatment response phenotypes.” Cell reports 28.9 (2019): 2455-2470.’ (DOI: 10.1016/j.celrep.2019.07.091)</a> with an interactive web tool available at <a href="https://peac.hpc.qmul.ac.uk" class="uri">https://peac.hpc.qmul.ac.uk</a>.</p>
+<p>The <a href="https://katrionagoldmann.github.io/volcano3D/articles/Vignette.html">vignette</a> explores a case study from the PEAC rheumatoid arthritis trial (Pathobiology of Early Arthritis Cohort). The methodology has been published in <a href="https://doi.org/10.1016/j.celrep.2019.07.091">Lewis, Myles J., et al. âMolecular portraits of early rheumatoid arthritis identify clinical and treatment response phenotypesâ. Cell reports 28.9 (2019): 2455-2470. (DOI: 10.1016/j.celrep.2019.07.091)</a> with an interactive web tool available at <a href="https://peac.hpc.qmul.ac.uk" class="uri">https://peac.hpc.qmul.ac.uk</a>.</p>
 <p>This tool acts as a searchable interface to examine relationships between individual synovial and blood gene transcript levels and histological, clinical, and radiographic parameters, and clinical response at 6 months. An interactive interface allows the gene module analysis to be explored for relationships between modules and clinical parameters. The PEAC interactive web tool was creating as an <a href="https://shiny.rstudio.com">R Shiny app</a> and deployed to the web using a server.</p>
+<p>There are also supplementary vignettes for further information on:</p>
+<ul>
+<li><a href="https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html">setting up the input pvalues data frame</a></li>
+<li><a href="https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html">using the volcano3D package to create and deploy a shiny app</a></li>
+</ul>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting Started</h2>
@@ -164,39 +180,39 @@
 <h3 class="hasAnchor">
 <a href="#install-from-cran" class="anchor"></a>Install from CRAN</h3>
 <p><em>Not yet publicly available:</em></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"volcano3D"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"volcano3D"</span>)</a></code></pre></div>
 </div>
 <div id="install-from-github" class="section level3">
 <h3 class="hasAnchor">
 <a href="#install-from-github" class="anchor"></a>Install from Github</h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(devtools)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(volcano3D)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(devtools)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">install_github</span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">library</span>(volcano3D)</a></code></pre></div>
 </div>
 <div id="volcano3d-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#volcano3d-data" class="anchor"></a>volcano3D data</h3>
 <p>The sample data can then also be installed (this can only be done after volcano3D is imported first or from the <a href="https://github.com/KatrionaGoldmann/volcano3Ddata">source</a>)</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"volcano3Ddata"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"volcano3Ddata"</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="citation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
-<p>volcano3D was developed by the bioinforamtics team at the <a href="https://www.qmul.ac.uk/whri/emr/">Experimental Medicine &amp; Rheumatology department</a> and <a href="https://www.qmul.ac.uk/c4tb/">Centre for Translational Bioinformatics</a> at Queen Mary University London.</p>
+<p>volcano3D was developed by the bioinformatics team at the <a href="https://www.qmul.ac.uk/whri/emr/">Experimental Medicine &amp; Rheumatology department</a> and <a href="https://www.qmul.ac.uk/c4tb/">Centre for Translational Bioinformatics</a> at Queen Mary University London.</p>
 <p>If you use this package please cite as:</p>
 <blockquote>
-<p>Lewis, Myles J., et al. “Molecular portraits of early rheumatoid arthritis identify clinical and treatment response phenotypes.” Cell reports 28.9 (2019): 2455-2470.</p>
+<p>Lewis, Myles J., et al. âMolecular portraits of early rheumatoid arthritis identify clinical and treatment response phenotypesâ. Cell reports 28.9 (2019): 2455-2470.</p>
 </blockquote>
 <p>or using:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span>(<span class="st">"volcano3D"</span>)</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">citation</span>(<span class="st">"volcano3D"</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">## </span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">## To cite package 'volcano3D' in publications use:</span></a>
 <a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">## </span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">##   Katriona Goldmann and Myles Lewis (2020). volcano3D: Interactive</span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">##   Plotting of Three-Way Differential Expression Analysis. R package</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">##   version 0.1.0.9000. https://github.com/KatrionaGoldmann/volcano3D</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">##   version 1.0.0.9000. https://github.com/KatrionaGoldmann/volcano3D</span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">## </span></a>
 <a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">## A BibTeX entry for LaTeX users is</span></a>
 <a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">## </span></a>
@@ -205,13 +221,19 @@
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">## Analysis},</span></a>
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">##     author = {Katriona Goldmann and Myles Lewis},</span></a>
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">##     year = {2020},</span></a>
-<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">##     note = {R package version 0.1.0.9000},</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">##     note = {R package version 1.0.0.9000},</span></a>
 <a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">##     url = {https://github.com/KatrionaGoldmann/volcano3D},</span></a>
 <a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">##   }</span></a></code></pre></div>
 </div>
 </div>
 
 
+  </div>
+
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
@@ -224,7 +246,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.</p>
 </div>
 
       </footer>

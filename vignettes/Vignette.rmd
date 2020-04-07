@@ -47,9 +47,9 @@ volcano plot. These plots can be converted to interactive visualisations using
 This vignette consists of a case study from the PEAC 
 rheumatoid arthritis project (Pathobiology of Early Arthritis Cohort). 
 The methodology has been published in 
-['Lewis, Myles J., et al. "Molecular portraits of early rheumatoid arthritis 
-identify clinical and treatment response phenotypes." Cell reports 28.9 (2019): 
-2455-2470.'
+[Lewis, Myles J., et al. 'Molecular portraits of early rheumatoid arthritis 
+identify clinical and treatment response phenotypes.' Cell reports 28.9 (2019): 
+2455-2470.
 (DOI: 10.1016/j.celrep.2019.07.091)](https://doi.org/10.1016/j.celrep.2019.07.091)
 with an interactive web tool available at 
 [https://peac.hpc.qmul.ac.uk](https://peac.hpc.qmul.ac.uk).  
@@ -330,7 +330,7 @@ We can then interrogate any one specific variable as a boxplot, to investigate
 these differences. This is build using ggplot2 so can easily be edited by the
 user to add features.
 
-```{r, fig.height = 2.8}
+```{r, fig.height = 2.8, fig.width=14}
 plot1 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
                       test = "polar_padj",
@@ -558,8 +558,8 @@ ggarrange(plot1, plot2)
 
 If you use this package please cite as:
 
-> Lewis, Myles J., et al. "Molecular portraits of early rheumatoid arthritis
-identify clinical and treatment response phenotypes." Cell reports 28.9 (2019):
+> Lewis, Myles J., et al. 'Molecular portraits of early rheumatoid arthritis
+identify clinical and treatment response phenotypes.' Cell reports 28.9 (2019):
 2455-2470.
 
 or using:
