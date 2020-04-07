@@ -20,9 +20,9 @@ The
 [vignette](https://katrionagoldmann.github.io/volcano3D/articles/Vignette.html)
 explores a case study from the PEAC rheumatoid arthritis trial
 (Pathobiology of Early Arthritis Cohort). The methodology has been
-published in [Lewis, Myles J., et al. ‘Molecular portraits of early
+published in [Lewis, Myles J., et al. *Molecular portraits of early
 rheumatoid arthritis identify clinical and treatment response
-phenotypes’. Cell reports 28.9 (2019): 2455-2470. (DOI:
+phenotypes*. Cell reports 28.9 (2019): 2455-2470. (DOI:
 10.1016/j.celrep.2019.07.091)](https://doi.org/10.1016/j.celrep.2019.07.091)
 with an interactive web tool available at <https://peac.hpc.qmul.ac.uk>.
 
@@ -82,8 +82,8 @@ London.
 
 If you use this package please cite as:
 
-> Lewis, Myles J., et al. ‘Molecular portraits of early rheumatoid
-> arthritis identify clinical and treatment response phenotypes’. Cell
+> Lewis, Myles J., et al. *Molecular portraits of early rheumatoid
+> arthritis identify clinical and treatment response phenotypes*. Cell
 > reports 28.9 (2019): 2455-2470.
 
 or using:
