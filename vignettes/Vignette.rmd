@@ -27,6 +27,7 @@ vignette: >
   render_toc("./Vignette.rmd")
 ```
   
+
 ---
   
 [![HitCount](http://hits.dwyl.com/KatrionaGoldmann/volcano3D.svg)](http://hits.dwyl.com/KatrionaGoldmann/volcano3D)
@@ -52,6 +53,11 @@ identify clinical and treatment response phenotypes." Cell reports 28.9 (2019):
 (DOI: 10.1016/j.celrep.2019.07.091)](https://doi.org/10.1016/j.celrep.2019.07.091)
 with an interactive web tool available at 
 [https://peac.hpc.qmul.ac.uk](https://peac.hpc.qmul.ac.uk).  
+
+There are also suuplementary vignettes for further information on:
+
+- [setting up the input pvalues data frame](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html)
+- [using the volcano3D package to create and deploy a shiny app](https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html)
   
 ## Getting Started
   
@@ -173,6 +179,8 @@ padj_col_suffix)`)
 (column names of form `paste(multiGroupPrefix, padjColSuffix)`). This is
 typically generated using ANOVA or likelihood ratio tests comparing all
 three groups.
+  <li type="square"> For more information on how to create pvalues data frames see the 
+[pvalue generator vignette](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html).</li>
 
 with optional:
 
@@ -192,6 +200,8 @@ multi-group test (this is typically a likelihood ratio test or ANOVA). Default
 is NULL.
 * `label_column`: A column name in pvalues which is to be used to label markers
 of interest at plotting stage. If NULL the rownames will be used.
+
+
 
 Using the synovial biopsies from PEAC we can create a polar object for
 differentially expressed genes. First we will install the volcano3Ddata package

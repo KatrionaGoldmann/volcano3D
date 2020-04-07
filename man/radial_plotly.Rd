@@ -27,7 +27,7 @@ radial_plotly(
 polar coordinates. Created by \code{\link{polar_coords}}.}
 
 \item{colours}{A named vector of colours for the groups. If NULL colours
-will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
+will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple', 'red'). If 
 unnamed colours will be assigned in polar@polar$sig level order.}
 
 \item{non_sig_colour}{The colour for non-significant markers 

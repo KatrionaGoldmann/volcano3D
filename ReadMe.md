@@ -34,6 +34,13 @@ analysis to be explored for relationships between modules and clinical
 parameters. The PEAC interactive web tool was creating as an [R Shiny
 app](https://shiny.rstudio.com) and deployed to the web using a server.
 
+There are also suuplementary vignettes for further information on:
+
+-   [setting up the input pvalues data
+    frame](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html)
+-   [using the volcano3D package to create and deploy a shiny
+    app](https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html)
+
 Getting Started
 ---------------
 
