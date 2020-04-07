@@ -39,19 +39,22 @@
 #' @examples
 #' library(volcano3Ddata)
 #' data(syn_data)
-#' syn_p_obj <- create_dep(sampledata = syn_metadata, 
-#'                     contrast = "Pathotype", 
-#'                     pvalues = syn_pvalues,
-#'                     p_col_suffix = "pvalue", 
-#'                     fc_col_suffix = "log2FoldChange",
-#'                     multi_group_prefix = "LRT", 
-#'                     expression = syn_rld)
-#' syn_polar <- polar_coords(dep = syn_p_obj)
+#' syn_polar <- polar_coords(sampledata = syn_metadata,
+#'                        contrast = "Pathotype",
+#'                        pvalues = syn_pvalues, 
+#'                        expression = syn_rld, 
+#'                        p_col_suffix = "pvalue", 
+#'                        padj_col_suffix = "padj", 
+#'                        non_sig_name = "Not Significant", 
+#'                        multi_group_prefix = "LRT",
+#'                        significance_cutoff = 0.01, 
+#'                        fc_cutoff = 0.3)
+#' 
 #' volcano3D(syn_polar, 
-#'        label_rows = c("FMOD", "LAMP5", "TNNT3"), 
-#'        label_size = 10, 
-#'        xy_aspectratio = 1, 
-#'        z_aspectratio = 0.9)
+#'     label_rows = c("FMOD", "LAMP5", "TNNT3"), 
+#'     label_size = 10, 
+#'     xy_aspectratio = 1, 
+#'     z_aspectratio = 0.9)
 
 
 volcano3D <- function(polar,
@@ -187,6 +190,7 @@ volcano3D <- function(polar,
     
     plot_ly(data = volcano_toptable, x = ~x, y = ~y, z = ~logP,
             marker = list(size = 2.6), 
+            key=~label,
             color = ~switch(colour_scale,
                             "discrete" = sig,
                             "continuous" = I(hue)),
@@ -194,7 +198,7 @@ volcano3D <- function(polar,
             colors = switch(colour_scale,
                             "discrete" = cols,
                             "continuous" = NULL),
-            text = ~paste0(rownames(volcano_toptable), 
+            text = ~paste0(label, 
                            "<br>Theta = ", as.integer(angle_degrees), "\u00B0",
                            "<br>r = ", formatC(r, digits = 3), 
                            "<br>P = ", format(logP, digits = 3, 
