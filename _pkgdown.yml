@@ -13,15 +13,13 @@ authors:
 navbar:
   components:
     articles:
-      text: Vignettes
-      menu:
-      - text: "Vignette"
-        href: articles/Vignette.html
-      - text: "Creating Pvalues"
-        href: articles/pvalues_generator.html
+      text: Vignette
+      href: articles/Vignette.html
     news:
-      text: "News"
-      href: news/index.html
+      text: News
+      menu:
+      - text: "News"
+        href: news/index.html
     reference:
       text: "Manual"
       href: reference/index.html

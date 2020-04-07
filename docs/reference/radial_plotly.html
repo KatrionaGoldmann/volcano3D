@@ -43,8 +43,8 @@
 
 
 <meta property="og:title" content="Three-way radial comparison Polar Plot (using plotly) — radial_plotly" />
-<meta property="og:description" content="This function creates an interactive plotly object which maps differential 
-expression onto a polar coordinates." />
+<meta property="og:description" content="This function creates a plot using plotly which maps the expression
+onto a polar coordinates." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -88,7 +88,7 @@ expression onto a polar coordinates." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -103,23 +103,20 @@ expression onto a polar coordinates." />
 <li>
   <a href="../reference/index.html">Manual</a>
 </li>
+<li>
+  <a href="../articles/Vignette.html">Vignette</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Vignettes
+    News
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Vignette.html">Vignette</a>
-    </li>
-    <li>
-      <a href="../articles/pvalues_generator.html">Creating Pvalues</a>
+      <a href="../news/index.html">News</a>
     </li>
   </ul>
-</li>
-<li>
-  <a href="../news/index.html">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -148,23 +145,21 @@ expression onto a polar coordinates." />
     </div>
 
     <div class="ref-description">
-    <p>This function creates an interactive plotly object which maps differential 
-expression onto a polar coordinates.</p>
+    <p>This function creates a plot using plotly which maps the expression
+onto a polar coordinates.</p>
     </div>
 
     <pre class="usage"><span class='fu'>radial_plotly</span>(
   <span class='no'>polar</span>,
-  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>,
   <span class='kw'>non_sig_colour</span> <span class='kw'>=</span> <span class='st'>"grey60"</span>,
-  <span class='kw'>colour_scale</span> <span class='kw'>=</span> <span class='st'>"discrete"</span>,
-  <span class='kw'>continuous_shift</span> <span class='kw'>=</span> <span class='fl'>120</span>,
   <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>arrow_length</span> <span class='kw'>=</span> <span class='fl'>50</span>,
   <span class='kw'>grid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>fc_or_zscore</span> <span class='kw'>=</span> <span class='st'>"zscore"</span>,
   <span class='kw'>label_size</span> <span class='kw'>=</span> <span class='fl'>14</span>,
   <span class='kw'>axis_title_size</span> <span class='kw'>=</span> <span class='fl'>16</span>,
   <span class='kw'>axis_label_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>arrow_length</span> <span class='kw'>=</span> <span class='fl'>50</span>,
   <span class='kw'>axis_ticks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>axis_angle</span> <span class='kw'>=</span> <span class='fl'>5</span>/<span class='fl'>6</span>,
   <span class='no'>...</span>
@@ -175,53 +170,35 @@ expression onto a polar coordinates.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>polar</th>
-      <td><p>A polar object with the pvalues between groups of interest and 
-polar coordinates. Created by <code><a href='polar_coords.html'>polar_coords</a></code>.</p></td>
+      <td><p>The coordinates for plotting onto a polar plot</p></td>
     </tr>
     <tr>
-      <th>colours</th>
-      <td><p>A named vector of colours for the groups. If NULL colours
-will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
-unnamed colours will be assigned in polar@polar$sig level order.</p></td>
+      <th>fc_cutoff</th>
+      <td><p>The cut-off for fold change, below which markers will be
+coloured according to `non_sig_colour`` (default = 0.3).</p></td>
     </tr>
     <tr>
       <th>non_sig_colour</th>
-      <td><p>The colour for non-significant markers 
-(default = "grey60").</p></td>
-    </tr>
-    <tr>
-      <th>colour_scale</th>
-      <td><p>whether to use a 'discrete' or 'continuous' colour scale 
-(default = 'discrete').</p></td>
-    </tr>
-    <tr>
-      <th>continuous_shift</th>
-      <td><p>The number of degrees (between 0 and 360) 
-to offset the continuous colour scale by. This is calculated by converting 
-the angle to a hue using <code><a href='https://rdrr.io/r/grDevices/hsv.html'>hsv</a></code> where 0 corresponds to
-the colour scale starting with red and 360 with magenta (default = 120).</p></td>
+      <td><p>The colour for non-significant markers according to 
+fold change.</p></td>
     </tr>
     <tr>
       <th>label_rows</th>
-      <td><p>A vector of row names or numbers to label.</p></td>
-    </tr>
-    <tr>
-      <th>arrow_length</th>
-      <td><p>The length of label arrows (default = 50).</p></td>
+      <td><p>A character vector of genes or row numbers to label</p></td>
     </tr>
     <tr>
       <th>grid</th>
-      <td><p>An optional grid object. If NULL this will be calculated using 
-default values of  <code><a href='polar_grid.html'>polar_grid</a></code>.</p></td>
+      <td><p>Optional grid list output by <code><a href='polar_grid.html'>polar_grid</a></code>. If NULL 
+this will be calculated.</p></td>
     </tr>
     <tr>
       <th>fc_or_zscore</th>
-      <td><p>Whether to use the z-score or fold change as magnitude.
-Options are 'zscore' (default) or 'fc'.</p></td>
+      <td><p>Whether to use the z-score or fold change as magnitude
+(options are c("zscore", "fc"))</p></td>
     </tr>
     <tr>
       <th>label_size</th>
-      <td><p>Font size of labels/annotations (default = 14)</p></td>
+      <td><p>Font size of labels (default = 14)</p></td>
     </tr>
     <tr>
       <th>axis_title_size</th>
@@ -232,24 +209,28 @@ Options are 'zscore' (default) or 'fc'.</p></td>
       <td><p>Font size for axis labels (default = 10)</p></td>
     </tr>
     <tr>
+      <th>arrow_length</th>
+      <td><p>length of label arrow (default = 50)</p></td>
+    </tr>
+    <tr>
       <th>axis_ticks</th>
-      <td><p>A numerical vector of radial axis tick breaks. If
+      <td><p>a numerical vector of tick breaks for the radial axis. If
 NULL this will be calculated using <code><a href='https://rdrr.io/r/base/pretty.html'>pretty</a></code>.</p></td>
     </tr>
     <tr>
       <th>axis_angle</th>
-      <td><p>Angle in  pi radians for the radial axis (default = 5/6).</p></td>
+      <td><p>Angle for the axis labels (default = 5/6).</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Optional grid parameters to pass to 
-<code><a href='polar_grid.html'>polar_grid</a></code>.</p></td>
+      <td><p>Optional parameters to pass to <code><a href='https://rdrr.io/r/base/pretty.html'>pretty</a></code> to 
+define the radial axis ticks.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a plotly plot featuring variables on a tri-axis
+    <p>Returns a polar plotly plot featuring variables on a tri-axis
 radial graph</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -262,17 +243,17 @@ treatment response phenotypes.</a>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>syn_data</span>)
-<span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
-                          <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
-                          <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_pvalues</span>,
-                          <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_rld</span>,
-                          <span class='kw'>p_col_suffix</span> <span class='kw'>=</span> <span class='st'>"pvalue"</span>,
-                          <span class='kw'>padj_col_suffix</span> <span class='kw'>=</span> <span class='st'>"padj"</span>,
-                          <span class='kw'>non_sig_name</span> <span class='kw'>=</span> <span class='st'>"Not Significant"</span>,
-                          <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-                          <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
-
-<span class='fu'>radial_plotly</span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>, <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Colour vector is unnamed - assigning in order of sig levels</span></div></pre>
+<span class='no'>syn_p_obj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_dep.html'>create_dep</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
+                    <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
+                    <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_pvalues</span>,
+                    <span class='kw'>p_col_suffix</span> <span class='kw'>=</span> <span class='st'>"pvalue"</span>,
+                    <span class='kw'>fc_col_suffix</span> <span class='kw'>=</span> <span class='st'>"log2FoldChange"</span>,
+                    <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
+                    <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_rld</span>)
+<span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>dep</span> <span class='kw'>=</span> <span class='no'>syn_p_obj</span>)
+<span class='fu'>radial_plotly</span>(<span class='kw'>polar</span><span class='kw'>=</span><span class='no'>syn_polar</span>,
+            <span class='kw'>fc_cutoff</span><span class='kw'>=</span><span class='fl'>0.1</span>,
+            <span class='kw'>label_rows</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>, <span class='st'>"PARP16"</span>, <span class='st'>"ITM2C"</span>))</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

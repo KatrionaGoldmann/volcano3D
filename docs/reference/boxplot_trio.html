@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Boxplot to compare groups — boxplot_trio • volcano3D</title>
+<title>Boxplot to compare three groups — boxplot_trio • volcano3D</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,8 @@
 
 
 
-<meta property="og:title" content="Boxplot to compare groups — boxplot_trio" />
-<meta property="og:description" content="Plots the expression of a specific row in expression to compare the three 
+<meta property="og:title" content="Boxplot to compare three groups — boxplot_trio" />
+<meta property="og:description" content="Plots the expression of a specific row in expression comparing the three 
 groups in a boxplot." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -88,7 +88,7 @@ groups in a boxplot." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
       </span>
     </div>
 
@@ -103,23 +103,20 @@ groups in a boxplot." />
 <li>
   <a href="../reference/index.html">Manual</a>
 </li>
+<li>
+  <a href="../articles/Vignette.html">Vignette</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Vignettes
+    News
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Vignette.html">Vignette</a>
-    </li>
-    <li>
-      <a href="../articles/pvalues_generator.html">Creating Pvalues</a>
+      <a href="../news/index.html">News</a>
     </li>
   </ul>
-</li>
-<li>
-  <a href="../news/index.html">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -142,26 +139,25 @@ groups in a boxplot." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Boxplot to compare groups</h1>
+    <h1>Boxplot to compare three groups</h1>
     <small class="dont-index">Source: <a href='https://github.com/KatrionaGoldmann/volcano3D/blob/master/R/boxplot_trio.R'><code>R/boxplot_trio.R</code></a></small>
     <div class="hidden name"><code>boxplot_trio.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plots the expression of a specific row in expression to compare the three 
+    <p>Plots the expression of a specific row in expression comparing the three 
 groups in a boxplot.</p>
     </div>
 
     <pre class="usage"><span class='fu'>boxplot_trio</span>(
-  <span class='no'>polar</span>,
+  <span class='no'>dep</span>,
   <span class='no'>value</span>,
   <span class='kw'>box_colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"green3"</span>, <span class='st'>"blue"</span>, <span class='st'>"red"</span>),
-  <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"polar_pvalue"</span>,
+  <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"t.test"</span>,
   <span class='kw'>levels_order</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>my_comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>stat_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>step_increase</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -169,14 +165,13 @@ groups in a boxplot.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>polar</th>
-      <td><p>A polar object including expression data from groups of 
-interest. Created by <code><a href='polar_coords.html'>polar_coords</a></code>.</p></td>
+      <th>dep</th>
+      <td><p>A dep object with the pvalues between groups of interest. Created
+by <code><a href='create_dep.html'>create_dep</a></code>.</p></td>
     </tr>
     <tr>
       <th>value</th>
-      <td><p>The row name or number in <code>polar@expression</code> to be 
-analysed</p></td>
+      <td><p>The row name or number in dep@expression to be analysed</p></td>
     </tr>
     <tr>
       <th>box_colours</th>
@@ -185,29 +180,17 @@ analysed</p></td>
     </tr>
     <tr>
       <th>test</th>
-      <td><p>The statistical test used to compare expression. 
-Allowed values include:</p><ul>
-<li><p><code>polar_pvalue</code> (default) and 'polar_padj' for the pvalues 
- and adjusted pvalues in the polar object.</p></li>
-<li><p><code>polar_multi_pvalue</code> and <code>polar_multi_padj</code> for the pvalues 
- and adjusted pvalues across all groups using the 
- <code>polar@multi_group_test </code> columns.</p></li>
-<li><p><code><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></code> (parametric) and
- <code><a href='https://rdrr.io/r/stats/wilcox.test.html'>wilcox.test</a></code> (non-parametric). Perform comparison
- between groups of samples.</p></li>
-<li><p><code><a href='https://rdrr.io/r/stats/anova.html'>anova</a></code> (parametric) and 
- <code><a href='https://rdrr.io/r/stats/kruskal.test.html'>kruskal.test</a></code> (non-parametric). Perform one-way ANOVA
- test comparing multiple groups.</p></li>
-</ul></td>
+      <td><p>The statistical test used to compare expression. See method in
+<code><a href='https://rdrr.io/pkg/ggpubr/man/stat_compare_means.html'>stat_compare_means</a></code></p></td>
     </tr>
     <tr>
       <th>levels_order</th>
       <td><p>A character vector stating the contrast groups to be 
-plotted, in order.</p></td>
+plotted in order</p></td>
     </tr>
     <tr>
       <th>my_comparisons</th>
-      <td><p>A list of contrasts to pass to 
+      <td><p>A list of contrasts to pass to comparisons in 
 <code><a href='https://rdrr.io/pkg/ggpubr/man/stat_compare_means.html'>stat_compare_means</a></code>. If NULL (default) all contrast 
 pvalues are calculated and plotted.</p></td>
     </tr>
@@ -220,11 +203,6 @@ pvalues are calculated and plotted.</p></td>
       <td><p>The font size of statistical parameter (default = 3).</p></td>
     </tr>
     <tr>
-      <th>step_increase</th>
-      <td><p>The distance between statistics on the y-axis 
-(default = 0.1).</p></td>
-    </tr>
-    <tr>
       <th>...</th>
       <td><p>Other parameters for <code><a href='https://rdrr.io/pkg/ggpubr/man/stat_compare_means.html'>stat_compare_means</a></code></p></td>
     </tr>
@@ -232,8 +210,8 @@ pvalues are calculated and plotted.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a ggplot boxplot featuring the differential expression 
-between groups in comparison with annotated pvalues.</p>
+    <p>Returns a ggplot boxplot featuring the expression of one row in 
+expression across the three groups in comparison with annotated pvalues.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Lewis, Myles J., et al. (2019). 
@@ -245,21 +223,20 @@ treatment response phenotypes.</a>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>syn_data</span>)
-<span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
-                         <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
-                         <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_pvalues</span>,
-                         <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_rld</span>,
-                         <span class='kw'>p_col_suffix</span> <span class='kw'>=</span> <span class='st'>"pvalue"</span>,
-                         <span class='kw'>padj_col_suffix</span> <span class='kw'>=</span> <span class='st'>"padj"</span>,
-                         <span class='kw'>non_sig_name</span> <span class='kw'>=</span> <span class='st'>"Not Significant"</span>,
-                         <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-                         <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
+<span class='no'>syn_p_obj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='create_dep.html'>create_dep</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
+                    <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
+                    <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_pvalues</span>,
+                    <span class='kw'>p_col_suffix</span> <span class='kw'>=</span><span class='st'>"pvalue"</span>,
+                    <span class='kw'>fc_col_suffix</span> <span class='kw'>=</span> <span class='st'>"log2FoldChange"</span>,
+                    <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
+                    <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_rld</span>)
 
-<span class='fu'>boxplot_trio</span>(<span class='no'>syn_polar</span>,
+<span class='fu'>boxplot_trio</span>(<span class='no'>syn_p_obj</span>,
           <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"SLAMF6"</span>,
+          <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"wilcox.test"</span>,
           <span class='kw'>levels_order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Lymphoid"</span>, <span class='st'>"Myeloid"</span>, <span class='st'>"Fibroid"</span>),
           <span class='kw'>box_colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"blue"</span>, <span class='st'>"red"</span>, <span class='st'>"green3"</span>))</div><div class='img'><img src='boxplot_trio-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>boxplot_trio</span>(<span class='no'>syn_polar</span>,
+<span class='fu'>boxplot_trio</span>(<span class='no'>syn_p_obj</span>,
           <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"ITM2C"</span>,
           <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"wilcox.test"</span>,
           <span class='kw'>levels_order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Lymphoid"</span>, <span class='st'>"Myeloid"</span>, <span class='st'>"Fibroid"</span>),

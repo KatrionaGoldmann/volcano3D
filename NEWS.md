@@ -8,7 +8,6 @@ News
 * Moved colour selection to individual plotting functions to make it more intuitive
 * Made the fold change columns optional
 * Allowed custom grid to be passed in
-* Add vignette for creating pvalues data frames using DESeq
 
 # volcano3D 0.1.0
 
