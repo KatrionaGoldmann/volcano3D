@@ -1,8 +1,12 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^git*
-^README.Rmd$
+^README.rmd$
 ^pkgdown*
+^_pkgdown*
 ^tests*
-^pvalues_generator*
-^shiny_builder*
+^docs*
+^vignettes/pvalues_generator*
+^vignettes/shiny_builder*
+^vignettes/Vignette.rmd$
+^vignettes/pvalues_example.rdata$
