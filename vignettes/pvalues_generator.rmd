@@ -322,7 +322,7 @@ p %>% plotly::layout(legend = list(x = 100, y = 0.5))
 ## With Limma
 
 The only difference here is we change the multi_group_prefix to "Overall" and 
-remove the fold change paramtere. 
+remove the fold change parameter. 
 
 ```{r, eval=TRUE}
 # Curate the expression data

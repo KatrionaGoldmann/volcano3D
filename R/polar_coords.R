@@ -241,6 +241,13 @@ polar_coords <- function(sampledata,
         }
         
         if(length(notFinding) > 0){  
+            if(paste(multi_group_prefix, fc_col_suffix) %in% notFinding){
+                warning(paste('No', paste(multi_group_prefix, fc_col_suffix), 
+                              'column found'))
+                notFinding <- notFinding[notFinding != 
+                                             paste(multi_group_prefix, 
+                                                   fc_col_suffix)]
+            }
             if(length(notFinding) > 1) {
                 notFinding <- 
                     paste0("'", paste0(notFinding[1:(length(notFinding)-1)],
@@ -248,8 +255,10 @@ polar_coords <- function(sampledata,
                            "' or '", 
                            notFinding[length(notFinding)], "'")
             }
-            stop(paste('Cannot find', paste0(notFinding, collapse=", "),
-                       'in colnames(pvalues)'))
+            if(length(notFinding) > 0){
+                stop(paste('Cannot find', paste0(notFinding, collapse=", "),
+                           'in colnames(pvalues)'))
+            }
         }
     }
     
@@ -264,11 +273,13 @@ polar_coords <- function(sampledata,
         padj_col_suffix <- "padj"
     }
     
-    pvalues <- pvalues[, c(sort(
-        paste(c(comparisons, multi_group_prefix),
-              rep(c(p_col_suffix, fc_col_suffix, padj_col_suffix),
-                  each = length(c(comparisons, multi_group_prefix))))), 
-        "label")]
+    possible_cols <- paste(
+        rep(c(comparisons, multi_group_prefix), 
+            each=length(c(p_col_suffix, fc_col_suffix, padj_col_suffix))),
+        rep(c(p_col_suffix, fc_col_suffix, padj_col_suffix),
+            times = length(c(comparisons, multi_group_prefix))))
+    possible_cols <- possible_cols[possible_cols %in% colnames(pvalues)]
+    pvalues <- pvalues[, c(possible_cols, "label")]
     
     colnames(pvalues) <- gsub(p_col_suffix, "pvalue", colnames(pvalues))
     colnames(pvalues) <- gsub(padj_col_suffix, "padj", colnames(pvalues))

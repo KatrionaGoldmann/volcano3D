@@ -439,7 +439,7 @@ useful for deploying shiny apps into discrete units (containers) with their
 own virtual environment: 
 
 - [Deploy your RShiny App Locally with Docker](https://towardsdatascience.com/deploy-your-rshiny-app-locally-with-docker-427386010eba) - Jillian Rowe
-- [Dockerize a ShinyApp](https://juanitorduz.github.io/dockerize-a-shinyapp/) - Dr. Juan Camilo Orduz
+- [Dockerize a shinyApp](https://juanitorduz.github.io/dockerize-a-shinyapp/) - Dr. Juan Camilo Orduz
 - [Deploying an R Shiny App With Docker](https://telethonkids.wordpress.com/2019/02/08/deploying-an-r-shiny-app-with-docker/) - Paul Stevenson
 
 **RStudio Connect**

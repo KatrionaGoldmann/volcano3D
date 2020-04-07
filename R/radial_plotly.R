@@ -5,8 +5,8 @@
 #' @param polar A polar object with the pvalues between groups of interest and 
 #' polar coordinates. Created by \code{\link{polar_coords}}.
 #' @param colours A named vector of colours for the groups. If NULL colours
-#' will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple', 'red'). If 
-#' unnamed colours will be assigned in polar@polar$sig level order. 
+#' will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple', 'red'). 
+#' If unnamed colours will be assigned in polar@polar$sig level order. 
 #' @param non_sig_colour The colour for non-significant markers 
 #' (default = "grey60").
 #' @param colour_scale whether to use a 'discrete' or 'continuous' colour scale 
