@@ -8,6 +8,7 @@ News
 * Moved colour selection to individual plotting functions to make it more intuitive
 * Made the fold change columns optional
 * Allowed custom grid to be passed in
+* Pass label columns as key in volcano3d plotly and radial_plotly
 
 # volcano3D 0.1.0
 

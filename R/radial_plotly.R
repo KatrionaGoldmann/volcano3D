@@ -5,7 +5,7 @@
 #' @param polar A polar object with the pvalues between groups of interest and 
 #' polar coordinates. Created by \code{\link{polar_coords}}.
 #' @param colours A named vector of colours for the groups. If NULL colours
-#' will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
+#' will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple', 'red'). If 
 #' unnamed colours will be assigned in polar@polar$sig level order. 
 #' @param non_sig_colour The colour for non-significant markers 
 #' (default = "grey60").
@@ -221,7 +221,7 @@ radial_plotly <- function(polar,
                  textfont = list(size = axis_label_size), color = I("black"), 
                  hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
         # add the markers
-        add_markers(data = polar_df, x = ~x, y = ~y,
+        add_markers(data = polar_df, x = ~x, y = ~y, key = ~label,
                     color = ~switch(colour_scale,
                                     "discrete" = sig,
                                     "continuous" = I(hue)),
