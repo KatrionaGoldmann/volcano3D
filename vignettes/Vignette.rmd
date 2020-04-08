@@ -56,7 +56,7 @@ with an interactive web tool available at
 
 There are also supplementary vignettes for further information on:
 
-- [setting up the input pvalues data frame](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html)
+- [creating the input pvalues data frame](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html)
 - [using the volcano3D package to create and deploy a shiny app](https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html)
   
 ## Getting Started
@@ -276,15 +276,17 @@ the comparisons between pathotypes using the
 volcano_trio function. This creates three
 [ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) outputs.
 
-```{r, message = FALSE, fig.height = 2.8}
+```{r, message = FALSE, fig.height = 2.8, fig.width=10.5}
 syn_plots <- volcano_trio(polar = syn_polar,
                           sig_names = c("not significant","significant",
                                         "not significant","significant"),
-                          colours = rep(c("grey60",  "salmon"), 2),
+                          colours = rep(c("grey60",  "slateblue1"), 2),
                           text_size = 9,
+                          marker_size=1,
                           shared_legend_size = 0.9,
                           label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-                          fc_line = FALSE)
+                          fc_line = FALSE, 
+                          share_axes = FALSE)
 
 syn_plots$All
 ```
@@ -307,13 +309,14 @@ Similarly we can create a static ggplot image using radial_ggplot:
 radial_ggplot(polar = syn_polar,
               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
               marker_size = 2.3,
-              legend_size = 10)
+              legend_size = 10) +
+  theme(legend.position = "right")
 ```
 
 Alternatively a continuous colour scale can be produced by converting the angle
 to a hsv variable. This angle can be offset by `continuous_shift`.
 
-```{r}
+```{r, fig.height=5}
 radial_ggplot(polar = syn_polar,
               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
               marker_size = 2.3,
@@ -330,28 +333,28 @@ We can then interrogate any one specific variable as a boxplot, to investigate
 these differences. This is build using ggplot2 so can easily be edited by the
 user to add features.
 
-```{r, fig.height = 2.8, fig.width=14}
+```{r, fig.height = 3.8, fig.width=14}
 plot1 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
                       test = "polar_padj",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       box_colours = c("blue", "red", "green3"),
                       step_increase = 0.1) +
-  labs(title="Adjusted Pvalues bewteen SLAMF6 Expression")
+  labs(title="Adjusted Pvalues between Pathotypes in SLAMF6")
 
 plot2 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
                       test = "polar_multi_padj",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       box_colours = c("blue", "red", "green3")) +
-  labs(title="Significance bewteen SLAMF6 Expression")
+  labs(title="LRT between SLAMF6 Expression")
 
 plot3 <- boxplot_trio(syn_polar,
                       value = "PARP16",
                       test = "t.test",
                       levels_order = c("Myeloid", "Fibroid"),
                       box_colours = c("red", "green3")) +
-  labs(title="T-test Pvalues bewteen PARP16 Expression")
+  labs(title="T-tests bewteen PARP16 Expression")
 
 plot4 <- boxplot_trio(syn_polar,
                       value = "ITM2C",
@@ -361,7 +364,7 @@ plot4 <- boxplot_trio(syn_polar,
                                             c("Myeloid", "Fibroid")),
                       box_colours = c("blue", "red", "green3"),
                       step_increase = 0.1) +
-  labs(title="Wilcox Pvalues bewteen ITM2C Expression")
+  labs(title="Wilcox Pvalues in ITM2C")
 
 ggarrange(plot1, plot2, plot3, plot4, ncol = 4)
 ```
@@ -371,14 +374,14 @@ ggarrange(plot1, plot2, plot3, plot4, ncol = 4)
 The final thing we can look at is the 3D volcano plot which projects
 differential gene expression onto cylindrical coordinates.
 
-```{r}
+```{r, out.height = "100%"}
 p <- volcano3D(syn_polar,
                label_rows = c("SLAMF6", "PARP16", "ITM2C"),
                label_size = 10,
                xy_aspectratio = 1,
                z_aspectratio = 0.9)
 
-p %>% layout(legend = list(x = 100, y = 0.5))
+p %>% layout(legend = list(x = 100, y = 0.7))
 ```
 
 Again this produces an interactive plot. If you have
@@ -406,7 +409,7 @@ r_axis_ticks and z_axis_ticks.
 For example we can decrease the number of radial spokes to 4, while altering
 the z axis ticks:
 
-```{r}
+```{r, out.height = "100%"}
 four_grid = polar_grid(r_vector=syn_polar@polar$r_zscore,
                        z_vector=NULL,
                        r_axis_ticks = NULL,
@@ -424,7 +427,7 @@ volcano3D(syn_polar,
 similarly to extend the radial axis and increasing the number of spokes in 2D
 we can apply:
 
-```{r}
+```{r, fig.height=5}
 new_grid = polar_grid(r_vector=NULL,
                         z_vector=-log10(syn_polar@pvalues$`LRT pvalue`),
                         r_axis_ticks = c(1, 2, 3),
@@ -434,7 +437,8 @@ new_grid = polar_grid(r_vector=NULL,
 radial_ggplot(polar = syn_polar,
               grid = new_grid,
               marker_size = 2.3,
-              legend_size = 10)
+              legend_size = 10) +
+  theme(legend.position = "right")
 ```
 
 ### Altering the Labels
@@ -442,13 +446,14 @@ radial_ggplot(polar = syn_polar,
 By default the rownames of the pvalues object is used to label markers of
 interest. This can be altered by amending the label column in the polar object:
 
-```{r}
+```{r, fig.height=5}
 syn_polar@polar$label <- paste0(syn_polar@polar$label, "!")
 
 radial_ggplot(polar = syn_polar,
               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
               marker_size = 2.3,
-              legend_size = 10)
+              legend_size = 10) +
+  theme(legend.position = "right")
 ```
 
 ## 2. Synovial Modular Data
@@ -486,7 +491,7 @@ syn_mod_polar <- polar_coords(sampledata = syn_metadata,
 We can now investigate the comparisons between pathotypes using the
 volcano_trio function.
 
-```{r, message = FALSE, fig.height = 2.8}
+```{r, message = FALSE, fig.height = 2.8, fig.width=10.5}
 syn_mod_plots <- volcano_trio(polar = syn_mod_polar,
                               label_rows = c("M156.0", "M37.2"),
                               shared_legend_size = 1,
@@ -494,7 +499,8 @@ syn_mod_plots <- volcano_trio(polar = syn_mod_polar,
                                             paste("Padj <", 0.05),
                                             paste("|FC| >", 1),
                                             paste("Padj <", 0.05,
-                                                  "&\n|FC| >", 1)))
+                                                  "&\n|FC| >", 1)), 
+                              share_axes = FALSE)
 
 syn_mod_plots$All
 ```
@@ -502,15 +508,14 @@ syn_mod_plots$All
 ### Radial Plots
 
 
-```{r, warning = FALSE, message = FALSE, out.height = "100%"}
+```{r, warning = FALSE, message = FALSE, fig.height=5}
 radial_plotly(polar = syn_mod_polar,
               colours = c("Fibroid+"="green3",
                           "Fibroid+Myeloid+"="gold2",
                           "Lymphoid+"="blue",
                           "Lymphoid+Myeloid+"="purple",
                           "Myeloid+"="red"),
-              label_rows = c("M156.0", "M37.2")) %>%
-  layout(width = 650, height = 650)
+              label_rows = c("M156.0", "M37.2"))
 ```
 
 Or a ggplot static image using radial_ggplot:

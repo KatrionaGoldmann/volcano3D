@@ -140,8 +140,7 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>This vignette provides an example for deploying the interactive visualisations created in the volcano3D package as <a href="https://shiny.rstudio.com">Shiny Apps</a>.</p>
-<p>The purpose if this is to generate a similar tool to the web page available at <a href="https://peac.hpc.qmul.ac.uk">https://peac.hpc.qmul.ac.uk</a> which supplements the results found in <a href="https://doi.org/10.1016/j.celrep.2019.07.091">‘Lewis, Myles J., et al. “Molecular portraits of early rheumatoid arthritis identify clinical and treatment response phenotypes.” Cell reports 28.9 (2019): 2455-2470.’ (DOI: 10.1016/j.celrep.2019.07.091)</a> with an interactive web tool available at</p>
+<p>This tutorial provides an example for deploying <a href="https://shiny.rstudio.com">Shiny Apps</a> using the interactive visualisations created by volcano3D. The goal of this example is to generate a tool similar to the web page available at <a href="https://peac.hpc.qmul.ac.uk">https://peac.hpc.qmul.ac.uk</a>.</p>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting Started</h2>
@@ -153,15 +152,28 @@
 <div id="install-volcano3d" class="section level3">
 <h3 class="hasAnchor">
 <a href="#install-volcano3d" class="anchor"></a>Install volcano3D</h3>
-<p>Either from CRAN <em>Not yet publicly available</em>:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"volcano3D"</span>)</pre></body></html></div>
-<p>or from Github</p>
+<div id="install-from-cran" class="section level4">
+<h4 class="hasAnchor">
+<a href="#install-from-cran" class="anchor"></a>Install from CRAN</h4>
+<p><em>Not yet publicly available:</em></p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"volcano3D"</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">volcano3D</span>)</pre></body></html></div>
+</div>
+<div id="install-from-github" class="section level4">
+<h4 class="hasAnchor">
+<a href="#install-from-github" class="anchor"></a>Install from Github</h4>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">devtools</span>)
-<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">volcano3D</span>)</pre></body></html></div>
+<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)
+
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">volcano3D</span>)</pre></body></html></div>
+</div>
+<div id="install-the-sample-data" class="section level4">
+<h4 class="hasAnchor">
+<a href="#install-the-sample-data" class="anchor"></a>Install the sample data</h4>
 <p>The sample data used in this vignette can be loaded from the <a href="https://github.com/KatrionaGoldmann/volcano3Ddata">volcano3Ddata package</a>. This is only possible after volcano3D is imported.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"volcano3Ddata"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"volcano3Ddata"</span>)</pre></body></html></div>
 <hr>
+</div>
 </div>
 </div>
 </div>
@@ -174,14 +186,14 @@
 <li><p>a server function</p></li>
 <li><p>a call to the shinyApp function</p></li>
 </ul>
-<p>The user interface (ui) object controls the layout and appearance of your app. The server function contains the instructions that your computer needs to build your app. Finally the shinyApp function creates Shiny app objects from an explicit UI/server pair.</p>
+<p>The user interface (ui) object controls the layout and appearance of your app. The server function contains the instructions required to build your app. Finally the shinyApp function creates Shiny app objects from an explicit UI/server pair.</p>
 <p>To find out more information about shiny, as well as tutorials and examples visit the <a href="https://shiny.rstudio.com/tutorial/">shiny website</a>.</p>
 </div>
 <div id="basic-example" class="section level1">
 <h1 class="hasAnchor">
 <a href="#basic-example" class="anchor"></a>Basic Example</h1>
 <p>Using the first example from the shiny website we can create a very basic shiny app. First we build user interface. This sets up the layout and appearance of the app. In this case we will create a histogram, ‘distPlot’, with a given number of bins selected by the ‘bins’ input:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shiny</span>)
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shiny</span>)
 
 <span class="no">ui</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(
         <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/titlePanel.html">titlePanel</a></span>(<span class="st">"Hello Shiny!"</span>),
@@ -194,7 +206,7 @@
         )
     )</pre></body></html></div>
 <p>Next we build a server which contains the instructions and functions we needs to interact with the ui and build the app:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">server</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">input</span>, <span class="no">output</span>) {
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">server</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">input</span>, <span class="no">output</span>) {
         <span class="no">output</span>$<span class="no">distPlot</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html">renderPlot</a></span>({
             <span class="no">x</span>    <span class="kw">&lt;-</span> <span class="no">faithful</span>$<span class="no">waiting</span>
             <span class="no">bins</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="no">x</span>), <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="no">x</span>), <span class="kw">length.out</span> <span class="kw">=</span> <span class="no">input</span>$<span class="no">bins</span> + <span class="fl">1</span>)
@@ -204,21 +216,20 @@
         })
 }</pre></body></html></div>
 <p>Lastly we call the shinyApp function to create an application. When run locally this open an interactive app, but for the sake of this vignette it is has been left as non-interactive.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shiny</span>)
-
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shiny</span>)
 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span> <span class="kw">=</span> <span class="no">ui</span>, <span class="kw">server</span> <span class="kw">=</span> <span class="no">server</span>)</pre></body></html></div>
-<p><img src="shiny_builder_files/figure-html/unnamed-chunk-8-1.png" width="672" style="background-color: #9ecff7; padding:10px;"></p>
+<p><img src="shiny_builder_files/figure-html/unnamed-chunk-7-1.png" width="672" style="background-color: #9ecff7; padding:10px;"></p>
 </div>
 <div id="peac-shiny-example" class="section level1">
 <h1 class="hasAnchor">
 <a href="#peac-shiny-example" class="anchor"></a>PEAC Shiny Example</h1>
 <p>In this example we will create a 3D volcano app similar to the first three tabs from the <a href="https://peac.hpc.qmul.ac.uk">PEAC webpage</a>. First we will load in the objects we need:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">volcano3D</span>)
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">volcano3D</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">volcano3Ddata</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">syn_data</span>)</pre></body></html></div>
-<p>Then we can create the volcano3D object:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">syn_polar</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/polar_coords.html">polar_coords</a></span>(<span class="kw">sampledata</span> <span class="kw">=</span> <span class="no">syn_metadata</span>,
+<p>Then we can create the polar volcano3D object:</p>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">syn_polar</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/polar_coords.html">polar_coords</a></span>(<span class="kw">sampledata</span> <span class="kw">=</span> <span class="no">syn_metadata</span>,
                           <span class="kw">contrast</span> <span class="kw">=</span> <span class="st">"Pathotype"</span>,
                           <span class="kw">pvalues</span> <span class="kw">=</span> <span class="no">syn_pvalues</span>,
                           <span class="kw">expression</span> <span class="kw">=</span> <span class="no">syn_rld</span>,
@@ -231,8 +242,14 @@
                           <span class="kw">label_column</span> <span class="kw">=</span> <span class="kw">NULL</span>,
                           <span class="kw">fc_cutoff</span> <span class="kw">=</span> <span class="fl">0.1</span>)</pre></body></html></div>
 <p><strong>PEAC UI</strong></p>
-<p>The user interface for this app is slightly more complicated than the previous example and is made up of four tab panels: 1. The navigation page: this contains images/icons which link to each of the other tabs 2. The 3D volcano plot page: this contains the 3D volcano plot for synovium 3. The gene lookup page: this allows users to look up specific genes from a dropdown 4. The pvalue table page: this contains a table with the statistics for all genes</p>
-<p>This app requires use of a few additional packages to be loaded:</p>
+<p>The user interface for this app is slightly more complicated than the previous example and is made up of four tab panels:</p>
+<ol style="list-style-type: decimal">
+<li>The navigation page: this contains images/icons which link to each of the other tabs</li>
+<li>The 3D volcano plot page: this contains the 3D volcano plot for synovium</li>
+<li>The gene lookup page: this allows users to look up specific genes from a dropdown</li>
+<li>The pvalue table page: this contains a table with the statistics for all genes</li>
+</ol>
+<p>This requires a few additional packages to be loaded:</p>
 <ul>
 <li>
 <a href="https://cran.r-project.org/web/packages/shinycssloaders/index.html">shinycssloaders</a>: This allows spinners to be used while plots and data load</li>
@@ -243,7 +260,7 @@
 <li>
 <a href="https://cran.r-project.org/web/packages/ggpubr/index.html">ggpubr</a>: for ggplot creation and handling</li>
 </ul>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shinycssloaders</span>)
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shinycssloaders</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">plotly</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">DT</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggpubr</span>)
@@ -344,7 +361,7 @@
 )</pre></body></html></div>
 <p><strong>PEAC Server</strong></p>
 <p>The server build the objects and plots required for the app.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">server</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">input</span>, <span class="no">output</span>, <span class="no">session</span>) {
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">server</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">input</span>, <span class="no">output</span>, <span class="no">session</span>) {
 
     <span class="co"># Navitation tab: allow images to link to tabs</span>
     <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html">observeEvent</a></span>(<span class="no">input</span>$<span class="no">link_to_tabpanel_v</span>, {
@@ -441,15 +458,14 @@
 
 }</pre></body></html></div>
 <p><strong>PEAC shinyApp</strong></p>
-<p>Once the ui and server are build we can output the app. Note in markdown format this is not interactive.</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span> <span class="kw">=</span> <span class="no">ui</span>, <span class="kw">server</span> <span class="kw">=</span> <span class="no">server</span>)</pre></body></html></div>
-<p><img src="shiny_builder_files/figure-html/unnamed-chunk-13-1.png" width="672" style="background-color: #9ecff7; padding:10px;"></p>
+<p>Once the ui and server are build we can output the app <em>(note in markdown/html format this is not interactive)</em>.</p>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span> <span class="kw">=</span> <span class="no">ui</span>, <span class="kw">server</span> <span class="kw">=</span> <span class="no">server</span>)</pre></body></html></div>
+<p><img src="shiny_builder_files/figure-html/unnamed-chunk-12-1.png" width="672" style="background-color: #9ecff7; padding:10px;"></p>
 </div>
 <div id="hosting-and-deploying-shiny-apps" class="section level1">
 <h1 class="hasAnchor">
 <a href="#hosting-and-deploying-shiny-apps" class="anchor"></a>Hosting and Deploying shiny apps</h1>
-<p>There are three primary ways to deploy the app to the web, as outlined on the <a href="https://shiny.rstudio.com/deploy/">shiny website</a>: shinyapps.io, shiny servers and RStudio Connect. The PEAC website was deployed using Shiny Server.</p>
-<p>Here are a few useful tutorials and sources to deploy using each of these methods:</p>
+<p>There are three primary ways to deploy the app to the web, as outlined on the <a href="https://shiny.rstudio.com/deploy/">shiny website</a>: shinyapps.io, shiny servers and RStudio Connect. The PEAC website was deployed using Shiny Server. Here are a few useful tutorials and sources for using each of these methods:</p>
 <p><strong>shinyapps.io</strong></p>
 <p>To deploy with shinyapps.io through the cloud see <a href="http://www.shinyapps.io">http://www.shinyapps.io</a>. There are free plans available for up to 5 apps and fewer than 25 active hours, further than this however it is paywalled.</p>
 <p><strong>Deploying with Shiny Server</strong></p>
@@ -470,7 +486,7 @@
 <a href="https://telethonkids.wordpress.com/2019/02/08/deploying-an-r-shiny-app-with-docker/">Deploying an R Shiny App With Docker</a> - Paul Stevenson</li>
 </ul>
 <p><strong>RStudio Connect</strong></p>
-<p>RStudio connect is a publishing platform designed to be used internally by businesses. It is paywalled, therefore I have not looked into using this method to publish, but for more information see <a href="https://rstudio.com/products/connect/">https://rstudio.com/products/connect/</a></p>
+<p>RStudio connect is a publishing platform designed to be used internally by businesses. I have not looked into using this method but for more information see <a href="https://rstudio.com/products/connect/">https://rstudio.com/products/connect/</a></p>
 <hr>
 </div>
 <div id="source-code" class="section level1">

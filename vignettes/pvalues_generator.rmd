@@ -24,19 +24,18 @@ source("https://gist.githubusercontent.com/KatrionaGoldmann/3d6dfd6aa4cc5c3940bb
 render_toc("./pvalues_generator.rmd")
 ```
 
----
 
 # Introduction 
 
 This vignette provides an example for creating pvalues objects for the 
-volcano3D pipeline using DESeq2 and limma. 
+volcano3D pipeline using DESeq2 and Limma-voom. 
 
 This example consists of a case study from the PEAC 
 rheumatoid arthritis project (Pathobiology of Early Arthritis Cohort). 
 The methodology has been published in 
-['Lewis, Myles J., et al. "Molecular portraits of early rheumatoid arthritis 
-identify clinical and treatment response phenotypes." Cell reports 28.9 (2019): 
-2455-2470.'
+[Lewis, Myles J., et al. 'Molecular portraits of early rheumatoid arthritis 
+identify clinical and treatment response phenotypes.' Cell reports 28.9 (2019): 
+2455-2470.
 (DOI: 10.1016/j.celrep.2019.07.091)](https://doi.org/10.1016/j.celrep.2019.07.091)
 with an interactive web tool available at 
 [https://peac.hpc.qmul.ac.uk](https://peac.hpc.qmul.ac.uk).  
@@ -113,13 +112,19 @@ In this vignette we will outline two methods to determine the differential
 gene expression: 
 
 1. [DESeq](#deseq)
-2. [Limma-voom](#limma)
+2. [Limma](#limma)
 
 
 # DESeq method {#deseq}
 
-Use the DESeq package to calculate the differential expression between groups. 
-The vignette for this package can be found [here](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html)
+The DESeq2 vignette can be found 
+[here](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html).
+We will use this to calculate the differential expression between groups/pathotypes.
+
+The Pathotype, Batch and Gender are used in the DESeq design to determine how 
+the counts for each gene depend on each of these variables. A likelihood ratio
+test (LRT) is calculated using a reduced design of Batch and Gender to highlight
+the effects of Pathotype. 
 
 ```{r, echo=FALSE, eval=TRUE}
 load("./pvalues_example.rdata")
@@ -135,8 +140,7 @@ dds_DE <- DESeq(dds)
 dds_LRT <- DESeq(dds, test = "LRT", reduced = ~Batch+Gender, parallel = TRUE) 
 ```
 
-Output the results into one dataframe. First get the results for each 
-contrast:
+Now we can get the results for each contrast and the LRT:
 
 ```{r}
 Pvals_DESeq_DE <- lapply(contrasts, function(x){
@@ -145,13 +149,7 @@ Pvals_DESeq_DE <- lapply(contrasts, function(x){
     out <- out[match(rownames(syn_txi$counts), rownames(out)), ]
     out <- out[,c("pvalue", "padj", "log2FoldChange")]
 })
-```
 
-Then get the multi-group test results. In this case we use the Likelihood ratio 
-test - this compares the model using `~Pathotype+Batch+Gender` to the reduced 
-model using `~Batch+Gender`. 
-
-```{r}
 LRT <- results(dds_LRT, parallel=TRUE)[, c("pvalue", "padj", "log2FoldChange")]
 LRT <- LRT[match(rownames(syn_txi$counts), rownames(LRT)), ]
 ```
@@ -167,8 +165,7 @@ colnames(Pvals_DESeq) <- c(paste(rep(contrasts, each=3),
                                  rep(colnames(Pvals_DESeq_DE[[1]]), 3)), 
                            paste("LRT", colnames(LRT)))
 
-Pvals_DESeq <- data.frame(Pvals_DESeq[complete.cases(Pvals_DESeq), ], 
-                          check.names = FALSE)
+Pvals_DESeq <- Pvals_DESeq[complete.cases(Pvals_DESeq), ]
 ```
 
 Now we can inspect:
@@ -179,13 +176,16 @@ head(Pvals_DESeq) %>%
     kable_styling(font_size=8.7)
 ```
 
-# Limma-voom method {#limma}
+# Limma method {#limma}
 
-Use the Limma package to calculate the differential expression between groups. 
 The limma vignette can be found 
 [here](https://bioconductor.org/packages/release/bioc/vignettes/limma/inst/doc/usersguide.pdf)
-and limma-voom vignette 
+and limma-voom tutorial 
 [here](https://ucdavis-bioinformatics-training.github.io/2018-June-RNA-Seq-Workshop/thursday/DE.html).
+These can both be used to calculate the differential expression between pathotype 
+groups. 
+
+As with DESeq we use pathotype, batch and gender in the model design:
 
 ```{r}
 library(limma)
@@ -194,9 +194,12 @@ library(edgeR)
 syn_tpm = syn_txi$counts
 
 # build the design matrix and contrast matrix
-design <- model.matrix(~ 0 + syn_metadata$Pathotype + syn_metadata$Batch)  
-colnames(design) <- gsub("syn_metadata\\$Pathotype", "", colnames(design))
-colnames(design) <- gsub("syn_metadata\\$Batch", "", colnames(design))
+design <- model.matrix(~0 + syn_metadata$Pathotype + syn_metadata$Batch + 
+                           syn_metadata$Gender)  
+colnames(design) <- gsub("syn_metadata", "", colnames(design))
+colnames(design) <- gsub("\\$Pathotype|\\$Batch|\\$Gender", "", 
+                         colnames(design))
+
 
 contrast.matrix <- makeContrasts(
     paste0(colnames(design)[1] , "-", colnames(design)[2]),
@@ -217,7 +220,8 @@ fit <- contrasts.fit(fit1, contrast.matrix)
 fit <- eBayes(fit)
 ```
 
-Now we can get the model fit results. 
+Now we can get the model fit results for each contrast, as well as the overall 
+fit. 
 
 ```{r}
 contrasts <- colnames(coefficients(fit))
@@ -260,7 +264,7 @@ head(Pvals_limma) %>%
 ```
 
 ```{r, echo=FALSE}
-save(Pvals_DESeq, Pvals_limma, syn_txi, syn_metadata, syn_tpm_limma, 
+save(Pvals_DESeq, Pvals_limma, syn_txi, syn_metadata,  
      file = "./pvalues_example.rdata")
 ```
 
@@ -303,21 +307,16 @@ syn_polar_deseq <- polar_coords(sampledata = syn_metadata,
                           fc_cutoff = 0.1)
 ```
 
-```{r, eval=TRUE}
-radial_plotly(polar = syn_polar_deseq, 
+This can be used for plotting with any of the volcano3D functions. For example:
+
+```{r, eval=TRUE, fig.width=14, fig.height=7}
+radial_ggplot(polar = syn_polar_deseq, 
               colours=c("green3", "cyan", "gold2", "blue", "purple", "red"),
-              label_rows = c("SLAMF6", "PARP16", "ITM2C"))
+              label_rows = c("SLAMF6", "PARP16", "ITM2C"), 
+              legend_size=10) +
+  ggplot2::theme(legend.position = "right")
 ```
 
-```{r, eval=TRUE}
-p <- volcano3D(syn_polar_deseq,
-               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-               label_size = 10,
-               xy_aspectratio = 1,
-               z_aspectratio = 0.9)
-
-p %>% plotly::layout(legend = list(x = 100, y = 0.5))
-```
 
 ## With Limma
 
@@ -339,7 +338,7 @@ syn_polar_limma <- polar_coords(sampledata = syn_metadata,
                           expression = syn_exp,
                           p_col_suffix = "pvalue",
                           padj_col_suffix = "padj",
-                          fc_col_suffix = NULL,
+                          fc_col_suffix = "log2FoldChange",
                           multi_group_prefix = "Overall",
                           non_sig_name = "Not Significant",
                           significance_cutoff = 0.01,
@@ -347,22 +346,15 @@ syn_polar_limma <- polar_coords(sampledata = syn_metadata,
                           fc_cutoff = 0.1)
 ```
 
-```{r, eval=TRUE}
-radial_plotly(polar = syn_polar_limma, 
-              olours=c("green3", "cyan", "gold2", "blue", "purple", "red"),
-              label_rows = c("SLAMF6", "PARP16", "ITM2C"))
+This can be used for plotting with any of the volcano3D functions. For example:
+
+```{r, eval=TRUE, fig.width=14, fig.height=7}
+radial_ggplot(polar = syn_polar_limma, 
+              colours=c("green3", "cyan", "gold2", "blue", "purple", "red"),
+              label_rows = c("SLAMF6", "PARP16", "ITM2C"), 
+              legend_size=10) +
+  ggplot2::theme(legend.position = "right")
 ```
-
-```{r, eval=TRUE}
-p <- volcano3D(syn_polar_limma,
-               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-               label_size = 10,
-               xy_aspectratio = 1,
-               z_aspectratio = 0.9)
-
-p %>% plotly::layout(legend = list(x = 100, y = 0.5))
-```
-
 
 ---
 

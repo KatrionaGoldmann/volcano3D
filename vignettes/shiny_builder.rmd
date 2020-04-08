@@ -28,17 +28,11 @@ render_toc("./shiny_builder.rmd")
 
 # Introduction 
 
-This vignette provides an example for deploying the interactive visualisations
-created in the volcano3D package as [Shiny Apps](https://shiny.rstudio.com). 
-
-The purpose if this is to generate a similar tool to the web page available at
-[https://peac.hpc.qmul.ac.uk](https://peac.hpc.qmul.ac.uk) which supplements
-the results found in 
-['Lewis, Myles J., et al. "Molecular portraits of early rheumatoid arthritis 
-identify clinical and treatment response phenotypes." Cell reports 28.9 (2019): 
-2455-2470.'
-(DOI: 10.1016/j.celrep.2019.07.091)](https://doi.org/10.1016/j.celrep.2019.07.091)
-with an interactive web tool available at 
+This tutorial provides an example for deploying 
+[Shiny Apps](https://shiny.rstudio.com) using the interactive visualisations
+created by volcano3D. The goal of this example is to generate a 
+tool similar to the web page available 
+at [https://peac.hpc.qmul.ac.uk](https://peac.hpc.qmul.ac.uk).
 
 
 ## Getting Started
@@ -51,22 +45,25 @@ install.packages("shiny")
 
 ### Install volcano3D
 
-Either from CRAN *Not yet publicly available*:
+#### Install from CRAN 
+
+*Not yet publicly available:*
 
 ```{r, eval = FALSE}
 install.packages("volcano3D")
+library(volcano3D)
 ```
 
-or from Github
+#### Install from Github
 
 ```{r, eval = FALSE}
 library(devtools)
 install_github("KatrionaGoldmann/volcano3D")
-```
 
-```{r}
 library(volcano3D)
 ```
+
+#### Install the sample data
 
 The sample data used in this vignette can be loaded from the 
 [volcano3Ddata package](https://github.com/KatrionaGoldmann/volcano3Ddata). 
@@ -91,7 +88,7 @@ straight from R. These apps are build from three components:
 - a call to the shinyApp function
 
 The user interface (ui) object controls the layout and appearance of your app. 
-The server function contains the instructions that your computer needs to build 
+The server function contains the instructions required to build 
 your app. Finally the shinyApp function creates Shiny app objects from an 
 explicit UI/server pair.
 
@@ -143,7 +140,6 @@ the sake of this vignette it is has been left as non-interactive.
 
 ```{r, out.extra='style="background-color: #9ecff7; padding:10px;"'}
 library(shiny)
-
 shinyApp(ui = ui, server = server)
 ```
 
@@ -160,7 +156,7 @@ library(volcano3Ddata)
 data(syn_data)
 ```
 
-Then we can create the volcano3D object:
+Then we can create the polar volcano3D object:
 
 ```{r}
 syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -182,12 +178,13 @@ syn_polar <- polar_coords(sampledata = syn_metadata,
 
 The user interface for this app is slightly more complicated than the previous
 example and is made up of four tab panels: 
+
 1. The navigation page: this contains images/icons which link to each of the other tabs
 2. The 3D volcano plot page: this contains the 3D volcano plot for synovium
 3. The gene lookup page: this allows users to look up specific genes from a dropdown
 4. The pvalue table page: this contains a table with the statistics for all genes
 
-This app requires use of a few additional packages to be loaded:
+This requires a few additional packages to be loaded:
 
 - [shinycssloaders](https://cran.r-project.org/web/packages/shinycssloaders/index.html): This allows spinners to be used while plots and data load
 - [DT](https://cran.r-project.org/web/packages/DT/index.html): for data frame handling
@@ -402,8 +399,8 @@ server <- function(input, output, session) {
 
 **PEAC shinyApp**
 
-Once the ui and server are build we can output the app. Note in markdown 
-format this is not interactive. 
+Once the ui and server are build we can output the app *(note in markdown/html 
+format this is not interactive)*. 
 
 ```{r, out.extra='style="background-color: #9ecff7; padding:10px;"', fig.height=3, fig.align='center'}
 shinyApp(ui = ui, server = server)
@@ -414,10 +411,8 @@ shinyApp(ui = ui, server = server)
 
 There are three primary ways to deploy the app to the web, as outlined on the 
 [shiny website](https://shiny.rstudio.com/deploy/): shinyapps.io, shiny servers 
-and RStudio Connect. The PEAC website was deployed using Shiny Server. 
-
-Here are 
-a few useful tutorials and sources to deploy using each of these methods:
+and RStudio Connect. The PEAC website was deployed using Shiny Server. Here are 
+a few useful tutorials and sources for using each of these methods:
 
 **shinyapps.io**
 
@@ -445,8 +440,8 @@ own virtual environment:
 **RStudio Connect**
 
 RStudio connect is a publishing platform designed to be used internally by 
-businesses. It is paywalled, therefore I have not looked into using this method
-to publish, but for more information see 
+businesses. I have not looked into using this method 
+but for more information see 
 [https://rstudio.com/products/connect/](https://rstudio.com/products/connect/)
 
 ---

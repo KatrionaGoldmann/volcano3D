@@ -153,10 +153,11 @@ boxplot_trio <- function(polar,
                    xlab = "", 
                    ylab = rownames(expression)[index],
                    fill = "group", 
+                   color="group",
                    palette = box_colours, 
                    outlier.shape = NA, 
-                   alpha = 0.5) +
-        geom_jitter(height = 0, width = 0.30) +
+                   alpha = 0.3) +
+        geom_jitter(height = 0, width = 0.30, aes(color=df$group)) +
         theme(legend.position = "none", 
               text = element_text(size = text_size))
     
