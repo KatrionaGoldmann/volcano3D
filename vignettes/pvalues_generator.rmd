@@ -11,7 +11,8 @@ knitr::opts_chunk$set(echo = TRUE,
                       message = FALSE, 
                       fig.height = 7, 
                       fig.width=7, 
-                      fig.align = "center")
+                      fig.align = "center", 
+                      dev.args=list(bg="transparent"))
 library(knitr)
 library(kableExtra)
 source("https://gist.githubusercontent.com/KatrionaGoldmann/3d6dfd6aa4cc5c3940bb72dc49beae02/raw/26e78c78a7a9d096d695c708e8a45830a1d1121a/render_toc.R")
