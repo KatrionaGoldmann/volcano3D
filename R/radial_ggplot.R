@@ -34,7 +34,7 @@
 #' radial graph
 #' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate 
 #' geom_point scale_color_manual aes element_blank coord_fixed geom_segment
-#' arrow unit
+#' arrow unit element_rect
 #' @importFrom graphics text 
 #' @importFrom grDevices hsv
 #' @keywords pvalue, polar, plot, ggplot
@@ -230,13 +230,15 @@ radial_ggplot <- function(polar,
               axis.text.y = element_blank(),
               panel.grid.major = element_blank(),
               panel.grid.minor = element_blank(),
-              panel.background = element_blank(),
               legend.key = element_blank(),
               legend.justification = c(1, 1),
               legend.position = switch(colour_scale, 
                                        "discrete"=c(1, 1), 
                                        "continuous"="none"),
-              legend.text = element_text(size = legend_size)) +
+              legend.text = element_text(size = legend_size), 
+              legend.background = element_rect(fill="transparent", colour=NA),
+              plot.background = element_rect(fill="transparent", color=NA), 
+              panel.background = element_rect(fill="transparent", colour=NA)) +
         
         # Fix the aspect ratio
         coord_fixed(ratio = 1,

@@ -33,7 +33,7 @@
 #' together.
 #' @importFrom ggplot2 ggplot labs geom_path geom_path geom_text annotate 
 #' geom_point scale_colour_manual theme aes theme_classic element_text 
-#' geom_hline geom_vline unit layer_scales lims
+#' geom_hline geom_vline unit layer_scales lims element_rect
 #' @importFrom ggpubr ggarrange rremove get_legend as_ggplot
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom stats p.adjust setNames
@@ -191,7 +191,10 @@ volcano_trio <- function(polar,
            title = gsub("-", " vs ", comparison), 
            color = "Significance") +
       theme_classic() +
-      theme(text = element_text(size = text_size))
+      theme(text = element_text(size = text_size), 
+            legend.background = element_rect(fill="transparent", colour=NA),
+            plot.background = element_rect(fill="transparent", color=NA), 
+            panel.background = element_rect(fill="transparent", colour=NA))
     
     if(fc_line){
       p <- p +

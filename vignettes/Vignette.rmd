@@ -366,7 +366,9 @@ plot4 <- boxplot_trio(syn_polar,
                       step_increase = 0.1) +
   labs(title="Wilcox Pvalues in ITM2C")
 
+pdf("~/Desktop/test.pdf")
 ggarrange(plot1, plot2, plot3, plot4, ncol = 4)
+dev.off()
 ```
 
 ### Three Dimensional Volcano Plots

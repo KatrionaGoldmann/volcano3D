@@ -36,7 +36,7 @@
 #' @importFrom ggpubr ggboxplot stat_pvalue_manual stat_compare_means 
 #' compare_means
 #' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate 
-#' geom_point scale_color_manual aes geom_jitter
+#' geom_point scale_color_manual aes geom_jitter element_rect
 #' @importFrom utils combn
 #' @keywords pvalue, plot, boxplot
 #' @references 
@@ -159,7 +159,10 @@ boxplot_trio <- function(polar,
                    alpha = 0.3) +
         geom_jitter(height = 0, width = 0.30, aes(color=df$group)) +
         theme(legend.position = "none", 
-              text = element_text(size = text_size))
+              text = element_text(size = text_size), 
+              plot.background = element_rect(fill="transparent", color=NA), 
+              panel.background = element_rect(fill="transparent", colour=NA), 
+              legend.background = element_rect(fill="transparent", colour=NA))
     
     if(test %in% c("t.test", "wilcox.test", "anova", "kruskal.test")){
         p <- p + stat_compare_means(comparisons = my_comparisons, 
