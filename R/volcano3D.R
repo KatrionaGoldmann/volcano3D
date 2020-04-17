@@ -251,7 +251,9 @@ volcano3D <- function(polar,
                   textfont = list(size = label_size))  %>%
         
         layout(showlegend = TRUE, dragmode = "turntable",
-               margin = list(l = 0, r = 0, b = 0, t = 0),
+               margin = list(0, 0, 0, 0),
+               paper_bgcolor = 'rgba(0, 0, 0, 0)',
+               plot_bgcolor = 'rgba(0, 0, 0, 0)',
                scene = list(xaxis = axis_settings_xy,
                             yaxis = axis_settings_xy,
                             zaxis = axis_settings,

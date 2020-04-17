@@ -213,7 +213,9 @@ radial_plotly <- function(polar,
                yaxis = list(title = "", range = c(-0.5, 0.5), zeroline = FALSE,
                             showline = FALSE,	showticklabels = FALSE,
                             showgrid = FALSE),
-               plot_bgcolor = "rgba(0,0,0,0)", autosize = TRUE,
+               plot_bgcolor = "rgba(0,0,0,0)", 
+               paper_bgcolor = 'rgba(0,0,0,0)',
+               autosize = TRUE,
                annotations = annot) %>%
         # label radial axis
         add_text(x = text_coords$x, y =  -text_coords$y, 
