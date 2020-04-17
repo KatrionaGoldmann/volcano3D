@@ -7,8 +7,8 @@ status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.
 coverage](https://codecov.io/gh/r-lib/volcano3D/branch/master/graph/badge.svg)](https://codecov.io/gh/r-lib/volcano3D?branch=master)
 [![Downloads](https://cranlogs.r-pkg.org/badges/volcano3D?color=blue)](https://cran.rstudio.com/package=volcano3D)
 
-volcano3D <img src="logo.png" align="right" alt="" width="200" />
-=================================================================
+volcano3D <img src="logo.png" align="right" alt="" width="200" hspace="20" />
+=============================================================================
 
 The volcano3D package enables exploration of probes differentially
 expressed between three groups. Its main purpose is for the

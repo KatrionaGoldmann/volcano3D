@@ -28,7 +28,7 @@ library(kableExtra)
  
 
 
-# volcano3D <img src="logo.png" align="right" alt="" width="200" />
+# volcano3D <img src="logo.png" align="right" alt="" width="200" hspace="20" />
 
 ```{r, echo=FALSE}
 library(ggplot2)
