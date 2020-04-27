@@ -40,7 +40,7 @@ the pvalue for each comparison between groups.
 `fc_col_suffix` columns for the fold change between each comparison 
 (if NULL, no Fold Change columns are included); 
 \item three optional `padj_col_suffix` columns (if NULL 
-adjusted p values are calculated using `padjust_method``); 
+adjusted p values are calculated using `padjust_method`); 
 \item and optional 'p', 
 'padj and 'fc' columns for a three-way test, such as ANOVA or likelihood 
 ratio test, defined by `multi_group_prefix`.
@@ -113,6 +113,7 @@ containing the p-values from a three-way group comparison, expression data
 sample data and polar coordinates.
 }
 \examples{
+\dontrun{
 library(volcano3Ddata)
 data(syn_data)
 syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -127,6 +128,7 @@ syn_polar <- polar_coords(sampledata = syn_metadata,
                           significance_cutoff = 0.01, 
                           fc_cutoff = 0.3)
 table(syn_polar@polar$sig) 
+}
 }
 \references{
 Lewis, Myles J., et al. (2019).

@@ -4,7 +4,7 @@ setClassUnion("numeric_or_integer_or_NULL", c("numeric", "integer", "NULL"))
 #' 
 #' @slot polar_grid The coordinates for the cylindrical grid segments with 
 #' x,y,z coordinates
-#' @slot axes The axes features for plotly
+#' @slot axes The axes features for 'plotly'
 #' @slot axis_labs The axis labels
 #' @slot r The grid radius
 #' @slot z The grid height
@@ -48,7 +48,7 @@ setClass("grid", slots = list(
 #' @return Returns an S4 grid object containing:
 #' \itemize{
 #'   \item{'polar_grid'} The coordinates for a radial grid
-#'   \item{'axes'} The axes features for plotly
+#'   \item{'axes'} The axes features for 'plotly'
 #'   \item{'axis_labels'} The axis labels
 #'   \item{'r'} The grid radius
 #'   \item{'z'} The grid height
@@ -62,9 +62,10 @@ setClass("grid", slots = list(
 #' Molecular portraits of early rheumatoid arthritis identify clinical and
 #' treatment response phenotypes.}
 #' \emph{Cell reports}, \strong{28}:9
-#' @keywords pvalue, polar, plot
+#' @keywords pvalue polar plot
 #' @export
 #' @examples
+#' \dontrun{
 #' library(volcano3Ddata)
 #' data(syn_data)
 #' syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -83,6 +84,7 @@ setClass("grid", slots = list(
 #'            r_axis_ticks = NULL,
 #'            z_axis_ticks = c(0, 8, 16, 32),
 #'            n_spokes = 4)
+#' }
 
 polar_grid <- function(r_vector = NULL,
                        z_vector = NULL,

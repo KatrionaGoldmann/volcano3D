@@ -31,14 +31,14 @@
 #' @param step_increase The distance between statistics on the y-axis 
 #' (default = 0.1).
 #' @param ... Other parameters for \code{\link[ggpubr]{stat_compare_means}}
-#' @return Returns a ggplot boxplot featuring the differential expression 
+#' @return Returns a 'ggplot' boxplot featuring the differential expression 
 #' between groups in comparison with annotated pvalues. 
 #' @importFrom ggpubr ggboxplot stat_pvalue_manual stat_compare_means 
 #' compare_means
 #' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate 
 #' geom_point scale_color_manual aes geom_jitter element_rect
 #' @importFrom utils combn
-#' @keywords pvalue, plot, boxplot
+#' @keywords pvalue plot boxplot
 #' @references 
 #' Lewis, Myles J., et al. (2019). 
 #' \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
@@ -47,6 +47,7 @@
 #' \emph{Cell reports}, \strong{28}:9 
 #' @export
 #' @examples
+#' \dontrun{
 #' library(volcano3Ddata)
 #' data(syn_data) 
 #' syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -63,14 +64,7 @@
 #'           value = "SLAMF6",
 #'           levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
 #'           box_colours = c("blue", "red", "green3"))
-#' 
-#' boxplot_trio(syn_polar,
-#'           value = "ITM2C",
-#'           test = "wilcox.test",
-#'           levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-#'           my_comparisons = list(c("Lymphoid", "Myeloid"),
-#'                                 c("Myeloid", "Fibroid")),
-#'           box_colours = c("blue", "red", "green3"))
+#'  }
 
 
 boxplot_trio <- function(polar, 

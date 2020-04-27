@@ -3,9 +3,8 @@ Type: Package
 Title: Interactive Plotting of Three-Way Differential Expression
         Analysis
 Version: 1.0.0.9000
-Author: Katriona Goldmann, Myles Lewis
 Authors@R: c(
-    person("Katriona", "Goldmann", , "k.goldmann@qmul.ac.uk", role = c("aut", "cre")
+    person("Katriona", "Goldmann", , "k.goldmann@qmul.ac.uk", role = c("aut", "cre"), comment=c(ORCID = "0000-0002-9073-6323")
     ),
     person("Myles", "Lewis", role = "aut")
     )
@@ -19,8 +18,8 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5)
 Imports: ggplot2, plotly, ggpubr, ggrepel, methods
-Suggests: knitr, kableExtra, volcano3Ddata, testthat, stats
-Additional_repositories: http://KatrionaGoldmann.github.io/volcano3Ddata
+Suggests: knitr, kableExtra, testthat, stats
+Additional_repositories: https://katrionagoldmann.github.io/volcano3Ddata/
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0
 NeedsCompilation: no

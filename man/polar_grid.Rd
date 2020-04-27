@@ -40,7 +40,7 @@ if z_vector is NULL).}
 Returns an S4 grid object containing:
 \itemize{
   \item{'polar_grid'} The coordinates for a radial grid
-  \item{'axes'} The axes features for plotly
+  \item{'axes'} The axes features for 'plotly'
   \item{'axis_labels'} The axis labels
   \item{'r'} The grid radius
   \item{'z'} The grid height
@@ -54,6 +54,7 @@ Generates a cylindrical grid of the appropriate dimensions for a 3D volcano
 plot
 }
 \examples{
+\dontrun{
 library(volcano3Ddata)
 data(syn_data)
 syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -72,6 +73,7 @@ polar_grid(r_vector=syn_polar@polar$r_zscore,
            r_axis_ticks = NULL,
            z_axis_ticks = c(0, 8, 16, 32),
            n_spokes = 4)
+}
 }
 \references{
 Lewis, Myles J., et al. (2019).

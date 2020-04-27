@@ -58,7 +58,7 @@ pvalues are calculated and plotted.}
 \item{...}{Other parameters for \code{\link[ggpubr]{stat_compare_means}}}
 }
 \value{
-Returns a ggplot boxplot featuring the differential expression 
+Returns a 'ggplot' boxplot featuring the differential expression 
 between groups in comparison with annotated pvalues.
 }
 \description{
@@ -66,6 +66,7 @@ Plots the expression of a specific row in expression to compare the three
 groups in a boxplot.
 }
 \examples{
+\dontrun{
 library(volcano3Ddata)
 data(syn_data) 
 syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -82,14 +83,7 @@ boxplot_trio(syn_polar,
           value = "SLAMF6",
           levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
           box_colours = c("blue", "red", "green3"))
-
-boxplot_trio(syn_polar,
-          value = "ITM2C",
-          test = "wilcox.test",
-          levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-          my_comparisons = list(c("Lymphoid", "Myeloid"),
-                                c("Myeloid", "Fibroid")),
-          box_colours = c("blue", "red", "green3"))
+ }
 }
 \references{
 Lewis, Myles J., et al. (2019). 

@@ -1,6 +1,6 @@
-#' Three-way radial comparison Polar Plot (using plotly)
+#' Three-way radial comparison Polar Plot (using 'plotly')
 #'
-#' This function creates an interactive plotly object which maps differential 
+#' This function creates an interactive 'plotly' object which maps differential 
 #' expression onto a polar coordinates.
 #' @param polar A polar object with the pvalues between groups of interest and 
 #' polar coordinates. Created by \code{\link{polar_coords}}.
@@ -29,7 +29,7 @@
 #' @param axis_angle Angle in  pi radians for the radial axis (default = 5/6).
 #' @param ... Optional grid parameters to pass to 
 #' \code{\link[volcano3D]{polar_grid}}.
-#' @return Returns a plotly plot featuring variables on a tri-axis
+#' @return Returns a 'plotly' plot featuring variables on a tri-axis
 #' radial graph
 #' @importFrom plotly plot_ly add_trace add_text add_markers layout
 #' @importFrom stats p.adjust setNames
@@ -40,9 +40,10 @@
 #' Molecular portraits of early rheumatoid arthritis identify clinical and
 #' treatment response phenotypes.}
 #' \emph{Cell reports}, \strong{28}:9
-#' @keywords pvalues, polar, plot, plotly, radial
+#' @keywords pvalues polar plot 'plotly' radial
 #' @export
 #' @examples
+#' \dontrun{
 #' library(volcano3Ddata)
 #' data(syn_data)
 #' syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -56,6 +57,7 @@
 #'                           fc_cutoff = 0.3)
 #'                           
 #' radial_plotly(polar = syn_polar, label_rows = c("SLAMF6"))
+#' }
 
 radial_plotly <- function(polar,
                           colours=NULL, 
@@ -183,7 +185,7 @@ radial_plotly <- function(polar,
     polar_df <- polar_df[c(which(polar_df$hue == non_sig_colour), 
                            which(polar_df$hue != non_sig_colour)), ]
     
-    # Plotly plot
+    # 'plotly' plot
     p <- plot_ly(data = polar_df, x = ~x, mode = "none", type = "scatter",
                  colors = switch(colour_scale,
                                  "discrete" = levels(polar_df$col),

@@ -57,7 +57,7 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' `fc_col_suffix` columns for the fold change between each comparison 
 #' (if NULL, no Fold Change columns are included); 
 #' \item three optional `padj_col_suffix` columns (if NULL 
-#' adjusted p values are calculated using `padjust_method``); 
+#' adjusted p values are calculated using `padjust_method`); 
 #' \item and optional 'p', 
 #' 'padj and 'fc' columns for a three-way test, such as ANOVA or likelihood 
 #' ratio test, defined by `multi_group_prefix`.
@@ -111,7 +111,7 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #'   \item{'non_sig_name'} The category name for variables which are classed as 
 #'   not significant
 #' }
-#' @keywords pvalue, polar, plot
+#' @keywords pvalue polar plot
 #' @importFrom grDevices col2rgb hsv
 #' @references
 #' Lewis, Myles J., et al. (2019).
@@ -121,6 +121,7 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' \emph{Cell reports}, \strong{28}:9
 #' @export
 #' @examples
+#' \dontrun{
 #' library(volcano3Ddata)
 #' data(syn_data)
 #' syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -135,6 +136,7 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #'                           significance_cutoff = 0.01, 
 #'                           fc_cutoff = 0.3)
 #' table(syn_polar@polar$sig) 
+#' }
 
 polar_coords <- function(sampledata,
                          contrast,

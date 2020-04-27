@@ -2,7 +2,7 @@
 % Please edit documentation in R/radial_plotly.R
 \name{radial_plotly}
 \alias{radial_plotly}
-\title{Three-way radial comparison Polar Plot (using plotly)}
+\title{Three-way radial comparison Polar Plot (using 'plotly')}
 \usage{
 radial_plotly(
   polar,
@@ -66,14 +66,15 @@ NULL this will be calculated using \code{\link[base]{pretty}}.}
 \code{\link[volcano3D]{polar_grid}}.}
 }
 \value{
-Returns a plotly plot featuring variables on a tri-axis
+Returns a 'plotly' plot featuring variables on a tri-axis
 radial graph
 }
 \description{
-This function creates an interactive plotly object which maps differential 
+This function creates an interactive 'plotly' object which maps differential 
 expression onto a polar coordinates.
 }
 \examples{
+\dontrun{
 library(volcano3Ddata)
 data(syn_data)
 syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -88,6 +89,7 @@ syn_polar <- polar_coords(sampledata = syn_metadata,
                           
 radial_plotly(polar = syn_polar, label_rows = c("SLAMF6"))
 }
+}
 \references{
 Lewis, Myles J., et al. (2019).
 \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
@@ -95,8 +97,8 @@ Molecular portraits of early rheumatoid arthritis identify clinical and
 treatment response phenotypes.}
 \emph{Cell reports}, \strong{28}:9
 }
+\keyword{'plotly',}
 \keyword{plot,}
-\keyword{plotly,}
 \keyword{polar,}
 \keyword{pvalues,}
 \keyword{radial}

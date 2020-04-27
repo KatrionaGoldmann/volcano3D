@@ -75,6 +75,7 @@ This function creates a volcano plot for all combinations of groups in a
 factor.
 }
 \examples{
+\dontrun{
 library(volcano3Ddata)
 data(syn_data)
 syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -87,9 +88,7 @@ syn_polar <- polar_coords(sampledata = syn_metadata,
                          significance_cutoff = 0.01,
                          fc_cutoff = 0.1)
 syn_volcano_plots <- volcano_trio(polar=syn_polar)
- 
-syn_volcano_plots$All
-syn_volcano_plots$`Lymphoid-Myeloid`
+}
 }
 \references{
 Lewis, Myles J., et al. (2019).

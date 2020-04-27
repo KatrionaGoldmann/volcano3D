@@ -1,6 +1,6 @@
-#' Ggplot for Three Way Polar Plot
+#' 'Ggplot' for Three Way Polar Plot
 #'
-#' This function creates a radar plot using ggplot for a three-way comparison
+#' This function creates a radar plot using 'ggplot' for a three-way comparison
 #' @param polar A polar object with the pvalues between groups of interest and 
 #' polar coordinates. Created by \code{\link{polar_coords}}.
 #' @param colours A named vector of colours for the groups. If NULL colours
@@ -30,14 +30,14 @@
 #' @param legend_size Size for the legend text (default = 20). 
 #' @param ... Optional grid parameters to pass to 
 #' \code{\link[volcano3D]{polar_grid}}.
-#' @return Returns a polar ggplot object featuring variables on a tri-axis 
+#' @return Returns a polar 'ggplot' object featuring variables on a tri-axis 
 #' radial graph
 #' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate 
 #' geom_point scale_color_manual aes element_blank coord_fixed geom_segment
 #' arrow unit element_rect
 #' @importFrom graphics text 
 #' @importFrom grDevices hsv
-#' @keywords pvalue, polar, plot, ggplot
+#' @keywords pvalue polar plot 'ggplot'
 #' @references
 #' Lewis, Myles J., et al. (2019).
 #' \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
@@ -46,6 +46,7 @@
 #' \emph{Cell reports}, \strong{28}:9
 #' @export
 #' @examples
+#' \dontrun{
 #' library(volcano3Ddata)
 #' data(syn_data)
 #' syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -59,6 +60,7 @@
 #'                           fc_cutoff = 0.3)
 #'                           
 #' radial_ggplot(polar = syn_polar, label_rows = c("SLAMF6"))
+#' }
 
 radial_ggplot <- function(polar,
                           colours = NULL,

@@ -66,6 +66,7 @@ z-axis
 Plots the pvalues from three-way comparisons in 3D space using plotly.
 }
 \examples{
+\dontrun{
 library(volcano3Ddata)
 data(syn_data)
 syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -84,6 +85,7 @@ volcano3D(syn_polar,
     label_size = 10, 
     xy_aspectratio = 1, 
     z_aspectratio = 0.9)
+}
 }
 \references{
 Lewis, Myles J., et al. (2019).

@@ -13,7 +13,7 @@ An S4 class to define the polar grid coordinates system.
 \item{\code{polar_grid}}{The coordinates for the cylindrical grid segments with 
 x,y,z coordinates}
 
-\item{\code{axes}}{The axes features for plotly}
+\item{\code{axes}}{The axes features for 'plotly'}
 
 \item{\code{axis_labs}}{The axis labels}
 

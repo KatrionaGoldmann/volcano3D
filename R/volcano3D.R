@@ -34,9 +34,10 @@
 #' treatment response phenotypes.}
 #' \emph{Cell reports}, \strong{28}:9
 #' @importFrom plotly plot_ly add_trace add_text layout %>%
-#' @keywords pvalue, polar, plot
+#' @keywords pvalue polar plot
 #' @export
 #' @examples
+#' \dontrun{
 #' library(volcano3Ddata)
 #' data(syn_data)
 #' syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -55,6 +56,7 @@
 #'     label_size = 10, 
 #'     xy_aspectratio = 1, 
 #'     z_aspectratio = 0.9)
+#' }
 
 
 volcano3D <- function(polar,

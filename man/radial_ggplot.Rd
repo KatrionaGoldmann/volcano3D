@@ -2,7 +2,7 @@
 % Please edit documentation in R/radial_ggplot.R
 \name{radial_ggplot}
 \alias{radial_ggplot}
-\title{Ggplot for Three Way Polar Plot}
+\title{'Ggplot' for Three Way Polar Plot}
 \usage{
 radial_ggplot(
   polar,
@@ -72,13 +72,14 @@ Options are 'zscore' (default) or 'fc'.}
 \code{\link[volcano3D]{polar_grid}}.}
 }
 \value{
-Returns a polar ggplot object featuring variables on a tri-axis 
+Returns a polar 'ggplot' object featuring variables on a tri-axis 
 radial graph
 }
 \description{
-This function creates a radar plot using ggplot for a three-way comparison
+This function creates a radar plot using 'ggplot' for a three-way comparison
 }
 \examples{
+\dontrun{
 library(volcano3Ddata)
 data(syn_data)
 syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -93,6 +94,7 @@ syn_polar <- polar_coords(sampledata = syn_metadata,
                           
 radial_ggplot(polar = syn_polar, label_rows = c("SLAMF6"))
 }
+}
 \references{
 Lewis, Myles J., et al. (2019).
 \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
@@ -100,7 +102,7 @@ Molecular portraits of early rheumatoid arthritis identify clinical and
 treatment response phenotypes.}
 \emph{Cell reports}, \strong{28}:9
 }
-\keyword{ggplot}
+\keyword{'ggplot'}
 \keyword{plot,}
 \keyword{polar,}
 \keyword{pvalue,}

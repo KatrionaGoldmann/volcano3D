@@ -40,7 +40,7 @@
 #' @return Returns a list of ggplot volcano plots. The first three elements 
 #' contain comparisons between all contrasts. The last element in the list is a 
 #' combined figure for all three plots.
-#' @keywords volcano, pvalues, plot
+#' @keywords volcano pvalues plot
 #' @references
 #' Lewis, Myles J., et al. (2019).
 #' \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
@@ -49,6 +49,7 @@
 #' \emph{Cell reports}, \strong{28}:9
 #' @export
 #' @examples
+#' \dontrun{
 #' library(volcano3Ddata)
 #' data(syn_data)
 #' syn_polar <- polar_coords(sampledata = syn_metadata,
@@ -61,9 +62,7 @@
 #'                          significance_cutoff = 0.01,
 #'                          fc_cutoff = 0.1)
 #' syn_volcano_plots <- volcano_trio(polar=syn_polar)
-#'  
-#' syn_volcano_plots$All
-#' syn_volcano_plots$`Lymphoid-Myeloid`
+#' }
 
 volcano_trio <- function(polar,
                          p_cutoff = 0.05,

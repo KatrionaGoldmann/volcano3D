@@ -10,10 +10,9 @@
 }
 
 
-# Add the volcano3Ddata source to list of repos install loads from
 .onLoad <- function(libname, pkgname) {
-    repos <- getOption("repos")
-    repos["volcano3Ddata"] <- "http://KatrionaGoldmann.github.io/volcano3Ddata"
+    repos = getOption("repos")
+    repos["volcano3Ddata"] = "http://katrionagoldmann.github.io/volcano3Ddata"
     options(repos = repos)
     invisible(repos)
 }
