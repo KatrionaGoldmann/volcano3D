@@ -111,7 +111,7 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #'   \item{'non_sig_name'} The category name for variables which are classed as 
 #'   not significant
 #' }
-#' @keywords pvalue polar plot
+#' @keywords dplot spatial
 #' @importFrom grDevices col2rgb hsv
 #' @references
 #' Lewis, Myles J., et al. (2019).

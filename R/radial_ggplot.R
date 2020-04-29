@@ -37,7 +37,7 @@
 #' arrow unit element_rect
 #' @importFrom graphics text 
 #' @importFrom grDevices hsv
-#' @keywords pvalue polar plot 'ggplot'
+#' @keywords hplot 
 #' @references
 #' Lewis, Myles J., et al. (2019).
 #' \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{

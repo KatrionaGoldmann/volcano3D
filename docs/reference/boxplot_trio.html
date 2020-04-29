@@ -91,7 +91,7 @@ groups in a boxplot." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@ groups in a boxplot." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Vignette.html">Volcano3D Vignette</a>
+      <a href="../articles/Extended_Vignette.html">Volcano3D Vignette</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Additional Tutorials</li>
@@ -240,7 +240,7 @@ pvalues are calculated and plotted.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a ggplot boxplot featuring the differential expression 
+    <p>Returns a 'ggplot' boxplot featuring the differential expression 
 between groups in comparison with annotated pvalues.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -251,7 +251,8 @@ treatment response phenotypes.</a>
 <em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>syn_data</span>)
 <span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
                          <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
@@ -266,14 +267,8 @@ treatment response phenotypes.</a>
 <span class='fu'>boxplot_trio</span>(<span class='no'>syn_polar</span>,
           <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"SLAMF6"</span>,
           <span class='kw'>levels_order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Lymphoid"</span>, <span class='st'>"Myeloid"</span>, <span class='st'>"Fibroid"</span>),
-          <span class='kw'>box_colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"blue"</span>, <span class='st'>"red"</span>, <span class='st'>"green3"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `df$group` is discouraged. Use `group` instead.</span></div><div class='img'><img src='boxplot_trio-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>boxplot_trio</span>(<span class='no'>syn_polar</span>,
-          <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"ITM2C"</span>,
-          <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"wilcox.test"</span>,
-          <span class='kw'>levels_order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Lymphoid"</span>, <span class='st'>"Myeloid"</span>, <span class='st'>"Fibroid"</span>),
-          <span class='kw'>my_comparisons</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Lymphoid"</span>, <span class='st'>"Myeloid"</span>),
-                                <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Myeloid"</span>, <span class='st'>"Fibroid"</span>)),
-          <span class='kw'>box_colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"blue"</span>, <span class='st'>"red"</span>, <span class='st'>"green3"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `df$group` is discouraged. Use `group` instead.</span></div><div class='img'><img src='boxplot_trio-2.png' alt='' width='700' height='433' /></div></pre>
+          <span class='kw'>box_colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"blue"</span>, <span class='st'>"red"</span>, <span class='st'>"green3"</span>))
+ }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

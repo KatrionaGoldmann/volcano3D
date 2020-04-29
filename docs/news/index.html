@@ -19,8 +19,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -62,16 +62,6 @@
 <![endif]-->
 
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-158679490-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-158679490-1');
-</script>
-
 
   </head>
 
@@ -89,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -102,30 +92,31 @@
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Manual</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Vignettes
+    Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Vignette.html">Volcano3D Vignette</a>
-    </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">Additional Tutorials</li>
-    <li>
-      <a href="../articles/pvalues_generator.html">Generating Pvalues Objects</a>
+      <a href="../articles/Extended_Vignette.html">volcano3D Vignette</a>
     </li>
     <li>
-      <a href="../articles/shiny_builder.html">Using Volcano3D to create Shiny Apps</a>
+      <a href="../articles/Vignette.html">volcano3D Vignette</a>
+    </li>
+    <li>
+      <a href="../articles/pvalues_generator.html">Pvalues Generator</a>
+    </li>
+    <li>
+      <a href="../articles/shiny_builder.html">Building a Shiny App</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -152,9 +143,9 @@
       <small>Source: <a href='https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="volcano3d-1-0-0" class="section level1">
+    <div id="volcano3d-100" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.0">
-<a href="#volcano3d-1-0-0" class="anchor"></a>volcano3D 1.0.0</h1>
+<a href="#volcano3d-100" class="anchor"></a>volcano3D 1.0.0</h1>
 <ul>
 <li>Combined create_dep and polar_coord functions so no longer backwards compatible.</li>
 <li>Combined the 3D and 2D functions of polar_grid</li>
@@ -164,9 +155,9 @@
 <li>Pass label columns as plotly keys in volcano3d and radial_plotly</li>
 </ul>
 </div>
-    <div id="volcano3d-0-1-0" class="section level1">
+    <div id="volcano3d-010" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.0">
-<a href="#volcano3d-0-1-0" class="anchor"></a>volcano3D 0.1.0</h1>
+<a href="#volcano3d-010" class="anchor"></a>volcano3D 0.1.0</h1>
 <ul>
 <li>This is the initial release of volcano3D</li>
 </ul>
@@ -184,7 +175,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://github.com/KatrionaGoldmann'>Katriona Goldmann</a>, <a href='https://www.qmul.ac.uk/whri/people/academic-staff/items/lewismyles.html'>Myles Lewis</a>.</p>
+  <p>Developed by Katriona Goldmann, Myles Lewis.</p>
 </div>
 
 <div class="pkgdown">

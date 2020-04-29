@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Three-way radial comparison Polar Plot (using plotly) — radial_plotly • volcano3D</title>
+<title>Three-way radial comparison Polar Plot (using 'plotly') — radial_plotly • volcano3D</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Three-way radial comparison Polar Plot (using plotly) — radial_plotly" />
-<meta property="og:description" content="This function creates an interactive plotly object which maps differential 
+<meta property="og:title" content="Three-way radial comparison Polar Plot (using 'plotly') — radial_plotly" />
+<meta property="og:description" content="This function creates an interactive 'plotly' object which maps differential 
 expression onto a polar coordinates." />
 <meta property="og:image" content="/logo.png" />
 
@@ -91,7 +91,7 @@ expression onto a polar coordinates." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@ expression onto a polar coordinates." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Vignette.html">Volcano3D Vignette</a>
+      <a href="../articles/Extended_Vignette.html">Volcano3D Vignette</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Additional Tutorials</li>
@@ -150,13 +150,13 @@ expression onto a polar coordinates." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Three-way radial comparison Polar Plot (using plotly)</h1>
+    <h1>Three-way radial comparison Polar Plot (using 'plotly')</h1>
     <small class="dont-index">Source: <a href='https://github.com/KatrionaGoldmann/volcano3D/blob/master/R/radial_plotly.R'><code>R/radial_plotly.R</code></a></small>
     <div class="hidden name"><code>radial_plotly.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function creates an interactive plotly object which maps differential 
+    <p>This function creates an interactive 'plotly' object which maps differential 
 expression onto a polar coordinates.</p>
     </div>
 
@@ -257,7 +257,7 @@ NULL this will be calculated using <code><a href='https://rdrr.io/r/base/pretty.
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a plotly plot featuring variables on a tri-axis
+    <p>Returns a 'plotly' plot featuring variables on a tri-axis
 radial graph</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -268,7 +268,8 @@ treatment response phenotypes.</a>
 <em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>syn_data</span>)
 <span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
                           <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
@@ -280,7 +281,8 @@ treatment response phenotypes.</a>
                           <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
                           <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
 
-<span class='fu'>radial_plotly</span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>, <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Colour vector is unnamed - assigning in order of sig levels</span></div></pre>
+<span class='fu'>radial_plotly</span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>, <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>))
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

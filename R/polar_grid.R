@@ -62,7 +62,7 @@ setClass("grid", slots = list(
 #' Molecular portraits of early rheumatoid arthritis identify clinical and
 #' treatment response phenotypes.}
 #' \emph{Cell reports}, \strong{28}:9
-#' @keywords pvalue polar plot
+#' @keywords dplot manip htest
 #' @export
 #' @examples
 #' \dontrun{

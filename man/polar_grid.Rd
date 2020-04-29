@@ -82,6 +82,6 @@ Molecular portraits of early rheumatoid arthritis identify clinical and
 treatment response phenotypes.}
 \emph{Cell reports}, \strong{28}:9
 }
-\keyword{plot}
-\keyword{polar,}
-\keyword{pvalue,}
+\keyword{dplot}
+\keyword{htest}
+\keyword{manip}

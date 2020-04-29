@@ -7,7 +7,6 @@
 ^vignettes/pvalues_generator*
 ^vignettes/Extended*
 ^vignettes/shiny_builder*
-^vignettes/Vignette.rmd$
 ^vignettes/pvalues_example.rdata$
 ^_pkgdown\.yml$
 ^docs$
@@ -15,3 +14,5 @@
 ^cran-comments\.md$
 Logo.png
 ^ReadMe\.md$
+^doc$
+^Meta$

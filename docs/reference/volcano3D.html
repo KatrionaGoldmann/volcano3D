@@ -90,7 +90,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Vignette.html">Volcano3D Vignette</a>
+      <a href="../articles/Extended_Vignette.html">Volcano3D Vignette</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Additional Tutorials</li>
@@ -255,7 +255,8 @@ treatment response phenotypes.</a>
 <em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>syn_data</span>)
 <span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
                        <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
@@ -272,7 +273,8 @@ treatment response phenotypes.</a>
     <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"FMOD"</span>, <span class='st'>"LAMP5"</span>, <span class='st'>"TNNT3"</span>),
     <span class='kw'>label_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
     <span class='kw'>xy_aspectratio</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-    <span class='kw'>z_aspectratio</span> <span class='kw'>=</span> <span class='fl'>0.9</span>)</div></pre>
+    <span class='kw'>z_aspectratio</span> <span class='kw'>=</span> <span class='fl'>0.9</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

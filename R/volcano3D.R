@@ -34,7 +34,8 @@
 #' treatment response phenotypes.}
 #' \emph{Cell reports}, \strong{28}:9
 #' @importFrom plotly plot_ly add_trace add_text layout %>%
-#' @keywords pvalue polar plot
+#' @keywords hplot iplot
+#' @concept volcanoplot 
 #' @export
 #' @examples
 #' \dontrun{

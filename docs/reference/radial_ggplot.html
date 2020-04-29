@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Ggplot for Three Way Polar Plot — radial_ggplot • volcano3D</title>
+<title>'Ggplot' for Three Way Polar Plot — radial_ggplot • volcano3D</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Ggplot for Three Way Polar Plot — radial_ggplot" />
-<meta property="og:description" content="This function creates a radar plot using ggplot for a three-way comparison" />
+<meta property="og:title" content="'Ggplot' for Three Way Polar Plot — radial_ggplot" />
+<meta property="og:description" content="This function creates a radar plot using 'ggplot' for a three-way comparison" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -90,7 +90,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Vignette.html">Volcano3D Vignette</a>
+      <a href="../articles/Extended_Vignette.html">Volcano3D Vignette</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Additional Tutorials</li>
@@ -149,13 +149,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Ggplot for Three Way Polar Plot</h1>
+    <h1>'Ggplot' for Three Way Polar Plot</h1>
     <small class="dont-index">Source: <a href='https://github.com/KatrionaGoldmann/volcano3D/blob/master/R/radial_ggplot.R'><code>R/radial_ggplot.R</code></a></small>
     <div class="hidden name"><code>radial_ggplot.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function creates a radar plot using ggplot for a three-way comparison</p>
+    <p>This function creates a radar plot using 'ggplot' for a three-way comparison</p>
     </div>
 
     <pre class="usage"><span class='fu'>radial_ggplot</span>(
@@ -265,7 +265,7 @@ Options are 'zscore' (default) or 'fc'.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a polar ggplot object featuring variables on a tri-axis 
+    <p>Returns a polar 'ggplot' object featuring variables on a tri-axis 
 radial graph</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -276,7 +276,8 @@ treatment response phenotypes.</a>
 <em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>syn_data</span>)
 <span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
                           <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
@@ -288,7 +289,8 @@ treatment response phenotypes.</a>
                           <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
                           <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
 
-<span class='fu'>radial_ggplot</span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>, <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Colour vector is unnamed - assigning in order of sig levels</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `polar_df$sig` is discouraged. Use `sig` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `polar_df$hue` is discouraged. Use `hue` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `polar_df$x` is discouraged. Use `x` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `polar_df$y` is discouraged. Use `y` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$x` is discouraged. Use `x` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$y` is discouraged. Use `y` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$xend` is discouraged. Use `xend` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$yend` is discouraged. Use `yend` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$xend` is discouraged. Use `xend` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$yend` is discouraged. Use `yend` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$label` is discouraged. Use `label` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$x` is discouraged. Use `x` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$y` is discouraged. Use `y` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='radial_ggplot-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>radial_ggplot</span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>, <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>))
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

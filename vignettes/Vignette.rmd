@@ -3,8 +3,8 @@ title: "volcano3D Vignette"
 author: "Katriona Goldmann"
 output: rmarkdown::html_vignette
 vignette: >
-  \VignetteIndexEntry{volcano3D package}
-  \VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{volcano3D package}
+  %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
   
@@ -14,14 +14,14 @@ knitr::opts_chunk$set(echo = TRUE,
   message = FALSE, 
   fig.align = 'center',
   dev.args=list(bg="transparent")
-  )
-
+)
 
 library(knitr)
 library(kableExtra)
 ```
   
----
+<img src="../logo.png" align="right" alt="" width="200" style="border: 0;" />
+
   
 # Introduction 
   
@@ -50,10 +50,10 @@ There are also supplementary vignettes for further information on:
   
 ### Prerequisites
   
-* [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)
-* [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
-* [ggrepel](https://cran.r-project.org/web/packages/ggrepel/index.html)
-* [plotly](https://cran.r-project.org/web/packages/plotly/index.html)
+* [ggplot2](https://CRAN.R-project.org/package=ggplot2)
+* [ggpubr](https://CRAN.R-project.org/package=ggpubr)
+* [ggrepel](https://CRAN.R-project.org/package=ggrepel)
+* [plotly](https://CRAN.R-project.org/package=plotly)
   
 ### Install from CRAN
   
@@ -185,7 +185,7 @@ Using the synovial biopsies from PEAC we can create a polar object for
 differentially expressed genes. First we will install the volcano3Ddata package
 if necessary:
 
-```{r, eval=FALSE}
+```{r}
 install.packages("volcano3Ddata")
 ```
 
@@ -268,7 +268,7 @@ syn_plots <- volcano_trio(polar = syn_polar,
                           marker_size=1,
                           shared_legend_size = 0.9,
                           label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-                          fc_line = FALSE, 
+                          fc_line = FALSE,
                           share_axes = FALSE)
 
 syn_plots$All
@@ -277,8 +277,8 @@ syn_plots$All
 ### Radial Plots
 
 These can be output to an interactive radar plot using radial_plotly. The
-`labelRows` variable allows any markers of interest to be labelled. When run 
-locally, hovering 
+`labelRows` variable allows any markers of interest to be labelled. When run
+locally, hovering
 over certain point you can also determine genes for
 future interrogation.
 
@@ -308,7 +308,7 @@ user to add features.
 ```{r, fig.height = 2.7, fig.width = 7}
 plot1 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
-                      text_size = 7, 
+                      text_size = 7,
                       test = "polar_padj",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       box_colours = c("blue", "red", "green3"),
@@ -317,7 +317,7 @@ plot1 <- boxplot_trio(syn_polar,
 
 plot2 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
-                      text_size = 7, 
+                      text_size = 7,
                       test = "polar_multi_padj",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       box_colours = c("blue", "red", "green3")) +
@@ -325,7 +325,7 @@ plot2 <- boxplot_trio(syn_polar,
 
 plot3 <- boxplot_trio(syn_polar,
                       value = "PARP16",
-                      text_size = 7, 
+                      text_size = 7,
                       stat_size=2.5,
                       test = "t.test",
                       levels_order = c("Myeloid", "Fibroid"),
@@ -341,7 +341,7 @@ ggarrange(plot1, plot2, plot3, ncol = 3)
 The final thing we can look at is the 3D volcano plot which projects
 differential gene expression onto cylindrical coordinates.
 
-```{r, out.height="120%", out.width="100%", eval=FALSE}
+```{r, out.height="120%", out.width="100%", eval=TRUE}
 p <- volcano3D(syn_polar,
                label_rows = c("SLAMF6", "PARP16", "ITM2C"),
                label_size = 10,
@@ -351,7 +351,7 @@ p <- volcano3D(syn_polar,
 p %>% layout(legend = list(x = 100, y = 0.7))
 ```
 
-<img src="./volcano.png" align="center" alt="" />
+<!-- <img src="./volcano.png" align="center" alt="" /> -->
 
 
 Again this produces an interactive plot. If you have
@@ -365,7 +365,7 @@ orca(p, "./volcano_3d_synovium.svg", format = "svg")
 
 ### Altering the Plots
 
-#### Altering the Grid 
+#### Altering the Grid
 
 By default volcano3D generates a grid using 12 spokes. If you wish to override
 any of these variables it is possible to pass in your own grid. This is also

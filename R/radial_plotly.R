@@ -40,7 +40,7 @@
 #' Molecular portraits of early rheumatoid arthritis identify clinical and
 #' treatment response phenotypes.}
 #' \emph{Cell reports}, \strong{28}:9
-#' @keywords pvalues polar plot 'plotly' radial
+#' @keywords hplot iplot
 #' @export
 #' @examples
 #' \dontrun{

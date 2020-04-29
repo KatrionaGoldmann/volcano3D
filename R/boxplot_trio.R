@@ -38,7 +38,7 @@
 #' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate 
 #' geom_point scale_color_manual aes geom_jitter element_rect
 #' @importFrom utils combn
-#' @keywords pvalue plot boxplot
+#' @keywords hplot
 #' @references 
 #' Lewis, Myles J., et al. (2019). 
 #' \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{

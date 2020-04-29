@@ -40,7 +40,8 @@
 #' @return Returns a list of ggplot volcano plots. The first three elements 
 #' contain comparisons between all contrasts. The last element in the list is a 
 #' combined figure for all three plots.
-#' @keywords volcano pvalues plot
+#' @concept volcanoplot 
+#' @keywords hplot
 #' @references
 #' Lewis, Myles J., et al. (2019).
 #' \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
