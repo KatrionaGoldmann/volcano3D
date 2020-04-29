@@ -8,8 +8,7 @@ Authors@R: c(
     ),
     person("Myles", "Lewis", role = "aut")
     )
-Maintainer: Katriona Goldmann <k.goldmann@qmul.ac.uk>
-Date: 29/04/2020
+Date: 2020-04-29
 URL: https://github.com/KatrionaGoldmann/volcano3D
 BugReports: https://github.com/KatrionaGoldmann/volcano3D/issues
 Description: Find probes differentially expressed between three groups and output interactive plots for interrogation.

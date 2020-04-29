@@ -23,10 +23,10 @@ source("https://gist.githubusercontent.com/KatrionaGoldmann/3d6dfd6aa4cc5c3940bb
 ```
   
   
-<img src="../logo.png" align="right" alt="" width="200" />
+<img src="../logo.png" align="right" alt="" width="200" style="border: 0;" />
   
 ```{r toc, echo = FALSE}
-  render_toc("./Vignette.rmd")
+render_toc("./Extended_Vignette.rmd")
 ```
   
 
@@ -65,10 +65,10 @@ There are also supplementary vignettes for further information on:
   
 ### Prerequisites
   
-* [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)
-* [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
-* [ggrepel](https://cran.r-project.org/web/packages/ggrepel/index.html)
-* [plotly](https://cran.r-project.org/web/packages/plotly/index.html)
+* [ggplot2](https://CRAN.R-project.org/package=ggplot2)
+* [ggpubr](https://CRAN.R-project.org/package=ggpubr)
+* [ggrepel](https://CRAN.R-project.org/package=ggrepel)
+* [plotly](https://CRAN.R-project.org/package=plotly)
   
 ### Install from CRAN
   
@@ -126,7 +126,7 @@ Variables used in this vignette:
 
 ---
 
-# Examples: Synovial Gene Data
+# Examples 
 
 This vignette will demonstrate the power of this package using a basic example
 from the [PEAC data set](http://www.peac-mrc.mds.qmul.ac.uk). Here we will focus
@@ -196,6 +196,7 @@ is NULL.
 * `label_column`: A column name in pvalues which is to be used to label markers
 of interest at plotting stage. If NULL the rownames will be used.
 
+## 1. Synovial Gene Data
 
 Using the synovial biopsies from PEAC we can create a polar object for
 differentially expressed genes. First we will install the volcano3Ddata package
@@ -315,7 +316,7 @@ radial_ggplot(polar = syn_polar,
 Alternatively a continuous colour scale can be produced by converting the angle
 to a hsv variable. This angle can be offset by `continuous_shift`.
 
-```{r, fig.height=5}
+```{r, fig.height=4.5, fig.width=7}
 radial_ggplot(polar = syn_polar,
               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
               marker_size = 2.3,
@@ -368,7 +369,7 @@ ggarrange(plot1, plot2, plot3, ncol = 3)
 The final thing we can look at is the 3D volcano plot which projects
 differential gene expression onto cylindrical coordinates.
 
-```{r, out.height="120%", out.width="100%"}
+```{r, out.height="100%", out.width="100%", fig.height=1}
 p <- volcano3D(syn_polar,
                label_rows = c("SLAMF6", "PARP16", "ITM2C"),
                label_size = 10,
@@ -482,7 +483,7 @@ syn_mod_polar <- polar_coords(sampledata = syn_metadata,
 We can now investigate the comparisons between pathotypes using the
 volcano_trio function.
 
-```{r, message = FALSE, fig.height = 2.8, fig.width=10.5}
+```{r, message = FALSE, fig.height=2.8, fig.width=7}
 syn_mod_plots <- volcano_trio(polar = syn_mod_polar,
                               label_rows = c("M156.0", "M37.2"),
                               shared_legend_size = 1,
@@ -499,7 +500,7 @@ syn_mod_plots$All
 ### Radial Plots
 
 
-```{r, warning = FALSE, message = FALSE, fig.height=5}
+```{r, out.height="100%", out.width="90%", fig.height=8, fig.width=10}
 radial_plotly(polar = syn_mod_polar,
               colours = c("Fibroid+"="green3",
                           "Fibroid+Myeloid+"="gold2",
@@ -511,7 +512,7 @@ radial_plotly(polar = syn_mod_polar,
 
 Or a ggplot static image using radial_ggplot:
 
-```{r, warning = FALSE, fig.height = 5}
+```{r, warning = FALSE, fig.height=4.5, fig.width=7}
 radial_ggplot(polar = syn_mod_polar,
               label_rows = c("M156.0", "M37.2"),
               colours = c("Fibroid+"="green3",

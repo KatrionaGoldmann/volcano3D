@@ -57,8 +57,6 @@ There are also supplementary vignettes for further information on:
   
 ### Install from CRAN
   
-*Not yet publicly available:*
-  
 ```{r, eval = FALSE}
 install.packages("volcano3D")
 ```
@@ -71,11 +69,8 @@ library(devtools)
 install_github("KatrionaGoldmann/volcano3D")
 ```
 
-```{r}
-library(volcano3D)
-```
-
 ```{r, echo=FALSE}
+library(volcano3D)
 library(ggpubr)
 library(plotly)
 ```
@@ -186,7 +181,8 @@ differentially expressed genes. First we will install the volcano3Ddata package
 if necessary:
 
 ```{r}
-install.packages("volcano3Ddata")
+install.packages("volcano3Ddata", 
+                 repos="http://katrionagoldmann.github.io/volcano3Ddata")
 ```
 
 Then the data can be loaded and polar coordinates calculated:
@@ -341,7 +337,7 @@ ggarrange(plot1, plot2, plot3, ncol = 3)
 The final thing we can look at is the 3D volcano plot which projects
 differential gene expression onto cylindrical coordinates.
 
-```{r, out.height="120%", out.width="100%", eval=TRUE}
+```{r, out.height="120%", out.width="100%", eval=FALSE}
 p <- volcano3D(syn_polar,
                label_rows = c("SLAMF6", "PARP16", "ITM2C"),
                label_size = 10,
@@ -351,7 +347,7 @@ p <- volcano3D(syn_polar,
 p %>% layout(legend = list(x = 100, y = 0.7))
 ```
 
-<!-- <img src="./volcano.png" align="center" alt="" /> -->
+<img src="./volcano.png" align="center" alt="" />
 
 
 Again this produces an interactive plot. If you have

@@ -11,8 +11,8 @@
 
 
 .onLoad <- function(libname, pkgname) {
-    repos = getOption("repos")
-    repos["volcano3Ddata"] = "http://katrionagoldmann.github.io/volcano3Ddata"
+    repos <- getOption("repos")
+    repos["volcano3Ddata"] <- "http://katrionagoldmann.github.io/volcano3Ddata"
     options(repos = repos)
     invisible(repos)
 }

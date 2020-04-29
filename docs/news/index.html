@@ -19,8 +19,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -62,6 +62,16 @@
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-158679490-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-158679490-1');
+</script>
+
 
   </head>
 
@@ -92,31 +102,30 @@
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../reference/index.html">Manual</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Vignettes
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Extended_Vignette.html">volcano3D Vignette</a>
+      <a href="../articles/Extended_Vignette.html">Volcano3D Vignette</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Additional Tutorials</li>
+    <li>
+      <a href="../articles/pvalues_generator.html">Generating Pvalues Objects</a>
     </li>
     <li>
-      <a href="../articles/Vignette.html">volcano3D Vignette</a>
-    </li>
-    <li>
-      <a href="../articles/pvalues_generator.html">Pvalues Generator</a>
-    </li>
-    <li>
-      <a href="../articles/shiny_builder.html">Building a Shiny App</a>
+      <a href="../articles/shiny_builder.html">Using Volcano3D to create Shiny Apps</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">Changelog</a>
+  <a href="../news/index.html">News</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -175,7 +184,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Katriona Goldmann, Myles Lewis.</p>
+  <p>Developed by <a href='https://github.com/KatrionaGoldmann'>Katriona Goldmann</a>, <a href='https://www.qmul.ac.uk/whri/people/academic-staff/items/lewismyles.html'>Myles Lewis</a>.</p>
 </div>
 
 <div class="pkgdown">
