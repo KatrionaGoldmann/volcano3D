@@ -1,5 +1,5 @@
 ---
-title: "volcano3D Vignette"
+title: "volcano3D package"
 author: "Katriona Goldmann"
 output: rmarkdown::html_vignette
 vignette: >
@@ -7,56 +7,72 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
-  
+
 ```{r setup, include = FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE, 
-  warning = FALSE, 
-  message = FALSE, 
-  fig.align = 'center',
-  dev.args=list(bg="transparent")
-)
-
+                      warning = FALSE, 
+                      message = FALSE, 
+                      fig.height = 7, 
+                      fig.width=7, 
+                      fig.align = "center")
 library(knitr)
 library(kableExtra)
 ```
-  
-<img src="../logo.png" align="right" alt="" width="200" style="border: 0;" />
 
-  
-# Introduction 
-  
+
+# volcano3D <img src="https://katrionagoldmann.github.io/volcano3D/logo.png" align="right" alt="" width="200" hspace="20" />
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(ggpubr)
+library(plotly)
+library(usethis)
+```
+
+
 The volcano3D package enables exploration of probes differentially 
 expressed between three groups. Its main purpose is for the
 visualisation of differentially expressed genes in a three-dimensional
 volcano plot. These plots can be converted to interactive visualisations using
-[plotly](https://plot.ly/r/). 
-  
-This vignette consists of a case study from the PEAC 
-rheumatoid arthritis project (Pathobiology of Early Arthritis Cohort). 
+plotly. 
+
+The [vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html) 
+explores a case study from the PEAC 
+rheumatoid arthritis trial (Pathobiology of Early Arthritis Cohort). 
 The methodology has been published in 
-[Lewis, Myles J., et al. 'Molecular portraits of early rheumatoid arthritis 
-identify clinical and treatment response phenotypes.' Cell reports 28.9 (2019): 
+[Lewis, Myles J., et al. _Molecular portraits of early rheumatoid arthritis 
+identify clinical and treatment response phenotypes_. Cell reports 28.9 (2019): 
 2455-2470.
 (DOI: 10.1016/j.celrep.2019.07.091)](https://doi.org/10.1016/j.celrep.2019.07.091)
 with an interactive web tool available at 
 [https://peac.hpc.qmul.ac.uk](https://peac.hpc.qmul.ac.uk).  
 
+This tool acts as a searchable interface to examine relationships between 
+individual synovial and blood gene transcript levels and histological, clinical, 
+and radiographic parameters, and clinical response at 6 months. 
+An interactive interface allows the gene module analysis to be explored for 
+relationships between modules and clinical parameters. 
+The PEAC interactive web tool was creating as an 
+[R Shiny app](https://shiny.rstudio.com) and deployed to the web using a server. 
+
 There are also supplementary vignettes for further information on:
 
-- [creating the input pvalues data frame](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html)
+- [setting up the input pvalues data frame](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html)
 - [using the volcano3D package to create and deploy a shiny app](https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html)
-  
+
 ## Getting Started
-  
+
 ### Prerequisites
-  
+
 * [ggplot2](https://CRAN.R-project.org/package=ggplot2)
 * [ggpubr](https://CRAN.R-project.org/package=ggpubr)
 * [ggrepel](https://CRAN.R-project.org/package=ggrepel)
 * [plotly](https://CRAN.R-project.org/package=plotly)
-  
+
 ### Install from CRAN
-  
+
+*Not yet publicly available:*
+
 ```{r, eval = FALSE}
 install.packages("volcano3D")
 ```
@@ -67,367 +83,25 @@ install.packages("volcano3D")
 ```{r, eval = FALSE}
 library(devtools)
 install_github("KatrionaGoldmann/volcano3D")
-```
-
-```{r, echo=FALSE}
 library(volcano3D)
-library(ggpubr)
-library(plotly)
 ```
 
-### Sample Data
+# Examples
 
-The sample data used in this vignette can be loaded from the 
-[volcano3Ddata package](https://github.com/KatrionaGoldmann/volcano3Ddata). 
+For examples and tutorials see the [vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html). 
 
-```{r}
-install.packages("volcano3Ddata",
-                 repo="http://katrionagoldmann.github.io/volcano3Ddata")
-```
 
----
+## Citation
 
-# Dictionary 
+volcano3D was developed by the bioinformatics team at the 
+[Experimental Medicine & Rheumatology department](https://www.qmul.ac.uk/whri/emr/) 
+and [Centre for Translational Bioinformatics](https://www.qmul.ac.uk/c4tb/) at 
+Queen Mary University London. 
 
-Variables used in this vignette:
+If you use this package please cite as: 
 
-
-| <span style="color:maroon">Variable</span> | <span style="color:maroon">Definition </span>  |
-|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <b>contrast</b> | the variable by which samples can be split into three groups. |
-| <b>groups</b> | the three levels/categories of the contrast variable. |
-| <b>comparison</b> | two groups between which a statistical test can be performed. There are three comparisons total. For the examples outlined in this vignette we look at comparisons: 'lymphoid-myeloid', 'lymphoid-fibroid' and 'myeloid-fibroid'. |
-| <b>p</b> | p value |
-| <b>FC</b> | fold change |
-| <b>padj</b> | adjusted p value |
-| <b>suffix</b> | the tail word in a column name. In this package it states the statistical parameter (e.g. _logFC is the log FC variable)  |
-| <b>prefix</b> | the leading word in a column name. In this package it states the statistical test (e.g. LRT is the likelihood ratio test). |
-| <b>polar</b> | A polar coordinates object, of S4 class, containing the expression data, sample data, pvalues and polar coordinates. |
-
----
-
-# Example: Synovial Gene Data
-
-This vignette will demonstrate the power of this package using a basic example
-from the [PEAC data set](http://www.peac-mrc.mds.qmul.ac.uk). Here we will focus
-on the synovial data from this cohort.
-
-First we will set up a polar object, using the polar_coords function, which
-contains:
-
-1. the expression data with columns representing different samples and rows
-representing different variables
-2. the sample data which contains information for each sample in rows.
-3. the pvalues which contains the statistical significance of probes between
-groups.
-
-To create the polar coordinates you must provide:
-
-* `sampledata`: A data frame containing the sample information. This must
-contain:
-  * an `ID` column: Containing the sample IDs. This must be titled 'ID'.
-  * a `contrast` column: A column containing the three-level factor used for
-contrasts.
-* `contrast`: The column name in `sampledata` which contains the three-level
-factor used for contrast.
-* `pvalues`: A data frame containing:
-  * three pvalue columns: one for each comparison with column names
-of format `paste0(groups[i], "-", groups[j], " ", p_col_suffix)`. We
-recommend using [limma](https://www.bioconductor.org/packages/devel/workflows/vignettes/RNAseq123/inst/doc/limmaWorkflow.html) or
-[DESeq](https://bioconductor.org/packages/release/bioc/vignettes/DESeq/inst/doc/DESeq.pdf) 
-pipelines to calculate these pvalues for gene expression.
-  * _optional_ fold change columns: one for each comparison with
-(column names of format `paste0(groups[i], "-", groups[j], " ",
-fc_col_suffix)`)
-  * _optional_ adjusted pvalue columns: one for each comparison with
-  column names of format `paste0(groups[i], "-", groups[j], " ",
-padj_col_suffix)`)
-  * an _optional_ multi-group pvalue column: from a multi-group test with column
-name of the form `paste(multi_group_prefix, p_col_suffix)`). This is typically
-generated using ANOVA or likelihood ratio tests between all three groups.
-  * an _optional_ multi-group fold change column: from a multi-group test
-(column names of form `paste(multi_group_prefix, fc_col_suffix)`). This is
-typically generated using ANOVA or likelihood ratio tests comparing all
-three groups.
-  * an _optional_ multi-group adjusted pvalue column: from a multi-group test
-(column names of form `paste(multiGroupPrefix, padjColSuffix)`). This is
-typically generated using ANOVA or likelihood ratio tests comparing all
-three groups.
-  <li type="square"> For more information on how to create pvalues data frames see the 
-[pvalue generator vignette](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html).</li>
-
-with optional:
-
-* `groups`: The groups to be compared (in order). If NULL this defaults to
-`levels(sampledata[, 'contrasts'])`.
-* `p_col_suffix`: The suffix of column names with pvalues (default is 'pvalue').
-* `padj_col_suffix`: The suffix of column names with adjusted pvalues (default
-is 'padj'). If NULL the adjusted pvalue is calculated using `p_col_suffix` and
-pvalue_method.
-* `padjust_method`: The method to calculate adjusted pvalues if not already
-provided. Must be one of c('holm', 'hochberg', 'hommel', 'bonferroni', 'BH',
-'BY', 'fdr', 'none'). Default is 'BH'.
-* `fc_col_suffix`: The suffix of column names with log(fold change) values
-(default is 'logFC').
-* `multi_group_prefix`: The prefix for columns containing statistics for a
-multi-group test (this is typically a likelihood ratio test or ANOVA). Default
-is NULL.
-* `label_column`: A column name in pvalues which is to be used to label markers
-of interest at plotting stage. If NULL the rownames will be used.
-
-
-Using the synovial biopsies from PEAC we can create a polar object for
-differentially expressed genes. First we will install the volcano3Ddata package
-if necessary:
-
-```{r}
-install.packages("volcano3Ddata", 
-                 repos="http://katrionagoldmann.github.io/volcano3Ddata")
-```
-
-Then the data can be loaded and polar coordinates calculated:
-
-```{r}
-library(volcano3Ddata)
-data("syn_data")
-
-syn_polar <- polar_coords(sampledata = syn_metadata,
-                          contrast = "Pathotype",
-                          pvalues = syn_pvalues,
-                          expression = syn_rld,
-                          p_col_suffix = "pvalue",
-                          padj_col_suffix = "padj",
-                          fc_col_suffix = "log2FoldChange",
-                          multi_group_prefix = "LRT",
-                          non_sig_name = "Not Significant",
-                          significance_cutoff = 0.01,
-                          label_column = NULL,
-                          fc_cutoff = 0.1)
-```
-
-The pvalues slot should have at least two statistics for each comparison -
-pvalue and adjusted pvalue with an optional logarithmic fold change statistic
-also:
-
-```{r, eval=FALSE}
-head(syn_polar@pvalues)
-```
-
-```{r, echo=FALSE}
-head(syn_polar@pvalues) %>%
-  kable() %>%
-  kable_styling(font_size=8.7)
-```
-
-The `sig` column in `syn_polar@polar` allows us to determine relative
-differences in expression between groups (in this case pathotypes). The '+'
-indicates which pathotypes are significantly 'up' compared to others. For
-example:
-
-* genes labelled 'Lymphoid+' are significantly up in Lymphoid vs
-Myeloid **and** Lymphoid vs Fibroid.
-
-* genes up in two pathotypes such as 'Lymphoid+Myeloid+' are up in both
-Lymphoid **and** Myeloid, therefore Lymphoid vs
-Fibroid and Myeloid vs Fibroid are statistically significant.
-
-* genes which show no significant difference between pathotypes are classed
-according to `non_sig_name`
-
-
-This gives us:
-
-
-```{r, eval=FALSE}
-setNames(data.frame(table(syn_polar@polar$sig)), c("Significance", "Frequency"))
-```
-
-```{r, echo=FALSE}
-table(syn_polar@polar$sig) %>%
-  kable(col.names = c("Significance", "Frequency")) %>%
-  kable_styling(full_width = F)
-```
-
-### Volcano Plots
-
-If there is a fold change column previously provided, we can now investigate
-the comparisons between pathotypes using the
-volcano_trio function. This creates three
-[ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) outputs.
-
-```{r, fig.height=2.8, fig.width=7}
-syn_plots <- volcano_trio(polar = syn_polar,
-                          sig_names = c("not significant","significant",
-                                        "not significant","significant"),
-                          colours = rep(c("grey60",  "slateblue1"), 2),
-                          text_size = 9,
-                          marker_size=1,
-                          shared_legend_size = 0.9,
-                          label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-                          fc_line = FALSE,
-                          share_axes = FALSE)
-
-syn_plots$All
-```
-
-### Radial Plots
-
-These can be output to an interactive radar plot using radial_plotly. The
-`labelRows` variable allows any markers of interest to be labelled. When run
-locally, hovering
-over certain point you can also determine genes for
-future interrogation.
-
-```{r, out.height="100%", out.width="100%", eval=FALSE}
-radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "PARP16", "ITM2C"))
-```
-
-Similarly we can create a static ggplot image using radial_ggplot:
-
-```{r, fig.height=4.5, fig.width=7}
-radial_ggplot(polar = syn_polar,
-              label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-              marker_size = 2.3,
-              legend_size = 10) +
-  theme(legend.position = "right")
-```
-
-Alternatively a continuous colour scale can be produced by converting the angle
-to a hsv variable. This angle can be offset by `continuous_shift`.
-
-### Boxplots
-
-We can then interrogate any one specific variable as a boxplot, to investigate
-these differences. This is build using ggplot2 so can easily be edited by the
-user to add features.
-
-```{r, fig.height = 2.7, fig.width = 7}
-plot1 <- boxplot_trio(syn_polar,
-                      value = "SLAMF6",
-                      text_size = 7,
-                      test = "polar_padj",
-                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                      box_colours = c("blue", "red", "green3"),
-                      step_increase = 0.1) +
-  labs(title="Adjusted Pvalues between Pathotypes")
-
-plot2 <- boxplot_trio(syn_polar,
-                      value = "SLAMF6",
-                      text_size = 7,
-                      test = "polar_multi_padj",
-                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                      box_colours = c("blue", "red", "green3")) +
-  labs(title="LRT between SLAMF6 Expression")
-
-plot3 <- boxplot_trio(syn_polar,
-                      value = "PARP16",
-                      text_size = 7,
-                      stat_size=2.5,
-                      test = "t.test",
-                      levels_order = c("Myeloid", "Fibroid"),
-                      box_colours = c("red", "green3")) +
-  labs(title="T-tests bewteen PARP16 Exp.")
-
-
-ggarrange(plot1, plot2, plot3, ncol = 3)
-```
-
-### Three Dimensional Volcano Plots
-
-The final thing we can look at is the 3D volcano plot which projects
-differential gene expression onto cylindrical coordinates.
-
-```{r, out.height="120%", out.width="100%", eval=FALSE}
-p <- volcano3D(syn_polar,
-               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-               label_size = 10,
-               xy_aspectratio = 1,
-               z_aspectratio = 0.9)
-
-p %>% layout(legend = list(x = 100, y = 0.7))
-```
-
-<img src="./volcano.png" align="center" alt="" />
-
-
-Again this produces an interactive plot. If you have
-the orca command-line utility installed, this can be used to
-save static images. To install follow the instructions
-[here](https://github.com/plotly/orca#installation).
-
-```{r, eval = FALSE}
-orca(p, "./volcano_3d_synovium.svg", format = "svg")
-```
-
-### Altering the Plots
-
-#### Altering the Grid
-
-By default volcano3D generates a grid using 12 spokes. If you wish to override
-any of these variables it is possible to pass in your own grid. This is also
-possible for the 3D radial plots where the z elements can be left as NULL.
-
-By manually creating a grid object it is possible to change the tick points on
-axes as well as the number of radial spokes (n_spokes).
-
-The default ticks are calculated from r_vector and z_vector using the
-`pretty` function. This can be overwritten by passing tick points in
-r_axis_ticks and z_axis_ticks.
-
-<!-- For example we can decrease the number of radial spokes to 4, while altering -->
-<!-- the z axis ticks: -->
-
-<!-- ```{r, out.height = "100%"} -->
-<!-- four_grid = polar_grid(r_vector=syn_polar@polar$r_zscore, -->
-<!--                        z_vector=NULL, -->
-<!--                        r_axis_ticks = NULL, -->
-<!--                        z_axis_ticks = c(0, 8, 16, 32), -->
-<!--                        n_spokes = 4) -->
-
-<!-- volcano3D(syn_polar, -->
-<!--           grid = four_grid, -->
-<!--           label_rows = c("SLAMF6", "PARP16", "ITM2C"), -->
-<!--           label_size = 10, -->
-<!--           xy_aspectratio = 1, -->
-<!--           z_aspectratio = 0.9) %>% layout(legend = list(x = 100, y = 0.5)) -->
-<!-- ``` -->
-
-For example to extend the radial axis and increasing the number of spokes in 2D
-we can apply:
-
-```{r, fig.height=5, fig.widht=5, eval=FALSE}
-new_grid = polar_grid(r_vector=NULL,
-                        z_vector=-log10(syn_polar@pvalues$`LRT pvalue`),
-                        r_axis_ticks = c(1, 2, 3),
-                        z_axis_ticks = NULL,
-                        n_spokes = 24)
-```
-
-#### Altering the Labels
-
-By default the rownames of the pvalues object is used to label markers of
-interest. This can be altered by amending the label column in the polar object:
-
-```{r, fig.height=4.5, fig.width=7, eval=FALSE}
-syn_polar@polar$label <- paste0(syn_polar@polar$label, "!")
-
-radial_ggplot(polar = syn_polar,
-              label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-              grid = new_grid,
-              marker_size = 2.3,
-              legend_size = 10) +
-  theme(legend.position = "right")
-```
-
-
----
-
-# Citation
-
-If you use this package please cite as:
-
-> Lewis, Myles J., et al. 'Molecular portraits of early rheumatoid arthritis
-identify clinical and treatment response phenotypes.' Cell reports 28.9 (2019):
+> Lewis, Myles J., et al. _Molecular portraits of early rheumatoid arthritis 
+identify clinical and treatment response phenotypes_. Cell reports 28.9 (2019): 
 2455-2470.
 
 or using:

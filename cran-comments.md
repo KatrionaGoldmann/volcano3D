@@ -9,7 +9,5 @@
 
 There was 1 note: 
 
-* checking installed package size ... NOTE
-  installed size is  7.7Mb
-  sub-directories of 1Mb or more:
-    doc   7.5Mb
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: ‘Katriona Goldmann <k.goldmann@qmul.ac.uk>’
