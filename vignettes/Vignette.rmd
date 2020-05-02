@@ -79,10 +79,10 @@ library(plotly)
 
 The sample data used in this vignette can be loaded from the 
 [volcano3Ddata package](https://github.com/KatrionaGoldmann/volcano3Ddata). 
-This is only possible after volcano3D is imported. 
 
-```{r, eval=FALSE}
-install.packages("volcano3Ddata")
+```{r}
+install.packages("volcano3Ddata",
+                 repo="http://katrionagoldmann.github.io/volcano3Ddata")
 ```
 
 ---

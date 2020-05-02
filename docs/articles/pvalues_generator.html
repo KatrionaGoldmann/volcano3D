@@ -189,7 +189,11 @@
                                <span class="kw">design</span> <span class="kw">=</span> ~<span class="no">Pathotype</span>+<span class="no">Batch</span>+<span class="no">Gender</span>)
 
 <span class="no">dds_DE</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq</a></span>(<span class="no">dds</span>)
-<span class="no">dds_LRT</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq</a></span>(<span class="no">dds</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="st">"LRT"</span>, <span class="kw">reduced</span> <span class="kw">=</span> ~<span class="no">Batch</span>+<span class="no">Gender</span>, <span class="kw">parallel</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+
+<span class="no">dds2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSetFromTximport</a></span>(<span class="kw">txi</span> <span class="kw">=</span> <span class="no">syn_txi</span>,
+                               <span class="kw">colData</span> <span class="kw">=</span> <span class="no">syn_metadata</span>,
+                               <span class="kw">design</span> <span class="kw">=</span> ~<span class="no">Pathotype</span>)
+<span class="no">dds_LRT</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq</a></span>(<span class="no">dds2</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="st">"LRT"</span>, <span class="kw">reduced</span> <span class="kw">=</span> ~<span class="fl">1</span>, <span class="kw">parallel</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <p>Now we can get the results for each contrast and the LRT:</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">Pvals_DESeq_DE</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">contrasts</span>, <span class="kw">function</span>(<span class="no">x</span>){
     <span class="no">vars</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(<span class="no">x</span>, <span class="kw">split</span><span class="kw">=</span><span class="st">"-"</span>))
