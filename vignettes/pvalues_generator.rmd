@@ -56,8 +56,6 @@ install.packages("volcano3D")
 ```{r, eval = FALSE}
 library(devtools)
 install_github("KatrionaGoldmann/volcano3D")
-
-library(volcano3D)
 ```
 
 The sample data used in this vignette can be loaded from the 
@@ -65,6 +63,7 @@ The sample data used in this vignette can be loaded from the
 This is only possible after volcano3D is imported. 
 
 ```{r, eval=FALSE}
+library(volcano3D)
 install.packages("volcano3Ddata")
 ```
 
@@ -296,7 +295,7 @@ rownames(syn_exp) = make.names(rownames(syn_exp), unique = T)
 
 # Align the expression and pvalue data
 syn_exp = syn_exp[intersect(rownames(Pvals_DESeq), rownames(syn_exp)), ]
-Pvals_DESeq = Pvals_DESeq[intersect(rownames(Pvals_DESeq), rownames(syn_exp)), ]
+Pvals_DESeq = data.frame(Pvals_DESeq[intersect(rownames(Pvals_DESeq), rownames(syn_exp)), ], check.names = FALSE)
 
 syn_polar_deseq <- polar_coords(sampledata = syn_metadata,
                           contrast = "Pathotype",

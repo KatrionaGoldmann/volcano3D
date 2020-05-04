@@ -133,11 +133,10 @@
 <h3 class="hasAnchor">
 <a href="#install-from-github" class="anchor"></a>Install from Github</h3>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">devtools</span>)
-<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)
-
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">volcano3D</span>)</pre></body></html></div>
+<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)</pre></body></html></div>
 <p>The sample data used in this vignette can be loaded from the <a href="https://github.com/KatrionaGoldmann/volcano3Ddata">volcano3Ddata package</a>. This is only possible after volcano3D is imported.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"volcano3Ddata"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">volcano3D</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"volcano3Ddata"</span>)</pre></body></html></div>
 <hr>
 </div>
 </div>
@@ -223,40 +222,40 @@
 <th style="text-align:left;">
 </th>
 <th style="text-align:right;">
-Fibroid-Lymphoid pvalue
+Fibroid.Lymphoid.pvalue
 </th>
 <th style="text-align:right;">
-Fibroid-Lymphoid padj
+Fibroid.Lymphoid.padj
 </th>
 <th style="text-align:right;">
-Fibroid-Lymphoid log2FoldChange
+Fibroid.Lymphoid.log2FoldChange
 </th>
 <th style="text-align:right;">
-Lymphoid-Myeloid pvalue
+Lymphoid.Myeloid.pvalue
 </th>
 <th style="text-align:right;">
-Lymphoid-Myeloid padj
+Lymphoid.Myeloid.padj
 </th>
 <th style="text-align:right;">
-Lymphoid-Myeloid log2FoldChange
+Lymphoid.Myeloid.log2FoldChange
 </th>
 <th style="text-align:right;">
-Myeloid-Fibroid pvalue
+Myeloid.Fibroid.pvalue
 </th>
 <th style="text-align:right;">
-Myeloid-Fibroid padj
+Myeloid.Fibroid.padj
 </th>
 <th style="text-align:right;">
-Myeloid-Fibroid log2FoldChange
+Myeloid.Fibroid.log2FoldChange
 </th>
 <th style="text-align:right;">
-LRT pvalue
+LRT.pvalue
 </th>
 <th style="text-align:right;">
-LRT padj
+LRT.padj
 </th>
 <th style="text-align:right;">
-LRT log2FoldChange
+LRT.log2FoldChange
 </th>
 </tr></thead>
 <tbody>
@@ -292,13 +291,13 @@ A2M
 0.2681094
 </td>
 <td style="text-align:right;">
-0.2739571
+0.2544342
 </td>
 <td style="text-align:right;">
-0.4353436
+0.4276149
 </td>
 <td style="text-align:right;">
-0.0527816
+0.2633030
 </td>
 </tr>
 <tr>
@@ -333,13 +332,13 @@ A2ML1
 0.2445664
 </td>
 <td style="text-align:right;">
-0.0000022
+0.0000008
 </td>
 <td style="text-align:right;">
-0.0000202
+0.0000099
 </td>
 <td style="text-align:right;">
-0.3983423
+0.2587218
 </td>
 </tr>
 <tr>
@@ -380,7 +379,7 @@ A4GALT
 0.0000000
 </td>
 <td style="text-align:right;">
-0.2121462
+-0.4782797
 </td>
 </tr>
 <tr>
@@ -415,13 +414,13 @@ A4GNT
 1.3385294
 </td>
 <td style="text-align:right;">
-0.0732984
+0.0169952
 </td>
 <td style="text-align:right;">
-0.1583021
+0.0526363
 </td>
 <td style="text-align:right;">
--0.1939520
+1.6499122
 </td>
 </tr>
 <tr>
@@ -456,13 +455,13 @@ AAAS
 -0.0303402
 </td>
 <td style="text-align:right;">
-0.9075226
+0.9255659
 </td>
 <td style="text-align:right;">
-0.9711813
+0.9985768
 </td>
 <td style="text-align:right;">
-0.3523114
+-0.0749235
 </td>
 </tr>
 <tr>
@@ -497,13 +496,13 @@ AACS
 0.1002448
 </td>
 <td style="text-align:right;">
-0.1472059
+0.2121234
 </td>
 <td style="text-align:right;">
-0.2732938
+0.3753406
 </td>
 <td style="text-align:right;">
--0.2881377
+0.1072738
 </td>
 </tr>
 </tbody>
@@ -861,7 +860,7 @@ AACS
 
 <span class="co"># Align the expression and pvalue data</span>
 <span class="no">syn_exp</span> <span class="kw">=</span> <span class="no">syn_exp</span>[<span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">Pvals_DESeq</span>), <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">syn_exp</span>)), ]
-<span class="no">Pvals_DESeq</span> <span class="kw">=</span> <span class="no">Pvals_DESeq</span>[<span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">Pvals_DESeq</span>), <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">syn_exp</span>)), ]
+<span class="no">Pvals_DESeq</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">Pvals_DESeq</span>[<span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">Pvals_DESeq</span>), <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">syn_exp</span>)), ], <span class="kw">check.names</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
 
 <span class="no">syn_polar_deseq</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/polar_coords.html">polar_coords</a></span>(<span class="kw">sampledata</span> <span class="kw">=</span> <span class="no">syn_metadata</span>,
                           <span class="kw">contrast</span> <span class="kw">=</span> <span class="st">"Pathotype"</span>,
@@ -933,7 +932,7 @@ AACS
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://github.com/KatrionaGoldmann">Katriona Goldmann</a>, <a href="https://www.qmul.ac.uk/whri/people/academic-staff/items/lewismyles.html">Myles Lewis</a>.</p>
+  <p>Developed by <a href="https://github.com/KatrionaGoldmann">Katriona Goldmann</a>.</p>
 </div>
 
 <div class="pkgdown">
