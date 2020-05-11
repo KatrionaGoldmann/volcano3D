@@ -52,8 +52,6 @@
 #'     \item{LRT pvalue}{pvalue from three-way likelihood ratio comparison}
 #'     \item{LRT padj}{adjusted pvalue from three-way likelihood ratio 
 #'     comparison}
-#'     \item{LRT log2FoldChange}{logarithmic fold change from three-way 
-#'     likelihood ratio comparison}
 #' }
 #' @source \url{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1
 #' }

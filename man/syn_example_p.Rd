@@ -29,8 +29,6 @@ genes/probes and 13 columns for each statistical parameter:
     \item{LRT pvalue}{pvalue from three-way likelihood ratio comparison}
     \item{LRT padj}{adjusted pvalue from three-way likelihood ratio 
     comparison}
-    \item{LRT log2FoldChange}{logarithmic fold change from three-way 
-    likelihood ratio comparison}
 }
 }
 \source{

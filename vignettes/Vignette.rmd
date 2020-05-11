@@ -157,10 +157,6 @@ padj_col_suffix)`)
   * an _optional_ multi-group pvalue column: from a multi-group test with column
 name of the form `paste(multi_group_prefix, p_col_suffix)`). This is typically
 generated using ANOVA or likelihood ratio tests between all three groups.
-  * an _optional_ multi-group fold change column: from a multi-group test
-(column names of form `paste(multi_group_prefix, fc_col_suffix)`). This is
-typically generated using ANOVA or likelihood ratio tests comparing all
-three groups.
   * an _optional_ multi-group adjusted pvalue column: from a multi-group test
 (column names of form `paste(multiGroupPrefix, padjColSuffix)`). This is
 typically generated using ANOVA or likelihood ratio tests comparing all

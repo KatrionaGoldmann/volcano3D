@@ -137,11 +137,7 @@ dds = DESeqDataSetFromTximport(txi = syn_txi,
                                design = ~Pathotype+Batch+Gender)
 
 dds_DE <- DESeq(dds)
-
-dds2 = DESeqDataSetFromTximport(txi = syn_txi, 
-                               colData = syn_metadata, 
-                               design = ~Pathotype)
-dds_LRT <- DESeq(dds2, test = "LRT", reduced = ~1, parallel = TRUE) 
+dds_LRT <- DESeq(dds, test = "LRT", reduced = ~Batch+Gender, parallel = TRUE) 
 ```
 
 Now we can get the results for each contrast and the LRT:
@@ -154,7 +150,7 @@ Pvals_DESeq_DE <- lapply(contrasts, function(x){
     out <- out[,c("pvalue", "padj", "log2FoldChange")]
 })
 
-LRT <- results(dds_LRT, parallel=TRUE)[, c("pvalue", "padj", "log2FoldChange")]
+LRT <- data.frame(results(dds_LRT, parallel=TRUE)[, c("pvalue", "padj")])
 LRT <- LRT[match(rownames(syn_txi$counts), rownames(LRT)), ]
 ```
 
@@ -175,7 +171,8 @@ Pvals_DESeq <- Pvals_DESeq[complete.cases(Pvals_DESeq), ]
 Now we can inspect:
 
 ```{r, eval=TRUE}
-head(Pvals_DESeq) %>%
+head(data.frame(Pvals_DESeq)) %>%
+    setNames(gsub("\\.", " ", colnames(Pvals_DESeq))) %>%
     kable() %>%
     kable_styling(font_size=8.7)
 ```

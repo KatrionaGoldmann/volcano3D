@@ -458,11 +458,7 @@ dds = DESeqDataSetFromTximport(txi = syn_txi,
                                design = ~Pathotype+Batch+Gender)
 
 dds_DE &lt;- DESeq(dds)
-
-dds2 = DESeqDataSetFromTximport(txi = syn_txi, 
-                               colData = syn_metadata, 
-                               design = ~Pathotype)
-dds_LRT &lt;- DESeq(dds2, test = &quot;LRT&quot;, reduced = ~1, parallel = TRUE) </code></pre>
+dds_LRT &lt;- DESeq(dds, test = &quot;LRT&quot;, reduced = ~Batch+Gender, parallel = TRUE) </code></pre>
 <p>Now we can get the results for each contrast and the LRT:</p>
 <pre class="r"><code>Pvals_DESeq_DE &lt;- lapply(contrasts, function(x){
     vars &lt;- unlist(strsplit(x, split=&quot;-&quot;))
@@ -471,7 +467,7 @@ dds_LRT &lt;- DESeq(dds2, test = &quot;LRT&quot;, reduced = ~1, parallel = TRUE)
     out &lt;- out[,c(&quot;pvalue&quot;, &quot;padj&quot;, &quot;log2FoldChange&quot;)]
 })
 
-LRT &lt;- results(dds_LRT, parallel=TRUE)[, c(&quot;pvalue&quot;, &quot;padj&quot;, &quot;log2FoldChange&quot;)]
+LRT &lt;- data.frame(results(dds_LRT, parallel=TRUE)[, c(&quot;pvalue&quot;, &quot;padj&quot;)])
 LRT &lt;- LRT[match(rownames(syn_txi$counts), rownames(LRT)), ]</code></pre>
 <p>The results can then be combined into one pvalues data frame:</p>
 <pre class="r"><code>Pvals_DESeq &lt;- cbind(Pvals_DESeq_DE[[1]], 
@@ -484,7 +480,8 @@ colnames(Pvals_DESeq) &lt;- c(paste(rep(contrasts, each=3),
 
 Pvals_DESeq &lt;- Pvals_DESeq[complete.cases(Pvals_DESeq), ]</code></pre>
 <p>Now we can inspect:</p>
-<pre class="r"><code>head(Pvals_DESeq) %&gt;%
+<pre class="r"><code>head(data.frame(Pvals_DESeq)) %&gt;%
+    setNames(gsub(&quot;\\.&quot;, &quot; &quot;, colnames(Pvals_DESeq))) %&gt;%
     kable() %&gt;%
     kable_styling(font_size=8.7)</code></pre>
 <table class="table" style="font-size: 8.7px; margin-left: auto; margin-right: auto;">
@@ -493,40 +490,37 @@ Pvals_DESeq &lt;- Pvals_DESeq[complete.cases(Pvals_DESeq), ]</code></pre>
 <th style="text-align:left;">
 </th>
 <th style="text-align:right;">
-Fibroid.Lymphoid.pvalue
+Fibroid-Lymphoid pvalue
 </th>
 <th style="text-align:right;">
-Fibroid.Lymphoid.padj
+Fibroid-Lymphoid padj
 </th>
 <th style="text-align:right;">
-Fibroid.Lymphoid.log2FoldChange
+Fibroid-Lymphoid log2FoldChange
 </th>
 <th style="text-align:right;">
-Lymphoid.Myeloid.pvalue
+Lymphoid-Myeloid pvalue
 </th>
 <th style="text-align:right;">
-Lymphoid.Myeloid.padj
+Lymphoid-Myeloid padj
 </th>
 <th style="text-align:right;">
-Lymphoid.Myeloid.log2FoldChange
+Lymphoid-Myeloid log2FoldChange
 </th>
 <th style="text-align:right;">
-Myeloid.Fibroid.pvalue
+Myeloid-Fibroid pvalue
 </th>
 <th style="text-align:right;">
-Myeloid.Fibroid.padj
+Myeloid-Fibroid padj
 </th>
 <th style="text-align:right;">
-Myeloid.Fibroid.log2FoldChange
+Myeloid-Fibroid log2FoldChange
 </th>
 <th style="text-align:right;">
-LRT.pvalue
+LRT pvalue
 </th>
 <th style="text-align:right;">
-LRT.padj
-</th>
-<th style="text-align:right;">
-LRT.log2FoldChange
+LRT padj
 </th>
 </tr>
 </thead>
@@ -568,9 +562,6 @@ A2M
 <td style="text-align:right;">
 0.4276149
 </td>
-<td style="text-align:right;">
-0.2633030
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -608,9 +599,6 @@ A2ML1
 </td>
 <td style="text-align:right;">
 0.0000099
-</td>
-<td style="text-align:right;">
-0.2587218
 </td>
 </tr>
 <tr>
@@ -650,9 +638,6 @@ A4GALT
 <td style="text-align:right;">
 0.0000000
 </td>
-<td style="text-align:right;">
--0.4782797
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -690,9 +675,6 @@ A4GNT
 </td>
 <td style="text-align:right;">
 0.0526363
-</td>
-<td style="text-align:right;">
-1.6499122
 </td>
 </tr>
 <tr>
@@ -732,9 +714,6 @@ AAAS
 <td style="text-align:right;">
 0.9985768
 </td>
-<td style="text-align:right;">
--0.0749235
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -772,9 +751,6 @@ AACS
 </td>
 <td style="text-align:right;">
 0.3753406
-</td>
-<td style="text-align:right;">
-0.1072738
 </td>
 </tr>
 </tbody>
