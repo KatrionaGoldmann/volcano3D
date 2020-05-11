@@ -66,24 +66,24 @@ Plots the expression of a specific row in expression to compare the three
 groups in a boxplot.
 }
 \examples{
-\dontrun{
-library(volcano3Ddata)
-data(syn_data) 
-syn_polar <- polar_coords(sampledata = syn_metadata,
-                         contrast = "Pathotype", 
-                         pvalues = syn_pvalues, 
-                         expression = syn_rld, 
-                         p_col_suffix = "pvalue", 
-                         padj_col_suffix = "padj", 
-                         non_sig_name = "Not Significant", 
-                         significance_cutoff = 0.01, 
-                         fc_cutoff = 0.3)
+data(example_data)
+syn_polar <- polar_coords(sampledata = syn_example_meta,
+                          contrast = "Pathotype", 
+                          groups = NULL, 
+                          pvalues = syn_example_p, 
+                          expression = syn_example_rld, 
+                          p_col_suffix = "pvalue", 
+                          padj_col_suffix = "padj", 
+                          non_sig_name = "Not Significant", 
+                          multi_group_prefix = "LRT",
+                          significance_cutoff = 0.01, 
+                          fc_col_suffix='log2FoldChange',
+                          fc_cutoff = 0.3)
                          
 boxplot_trio(syn_polar,
           value = "SLAMF6",
           levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
           box_colours = c("blue", "red", "green3"))
- }
 }
 \references{
 Lewis, Myles J., et al. (2019). 

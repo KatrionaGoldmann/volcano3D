@@ -188,11 +188,7 @@
                                <span class="kw">design</span> <span class="kw">=</span> ~<span class="no">Pathotype</span>+<span class="no">Batch</span>+<span class="no">Gender</span>)
 
 <span class="no">dds_DE</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq</a></span>(<span class="no">dds</span>)
-
-<span class="no">dds2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSetFromTximport</a></span>(<span class="kw">txi</span> <span class="kw">=</span> <span class="no">syn_txi</span>,
-                               <span class="kw">colData</span> <span class="kw">=</span> <span class="no">syn_metadata</span>,
-                               <span class="kw">design</span> <span class="kw">=</span> ~<span class="no">Pathotype</span>)
-<span class="no">dds_LRT</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq</a></span>(<span class="no">dds2</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="st">"LRT"</span>, <span class="kw">reduced</span> <span class="kw">=</span> ~<span class="fl">1</span>, <span class="kw">parallel</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<span class="no">dds_LRT</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq</a></span>(<span class="no">dds</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="st">"LRT"</span>, <span class="kw">reduced</span> <span class="kw">=</span> ~<span class="no">Batch</span>+<span class="no">Gender</span>, <span class="kw">parallel</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <p>Now we can get the results for each contrast and the LRT:</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">Pvals_DESeq_DE</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">contrasts</span>, <span class="kw">function</span>(<span class="no">x</span>){
     <span class="no">vars</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(<span class="no">x</span>, <span class="kw">split</span><span class="kw">=</span><span class="st">"-"</span>))
@@ -201,7 +197,7 @@
     <span class="no">out</span> <span class="kw">&lt;-</span> <span class="no">out</span>[,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pvalue"</span>, <span class="st">"padj"</span>, <span class="st">"log2FoldChange"</span>)]
 })
 
-<span class="no">LRT</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/results.html">results</a></span>(<span class="no">dds_LRT</span>, <span class="kw">parallel</span><span class="kw">=</span><span class="fl">TRUE</span>)[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pvalue"</span>, <span class="st">"padj"</span>, <span class="st">"log2FoldChange"</span>)]
+<span class="no">LRT</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/results.html">results</a></span>(<span class="no">dds_LRT</span>, <span class="kw">parallel</span><span class="kw">=</span><span class="fl">TRUE</span>)[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pvalue"</span>, <span class="st">"padj"</span>)])
 <span class="no">LRT</span> <span class="kw">&lt;-</span> <span class="no">LRT</span>[<span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">syn_txi</span>$<span class="no">counts</span>), <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">LRT</span>)), ]</pre></body></html></div>
 <p>The results can then be combined into one pvalues data frame:</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">Pvals_DESeq</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">Pvals_DESeq_DE</span><span class="kw">[[</span><span class="fl">1</span>]],
@@ -214,7 +210,8 @@
 
 <span class="no">Pvals_DESeq</span> <span class="kw">&lt;-</span> <span class="no">Pvals_DESeq</span>[<span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span>(<span class="no">Pvals_DESeq</span>), ]</pre></body></html></div>
 <p>Now we can inspect:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">Pvals_DESeq</span>) <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">Pvals_DESeq</span>)) <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"\\."</span>, <span class="st">" "</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">Pvals_DESeq</span>))) <span class="kw">%&gt;%</span>
     <span class="fu">kable</span>() <span class="kw">%&gt;%</span>
     <span class="fu">kable_styling</span>(<span class="kw">font_size</span><span class="kw">=</span><span class="fl">8.7</span>)</pre></body></html></div>
 <table class="table table">
@@ -222,40 +219,37 @@
 <th style="text-align:left;">
 </th>
 <th style="text-align:right;">
-Fibroid.Lymphoid.pvalue
+Fibroid-Lymphoid pvalue
 </th>
 <th style="text-align:right;">
-Fibroid.Lymphoid.padj
+Fibroid-Lymphoid padj
 </th>
 <th style="text-align:right;">
-Fibroid.Lymphoid.log2FoldChange
+Fibroid-Lymphoid log2FoldChange
 </th>
 <th style="text-align:right;">
-Lymphoid.Myeloid.pvalue
+Lymphoid-Myeloid pvalue
 </th>
 <th style="text-align:right;">
-Lymphoid.Myeloid.padj
+Lymphoid-Myeloid padj
 </th>
 <th style="text-align:right;">
-Lymphoid.Myeloid.log2FoldChange
+Lymphoid-Myeloid log2FoldChange
 </th>
 <th style="text-align:right;">
-Myeloid.Fibroid.pvalue
+Myeloid-Fibroid pvalue
 </th>
 <th style="text-align:right;">
-Myeloid.Fibroid.padj
+Myeloid-Fibroid padj
 </th>
 <th style="text-align:right;">
-Myeloid.Fibroid.log2FoldChange
+Myeloid-Fibroid log2FoldChange
 </th>
 <th style="text-align:right;">
-LRT.pvalue
+LRT pvalue
 </th>
 <th style="text-align:right;">
-LRT.padj
-</th>
-<th style="text-align:right;">
-LRT.log2FoldChange
+LRT padj
 </th>
 </tr></thead>
 <tbody>
@@ -296,9 +290,6 @@ A2M
 <td style="text-align:right;">
 0.4276149
 </td>
-<td style="text-align:right;">
-0.2633030
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -336,9 +327,6 @@ A2ML1
 </td>
 <td style="text-align:right;">
 0.0000099
-</td>
-<td style="text-align:right;">
-0.2587218
 </td>
 </tr>
 <tr>
@@ -378,9 +366,6 @@ A4GALT
 <td style="text-align:right;">
 0.0000000
 </td>
-<td style="text-align:right;">
--0.4782797
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -418,9 +403,6 @@ A4GNT
 </td>
 <td style="text-align:right;">
 0.0526363
-</td>
-<td style="text-align:right;">
-1.6499122
 </td>
 </tr>
 <tr>
@@ -460,9 +442,6 @@ AAAS
 <td style="text-align:right;">
 0.9985768
 </td>
-<td style="text-align:right;">
--0.0749235
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -500,9 +479,6 @@ AACS
 </td>
 <td style="text-align:right;">
 0.3753406
-</td>
-<td style="text-align:right;">
-0.1072738
 </td>
 </tr>
 </tbody>

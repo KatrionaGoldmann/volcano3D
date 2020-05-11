@@ -14,8 +14,10 @@ deseq
 DESeq
 distPlot
 Dockerize
+doi
 dropdown
 DT
+Duraisingham
 fc
 FC
 fdr
@@ -33,6 +35,7 @@ hpc
 hsv
 io
 Jillian
+Kasturi
 katriona
 KatrionaGoldmann
 Kobos
@@ -56,11 +59,15 @@ Pathotypes
 peac
 PEAC
 plotly
+Presnell
 pvalue
 pvalues
 Pvalues
 qmul
+QuSAGE
+rld
 RNAseq
+Rouphael
 RShiny
 rstudio
 RStudio
@@ -76,8 +83,8 @@ tri
 txi
 ui
 uk
+volcanoplot
 voom
 www
 xy
 zscore
-Remotes

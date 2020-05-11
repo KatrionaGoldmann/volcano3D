@@ -121,14 +121,12 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' \emph{Cell reports}, \strong{28}:9
 #' @export
 #' @examples
-#' \dontrun{
-#' library(volcano3Ddata)
-#' data(syn_data)
-#' syn_polar <- polar_coords(sampledata = syn_metadata,
+#' data(example_data)
+#' syn_polar <- polar_coords(sampledata = syn_example_meta,
 #'                           contrast = "Pathotype", 
 #'                           groups = NULL, 
-#'                           pvalues = syn_pvalues, 
-#'                           expression = syn_rld, 
+#'                           pvalues = syn_example_p, 
+#'                           expression = syn_example_rld, 
 #'                           p_col_suffix = "pvalue", 
 #'                           padj_col_suffix = "padj", 
 #'                           non_sig_name = "Not Significant", 
@@ -136,7 +134,7 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #'                           significance_cutoff = 0.01, 
 #'                           fc_cutoff = 0.3)
 #' table(syn_polar@polar$sig) 
-#' }
+
 
 polar_coords <- function(sampledata,
                          contrast,
@@ -244,8 +242,6 @@ polar_coords <- function(sampledata,
         
         if(length(notFinding) > 0){  
             if(paste(multi_group_prefix, fc_col_suffix) %in% notFinding){
-                warning(paste('No', paste(multi_group_prefix, fc_col_suffix), 
-                              'column found'))
                 notFinding <- notFinding[notFinding != 
                                              paste(multi_group_prefix, 
                                                    fc_col_suffix)]
@@ -426,7 +422,6 @@ polar_coords <- function(sampledata,
     
     
     polar_colours$sig[is.na(polar_colours$sig)] <- non_sig_name
-    polar_colours$sig <- factor(polar_colours$sig)
     polar_colours$sig[polar_colours$r_fc < fc_cutoff] <- non_sig_name
     
     if(! is.null(multi_group_prefix)){

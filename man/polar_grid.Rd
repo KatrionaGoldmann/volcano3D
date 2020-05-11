@@ -54,26 +54,24 @@ Generates a cylindrical grid of the appropriate dimensions for a 3D volcano
 plot
 }
 \examples{
-\dontrun{
-library(volcano3Ddata)
-data(syn_data)
-syn_polar <- polar_coords(sampledata = syn_metadata,
-                       contrast = "Pathotype",
-                       pvalues = syn_pvalues, 
-                       expression = syn_rld, 
-                       p_col_suffix = "pvalue", 
-                       padj_col_suffix = "padj", 
-                       non_sig_name = "Not Significant", 
-                       multi_group_prefix = "LRT",
-                       significance_cutoff = 0.01, 
-                       fc_cutoff = 0.3)
+data(example_data)
+syn_polar <- polar_coords(sampledata = syn_example_meta,
+                          contrast = "Pathotype", 
+                          groups = NULL, 
+                          pvalues = syn_example_p, 
+                          expression = syn_example_rld, 
+                          p_col_suffix = "pvalue", 
+                          padj_col_suffix = "padj", 
+                          non_sig_name = "Not Significant", 
+                          multi_group_prefix = "LRT",
+                          significance_cutoff = 0.01, 
+                          fc_cutoff = 0.3)
                     
-polar_grid(r_vector=syn_polar@polar$r_zscore,
-           z_vector=NULL,
-           r_axis_ticks = NULL,
-           z_axis_ticks = c(0, 8, 16, 32),
-           n_spokes = 4)
-}
+pg <- polar_grid(r_vector=syn_polar@polar$r_zscore,
+               z_vector=NULL,
+               r_axis_ticks = NULL,
+               z_axis_ticks = c(0, 8, 16, 32),
+               n_spokes = 4)
 }
 \references{
 Lewis, Myles J., et al. (2019).

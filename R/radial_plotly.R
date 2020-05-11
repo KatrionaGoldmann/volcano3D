@@ -43,21 +43,26 @@
 #' @keywords hplot iplot
 #' @export
 #' @examples
-#' \dontrun{
-#' library(volcano3Ddata)
-#' data(syn_data)
-#' syn_polar <- polar_coords(sampledata = syn_metadata,
-#'                           contrast = "Pathotype",
-#'                           pvalues = syn_pvalues, 
-#'                           expression = syn_rld, 
+#' data(example_data)
+#' syn_polar <- polar_coords(sampledata = syn_example_meta,
+#'                           contrast = "Pathotype", 
+#'                           groups = NULL, 
+#'                           pvalues = syn_example_p, 
+#'                           expression = syn_example_rld, 
 #'                           p_col_suffix = "pvalue", 
 #'                           padj_col_suffix = "padj", 
 #'                           non_sig_name = "Not Significant", 
+#'                           multi_group_prefix = "LRT",
 #'                           significance_cutoff = 0.01, 
 #'                           fc_cutoff = 0.3)
-#'                           
-#' radial_plotly(polar = syn_polar, label_rows = c("SLAMF6"))
-#' }
+#' 
+#' col_vector = setNames(c('green', 'cyan', 'gold2', 'blue', 'purple'), 
+#'                       c('Fibroid+', 'Fibroid+Lymphoid+', 'Fibroid+Myeloid+', 
+#'                         'Lymphoid+', 'Lymphoid+Myeloid+'))      
+#'                                                                         
+#' radial_plotly(polar = syn_polar, label_rows = c("SLAMF6"), 
+#'               colours=col_vector)
+
 
 radial_plotly <- function(polar,
                           colours=NULL, 

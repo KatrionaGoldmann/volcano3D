@@ -11,3 +11,14 @@ There was 1 note:
 
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: ‘Katriona Goldmann <k.goldmann@qmul.ac.uk>’
+
+
+## Changes from last submission
+
+* Elaboration in the Description field of the DESCRIPTION file.
+
+* Added reference and DOI to DESCRIPTION file
+
+* Created a toy example so was able to remove \dontrun{}.
+
+* No longer required to load github packge, removed options call

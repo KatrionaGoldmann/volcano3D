@@ -113,14 +113,12 @@ containing the p-values from a three-way group comparison, expression data
 sample data and polar coordinates.
 }
 \examples{
-\dontrun{
-library(volcano3Ddata)
-data(syn_data)
-syn_polar <- polar_coords(sampledata = syn_metadata,
+data(example_data)
+syn_polar <- polar_coords(sampledata = syn_example_meta,
                           contrast = "Pathotype", 
                           groups = NULL, 
-                          pvalues = syn_pvalues, 
-                          expression = syn_rld, 
+                          pvalues = syn_example_p, 
+                          expression = syn_example_rld, 
                           p_col_suffix = "pvalue", 
                           padj_col_suffix = "padj", 
                           non_sig_name = "Not Significant", 
@@ -128,7 +126,6 @@ syn_polar <- polar_coords(sampledata = syn_metadata,
                           significance_cutoff = 0.01, 
                           fc_cutoff = 0.3)
 table(syn_polar@polar$sig) 
-}
 }
 \references{
 Lewis, Myles J., et al. (2019).

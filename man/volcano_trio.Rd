@@ -75,20 +75,21 @@ This function creates a volcano plot for all combinations of groups in a
 factor.
 }
 \examples{
-\dontrun{
-library(volcano3Ddata)
-data(syn_data)
-syn_polar <- polar_coords(sampledata = syn_metadata,
-                         contrast = "Pathotype",
-                         pvalues = syn_pvalues,
-                         expression = syn_rld,
-                         p_col_suffix = "pvalue",
-                         fc_col_suffix = "log2FoldChange",
-                         non_sig_name = "Not Significant",
-                         significance_cutoff = 0.01,
-                         fc_cutoff = 0.1)
+data(example_data)
+syn_polar <- polar_coords(sampledata = syn_example_meta,
+                          contrast = "Pathotype", 
+                          groups = NULL, 
+                          pvalues = syn_example_p, 
+                          expression = syn_example_rld, 
+                          p_col_suffix = "pvalue", 
+                          padj_col_suffix = "padj", 
+                          non_sig_name = "Not Significant", 
+                          multi_group_prefix = "LRT",
+                          significance_cutoff = 0.01, 
+                          fc_col_suffix='log2FoldChange',
+                          fc_cutoff = 0.3)
 syn_volcano_plots <- volcano_trio(polar=syn_polar)
-}
+syn_volcano_plots$All
 }
 \references{
 Lewis, Myles J., et al. (2019).

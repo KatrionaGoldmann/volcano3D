@@ -276,21 +276,26 @@ treatment response phenotypes.</a>
 <em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>volcano3Ddata</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>syn_data</span>)
-<span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_metadata</span>,
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>example_data</span>)
+<span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_example_meta</span>,
                           <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
-                          <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_pvalues</span>,
-                          <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_rld</span>,
+                          <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+                          <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_example_p</span>,
+                          <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_example_rld</span>,
                           <span class='kw'>p_col_suffix</span> <span class='kw'>=</span> <span class='st'>"pvalue"</span>,
                           <span class='kw'>padj_col_suffix</span> <span class='kw'>=</span> <span class='st'>"padj"</span>,
                           <span class='kw'>non_sig_name</span> <span class='kw'>=</span> <span class='st'>"Not Significant"</span>,
+                          <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
                           <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
                           <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
 
-<span class='fu'>radial_ggplot</span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>, <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>))
-}</div></pre>
+<span class='no'>col_vector</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/setNames.html'>setNames</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'green'</span>, <span class='st'>'cyan'</span>, <span class='st'>'gold2'</span>, <span class='st'>'blue'</span>, <span class='st'>'purple'</span>),
+                      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Fibroid+'</span>, <span class='st'>'Fibroid+Lymphoid+'</span>,
+                        <span class='st'>'Fibroid+Myeloid+'</span>, <span class='st'>'Lymphoid+'</span>,
+                        <span class='st'>'Lymphoid+Myeloid+'</span>))
+
+<span class='fu'>radial_ggplot</span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>, <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>),
+              <span class='kw'>colours</span><span class='kw'>=</span><span class='no'>col_vector</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `polar_df$sig` is discouraged. Use `sig` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `polar_df$hue` is discouraged. Use `hue` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `polar_df$x` is discouraged. Use `x` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `polar_df$y` is discouraged. Use `y` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$x` is discouraged. Use `x` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$y` is discouraged. Use `y` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$xend` is discouraged. Use `xend` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$yend` is discouraged. Use `yend` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$xend` is discouraged. Use `xend` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$yend` is discouraged. Use `yend` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$label` is discouraged. Use `label` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$x` is discouraged. Use `x` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Use of `annotation_df$y` is discouraged. Use `y` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='radial_ggplot-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
