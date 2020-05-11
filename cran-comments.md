@@ -21,4 +21,4 @@ Maintainer: ‘Katriona Goldmann <k.goldmann@qmul.ac.uk>’
 
 * Created a toy example so was able to remove \dontrun{}.
 
-* No longer required to load github packge, removed options call
+* No longer required to load github package, removed options call

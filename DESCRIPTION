@@ -15,7 +15,7 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5)
 Imports: ggplot2, plotly, ggpubr, ggrepel, methods
-Suggests: knitr, rmarkdown, kableExtra, usethis
+Suggests: knitr, rmarkdown, kableExtra, usethis, data.table
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0
 NeedsCompilation: no

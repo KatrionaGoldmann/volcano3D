@@ -23,9 +23,10 @@ library(kableExtra)
 # volcano3D <img src="https://katrionagoldmann.github.io/volcano3D/logo.png" align="right" alt="" width="200" hspace="20" />
 
 ```{r, echo=FALSE}
+library(data.table)
 library(ggplot2)
-library(ggpubr)
 library(plotly)
+library(ggpubr)
 library(usethis)
 ```
 
