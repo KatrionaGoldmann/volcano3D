@@ -165,9 +165,9 @@ sample data and polar coordinates.</p>
     <pre class="usage"><span class='fu'>polar_coords</span>(
   <span class='no'>sampledata</span>,
   <span class='no'>contrast</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='no'>pvalues</span>,
-  <span class='kw'>expression</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>expression</span>,
+  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>p_col_suffix</span> <span class='kw'>=</span> <span class='st'>"pvalues"</span>,
   <span class='kw'>padj_col_suffix</span> <span class='kw'>=</span> <span class='st'>"padj"</span>,
   <span class='kw'>fc_col_suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -195,11 +195,6 @@ contrast column containing the three-level factor used for contrasts.</p></td>
 three-level factor used for contrast.</p></td>
     </tr>
     <tr>
-      <th>groups</th>
-      <td><p>The groups to be compared (if NULL this defaults
-to <code><a href='https://rdrr.io/r/base/levels.html'>levels(sampledata[, 'contrasts'])</a></code>).</p></td>
-    </tr>
-    <tr>
       <th>pvalues</th>
       <td><p>A data frame containing:</p><ul>
 <li><p>three `p_col_suffix` columns: one for 
@@ -216,10 +211,15 @@ ratio test, defined by `multi_group_prefix`.</p></li>
     </tr>
     <tr>
       <th>expression</th>
-      <td><p>A data frame containing expression data for
+      <td><p>An optional data frame containing expression data for
 downstream analysis and visualisation. The rows must contain probes which
 match the rows in pvalues and the columns must contain samples which match
 <code>sampledata$ID</code>.</p></td>
+    </tr>
+    <tr>
+      <th>groups</th>
+      <td><p>The groups to be compared (if NULL this defaults
+to <code><a href='https://rdrr.io/r/base/levels.html'>levels(sampledata[, 'contrasts'])</a></code>).</p></td>
     </tr>
     <tr>
       <th>p_col_suffix</th>
@@ -306,17 +306,20 @@ treatment response phenotypes.</a>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>example_data</span>)
-<span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'>polar_coords</span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_example_meta</span>,
-                          <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
-                          <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-                          <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_example_p</span>,
-                          <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_example_rld</span>,
-                          <span class='kw'>p_col_suffix</span> <span class='kw'>=</span> <span class='st'>"pvalue"</span>,
-                          <span class='kw'>padj_col_suffix</span> <span class='kw'>=</span> <span class='st'>"padj"</span>,
-                          <span class='kw'>non_sig_name</span> <span class='kw'>=</span> <span class='st'>"Not Significant"</span>,
-                          <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
-                          <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-                          <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
+<span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'>polar_coords</span>(<span class='kw'>sampledata</span><span class='kw'>=</span><span class='no'>syn_example_meta</span>,
+                    <span class='kw'>contrast</span><span class='kw'>=</span><span class='st'>"Pathotype"</span>,
+                    <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+                    <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_example_p</span>,
+                    <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_example_rld</span>,
+                    <span class='kw'>p_col_suffix</span> <span class='kw'>=</span> <span class='st'>"pvalue"</span>,
+                    <span class='kw'>padj_col_suffix</span> <span class='kw'>=</span> <span class='st'>"padj"</span>,
+                    <span class='kw'>fc_col_suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+                    <span class='kw'>padjust_method</span> <span class='kw'>=</span> <span class='st'>"BH"</span>,
+                    <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+                    <span class='kw'>non_sig_name</span> <span class='kw'>=</span> <span class='st'>"Not Significant"</span>,
+                    <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+                    <span class='kw'>fc_cutoff</span><span class='kw'>=</span><span class='fl'>0.3</span>,
+                    <span class='kw'>label_column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>syn_polar</span>@<span class='kw'>polar</span>$<span class='no'>sig</span>)</div><div class='output co'>#&gt; 
 #&gt;          Fibroid+ Fibroid+Lymphoid+  Fibroid+Myeloid+         Lymphoid+ 
 #&gt;                 9                 1               310               124 

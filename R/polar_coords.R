@@ -12,8 +12,9 @@ setClassUnion("df_or_matrix", c("data.frame", "matrix"))
 #'   contrast factor, as well as optional fold changes and multi-group tests.
 #' @slot multi_group_test Column name prefix for statistical tests between
 #'   all three groups
-#' @slot expression A data frame or matrix containing the
-#'   expression data
+#' @slot expression A data frame or matrix containing the expression data. This 
+#' is used to calculate z-score and fold change, therefore it should be a 
+#' normalised expression object such as log transformed or variance stabilised. 
 #' @slot polar A data frame containing:
 #'   \itemize{
 #'       \item The axis score or mean expression for each of the three groups 
@@ -48,8 +49,6 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' contrast column containing the three-level factor used for contrasts.
 #' @param contrast The column name in `sampledata` which contains the 
 #' three-level factor used for contrast.
-#' @param groups The groups to be compared (if NULL this defaults
-#' to \code{levels(sampledata[, 'contrasts'])}).
 #' @param pvalues A data frame containing: \itemize{
 #' \item three `p_col_suffix` columns: one for 
 #' the pvalue for each comparison between groups. 
@@ -62,10 +61,12 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' 'padj and 'fc' columns for a three-way test, such as ANOVA or likelihood 
 #' ratio test, defined by `multi_group_prefix`.
 #' }
-#' @param expression A data frame containing expression data for
+#' @param expression An optional data frame containing expression data for
 #' downstream analysis and visualisation. The rows must contain probes which
 #' match the rows in pvalues and the columns must contain samples which match
 #' \code{sampledata$ID}.
+#' @param groups The groups to be compared (if NULL this defaults
+#' to \code{levels(sampledata[, 'contrasts'])}).
 #' @param p_col_suffix The suffix word to define columns containing p values
 #' (default = 'pvalues').
 #' @param padj_col_suffix The suffix word to define columns containing adjusted
@@ -122,25 +123,27 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' @export
 #' @examples
 #' data(example_data)
-#' syn_polar <- polar_coords(sampledata = syn_example_meta,
-#'                           contrast = "Pathotype", 
-#'                           groups = NULL, 
-#'                           pvalues = syn_example_p, 
-#'                           expression = syn_example_rld, 
-#'                           p_col_suffix = "pvalue", 
-#'                           padj_col_suffix = "padj", 
-#'                           non_sig_name = "Not Significant", 
-#'                           multi_group_prefix = "LRT",
-#'                           significance_cutoff = 0.01, 
-#'                           fc_cutoff = 0.3)
+#' syn_polar <- polar_coords(sampledata=syn_example_meta,
+#'                     contrast="Pathotype",
+#'                     groups = NULL,
+#'                     pvalues = syn_example_p,
+#'                     expression = syn_example_rld,
+#'                     p_col_suffix = "pvalue",
+#'                     padj_col_suffix = "padj",
+#'                     fc_col_suffix = NULL,
+#'                     padjust_method = "BH",
+#'                     multi_group_prefix = NULL,
+#'                     non_sig_name = "Not Significant",
+#'                     significance_cutoff = 0.01, 
+#'                     fc_cutoff=0.3, 
+#'                     label_column = NULL)
 #' table(syn_polar@polar$sig) 
-
 
 polar_coords <- function(sampledata,
                          contrast,
-                         groups = NULL,
                          pvalues,
-                         expression = NULL,
+                         expression,
+                         groups = NULL,
                          p_col_suffix = "pvalues",
                          padj_col_suffix = "padj",
                          fc_col_suffix = NULL,
@@ -155,8 +158,8 @@ polar_coords <- function(sampledata,
     if(! class(sampledata) %in% c("data.frame")) {
         stop("sampledata must be a data frame")
     }
-    if(! class(expression) %in% c("data.frame", "matrix")) {
-        stop("expression must be a data frame or matrix")
+    if(! class(expression)[1] %in% c("data.frame", "matrix")) {
+        stop("expression must be a data.frame or matrix")
     }
     if(! contrast %in% colnames(sampledata)) {
         stop("contrast is not a column in sampledata")
@@ -169,16 +172,15 @@ polar_coords <- function(sampledata,
     if(! "ID" %in% colnames(sampledata)) {
         stop("There is no ID column in metadata")
     }
-    if(! is.null(expression)){
-        if(! identical(rownames(expression), rownames(pvalues))){
+    if(! identical(rownames(expression), rownames(pvalues))){
             stop('The expression row names must be identical to the pvalues row 
            names')
-        }
-        if(! identical(colnames(expression), as.character(sampledata$ID))) {
-            stop('The expression column names must be identical to the 
-                 sampledata$ID')
-        }
     }
+    if(! identical(colnames(expression), as.character(sampledata$ID))) {
+        stop('The expression column names must be identical to the 
+                 sampledata$ID')
+    }
+    
     
     if(is.null(label_column)){
         pvalues$label <- rownames(pvalues)
@@ -241,7 +243,8 @@ polar_coords <- function(sampledata,
         }
         
         if(length(notFinding) > 0){  
-            if(paste(multi_group_prefix, fc_col_suffix) %in% notFinding){
+            if(length(paste(multi_group_prefix, fc_col_suffix)) > 0 &
+               paste(multi_group_prefix, fc_col_suffix) %in% notFinding){
                 notFinding <- notFinding[notFinding != 
                                              paste(multi_group_prefix, 
                                                    fc_col_suffix)]

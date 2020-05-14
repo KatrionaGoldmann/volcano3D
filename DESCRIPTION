@@ -8,15 +8,24 @@ Author: Katriona Goldmann [aut, cre],
 Maintainer: Katriona Goldmann <k.goldmann@qmul.ac.uk>
 URL: https://github.com/KatrionaGoldmann/volcano3D
 BugReports: https://github.com/KatrionaGoldmann/volcano3D/issues
-Description: Differential expression (DE) analysis can be used to discover quantitative changes in expression levels between experimental groups. Such results are typically visualised using volcano plots, however in cases where more than two experimental groups are involved, visualising results can become convoluted and it quickly becomes difficult to see the wood for the trees. This package provides easy-to-use functions to extract and visualise outputs from DE between three groups (primarily aimed at Limma and DESeq2 outputs). We present novel methods to map DE results into polar coordinates to enable users to combine and simultaneously view three sets of results. These graphics also possess optional Plotly outputs for interactive and three-dimensional functionality, as seen in Lewis et. al. (2019) <doi:10.1016/j.celrep.2019.07.091>.
+Description: Differential expression (DE) analysis can be used to discover quantitative changes in expression levels between experimental groups. Such results are typically visualised using volcano plots, however in cases where more than two experimental groups are involved, visualising results can become convoluted and it quickly becomes difficult to see the wood for the trees. This package provides easy-to-use functions to extract and visualise outputs from DE between three groups (primarily aimed at 'Limma' and 'DESeq2' outputs). We present novel methods to map DE results into polar coordinates to enable users to combine and simultaneously view three sets of results. These graphics also possess optional 'Plotly' outputs for interactive and three-dimensional functionality, as seen in 'Lewis et. al.'' (2019) <doi:10.1016/j.celrep.2019.07.091>.
 Language: en-gb
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5)
-Imports: ggplot2, plotly, ggpubr, ggrepel, methods
-Suggests: knitr, rmarkdown, kableExtra, usethis, data.table
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0
 NeedsCompilation: no
 Packaged: 2020-02-16 18:03:28 UTC; kgoldmann
+Imports:
+    plotly,
+    ggplot2,
+    ggpubr,
+    ggrepel,
+    methods
+Suggests:
+    knitr,
+    rmarkdown,
+    kableExtra,
+    usethis

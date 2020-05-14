@@ -62,9 +62,10 @@
 #'                           fc_cutoff = 0.3)
 #'                          
 #' boxplot_trio(syn_polar,
-#'           value = "SLAMF6",
+#'          value = "SLAMF6",
 #'           levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
 #'           box_colours = c("blue", "red", "green3"))
+
 
 
 
@@ -104,7 +105,7 @@ boxplot_trio <- function(polar,
     if(! class(sampledata) %in% c("data.frame")) {
         stop("sampledata must be a data frame")
     }
-    if(! class(expression) %in% c("data.frame", "matrix")) {
+    if(! class(expression)[1] %in% c("data.frame", "matrix")) {
         stop("expression must be a data frame or matrix")
     }
     if(! class(value) %in% c("character", "numeric")) {
@@ -153,7 +154,8 @@ boxplot_trio <- function(polar,
                    palette = box_colours, 
                    outlier.shape = NA, 
                    alpha = 0.3) +
-        geom_jitter(height = 0, width = 0.30, aes(color=df$group)) +
+        geom_jitter(data = df, height = 0, width = 0.30, 
+                    mapping=aes(color="group")) +
         theme(legend.position = "none", 
               text = element_text(size = text_size), 
               plot.background = element_rect(fill="transparent", color=NA), 
@@ -175,8 +177,14 @@ boxplot_trio <- function(polar,
         colnames(pvals) <- gsub(" ", "", gsub(gsub("polar_", "", test), "", 
                                               colnames(pvals)))
         
-        pvals_sc <- compare_means(row ~ group, data = df, 
-                                  comparisons = my_comparisons)
+        rev_comp <- unlist(lapply(my_comparisons, function(x) {
+            c(paste(unlist(x), collapse=" "), 
+              paste(rev(unlist(x)), collapse=" "))
+        }))
+        
+        pvals_sc <- compare_means(row ~ group, data = df)
+        pvals_sc <- pvals_sc[paste(pvals_sc$group1, pvals_sc$group2) %in% 
+                                 rev_comp, ]
         pvals_sc$comp <- paste0(pvals_sc$group1, "-", pvals_sc$group2)
         
         colnames(pvals) <- unlist(lapply(colnames(pvals), function(x) {

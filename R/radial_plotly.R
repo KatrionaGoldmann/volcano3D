@@ -43,7 +43,6 @@
 #' @keywords hplot iplot
 #' @export
 #' @examples
-#' data(example_data)
 #' syn_polar <- polar_coords(sampledata = syn_example_meta,
 #'                           contrast = "Pathotype", 
 #'                           groups = NULL, 
@@ -55,13 +54,16 @@
 #'                           multi_group_prefix = "LRT",
 #'                           significance_cutoff = 0.01, 
 #'                           fc_cutoff = 0.3)
-#' 
+#'                           
 #' col_vector = setNames(c('green', 'cyan', 'gold2', 'blue', 'purple'), 
-#'                       c('Fibroid+', 'Fibroid+Lymphoid+', 'Fibroid+Myeloid+', 
-#'                         'Lymphoid+', 'Lymphoid+Myeloid+'))      
-#'                                                                         
-#' radial_plotly(polar = syn_polar, label_rows = c("SLAMF6"), 
+#'                       c('Fibroid+', 'Fibroid+Lymphoid+', 
+#'                         'Fibroid+Myeloid+', 'Lymphoid+', 
+#'                         'Lymphoid+Myeloid+')) 
+#'                         
+#' radial_ggplot(polar = syn_polar, label_rows = c("SLAMF6"), 
 #'               colours=col_vector)
+
+
 
 
 radial_plotly <- function(polar,
@@ -83,7 +85,7 @@ radial_plotly <- function(polar,
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
     polar_df <- polar@polar
     
-    if(class(try(col2rgb(non_sig_colour),silent = TRUE)) == "try-error") {
+    if(class(try(col2rgb(non_sig_colour),silent = TRUE))[1] == "try-error") {
         stop('non_sig_colour must be a valid colour')
         
     }
@@ -197,11 +199,11 @@ radial_plotly <- function(polar,
                                  "continuous" = NULL),
                  source = "BOTH", 
                  showlegend = FALSE) %>%
-        #add the grid
+        # add the grid
         add_trace(x = polar_grid$x, y = polar_grid$y, color = I("#CBCBCB"),
                   line = list(width = 1), showlegend = FALSE, type = "scatter",
                   mode = "lines", hoverinfo = "none") %>%
-        #add the "horizontal" L,M,F axes
+        # add the "horizontal" axes
         add_trace(x = axes$x, y = axes$y, color = I("black"), 
                   line = list(width = 2), showlegend = FALSE, type = "scatter", 
                   mode = "lines", hoverinfo = "none", inherit = FALSE) %>%

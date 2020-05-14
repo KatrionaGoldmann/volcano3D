@@ -7,9 +7,9 @@
 polar_coords(
   sampledata,
   contrast,
-  groups = NULL,
   pvalues,
-  expression = NULL,
+  expression,
+  groups = NULL,
   p_col_suffix = "pvalues",
   padj_col_suffix = "padj",
   fc_col_suffix = NULL,
@@ -30,9 +30,6 @@ contrast column containing the three-level factor used for contrasts.}
 \item{contrast}{The column name in `sampledata` which contains the 
 three-level factor used for contrast.}
 
-\item{groups}{The groups to be compared (if NULL this defaults
-to \code{levels(sampledata[, 'contrasts'])}).}
-
 \item{pvalues}{A data frame containing: \itemize{
 \item three `p_col_suffix` columns: one for 
 the pvalue for each comparison between groups. 
@@ -46,10 +43,13 @@ adjusted p values are calculated using `padjust_method`);
 ratio test, defined by `multi_group_prefix`.
 }}
 
-\item{expression}{A data frame containing expression data for
+\item{expression}{An optional data frame containing expression data for
 downstream analysis and visualisation. The rows must contain probes which
 match the rows in pvalues and the columns must contain samples which match
 \code{sampledata$ID}.}
+
+\item{groups}{The groups to be compared (if NULL this defaults
+to \code{levels(sampledata[, 'contrasts'])}).}
 
 \item{p_col_suffix}{The suffix word to define columns containing p values
 (default = 'pvalues').}
@@ -114,17 +114,20 @@ sample data and polar coordinates.
 }
 \examples{
 data(example_data)
-syn_polar <- polar_coords(sampledata = syn_example_meta,
-                          contrast = "Pathotype", 
-                          groups = NULL, 
-                          pvalues = syn_example_p, 
-                          expression = syn_example_rld, 
-                          p_col_suffix = "pvalue", 
-                          padj_col_suffix = "padj", 
-                          non_sig_name = "Not Significant", 
-                          multi_group_prefix = "LRT",
-                          significance_cutoff = 0.01, 
-                          fc_cutoff = 0.3)
+syn_polar <- polar_coords(sampledata=syn_example_meta,
+                    contrast="Pathotype",
+                    groups = NULL,
+                    pvalues = syn_example_p,
+                    expression = syn_example_rld,
+                    p_col_suffix = "pvalue",
+                    padj_col_suffix = "padj",
+                    fc_col_suffix = NULL,
+                    padjust_method = "BH",
+                    multi_group_prefix = NULL,
+                    non_sig_name = "Not Significant",
+                    significance_cutoff = 0.01, 
+                    fc_cutoff=0.3, 
+                    label_column = NULL)
 table(syn_polar@polar$sig) 
 }
 \references{

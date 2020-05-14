@@ -82,8 +82,8 @@ syn_polar <- polar_coords(sampledata = syn_example_meta,
 
 volcano3D(syn_polar, 
     label_rows = c("FMOD", "LAMP5", "TNNT3"), 
-    label_size = 10, 
     xy_aspectratio = 1, 
+    label_size = 10, 
     z_aspectratio = 0.9)
 }
 \references{

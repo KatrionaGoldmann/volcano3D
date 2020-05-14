@@ -68,6 +68,7 @@
 #'               colours=col_vector)
 
 
+
 radial_ggplot <- function(polar,
                           colours = NULL,
                           non_sig_colour = "grey60",
@@ -89,7 +90,7 @@ radial_ggplot <- function(polar,
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
     polar_df <- polar@polar
     
-    if(class(try(col2rgb(non_sig_colour),silent = TRUE)) == "try-error") {
+    if(class(try(col2rgb(non_sig_colour),silent = TRUE))[1] == "try-error") {
         stop('non_sig_colour must be a valid colour')
     }
     if(any(unlist(lapply(colours, function(x) {
@@ -259,14 +260,21 @@ radial_ggplot <- function(polar,
                               aes(x = annotation_df$x,
                                   y = annotation_df$y,
                                   xend = 0.9*annotation_df$xend,
-                                  yend = 0.9*annotation_df$yend),
-                              colour = annotation_df$hue, size = 0.5,
+                                  yend = 0.9*annotation_df$yend, 
+                                  colour = switch(
+                                      colour_scale, 
+                                      "discrete"=annotation_df$sig, 
+                                      "continuous"=annotation_df$hue)),
+                              size = 0.5,
                               arrow = arrow(length = unit(0, "cm"))) +
             geom_text(data = annotation_df,
                       aes(x = 0.95*annotation_df$xend,
                           y = 0.95*annotation_df$yend,
-                          label = annotation_df$label),
-                      color = annotation_df$hue, size = label_size) +
+                          label = annotation_df$label, 
+                          color = switch(colour_scale, 
+                                         "discrete"=annotation_df$sig, 
+                                         "continuous"=annotation_df$hue)),
+                      size = label_size) +
             geom_point(data = annotation_df,
                        aes(x = annotation_df$x, y = annotation_df$y),
                        shape = 1,

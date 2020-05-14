@@ -54,9 +54,10 @@
 #' 
 #' volcano3D(syn_polar, 
 #'     label_rows = c("FMOD", "LAMP5", "TNNT3"), 
-#'     label_size = 10, 
 #'     xy_aspectratio = 1, 
+#'     label_size = 10, 
 #'     z_aspectratio = 0.9)
+
 
 
 volcano3D <- function(polar,
@@ -76,7 +77,7 @@ volcano3D <- function(polar,
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
     polar_df <- polar@polar
     
-    if(class(try(col2rgb(non_sig_colour), silent = TRUE)) == "try-error") {
+    if(class(try(col2rgb(non_sig_colour), silent = TRUE))[1] == "try-error") {
         stop('non_sig_colour must be a valid colour')
         
     }

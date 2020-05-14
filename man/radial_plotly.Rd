@@ -74,7 +74,6 @@ This function creates an interactive 'plotly' object which maps differential
 expression onto a polar coordinates.
 }
 \examples{
-data(example_data)
 syn_polar <- polar_coords(sampledata = syn_example_meta,
                           contrast = "Pathotype", 
                           groups = NULL, 
@@ -86,12 +85,13 @@ syn_polar <- polar_coords(sampledata = syn_example_meta,
                           multi_group_prefix = "LRT",
                           significance_cutoff = 0.01, 
                           fc_cutoff = 0.3)
-
+                          
 col_vector = setNames(c('green', 'cyan', 'gold2', 'blue', 'purple'), 
-                      c('Fibroid+', 'Fibroid+Lymphoid+', 'Fibroid+Myeloid+', 
-                        'Lymphoid+', 'Lymphoid+Myeloid+'))      
-                                                                        
-radial_plotly(polar = syn_polar, label_rows = c("SLAMF6"), 
+                      c('Fibroid+', 'Fibroid+Lymphoid+', 
+                        'Fibroid+Myeloid+', 'Lymphoid+', 
+                        'Lymphoid+Myeloid+')) 
+                        
+radial_ggplot(polar = syn_polar, label_rows = c("SLAMF6"), 
               colours=col_vector)
 }
 \references{

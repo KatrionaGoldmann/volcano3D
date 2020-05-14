@@ -67,6 +67,7 @@
 #' syn_volcano_plots$All
 
 
+
 volcano_trio <- function(polar,
                          p_cutoff = 0.05,
                          fc_cutoff = 1,
@@ -232,12 +233,12 @@ volcano_trio <- function(polar,
       
       
       label_df <- toptable[label_rows, ]
-      
+      label_df$lp <- -log10(label_df$pvalue)
       
       p <- p + geom_text_repel(data = label_df, 
-                               aes(x = label_df$logFC, 
-                                   y = -log10(label_df$pvalue),
-                                   label = label_df$label), 
+                               aes(x = "logFC", 
+                                   y = "lp",
+                                   label = "label"), 
                                size = label_size,
                                box.padding = unit(0.35, "lines"),
                                point.padding = unit(0.3, "lines"))

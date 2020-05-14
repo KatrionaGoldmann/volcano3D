@@ -2,11 +2,11 @@
 
 # Welcome message
 .onAttach <- function(libname, pkgname) {
-    packageStartupMessage(paste("---------------------",
-                                "                    ",
-                                "Welcome to volcano3D",
-                                "                    ",
-                                "---------------------", sep="\n"))
+    packageStartupMessage(paste("-----------------------",
+                                "                      ",
+                                "Welcome to volcano3D!",
+                                "                      ",
+                                "-----------------------", sep="\n"))
 }
 
 

@@ -81,7 +81,7 @@ syn_polar <- polar_coords(sampledata = syn_example_meta,
                           fc_cutoff = 0.3)
                          
 boxplot_trio(syn_polar,
-          value = "SLAMF6",
+         value = "SLAMF6",
           levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
           box_colours = c("blue", "red", "green3"))
 }

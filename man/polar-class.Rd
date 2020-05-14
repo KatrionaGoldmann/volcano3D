@@ -24,8 +24,9 @@ contrast factor, as well as optional fold changes and multi-group tests.}
 \item{\code{multi_group_test}}{Column name prefix for statistical tests between
 all three groups}
 
-\item{\code{expression}}{A data frame or matrix containing the
-expression data}
+\item{\code{expression}}{A data frame or matrix containing the expression data. This 
+is used to calculate z-score and fold change, therefore it should be a 
+normalised expression object such as log transformed or variance stabilised.}
 
 \item{\code{polar}}{A data frame containing:
 \itemize{
