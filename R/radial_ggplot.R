@@ -34,7 +34,7 @@
 #' radial graph
 #' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate 
 #' geom_point scale_color_manual aes element_blank coord_fixed geom_segment
-#' arrow unit element_rect
+#' arrow unit element_rect aes_string
 #' @importFrom graphics text 
 #' @importFrom grDevices hsv
 #' @keywords hplot 
@@ -90,7 +90,7 @@ radial_ggplot <- function(polar,
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
     polar_df <- polar@polar
     
-    if(class(try(col2rgb(non_sig_colour),silent = TRUE))[1] == "try-error") {
+    if(class(try(col2rgb(non_sig_colour),silent = TRUE)) == "try-error") {
         stop('non_sig_colour must be a valid colour')
     }
     if(any(unlist(lapply(colours, function(x) {
@@ -193,22 +193,26 @@ radial_ggplot <- function(polar,
     hadj <- -1*sign(grid@axis_labs$x)
     hadj[hadj ==  -1] <- 0
     
-    p <- ggplot(polar_df, aes(x = polar_df$x, y = polar_df$y)) +
+    polar_df$c <- switch(colour_scale, 
+                              "discrete"=polar_df$col, 
+                              "continuous"=polar_df$hue)
+    
+    p <- ggplot(polar_df, aes_string(x = "x", y = "y")) +
         labs(x = "", y = "", color = "") +
         
         # Concentric circles and radial spokes
         geom_path(data = grid@polar_grid, 
-                  aes(x = grid@polar_grid$x, y = grid@polar_grid$y), 
+                  aes_string(x = "x", y = "y"), 
                   alpha = 0.2) +
         
         # Three radial axes
-        geom_path(data = grid@axes, aes(x = grid@axes$x, y = grid@axes$y)) +
+        geom_path(data = grid@axes, aes_string(x = "x", y = "y")) +
         
         # radial axes ticks
         geom_text(data = grid@text_coords,
-                  aes(x = grid@text_coords$x,
-                      y = grid@text_coords$y,
-                      label = grid@text_coords$text),
+                  aes_string(x = "x",
+                      y = "y",
+                      label = "text"),
                   vjust = -1,
                   size = axis_label_size) +
         
@@ -220,17 +224,15 @@ radial_ggplot <- function(polar,
                  color = "black", size = axis_title_size) +
         
         # Add markers
-        geom_point(aes(color = switch(colour_scale, 
-                                      "discrete"=polar_df$sig, 
-                                      "continuous"=polar_df$hue)),
+        geom_point(color = polar_df$c,
                    size = marker_size,
                    alpha = marker_alpha) +
         
-        scale_color_manual(values = 
-                               switch(colour_scale, 
-                                      "discrete"=as.character(cols), 
+        scale_color_manual(values =
+                               switch(colour_scale,
+                                      "discrete"=as.character(cols),
                                       "continuous"=
-                                          levels(factor(polar_df$hue)))) +
+                                          levels(factor(polar_df$c)))) +
         
         # Set the background colour etc.
         theme(axis.line = element_blank(),
@@ -256,27 +258,26 @@ radial_ggplot <- function(polar,
     
     # Add any labelling desired
     if(! is.null(label_rows)){
+        annotation_df$c <- switch(colour_scale, 
+                                 "discrete"=annotation_df$col, 
+                                 "continuous"=annotation_df$hue)
+        annotation_df$xend1 <- 0.9*annotation_df$xend
+        annotation_df$yend1 <- 0.9*annotation_df$yend
+        annotation_df$xend2 <- 0.95*annotation_df$xend
+        annotation_df$yend2 <- 0.95*annotation_df$yend
         p <- p + geom_segment(data = annotation_df,
-                              aes(x = annotation_df$x,
-                                  y = annotation_df$y,
-                                  xend = 0.9*annotation_df$xend,
-                                  yend = 0.9*annotation_df$yend, 
-                                  colour = switch(
-                                      colour_scale, 
-                                      "discrete"=annotation_df$sig, 
-                                      "continuous"=annotation_df$hue)),
-                              size = 0.5,
+                              aes_string(x = "x",
+                                  y = "y",
+                                  xend = "xend1",
+                                  yend = "yend1"),
+                              colour = annotation_df$c, size = 0.5,
                               arrow = arrow(length = unit(0, "cm"))) +
             geom_text(data = annotation_df,
-                      aes(x = 0.95*annotation_df$xend,
-                          y = 0.95*annotation_df$yend,
-                          label = annotation_df$label, 
-                          color = switch(colour_scale, 
-                                         "discrete"=annotation_df$sig, 
-                                         "continuous"=annotation_df$hue)),
+                      aes_string(x = "xend2", y = "yend2", label = "label"),
+                      color = annotation_df$c, 
                       size = label_size) +
             geom_point(data = annotation_df,
-                       aes(x = annotation_df$x, y = annotation_df$y),
+                       aes_string(x = "x", y = "y"),
                        shape = 1,
                        color = "black",
                        size = marker_size)
@@ -284,3 +285,4 @@ radial_ggplot <- function(polar,
     }
     return(p)
 }
+

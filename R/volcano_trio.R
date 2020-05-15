@@ -33,7 +33,7 @@
 #' together.
 #' @importFrom ggplot2 ggplot labs geom_path geom_path geom_text annotate 
 #' geom_point scale_colour_manual theme aes theme_classic element_text 
-#' geom_hline geom_vline unit layer_scales lims element_rect
+#' geom_hline geom_vline unit layer_scales lims element_rect aes_string
 #' @importFrom ggpubr ggarrange rremove get_legend as_ggplot
 #' @importFrom ggrepel geom_text_repel
 #' @importFrom stats p.adjust setNames
@@ -173,22 +173,23 @@ volcano_trio <- function(polar,
     toptable$cols[toptable$padj <=  p_cutoff] <- sig_names[2]
     toptable$cols[abs(toptable$logFC) > fc_cutoff] <- sig_names[3]
     toptable$cols[toptable$padj <= p_cutoff &
-                  abs(toptable$logFC) > fc_cutoff] <- sig_names[4]
+                    abs(toptable$logFC) > fc_cutoff] <- sig_names[4]
     toptable$cols <- factor(toptable$cols)
     mapping <- setNames(sig_names, colours)
     
     toptable <- toptable[! is.na(toptable$logFC), ]
     toptable <- toptable[! is.na(-log10(toptable$pvalue)), ]
     toptable <- toptable[! is.na(-log10(toptable$padj)), ]
+    toptable$lp <- -log10(toptable$pvalue)
     
     # Create the volcano plot ggplot
     p <- ggplot(toptable, 
-                aes(x = toptable$logFC, 
-                    y = -log10(toptable$pvalue)),
-                color = toptable$cols) +
-      geom_point(aes(color = toptable$cols), size=marker_size) +
-      scale_colour_manual(values = names(mapping)[match(levels(toptable$cols),
-                                                        mapping)]) +
+                aes_string(x = "logFC", 
+                           y = "lp"),
+                colour = "cols") +
+      geom_point(data = toptable, size=marker_size, aes_string(color="cols")) +
+      scale_color_manual(values = names(mapping)[match(levels(toptable$cols),
+                                                       mapping)]) +
       labs(y = expression(-log["10"]*p), 
            x = expression(log["2"]*FC),
            title = gsub("-", " vs ", comparison), 
@@ -236,9 +237,9 @@ volcano_trio <- function(polar,
       label_df$lp <- -log10(label_df$pvalue)
       
       p <- p + geom_text_repel(data = label_df, 
-                               aes(x = "logFC", 
-                                   y = "lp",
-                                   label = "label"), 
+                               aes_string(x = "logFC", 
+                                          y = "lp",
+                                          label = "label"), 
                                size = label_size,
                                box.padding = unit(0.35, "lines"),
                                point.padding = unit(0.3, "lines"))

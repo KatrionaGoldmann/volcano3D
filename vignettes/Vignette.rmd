@@ -264,18 +264,18 @@ syn_plots$All
 
 ### Radial Plots
 
-The differential expression can now be visualised on an interactive radar plot 
+The differential expression can now be visualised on an interactive radar plot
 using radial_plotly. The
 `labelRows` variable allows any markers of interest to be labelled.
 
 ```{r, out.height="100%", out.width="100%"}
-col_vector = setNames(c('green', 'cyan', 'gold2', 'blue', 'purple'), 
-                       c('Fibroid+', 'Fibroid+Lymphoid+', 
-                         'Fibroid+Myeloid+', 'Lymphoid+', 
+col_vector = setNames(c('green', 'cyan', 'gold2', 'blue', 'purple'),
+                       c('Fibroid+', 'Fibroid+Lymphoid+',
+                         'Fibroid+Myeloid+', 'Lymphoid+',
                          'Lymphoid+Myeloid+'))
 
-radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "GREM2", "FMOD"), 
-              colours=col_vector) %>% layout(width=500)
+radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "GREM2", "FMOD"),
+              colours=col_vector) 
 ```
 
 By hovering over certain point you can also determine genes for
@@ -287,8 +287,8 @@ Similarly we can create a static ggplot image using radial_ggplot:
 radial_ggplot(polar = syn_polar,
               label_rows = c("SLAMF6", "FMOD", "GREM2"),
               marker_size = 2.3,
-              legend_size = 10, 
-              colours=col_vector) +
+              legend_size = 10,
+              colours = col_vector) +
   theme(legend.position = "right")
 ```
 
@@ -301,7 +301,7 @@ user to add features.
 ```{r, fig.height = 2.7, fig.width = 7}
 plot1 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
-                      text_size = 7, 
+                      text_size = 7,
                       test = "polar_padj",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       box_colours = c("blue", "red", "green3"),
@@ -310,9 +310,9 @@ plot1 <- boxplot_trio(syn_polar,
 
 plot2 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
-                      my_comparisons=list(c("Lymphoid", "Myeloid"), 
+                      my_comparisons=list(c("Lymphoid", "Myeloid"),
                                           c("Lymphoid", "Fibroid")),
-                      text_size = 7, 
+                      text_size = 7,
                       test = "polar_padj",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       box_colours = c("blue", "red", "green3")) +
@@ -320,7 +320,7 @@ plot2 <- boxplot_trio(syn_polar,
 
 plot3 <- boxplot_trio(syn_polar,
                       value = "FMOD",
-                      text_size = 7, 
+                      text_size = 7,
                       stat_size=2.5,
                       test = "t.test",
                       levels_order = c("Myeloid", "Fibroid", "Lymphoid"),
@@ -360,15 +360,15 @@ For further settings and aesthetics see the  [extended vignette](https://katrion
 
 ## Citation
 
-volcano3D was developed by the bioinformatics team at the 
-[Experimental Medicine & Rheumatology department](https://www.qmul.ac.uk/whri/emr/) 
-and [Centre for Translational Bioinformatics](https://www.qmul.ac.uk/c4tb/) at 
-Queen Mary University London. 
+volcano3D was developed by the bioinformatics team at the
+[Experimental Medicine & Rheumatology department](https://www.qmul.ac.uk/whri/emr/)
+and [Centre for Translational Bioinformatics](https://www.qmul.ac.uk/c4tb/) at
+Queen Mary University London.
 
-If you use this package please cite as: 
+If you use this package please cite as:
 
-> Lewis, Myles J., et al. _Molecular portraits of early rheumatoid arthritis 
-identify clinical and treatment response phenotypes_. Cell reports 28.9 (2019): 
+> Lewis, Myles J., et al. _Molecular portraits of early rheumatoid arthritis
+identify clinical and treatment response phenotypes_. Cell reports 28.9 (2019):
 2455-2470.
 or using:
 

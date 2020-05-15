@@ -36,7 +36,7 @@
 #' @importFrom ggpubr ggboxplot stat_pvalue_manual stat_compare_means 
 #' compare_means
 #' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate 
-#' geom_point scale_color_manual aes geom_jitter element_rect
+#' geom_point scale_color_manual aes geom_jitter element_rect aes_string
 #' @importFrom utils combn
 #' @keywords hplot
 #' @references 
@@ -154,8 +154,8 @@ boxplot_trio <- function(polar,
                    palette = box_colours, 
                    outlier.shape = NA, 
                    alpha = 0.3) +
-        geom_jitter(data = df, height = 0, width = 0.30, 
-                    mapping=aes(color="group")) +
+        geom_jitter(data=df, height = 0, width = 0.30, 
+                    aes_string(color="group")) +
         theme(legend.position = "none", 
               text = element_text(size = text_size), 
               plot.background = element_rect(fill="transparent", color=NA), 
@@ -180,7 +180,7 @@ boxplot_trio <- function(polar,
         rev_comp <- unlist(lapply(my_comparisons, function(x) {
             c(paste(unlist(x), collapse=" "), 
               paste(rev(unlist(x)), collapse=" "))
-        }))
+            }))
         
         pvals_sc <- compare_means(row ~ group, data = df)
         pvals_sc <- pvals_sc[paste(pvals_sc$group1, pvals_sc$group2) %in% 
