@@ -31,12 +31,13 @@
 #' @param step_increase The distance between statistics on the y-axis 
 #' (default = 0.1).
 #' @param ... Other parameters for \code{\link[ggpubr]{stat_compare_means}}
-#' @return Returns a plotly boxplot featuring the differential expression 
+#' @return Returns a 'ggplot' boxplot featuring the differential expression 
 #' between groups in comparison with annotated pvalues. 
-#' @importFrom ggpubr compare_means
-#' @importFrom plotly layout plot_ly add_trace add_markers
+#' @importFrom ggpubr ggboxplot stat_pvalue_manual stat_compare_means 
+#' compare_means
+#' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate 
+#' geom_point scale_color_manual aes geom_jitter element_rect aes_string
 #' @importFrom utils combn
-#' @importFrom grDevices hsv
 #' @keywords hplot
 #' @references 
 #' Lewis, Myles J., et al. (2019). 
@@ -60,7 +61,7 @@
 #'                           fc_col_suffix='log2FoldChange',
 #'                           fc_cutoff = 0.3)
 #'                          
-#' boxplot_trio(syn_polar,
+#' boxplot_trio_ggplot(syn_polar,
 #'          value = "SLAMF6",
 #'           levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
 #'           box_colours = c("blue", "red", "green3"))
@@ -69,7 +70,7 @@
 
 
 
-boxplot_trio <- function(polar, 
+boxplot_trio_ggplot <- function(polar, 
                          value, 
                          box_colours = c('green3', 'blue', 'red'), 
                          test = "polar_pvalue", 
@@ -139,79 +140,33 @@ boxplot_trio <- function(polar,
             as.character(combn(comps, 2)[, i])
         })
     }
-    df <- data.frame("ID" = sampledata$ID, 
-                     "group" = sampledata$comp, 
+    df <- data.frame("group" = sampledata$comp, 
                      "row" = as.numeric(as.character(expression[value, ])))
     df <- df[! is.na(df$row), ]
     
-    # Convert to hex colours for plotly
-    box_colours <- unlist(lapply(box_colours, function(x) {
-        y = col2rgb(x)[, 1]
-        rgb(y[1], y[2], y[3], maxColorValue=255)
-    }), 
-    recursive = F)
-    df$col <- factor(df$group, labels = box_colours)
-    
-    
-    p <- df %>%
-        plot_ly() %>% 
-        add_trace(x = ~as.numeric(group),  y = ~row, 
-                  type = "box", 
-                  colors = levels(df$col), color = ~group, 
-                  opacity=0.5, marker = list(opacity = 0), 
-                  hoverinfo="none", showlegend = FALSE) %>%
-        add_markers(x = ~jitter(as.numeric(group)), y = ~row, 
-                    marker = list(size = 6, color=~col),
-                    hoverinfo = "text",
-                    text = ~paste0(ID, 
-                                   "<br>Group: ", group, 
-                                   "<br>Expression: ", row),
-                    showlegend = FALSE) %>% 
-        layout(legend = list(orientation = "h",
-                             x =0.5, xanchor = "center",
-                             y = 1, yanchor = "bottom"
-        ),
-        xaxis = list(title = polar@contrast, tickvals = 1:3, 
-                     ticktext = levels(df$group)), 
-        yaxis = list(title = paste(value, "Expression")))
-    
-    
-    
-    
+    p <- ggboxplot(data = df, 
+                   x = "group", 
+                   y = "row", 
+                   xlab = "", 
+                   ylab = rownames(expression)[index],
+                   fill = "group", 
+                   color="group",
+                   palette = box_colours, 
+                   outlier.shape = NA, 
+                   alpha = 0.3) +
+        geom_jitter(data=df, height = 0, width = 0.30, 
+                    aes_string(color="group")) +
+        theme(legend.position = "none", 
+              text = element_text(size = text_size), 
+              plot.background = element_rect(fill="transparent", color=NA), 
+              panel.background = element_rect(fill="transparent", colour=NA), 
+              legend.background = element_rect(fill="transparent", colour=NA))
     
     if(test %in% c("t.test", "wilcox.test", "anova", "kruskal.test")){
-        pvals <- compare_means(formula = row ~ group, data = df, 
-                               comparisons = my_comparisons, 
-                               method = test, 
-                               step.increase = step_increase, 
-                               size=stat_size)
-        
-        map_pos <- setNames(1:3, levels(df$group))
-        pvals$x.position = map_pos[pvals$group1] + 
-            (map_pos[pvals$group2] - map_pos[pvals$group1])/2
-        pvals$y.position <- max(df$row, na.rm=T)*(1.01 + 
-                                                      0.05*c((1:nrow(pvals))-1))
-        
-        lines <- list()
-        for (i in 1:nrow(pvals)) {
-            line <- list()
-            line[["x0"]] <- map_pos[pvals$group1][i]
-            line[["x1"]] <- map_pos[pvals$group2][i]
-            line[c("y0", "y1")] <- pvals$y.position[i] 
-            lines <- c(lines, list(line))
-        }
-        
-        a <- list(
-            x = as.numeric(pvals$x.position),
-            y = 0.1 + pvals$y.position,
-            text = format(pvals$p, digits=3),
-            xref = "x",
-            yref = "y",
-            showarrow = FALSE
-        )
-        
-        p <- p %>% layout(annotations = a, shapes=lines)
-
+        p <- p + stat_compare_means(comparisons = my_comparisons, 
+                                    method = test, 
+                                    step.increase = step_increase, 
+                                    size=stat_size, ...)
     } else if (! grepl("multi", test)){ 
         # groups comparisons
         pvals <- pvalues[value, ]
@@ -225,7 +180,7 @@ boxplot_trio <- function(polar,
         rev_comp <- unlist(lapply(my_comparisons, function(x) {
             c(paste(unlist(x), collapse=" "), 
               paste(rev(unlist(x)), collapse=" "))
-        }))
+            }))
         
         pvals_sc <- compare_means(row ~ group, data = df)
         pvals_sc <- pvals_sc[paste(pvals_sc$group1, pvals_sc$group2) %in% 
@@ -246,48 +201,21 @@ boxplot_trio <- function(polar,
         pvals_sc$new_p_label <- format(pvals_sc$new_p, digits = 2)
         pvals_sc$y.position <- max(df$row, na.rm=TRUE)
         
-        map_pos <- setNames(1:3, levels(df$group))
-        pvals_sc$x.position = map_pos[pvals_sc$group1] + 
-            (map_pos[pvals_sc$group2] - map_pos[pvals_sc$group1])/2
-        pvals_sc$y.position <- pvals_sc$y.position[1]*(1 + 0.01 + 0.05*(c(1:nrow(pvals_sc))-1))
-        
-        lines <- list()
-        for (i in 1:nrow(pvals_sc)) {
-            line <- list()
-            line[["x0"]] <- map_pos[pvals_sc$group1][i]
-            line[["x1"]] <- map_pos[pvals_sc$group2][i]
-            line[c("y0", "y1")] <- pvals_sc$y.position[i] 
-            lines <- c(lines, list(line))
-        }
-        
-        a <- list(
-            x = as.numeric(pvals_sc$x.position),
-            y = 0.1 + pvals_sc$y.position,
-            text = format(pvals_sc$p, digits=3),
-            xref = "x",
-            yref = "y",
-            showarrow = FALSE
-        )
-        
-        p <- p %>% layout(annotations = a, shapes=lines)
-  
-     
+        p <- p + stat_pvalue_manual(
+            data = pvals_sc, label = "new_p_label",
+            xmin = "group1", xmax = "group2",
+            step.increase = step_increase, 
+            y.position = "y.position",
+            size=stat_size, ...)
     } else{
         # muti group comparisons
         pvals <- pvalues[value, ]
         pvals <- pvals[, grepl(gsub("polar_multi_", "", test), colnames(pvals))]
         pvals <- pvals[, grepl(polar@multi_group_test, colnames(pvals))]
         
-        a <- list(
-            x = 2,
-            y = 0.5 + max(df$row, na.rm=T),
-            text = format(pvals, digits=3),
-            xref = "x",
-            yref = "y",
-            showarrow = FALSE
-        )
-        
-        p <- p %>% layout(annotations = a)
+        p <- p + annotate("text", x = 0.5 + length(unique(df$group))/2, 
+                          y = Inf, vjust = 2, hjust = 0.5,
+                          label = paste("p =", format(pvals, digits = 2)))
         
     } 
     

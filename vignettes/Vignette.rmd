@@ -268,14 +268,14 @@ The differential expression can now be visualised on an interactive radar plot
 using radial_plotly. The
 `labelRows` variable allows any markers of interest to be labelled.
 
-```{r, out.height="100%", out.width="100%"}
+```{r, fig.height=9, fig.width=9, out.height="150%"}
 col_vector = setNames(c('green', 'cyan', 'gold2', 'blue', 'purple'),
                        c('Fibroid+', 'Fibroid+Lymphoid+',
                          'Fibroid+Myeloid+', 'Lymphoid+',
                          'Lymphoid+Myeloid+'))
 
-radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "GREM2", "FMOD"),
-              colours=col_vector) 
+radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "GREM2", "FMOD"), 
+              colours=c('green', 'cyan', 'blue', 'purple', 'red', 'gold2')) 
 ```
 
 By hovering over certain point you can also determine genes for
@@ -305,8 +305,7 @@ plot1 <- boxplot_trio(syn_polar,
                       test = "polar_padj",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       box_colours = c("blue", "red", "green3"),
-                      step_increase = 0.1) +
-  labs(title="Adjusted Pvalues between Pathotypes")
+                      step_increase = 0.1) 
 
 plot2 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
@@ -315,8 +314,7 @@ plot2 <- boxplot_trio(syn_polar,
                       text_size = 7,
                       test = "polar_padj",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                      box_colours = c("blue", "red", "green3")) +
-  labs(title="LRT between SLAMF6 Expression")
+                      box_colours = c("blue", "red", "green3")) 
 
 plot3 <- boxplot_trio(syn_polar,
                       value = "FMOD",
@@ -324,10 +322,9 @@ plot3 <- boxplot_trio(syn_polar,
                       stat_size=2.5,
                       test = "t.test",
                       levels_order = c("Myeloid", "Fibroid", "Lymphoid"),
-                      box_colours = c("red", "green3", "blue")) +
-  labs(title="T-tests bewteen FMOD Exp.")
+                      box_colours = c("red", "green3", "blue")) 
 
-ggarrange(plot1, plot2, plot3, ncol = 3)
+subplot(plot1, plot2, plot3)
 ```
 
 ### Three Dimensional Volcano Plots
@@ -341,11 +338,11 @@ p <- volcano3D(syn_polar,
                label_size = 10,
                xy_aspectratio = 1,
                z_aspectratio = 0.9)
-
-p %>% layout(legend = list(x = 100, y = 0.7), width = 550, height=800)
 ```
 
-Again this produces an interactive plot. If you have
+Again this produces an interactive plot, unfortunately WebGL is not supported in 
+vignette htmls but to see this in action you can visit the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html)
+. If you have
 the orca command-line utility installed, this can be used to
 save static images. To install follow the instructions
 [here](https://github.com/plotly/orca#installation).
@@ -354,7 +351,6 @@ save static images. To install follow the instructions
 orca(p, "./volcano_3d_synovium.svg", format = "svg")
 ```
 
-For further settings and aesthetics see the  [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html)
 
 ---
 
