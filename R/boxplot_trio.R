@@ -263,7 +263,7 @@ boxplot_trio <- function(polar,
         a <- list(
             x = as.numeric(pvals_sc$x.position),
             y = 0.1 + pvals_sc$y.position,
-            text = format(pvals_sc$p, digits=3),
+            text = pvals_sc$new_p_label,
             xref = "x",
             yref = "y",
             showarrow = FALSE

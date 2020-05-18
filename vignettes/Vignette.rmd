@@ -324,7 +324,7 @@ plot3 <- boxplot_trio(syn_polar,
                       levels_order = c("Myeloid", "Fibroid", "Lymphoid"),
                       box_colours = c("red", "green3", "blue")) 
 
-subplot(plot1, plot2, plot3)
+subplot(plot1, plot2, plot3, titleY = TRUE)
 ```
 
 ### Three Dimensional Volcano Plots
