@@ -303,12 +303,13 @@ polar_coords <- function(sampledata,
     
     # Capture the expression score for each group (fc and z-score)
     expression_scaled <- t(scale(t(expression)))
-    polar_colours <- as.data.frame(t(apply(expression_scaled, 1, function(x) {
-        tapply(x, droplevels(sampledata[, contrast]), mean, na.rm = TRUE)
-    })))
-    polar_coloursFC <- as.data.frame(t(apply(expression, 1, function(x) {
-        tapply(x, droplevels(sampledata[, contrast]), mean, na.rm = TRUE)
-    })))
+    polar_colours <- as.data.frame(sapply(levels(sampledata[, contrast]), function(x) {
+        rowMeans(expression_scaled[, droplevels(sampledata[, contrast])==x])
+    }))
+    polar_coloursFC <- as.data.frame(sapply(levels(sampledata[, contrast]), function(x) {
+        rowMeans(expression[, droplevels(sampledata[, contrast])==x])
+    }))
+    
     
     if(! identical(rownames(expression), rownames(pvalues))) {
         stop('expression and pvalues not aligned (rownames are not identical)')
