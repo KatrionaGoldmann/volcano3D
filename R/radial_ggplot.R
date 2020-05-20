@@ -220,13 +220,11 @@ radial_ggplot <- function(polar,
         labs(x = "", y = "", color = "") +
         
         # Concentric circles and radial spokes
-        suppressWarnings(geom_path(data = grid@polar_grid, 
-                                   aes_string(x = "x", y = "y"), 
-                                   alpha = 0.2)) +
+        geom_path(data = grid@polar_grid, aes_string(x = "x", y = "y"), 
+                                   alpha = 0.2) +
         
         # Three radial axes
-        suppressWarnings(geom_path(data = grid@axes, 
-                                   aes_string(x = "x", y = "y"))) +
+        geom_path(data = grid@axes, aes_string(x = "x", y = "y")) +
         
         # radial axes ticks
         geom_text(data = grid@text_coords,

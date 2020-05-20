@@ -173,12 +173,12 @@ polar_coords <- function(sampledata,
         stop("There is no ID column in metadata")
     }
     if(! identical(rownames(expression), rownames(pvalues))){
-        stop('The expression row names must be identical to the pvalues row 
-           names')
+        stop(paste('The expression row names must be identical to the pvalues', 
+                   'row names'))
     }
     if(! identical(colnames(expression), as.character(sampledata$ID))) {
-        stop('The expression column names must be identical to the 
-                 sampledata$ID')
+        stop(paste('The expression column names must be identical to the', 
+                 'sampledata$ID'))
     }
     
     
@@ -189,8 +189,11 @@ polar_coords <- function(sampledata,
     # Ensure groups and contrast column are compatible
     sampledata[, contrast] <- droplevels(factor(sampledata[, contrast]))
     if(length(levels(sampledata[, contrast])) != 3) {
-        stop("There number of factors in the comparison column does not equal 
-             3")
+        stop(paste("There number of factors in the comparison column does not",
+        "equal 3"))
+    }
+    if(any(is.na(sampledata[, contrast]))) {
+        stop("There are NAs present in the contrast, please remove these")
     }
     if(is.null(groups)) {groups <- levels(sampledata[, contrast])}
     if(length(groups) != 3) stop("There number of groups does not equal 3")

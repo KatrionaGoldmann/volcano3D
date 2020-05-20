@@ -19,6 +19,8 @@ radial_plotly(
   axis_label_size = 10,
   axis_ticks = NULL,
   axis_angle = 5/6,
+  plot_height = 7,
+  plot_width = 7,
   ...
 )
 }
@@ -62,6 +64,10 @@ Options are 'zscore' (default) or 'fc'.}
 NULL this will be calculated using \code{\link[base]{pretty}}.}
 
 \item{axis_angle}{Angle in  pi radians for the radial axis (default = 5/6).}
+
+\item{plot_height}{Plot height in pt (default=7).}
+
+\item{plot_width}{Plot width in pt (default=7).}
 
 \item{...}{Optional grid parameters to pass to 
 \code{\link[volcano3D]{polar_grid}}.}

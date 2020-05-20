@@ -28,6 +28,8 @@
 #' @param axis_ticks A numerical vector of radial axis tick breaks. If
 #' NULL this will be calculated using \code{\link[base]{pretty}}.
 #' @param axis_angle Angle in  pi radians for the radial axis (default = 5/6).
+#' @param plot_height Plot height in pt (default=7).
+#' @param plot_width Plot width in pt (default=7).
 #' @param ... Optional grid parameters to pass to 
 #' \code{\link[volcano3D]{polar_grid}}.
 #' @return Returns a 'plotly' plot featuring variables on a tri-axis
@@ -75,6 +77,8 @@ radial_plotly <- function(polar,
                           axis_label_size = 10,
                           axis_ticks = NULL,
                           axis_angle = 5/6, 
+                          plot_height = 7, 
+                          plot_width = 7,
                           ...){
     
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
@@ -239,17 +243,19 @@ radial_plotly <- function(polar,
                  textposition = axis_labs$adjust, hoverinfo = 'none', 
                  showlegend = FALSE, inherit = FALSE) %>%
         layout(showlegend = TRUE,
-               xaxis = list(title = "", zeroline = FALSE, showline = FALSE,
+               xaxis = list(title = "", range = c(-grid@r, NULL), 
+                            zeroline = FALSE, showline = FALSE,
                             showticklabels = FALSE, showgrid = FALSE,
                             scaleratio = 1, scaleanchor = "y", 
                             autoscale = TRUE),
-               yaxis = list(title = "", range = c(-0.5, 0.5), zeroline = FALSE,
+               yaxis = list(title = "", range = c(-grid@r, grid@r), 
+                            zeroline = FALSE,
                             showline = FALSE,	showticklabels = FALSE,
                             showgrid = FALSE),
                plot_bgcolor = "rgba(0,0,0,0)", 
                paper_bgcolor = 'rgba(0,0,0,0)',
                autosize = TRUE,
-               annotations = annot) %>%
+               annotations = annot)  %>%
         # label radial axis
         add_text(x = text_coords$x, y =  -text_coords$y, 
                  text = text_coords$text, textposition = 'top center', 

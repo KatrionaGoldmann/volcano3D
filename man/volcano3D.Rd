@@ -17,6 +17,7 @@ volcano3D(
   axis_angle = 0.5,
   z_aspectratio = 1,
   xy_aspectratio = 1,
+  plot_height = 7,
   ...
 )
 }
@@ -55,6 +56,8 @@ default values of  \code{\link{polar_grid}}.}
 
 \item{xy_aspectratio}{The aspect ratio for the xy axis compared to z
 (default = 1). Decreasing this makes the grid wider in the plot window.}
+
+\item{plot_height}{The plot height in pt. Default=7.}
 
 \item{...}{Optional parameters to pass to \code{\link{polar_grid}}.}
 }
