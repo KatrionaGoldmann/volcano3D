@@ -353,7 +353,7 @@ polar_coords <- function(sampledata,
     # pick the most highly expressed group
     groups <- as.character(max.col(polar_colours[, 1:3]))
     if(! is.null(multi_group_prefix)){
-        groups[pvalues[, paste(multi_group_prefix, "padj")] >= 
+        groups[pvalues[, paste(multi_group_prefix, "pvalue")] >= 
                    significance_cutoff] <- 'grey60'
     }
     polar_colours$maxExp <- colnames(polar_colours)[max.col(
