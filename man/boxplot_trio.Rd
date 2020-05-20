@@ -14,80 +14,83 @@ boxplot_trio(
   text_size = 10,
   stat_size = 3,
   step_increase = 0.05,
+  plot_method = "ggplot",
   ...
 )
 }
 \arguments{
-\item{polar}{A polar object including expression data from groups of 
+\item{polar}{A polar object including expression data from groups of
 interest. Created by \code{\link{polar_coords}}.}
 
-\item{value}{The row name or number in \code{polar@expression} to be 
+\item{value}{The row name or number in \code{polar@expression} to be
 analysed}
 
-\item{box_colours}{The fill colours for each box 
+\item{box_colours}{The fill colours for each box
 (default = c('green3', 'blue', 'red') assigned in order of levels_order).}
 
-\item{test}{The statistical test used to compare expression. 
+\item{test}{The statistical test used to compare expression.
 Allowed values include: \itemize{
- \item \code{polar_pvalue} (default) and 'polar_padj' for the pvalues 
- and adjusted pvalues in the polar object. 
- \item \code{polar_multi_pvalue} and \code{polar_multi_padj} for the pvalues 
- and adjusted pvalues across all groups using the 
- \code{polar@multi_group_test } columns. 
+ \item \code{polar_pvalue} (default) and 'polar_padj' for the pvalues
+ and adjusted pvalues in the polar object.
+ \item \code{polar_multi_pvalue} and \code{polar_multi_padj} for the pvalues
+ and adjusted pvalues across all groups using the
+ \code{polar@multi_group_test } columns.
  \item \code{\link[stats]{t.test}} (parametric) and
  \code{\link[stats]{wilcox.test}} (non-parametric). Perform comparison
- between groups of samples. 
- \item \code{\link[stats]{anova}} (parametric) and 
+ between groups of samples.
+ \item \code{\link[stats]{anova}} (parametric) and
  \code{\link[stats]{kruskal.test}} (non-parametric). Perform one-way ANOVA
  test comparing multiple groups. }}
 
-\item{levels_order}{A character vector stating the contrast groups to be 
-plotted, in order. If NULL this defaults to the levels in 
+\item{levels_order}{A character vector stating the contrast groups to be
+plotted, in order. If NULL this defaults to the levels in
 polar@sampledata[, polar@contrast].}
 
-\item{my_comparisons}{A list of contrasts to pass to 
-\code{\link[ggpubr]{stat_compare_means}}. If NULL (default) all contrast 
+\item{my_comparisons}{A list of contrasts to pass to
+\code{\link[ggpubr]{stat_compare_means}}. If NULL (default) all contrast
 pvalues are calculated and plotted.}
 
 \item{text_size}{The font size of text (default = 10)}
 
 \item{stat_size}{The font size of statistical parameter (default = 3).}
 
-\item{step_increase}{The distance between statistics on the y-axis 
+\item{step_increase}{The distance between statistics on the y-axis
 (default = 0.05).}
+
+\item{plot_method}{Whether to use 'plotly' or 'ggplot'. Default is 'ggplot'}
 
 \item{...}{Other parameters for \code{\link[ggpubr]{stat_compare_means}}}
 }
 \value{
-Returns a plotly boxplot featuring the differential expression 
+Returns a plotly boxplot featuring the differential expression
 between groups in comparison with annotated pvalues.
 }
 \description{
-Plots the expression of a specific row in expression to compare the three 
-groups in a boxplot.
+Plots the expression of a specific row in expression to compare the three
+groups in a boxplot using either ggplot or plotly.
 }
 \examples{
 data(example_data)
 syn_polar <- polar_coords(sampledata = syn_example_meta,
-                          contrast = "Pathotype", 
-                          groups = NULL, 
-                          pvalues = syn_example_p, 
-                          expression = syn_example_rld, 
-                          p_col_suffix = "pvalue", 
-                          padj_col_suffix = "padj", 
-                          non_sig_name = "Not Significant", 
+                          contrast = "Pathotype",
+                          groups = NULL,
+                          pvalues = syn_example_p,
+                          expression = syn_example_rld,
+                          p_col_suffix = "pvalue",
+                          padj_col_suffix = "padj",
+                          non_sig_name = "Not Significant",
                           multi_group_prefix = "LRT",
-                          significance_cutoff = 0.01, 
+                          significance_cutoff = 0.01,
                           fc_col_suffix='log2FoldChange',
                           fc_cutoff = 0.3)
-                         
+
 boxplot_trio(syn_polar, value = "SLAMF6")
 }
 \references{
-Lewis, Myles J., et al. (2019). 
+Lewis, Myles J., et al. (2019).
 \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
-Molecular portraits of early rheumatoid arthritis identify clinical and 
-treatment response phenotypes.} 
+Molecular portraits of early rheumatoid arthritis identify clinical and
+treatment response phenotypes.}
 \emph{Cell reports}, \strong{28}:9
 }
 \keyword{hplot}
