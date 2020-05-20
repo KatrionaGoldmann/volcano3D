@@ -6,7 +6,7 @@
 \usage{
 radial_plotly(
   polar,
-  colours = NULL,
+  colours = c("green3", "cyan", "blue", "purple", "red", "gold2"),
   non_sig_colour = "grey60",
   colour_scale = "discrete",
   continuous_shift = 120,
@@ -26,9 +26,10 @@ radial_plotly(
 \item{polar}{A polar object with the pvalues between groups of interest and 
 polar coordinates. Created by \code{\link{polar_coords}}.}
 
-\item{colours}{A named vector of colours for the groups. If NULL colours
-will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple', 'red'). 
-If unnamed colours will be assigned in polar@polar$sig level order.}
+\item{colours}{A vector of colour names or hex triplets for each of the 
+six groups. Default = c("green3", "cyan", "blue", 
+"purple", "red", "gold2"). Colours are assigned in order: group1+, 
+group1+group2+, group2+, group2+group3+, group3+, group1+group3+.}
 
 \item{non_sig_colour}{The colour for non-significant markers 
 (default = "grey60").}
@@ -74,6 +75,7 @@ This function creates an interactive 'plotly' object which maps differential
 expression onto a polar coordinates.
 }
 \examples{
+data(example_data)
 syn_polar <- polar_coords(sampledata = syn_example_meta,
                           contrast = "Pathotype", 
                           groups = NULL, 
@@ -85,14 +87,8 @@ syn_polar <- polar_coords(sampledata = syn_example_meta,
                           multi_group_prefix = "LRT",
                           significance_cutoff = 0.01, 
                           fc_cutoff = 0.3)
-                          
-col_vector = setNames(c('green', 'cyan', 'gold2', 'blue', 'purple'), 
-                      c('Fibroid+', 'Fibroid+Lymphoid+', 
-                        'Fibroid+Myeloid+', 'Lymphoid+', 
-                        'Lymphoid+Myeloid+')) 
                         
-radial_ggplot(polar = syn_polar, label_rows = c("SLAMF6"), 
-              colours=col_vector)
+radial_plotly(polar = syn_polar, label_rows = c("SLAMF6"))
 }
 \references{
 Lewis, Myles J., et al. (2019).

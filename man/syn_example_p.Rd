@@ -8,26 +8,26 @@
 A data frame with 100 rows representing the most significant 
 genes/probes and 13 columns for each statistical parameter:
 \describe{
-    \item{Module}{The gene name}
-    \item{Fibroid-Lymphoid pvalue}{pvalue from fibroid vs lymphoid 
+    \item{Gene}{The gene name}
+    \item{Fibroid_Lymphoid_pvalue}{pvalue from fibroid vs lymphoid 
     comparison}
-    \item{Fibroid-Lymphoid padj}{adjusted pvalue from fibroid vs lymphoid 
+    \item{Fibroid_Lymphoid_padj}{adjusted pvalue from fibroid vs lymphoid 
     comparison}
-    \item{Fibroid-Lymphoid log2FoldChange}{logarithmic fold change from 
+    \item{Fibroid_Lymphoid_log2FoldChange}{logarithmic fold change from 
     fibroid vs lymphoid comparison}
-    \item{Lymphoid-Myeloid pvalue}{pvalue from lymphoid vs myeloid 
+    \item{Lymphoid_Myeloid_pvalue}{pvalue from lymphoid vs myeloid 
     comparison}
-    \item{Lymphoid-Myeloid padj}{adjusted pvalue from lymphoid vs myeloid 
+    \item{Lymphoid_Myeloid_padj}{adjusted pvalue from lymphoid vs myeloid 
     comparison}
-    \item{Lymphoid-Myeloid log2FoldChange}{logarithmic fold change from 
+    \item{Lymphoid_Myeloid_log2FoldChange}{logarithmic fold change from 
     lymphoid vs myeloid comparison}
-    \item{Myeloid-Fibroid pvalue}{pvalue from myeloid vs fibroid comparison}
-    \item{Myeloid-Fibroid padj}{adjusted pvalue from myeloid vs fibroid 
+    \item{Myeloid_Fibroid_pvalue}{pvalue from myeloid vs fibroid comparison}
+    \item{Myeloid_Fibroid_padj}{adjusted pvalue from myeloid vs fibroid 
     comparison}
-    \item{Myeloid-Fibroid log2FoldChange}{logarithmic fold change from 
+    \item{Myeloid_Fibroid_log2FoldChange}{logarithmic fold change from 
     myeloid vs fibroid comparison}
-    \item{LRT pvalue}{pvalue from three-way likelihood ratio comparison}
-    \item{LRT padj}{adjusted pvalue from three-way likelihood ratio 
+    \item{LRT_pvalue}{pvalue from three-way likelihood ratio comparison}
+    \item{LRT_padj}{adjusted pvalue from three-way likelihood ratio 
     comparison}
 }
 }

@@ -13,7 +13,7 @@ boxplot_trio(
   my_comparisons = NULL,
   text_size = 10,
   stat_size = 3,
-  step_increase = 0.1,
+  step_increase = 0.05,
   ...
 )
 }
@@ -25,7 +25,7 @@ interest. Created by \code{\link{polar_coords}}.}
 analysed}
 
 \item{box_colours}{The fill colours for each box 
-(default = c('blue', 'red', 'green3') ).}
+(default = c('green3', 'blue', 'red') assigned in order of levels_order).}
 
 \item{test}{The statistical test used to compare expression. 
 Allowed values include: \itemize{
@@ -42,7 +42,8 @@ Allowed values include: \itemize{
  test comparing multiple groups. }}
 
 \item{levels_order}{A character vector stating the contrast groups to be 
-plotted, in order.}
+plotted, in order. If NULL this defaults to the levels in 
+polar@sampledata[, polar@contrast].}
 
 \item{my_comparisons}{A list of contrasts to pass to 
 \code{\link[ggpubr]{stat_compare_means}}. If NULL (default) all contrast 
@@ -53,7 +54,7 @@ pvalues are calculated and plotted.}
 \item{stat_size}{The font size of statistical parameter (default = 3).}
 
 \item{step_increase}{The distance between statistics on the y-axis 
-(default = 0.1).}
+(default = 0.05).}
 
 \item{...}{Other parameters for \code{\link[ggpubr]{stat_compare_means}}}
 }
@@ -80,10 +81,7 @@ syn_polar <- polar_coords(sampledata = syn_example_meta,
                           fc_col_suffix='log2FoldChange',
                           fc_cutoff = 0.3)
                          
-boxplot_trio(syn_polar,
-         value = "SLAMF6",
-          levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-          box_colours = c("blue", "red", "green3"))
+boxplot_trio(syn_polar, value = "SLAMF6")
 }
 \references{
 Lewis, Myles J., et al. (2019). 

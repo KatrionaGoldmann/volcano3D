@@ -2,7 +2,7 @@
 % Please edit documentation in R/volcano_trio.R
 \name{volcano_trio}
 \alias{volcano_trio}
-\title{Volcanos Plots for a three-way comparison}
+\title{Volcano Plots for a three-way comparison}
 \usage{
 volcano_trio(
   polar,

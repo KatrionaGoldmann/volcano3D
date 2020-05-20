@@ -2,9 +2,10 @@
 #'
 #' Plots the pvalues from three-way comparisons in 3D space using plotly.
 #' @param polar A polar object with created by \code{\link{polar_coords}}.
-#' @param colours A named vector of colours for the groups. If NULL colours
-#' will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
-#' unnamed colours will be assigned in polar@polar$sig level order. 
+#' @param colours A vector of colour names or hex triplets for each of the 
+#' six groups. Default = c("green3", "cyan", "blue", 
+#' "purple", "red", "gold2"). Colours are assigned in order: group1+, 
+#' group1+group2+, group2+, group2+group3+, group3+, group1+group3+. 
 #' @param non_sig_colour The colour for non-significant markers according to 
 #' fold change (default='grey60').
 #' @param colour_scale whether to use a 'discrete' or 'continuous' colour scale 
@@ -61,7 +62,8 @@
 
 
 volcano3D <- function(polar,
-                      colours=NULL, 
+                      colours=c("green3", "cyan", "blue", 
+                                "purple", "red", "gold2"), 
                       non_sig_colour = "grey60",
                       colour_scale = "discrete",
                       continuous_shift = 120, 
@@ -77,27 +79,40 @@ volcano3D <- function(polar,
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
     polar_df <- polar@polar
     
-    if(class(try(col2rgb(non_sig_colour), silent = TRUE))[1] == "try-error") {
-        stop('non_sig_colour must be a valid colour')
-        
+    if(! is.null(colours) & length(colours) != 6){
+        stop(paste("colours must be a character vector of plotting colours of", 
+                   "length six. One colour for each significance group"))
     }
-    if(any(unlist(lapply(colours, function(x) {
-        class(try(col2rgb(x), silent = TRUE)) == "try-error"
-    })))) stop('all values in colours must be valid colours')
     
-    sig_levels <- levels(polar_df$sig)[levels(polar_df$sig) != 
-                                           polar@non_sig_name]
+    groups <- levels(polar@sampledata[, polar@contrast])
+    sig_groups <- c(
+        paste0(groups[1], "+"),
+        paste0(groups[1], "+", groups[2], "+"),
+        paste0(groups[2], "+"),
+        paste0(groups[2], "+", groups[3], "+"),
+        paste0(groups[3], "+"),
+        paste0(groups[1], "+", groups[3], "+")
+    )
+    
+    # If no colours selected dafault to rgb
     if(is.null(colours)){
-        colours <- setNames(c("green3", "cyan", "gold2", "blue", 
-                              "purple", "red"), 
-                            sig_levels)
+        colours <- c("green3", "cyan", "blue", "purple", "red", "gold2")
     }
-    if(( ! is.null(names(colours) )) & 
-       length(sig_levels[! sig_levels %in% names(colours)]) != 0) {
-        stop(paste('No colour for', 
-                   paste(sig_levels[! sig_levels %in% names(colours)], 
-                         collapse=", ")))
-    } 
+    if(is.null(non_sig_colour)){
+        stop('Please enter a valid non_sig_colour')
+    }
+    # check if hex or can be converted to hex
+    colours <- unlist(lapply(c(non_sig_colour, colours), function(x) {
+        if(! grepl("#", x) & 
+           class(try(col2rgb(x), silent = TRUE))[1] == "try-error") {
+            stop(paste(x, 'is not a valid colour'))
+        } else if (! grepl("#", x) ) {
+            y <- col2rgb(x)[, 1]
+            x <- rgb(y[1], y[2], y[3], maxColorValue=255)
+        }
+        return(x)
+    }))
+    colours <- setNames(colours, c(polar@non_sig_name, sig_groups))
     
     if(! class(polar_df) %in% c("data.frame")) {
         stop("polar_df must be a data frame")
@@ -119,7 +134,7 @@ volcano3D <- function(polar,
     
     # Calculate the colours by significance
     offset <- (polar_df$angle_degrees[!is.na(polar_df$angle_degrees)] + 
-        continuous_shift)/360
+                   continuous_shift)/360
     offset[offset > 1] <- offset[offset > 1] - 1
     polar_df$hue <- hsv(offset, 1, 1)
     polar_df$hue[polar_df$sig == polar@non_sig_name] <- non_sig_colour
@@ -128,7 +143,7 @@ volcano3D <- function(polar,
                               polar@pvalues[match(rownames(polar_df), 
                                                   rownames(polar@pvalues)), ])
     volcano_toptable$logP <- -1*log10(
-        volcano_toptable[, paste(polar@multi_group_test, "pvalue")])
+        volcano_toptable[, paste0(polar@multi_group_test, "_pvalue")])
     
     volcano_toptable$x <- volcano_toptable[, paste0("x_", fc_or_zscore)]
     volcano_toptable$y <- volcano_toptable[, paste0("y_", fc_or_zscore)]
@@ -163,12 +178,26 @@ volcano3D <- function(polar,
     
     volcano_toptable$col <- as.character(colours[match(volcano_toptable$sig, 
                                                        names(colours))])
-    volcano_toptable$col[volcano_toptable$sig == polar@non_sig_name] <- 
-        non_sig_colour
+    if(any(duplicated(colours))){
+        warning(paste("Some colours are repeated. These will be compressed", 
+                      "into one significance group."))
+        colours <- setNames(
+            unique(colours), 
+            unlist(lapply(unique(colours), function(x) {
+                groups_involved <- names(colours)[colours == x]
+                
+                # Filter onto those included only, unless empty
+                if(any(groups_involved %in% volcano_toptable$sig)){
+                    groups_involved <- groups_involved[groups_involved %in% 
+                                                           volcano_toptable$sig]
+                }
+                sub(",\\s+([^,]+)$", " or\n\\1", 
+                    paste(groups_involved, collapse=", \n"))
+            })))
+        volcano_toptable$sig <- factor(names(colours)[match(
+            volcano_toptable$col, colours)])
+    }
     
-    cols <- setNames(as.character(unique(factor(volcano_toptable$col))), 
-                     as.character(unique(droplevels(volcano_toptable$sig))))
-    cols <- cols[match(levels(droplevels(polar_df$sig)), names(cols))]
     
     if(length(label_rows) != 0){
         
@@ -199,7 +228,7 @@ volcano3D <- function(polar,
                             "continuous" = I(hue)),
             hoverinfo = 'text', 
             colors = switch(colour_scale,
-                            "discrete" = cols,
+                            "discrete" = colours,
                             "continuous" = NULL),
             text = ~paste0(label, 
                            "<br>Theta = ", as.integer(angle_degrees), "\u00B0",

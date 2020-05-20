@@ -3,9 +3,10 @@
 #' This function creates a radar plot using 'ggplot' for a three-way comparison
 #' @param polar A polar object with the pvalues between groups of interest and 
 #' polar coordinates. Created by \code{\link{polar_coords}}.
-#' @param colours A named vector of colours for the groups. If NULL colours
-#' will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
-#' unnamed colours will be assigned in polar@polar$sig level order. 
+#' @param colours A vector of colour names or hex triplets for each of the 
+#' six groups. Default = c("green3", "cyan", "blue", 
+#' "purple", "red", "gold2"). Colours are assigned in order: group1+, 
+#' group1+group2+, group2+, group2+group3+, group3+, group1+group3+. 
 #' @param non_sig_colour non_sig_colour The colour for non-significant markers 
 #' (default = "grey60"). 
 #' @param colour_scale whether to use a "discrete" or "continuous" colour scale 
@@ -59,18 +60,11 @@
 #'                           significance_cutoff = 0.01, 
 #'                           fc_cutoff = 0.3)
 #'                           
-#' col_vector = setNames(c('green', 'cyan', 'gold2', 'blue', 'purple'), 
-#'                       c('Fibroid+', 'Fibroid+Lymphoid+', 
-#'                         'Fibroid+Myeloid+', 'Lymphoid+', 
-#'                         'Lymphoid+Myeloid+'))                             
-#'                           
-#' radial_ggplot(polar = syn_polar, label_rows = c("SLAMF6"), 
-#'               colours=col_vector)
-
-
+#' radial_ggplot(polar = syn_polar, label_rows = c("SLAMF6"))
 
 radial_ggplot <- function(polar,
-                          colours = NULL,
+                          colours = c("green3", "cyan", "blue", 
+                                      "purple", "red", "gold2"),
                           non_sig_colour = "grey60",
                           colour_scale = "discrete",
                           continuous_shift = 120, 
@@ -90,29 +84,41 @@ radial_ggplot <- function(polar,
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
     polar_df <- polar@polar
     
-    if(class(try(col2rgb(non_sig_colour),silent = TRUE)) == "try-error") {
-        stop('non_sig_colour must be a valid colour')
+    if(! is.null(colours) & length(colours) != 6){
+        stop(paste("colours must be a character vector of plotting colours of", 
+                   "length six. One colour for each significance group"))
     }
-    if(any(unlist(lapply(colours, function(x) {
-        class(try(col2rgb(x), silent = TRUE)) == "try-error"
-    })))) stop('all values in colours must be valid colours')
     
-    sig_levels <- levels(polar_df$sig)[levels(polar_df$sig) != 
-                                           polar@non_sig_name]
+    groups <- levels(polar@sampledata[, polar@contrast])
+    sig_groups <- c(
+        paste0(groups[1], "+"),
+        paste0(groups[1], "+", groups[2], "+"),
+        paste0(groups[2], "+"),
+        paste0(groups[2], "+", groups[3], "+"),
+        paste0(groups[3], "+"),
+        paste0(groups[1], "+", groups[3], "+")
+    )
     
+    # If no colours selected dafault to rgb
     if(is.null(colours)){
-        colours <- c("green3", "cyan", "gold2", "blue", "purple", "red")
+        colours <- c("green3", "cyan", "blue", "purple", "red", "gold2")
     }
-    if(is.null(names(colours))){
-        warning("Colour vector is unnamed - assigning in order of sig levels")
-        colours <- setNames(colours, sig_levels)
+    if(is.null(non_sig_colour)){
+        stop('Please enter a valid non_sig_colour')
     }
     
-    if(length(sig_levels[! sig_levels %in% names(colours)]) != 0) {
-        stop(paste('No colour for', 
-                   paste(sig_levels[! sig_levels %in% names(colours)], 
-                         collapse=", ")))
-    } 
+    # check if hex or can be converted to hex
+    colours <- unlist(lapply(c(colours, non_sig_colour), function(x) {
+        if(! grepl("#", x) & 
+           class(try(col2rgb(x), silent = TRUE))[1] == "try-error") {
+            stop(paste(x, 'is not a valid colour'))
+        } else if (! grepl("#", x) ) {
+            y <- col2rgb(x)[, 1]
+            x <- rgb(y[1], y[2], y[3], maxColorValue=255)
+        }
+        return(x)
+    }))
+    colours <- setNames(colours, c(sig_groups, polar@non_sig_name))
     
     if(! class(polar_df) %in% c("data.frame")) {
         stop("polar_df must be a data frame")
@@ -138,7 +144,6 @@ radial_ggplot <- function(polar,
     
     # Set up the colours - pick the most highly expressed group
     polar_df$col <- as.character(colours[match(polar_df$sig, names(colours))])
-    polar_df$col[polar_df$sig == polar@non_sig_name] <- non_sig_colour
     
     # Calculate the continuous colours
     offset <- (polar_df$angle_degrees[!is.na(polar_df$angle_degrees)] + 
@@ -147,6 +152,19 @@ radial_ggplot <- function(polar,
     polar_df$hue <- hsv(offset, 1, 1)
     polar_df$hue[polar_df$sig == polar@non_sig_name] <- non_sig_colour
     
+    # account for duplicated colours
+    if(any(duplicated(colours))){
+        warning(paste("Some colours are repeated. These will be compressed", 
+                      "into one significance group"))
+        
+        colours <- setNames(unique(colours), 
+                            unlist(lapply(unique(colours), function(x) {
+                                paste(names(colours)[colours == x], 
+                                      collapse=" or \n")
+                            })))
+        polar_df$sig <- factor(names(colours)[match(polar_df$col, colours)])
+    }
+    
     # make sure the non-sig markers are on the bottom - reshuffle the order
     polar_df$sig <- 
         factor(polar_df$sig,
@@ -154,8 +172,7 @@ radial_ggplot <- function(polar,
                           as.character(
                               unique(polar_df$sig[polar_df$sig !=  
                                                       polar@non_sig_name]))))
-    colours <- c(colours, "ns"=non_sig_colour)
-    names(colours)[names(colours) == "ns"] <- polar@non_sig_name
+    
     cols <- colours[match(levels(droplevels(polar_df$sig)), names(colours))]
     
     if(is.null(grid)) {
@@ -167,6 +184,20 @@ radial_ggplot <- function(polar,
     
     grid@polar_grid <- grid@polar_grid[grid@polar_grid$area != "cylinder", ]
     
+    
+
+    
+    # markers are plotted in order of rows so push ns to the bottom of plot
+    polar_df <- polar_df[c(which(polar_df$sig ==  polar@non_sig_name),
+                           which(polar_df$sig !=  polar@non_sig_name)), ]
+    
+    # alignment for text
+    hadj <- -1*sign(grid@axis_labs$x)
+    hadj[hadj ==  -1] <- 0
+    
+    polar_df$cg <- switch(colour_scale, 
+                         "discrete"=polar_df$col, 
+                         "continuous"=polar_df$hue)
     
     if(! is.null(label_rows)){
         if(! all(is.numeric(label_rows))) {
@@ -185,47 +216,37 @@ radial_ggplot <- function(polar,
             abs(grid@r*sin(annotation_df$theta))
     }
     
-    # markers are plotted in order of rows so push ns to the bottom of plot
-    polar_df <- polar_df[c(which(polar_df$sig ==  polar@non_sig_name),
-                           which(polar_df$sig !=  polar@non_sig_name)), ]
-    
-    # alignment for text
-    hadj <- -1*sign(grid@axis_labs$x)
-    hadj[hadj ==  -1] <- 0
-    
-    polar_df$c <- switch(colour_scale, 
-                              "discrete"=polar_df$col, 
-                              "continuous"=polar_df$hue)
-    
     p <- ggplot(polar_df, aes_string(x = "x", y = "y")) +
         labs(x = "", y = "", color = "") +
         
         # Concentric circles and radial spokes
-        geom_path(data = grid@polar_grid, 
-                  aes_string(x = "x", y = "y"), 
-                  alpha = 0.2) +
+        suppressWarnings(geom_path(data = grid@polar_grid, 
+                                   aes_string(x = "x", y = "y"), 
+                                   alpha = 0.2)) +
         
         # Three radial axes
-        geom_path(data = grid@axes, aes_string(x = "x", y = "y")) +
+        suppressWarnings(geom_path(data = grid@axes, 
+                                   aes_string(x = "x", y = "y"))) +
         
         # radial axes ticks
         geom_text(data = grid@text_coords,
                   aes_string(x = "x",
-                      y = "y",
-                      label = "text"),
+                             y = "y",
+                             label = "text"),
                   vjust = -1,
                   size = axis_label_size) +
         
         # Axes titles (three groups)
-        annotate(geom = "text", x = grid@axis_labs$x,  y = grid@axis_labs$y,
+        annotate(geom = "text", 
+                 x = grid@axis_labs$x,  
+                 y = grid@axis_labs$y,
                  hjust = hadj,
                  vjust = -1*sign(grid@axis_labs$y),
                  label = levels(polar@sampledata[, polar@contrast]),
                  color = "black", size = axis_title_size) +
         
         # Add markers
-        geom_point(color = polar_df$c,
-                   size = marker_size,
+        geom_point(aes_string(colour="sig"), size = marker_size,
                    alpha = marker_alpha) +
         
         scale_color_manual(values =
@@ -258,23 +279,20 @@ radial_ggplot <- function(polar,
     
     # Add any labelling desired
     if(! is.null(label_rows)){
-        annotation_df$c <- switch(colour_scale, 
-                                 "discrete"=annotation_df$col, 
-                                 "continuous"=annotation_df$hue)
         annotation_df$xend1 <- 0.9*annotation_df$xend
         annotation_df$yend1 <- 0.9*annotation_df$yend
         annotation_df$xend2 <- 0.95*annotation_df$xend
         annotation_df$yend2 <- 0.95*annotation_df$yend
         p <- p + geom_segment(data = annotation_df,
                               aes_string(x = "x",
-                                  y = "y",
-                                  xend = "xend1",
-                                  yend = "yend1"),
-                              colour = annotation_df$c, size = 0.5,
+                                         y = "y",
+                                         xend = "xend1",
+                                         yend = "yend1"),
+                              colour = annotation_df$cg, size = 0.5,
                               arrow = arrow(length = unit(0, "cm"))) +
             geom_text(data = annotation_df,
                       aes_string(x = "xend2", y = "yend2", label = "label"),
-                      color = annotation_df$c, 
+                      color = annotation_df$cg, 
                       size = label_size) +
             geom_point(data = annotation_df,
                        aes_string(x = "x", y = "y"),

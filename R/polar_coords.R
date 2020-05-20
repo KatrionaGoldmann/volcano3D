@@ -173,7 +173,7 @@ polar_coords <- function(sampledata,
         stop("There is no ID column in metadata")
     }
     if(! identical(rownames(expression), rownames(pvalues))){
-            stop('The expression row names must be identical to the pvalues row 
+        stop('The expression row names must be identical to the pvalues row 
            names')
     }
     if(! identical(colnames(expression), as.character(sampledata$ID))) {
@@ -200,29 +200,29 @@ polar_coords <- function(sampledata,
         }
     }
     
-    comparisons <- c(paste(groups[1], groups[2], sep="-"),
-                     paste(groups[2], groups[3], sep="-"),
-                     paste(groups[3], groups[1], sep="-"))
+    comparisons <- c(paste(groups[1], groups[2], sep="_"),
+                     paste(groups[2], groups[3], sep="_"),
+                     paste(groups[3], groups[1], sep="_"))
     
     
     # Check column names of correct format exist in pvalues data frame
     for(col_suffix in c(p_col_suffix, fc_col_suffix, padj_col_suffix)){
-        comparitiveCols <- paste(c(comparisons, multi_group_prefix), col_suffix)
+        comp_columns <- paste(c(comparisons, multi_group_prefix), 
+                              col_suffix, sep="_")
         notFinding <- c()
-        if(! all(comparitiveCols %in% colnames(pvalues))) {
-            notFinding <- comparitiveCols[! comparitiveCols %in% 
-                                              colnames(pvalues)]
+        if(! all(comp_columns %in% colnames(pvalues))) {
+            notFinding <- comp_columns[! comp_columns %in% 
+                                           colnames(pvalues)]
             notFinding <- notFinding[! is.na(notFinding)]
             
             # check if ordering of groups in column names is the wrong way round
-            check <- strsplit(gsub(" ", "", gsub(col_suffix, "", notFinding)), 
-                              "-")
+            check <- strsplit(gsub(paste0("_", col_suffix), "", notFinding), 
+                              "_")
             
             for (order_check in check){
-                og <- paste0(order_check[1], "-", 
-                             order_check[2], " ", col_suffix)
-                reverse <- paste0(order_check[2], "-", 
-                                  order_check[1], " ", col_suffix)
+                og <- paste(order_check[1], order_check[2], col_suffix, sep="_")
+                reverse <- paste0(order_check[2], order_check[1], col_suffix, 
+                                  sep="_")
                 if(reverse %in% colnames(pvalues)){
                     colnames(pvalues)[colnames(pvalues) == reverse] <- og
                     
@@ -244,10 +244,10 @@ polar_coords <- function(sampledata,
         
         if(length(notFinding) > 0){  
             if(length(paste(multi_group_prefix, fc_col_suffix)) > 0 &
-               paste(multi_group_prefix, fc_col_suffix) %in% notFinding){
+               paste0(multi_group_prefix, "_", fc_col_suffix) %in% notFinding){
                 notFinding <- notFinding[notFinding != 
-                                             paste(multi_group_prefix, 
-                                                   fc_col_suffix)]
+                                             paste0(multi_group_prefix, "_",
+                                                    fc_col_suffix)]
             }
             if(length(notFinding) > 1) {
                 notFinding <- 
@@ -266,7 +266,8 @@ polar_coords <- function(sampledata,
     # If adjusted p is not calculated, calculate
     if(is.null(padj_col_suffix)) {
         for(comp in c(comparisons, multi_group_prefix)){
-            pvalues$new <- p.adjust(pvalues[, paste(comp, p_col_suffix)],
+            pvalues$new <- p.adjust(pvalues[, paste(comp, p_col_suffix, 
+                                                    sep="_")],
                                     method = padjust_method)
             colnames(pvalues)[colnames(pvalues) == "new"] <- 
                 paste(comp, "padj")
@@ -278,7 +279,7 @@ polar_coords <- function(sampledata,
         rep(c(comparisons, multi_group_prefix), 
             each=length(c(p_col_suffix, fc_col_suffix, padj_col_suffix))),
         rep(c(p_col_suffix, fc_col_suffix, padj_col_suffix),
-            times = length(c(comparisons, multi_group_prefix))))
+            times = length(c(comparisons, multi_group_prefix))), sep="_")
     possible_cols <- possible_cols[possible_cols %in% colnames(pvalues)]
     pvalues <- pvalues[, c(possible_cols, "label")]
     
@@ -303,12 +304,14 @@ polar_coords <- function(sampledata,
     
     # Capture the expression score for each group (fc and z-score)
     expression_scaled <- t(scale(t(expression)))
-    polar_colours <- as.data.frame(sapply(levels(sampledata[, contrast]), function(x) {
-        rowMeans(expression_scaled[, droplevels(sampledata[, contrast])==x])
-    }))
-    polar_coloursFC <- as.data.frame(sapply(levels(sampledata[, contrast]), function(x) {
-        rowMeans(expression[, droplevels(sampledata[, contrast])==x])
-    }))
+    polar_colours <- as.data.frame(
+        vapply(levels(sampledata[, contrast]), function(x) {
+            rowMeans(expression_scaled[, droplevels(sampledata[, contrast])==x])
+        }, FUN.VALUE=rep(0, nrow(expression))))
+    polar_coloursFC <- as.data.frame(
+        vapply(levels(sampledata[, contrast]), function(x) {
+            rowMeans(expression[, droplevels(sampledata[, contrast])==x])
+        }, FUN.VALUE=rep(0, nrow(expression))))
     
     
     if(! identical(rownames(expression), rownames(pvalues))) {
@@ -353,7 +356,7 @@ polar_coords <- function(sampledata,
     # pick the most highly expressed group
     groups <- as.character(max.col(polar_colours[, 1:3]))
     if(! is.null(multi_group_prefix)){
-        groups[pvalues[, paste(multi_group_prefix, "padj")] >= 
+        groups[pvalues[, paste(multi_group_prefix, "padj", sep="_")] >= 
                    significance_cutoff] <- 'grey60'
     }
     polar_colours$maxExp <- colnames(polar_colours)[max.col(
@@ -381,7 +384,6 @@ polar_coords <- function(sampledata,
     if (any(index != FALSE)){
         pairwise_comp <- data.frame(pvalues[index, comp_cols],
                                     row.names = rownames(pvalues)[index])
-        colnames(pairwise_comp) <- gsub(" P.Value", "", comp_cols)
         
         # Determine which groups are significant
         pairwise <- data.frame(ifelse(pairwise_comp <= significance_cutoff, 
@@ -429,7 +431,7 @@ polar_coords <- function(sampledata,
     polar_colours$sig[polar_colours$r_fc < fc_cutoff] <- non_sig_name
     
     if(! is.null(multi_group_prefix)){
-        polar_colours$sig[pvalues[, paste(multi_group_prefix, "padj")] >= 
+        polar_colours$sig[pvalues[, paste0(multi_group_prefix, "_padj")] >= 
                               significance_cutoff] <- non_sig_name
     } 
     

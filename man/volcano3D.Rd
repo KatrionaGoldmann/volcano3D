@@ -6,7 +6,7 @@
 \usage{
 volcano3D(
   polar,
-  colours = NULL,
+  colours = c("green3", "cyan", "blue", "purple", "red", "gold2"),
   non_sig_colour = "grey60",
   colour_scale = "discrete",
   continuous_shift = 120,
@@ -23,9 +23,10 @@ volcano3D(
 \arguments{
 \item{polar}{A polar object with created by \code{\link{polar_coords}}.}
 
-\item{colours}{A named vector of colours for the groups. If NULL colours
-will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
-unnamed colours will be assigned in polar@polar$sig level order.}
+\item{colours}{A vector of colour names or hex triplets for each of the 
+six groups. Default = c("green3", "cyan", "blue", 
+"purple", "red", "gold2"). Colours are assigned in order: group1+, 
+group1+group2+, group2+, group2+group3+, group3+, group1+group3+.}
 
 \item{non_sig_colour}{The colour for non-significant markers according to 
 fold change (default='grey60').}

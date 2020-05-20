@@ -67,9 +67,6 @@
 #'           box_colours = c("blue", "red", "green3"))
 
 
-
-
-
 boxplot_trio_ggplot <- function(polar, 
                          value, 
                          box_colours = c('green3', 'blue', 'red'), 
@@ -102,6 +99,21 @@ boxplot_trio_ggplot <- function(polar,
         stop('levels_order must be a character vector defining the order of 
         levels in sampledata[, contrast]')
     }
+    if(length(box_colours) != length(levels_order)){
+        stop(paste0('The length of box_colours must match teh length of',
+                    'levels_order'))
+    }
+    # Convert to hex colours for plotly
+    box_colours <- unlist(lapply(box_colours, function(x) {
+        if(! grepl("#", x) & 
+           class(try(col2rgb(x), silent = TRUE))[1] == "try-error") {
+            stop(paste(x, 'is not a valid colour'))
+        } else if (! grepl("#", x) ) {
+            y <- col2rgb(x)[, 1]
+            x <- rgb(y[1], y[2], y[3], maxColorValue=255)
+        }
+        return(x)
+    }))
     if(! class(sampledata) %in% c("data.frame")) {
         stop("sampledata must be a data frame")
     }
@@ -123,10 +135,8 @@ boxplot_trio_ggplot <- function(polar,
                    test))
     }
     
+    colour_map <- setNames(box_colours, levels_order)
     sampledata$comp <- sampledata[, polar@contrast]
-    sampledata <- sampledata[sampledata$comp %in% levels_order, ]
-    sampledata$comp <- factor(sampledata$comp, levels = levels_order)
-    
     expression <- expression[, match(as.character(sampledata$ID), 
                                      colnames(expression))]
     
@@ -140,15 +150,23 @@ boxplot_trio_ggplot <- function(polar,
             as.character(combn(comps, 2)[, i])
         })
     }
-    df <- data.frame("group" = sampledata$comp, 
+    df <- data.frame("ID" = sampledata$ID, 
+                     "group" = sampledata$comp, 
                      "row" = as.numeric(as.character(expression[value, ])))
     df <- df[! is.na(df$row), ]
+    df <- df[df$group %in% levels_order, ]
+    
+    
+    # relevel based on defined order
+    df$group <- factor(df$group, levels_order)
+    df$col <- factor(df$group,, colour_map[match(levels(df$group), 
+                                                 names(colour_map))])
     
     p <- ggboxplot(data = df, 
                    x = "group", 
                    y = "row", 
                    xlab = "", 
-                   ylab = rownames(expression)[index],
+                   ylab = paste(polar@pvalues$label[index], "Expression"),
                    fill = "group", 
                    color="group",
                    palette = box_colours, 
@@ -174,25 +192,25 @@ boxplot_trio_ggplot <- function(polar,
         if(! is.null(polar@multi_group_test)){
             pvals <- pvals[, ! grepl(polar@multi_group_test, colnames(pvals))]
         }
-        colnames(pvals) <- gsub(" ", "", gsub(gsub("polar_", "", test), "", 
-                                              colnames(pvals)))
+        colnames(pvals) <- gsub(paste0("_", gsub("polar_", "", test)), "", 
+                                              colnames(pvals))
         
         rev_comp <- unlist(lapply(my_comparisons, function(x) {
-            c(paste(unlist(x), collapse=" "), 
-              paste(rev(unlist(x)), collapse=" "))
+            c(paste(unlist(x), collapse="_"), 
+              paste(rev(unlist(x)), collapse="_"))
             }))
         
         pvals_sc <- compare_means(row ~ group, data = df)
-        pvals_sc <- pvals_sc[paste(pvals_sc$group1, pvals_sc$group2) %in% 
-                                 rev_comp, ]
-        pvals_sc$comp <- paste0(pvals_sc$group1, "-", pvals_sc$group2)
+        pvals_sc <- pvals_sc[paste(pvals_sc$group1, pvals_sc$group2, sep="_")
+                             %in% rev_comp, ]
+        pvals_sc$comp <- paste0(pvals_sc$group1, "_", pvals_sc$group2)
         
         colnames(pvals) <- unlist(lapply(colnames(pvals), function(x) {
             if(x %in% pvals_sc$comp) {
                 out <- x
             } else{
-                gs <- unlist(strsplit(x, split="-"))
-                out <- paste0(gs[2], "-", gs[1])
+                gs <- unlist(strsplit(x, split="_"))
+                out <- paste0(gs[2], "_", gs[1])
             }
             out
         }))
