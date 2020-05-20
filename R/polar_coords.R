@@ -431,7 +431,7 @@ polar_coords <- function(sampledata,
     polar_colours$sig[polar_colours$r_fc < fc_cutoff] <- non_sig_name
     
     if(! is.null(multi_group_prefix)){
-        polar_colours$sig[pvalues[, paste0(multi_group_prefix, "_padj")] >= 
+        polar_colours$sig[pvalues[, paste0(multi_group_prefix, "_pvalue")] >= 
                               significance_cutoff] <- non_sig_name
     } 
     
