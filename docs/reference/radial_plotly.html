@@ -162,7 +162,7 @@ expression onto a polar coordinates.</p>
 
     <pre class="usage"><span class='fu'>radial_plotly</span>(
   <span class='no'>polar</span>,
-  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"green3"</span>, <span class='st'>"cyan"</span>, <span class='st'>"blue"</span>, <span class='st'>"purple"</span>, <span class='st'>"red"</span>, <span class='st'>"gold2"</span>),
   <span class='kw'>non_sig_colour</span> <span class='kw'>=</span> <span class='st'>"grey60"</span>,
   <span class='kw'>colour_scale</span> <span class='kw'>=</span> <span class='st'>"discrete"</span>,
   <span class='kw'>continuous_shift</span> <span class='kw'>=</span> <span class='fl'>120</span>,
@@ -175,6 +175,8 @@ expression onto a polar coordinates.</p>
   <span class='kw'>axis_label_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>axis_ticks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>axis_angle</span> <span class='kw'>=</span> <span class='fl'>5</span>/<span class='fl'>6</span>,
+  <span class='kw'>plot_height</span> <span class='kw'>=</span> <span class='fl'>700</span>,
+  <span class='kw'>plot_width</span> <span class='kw'>=</span> <span class='fl'>700</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -188,9 +190,10 @@ polar coordinates. Created by <code><a href='polar_coords.html'>polar_coords</a>
     </tr>
     <tr>
       <th>colours</th>
-      <td><p>A named vector of colours for the groups. If NULL colours
-will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple', 'red'). 
-If unnamed colours will be assigned in polar@polar$sig level order.</p></td>
+      <td><p>A vector of colour names or hex triplets for each of the 
+six groups. Default = c("green3", "cyan", "blue", 
+"purple", "red", "gold2"). Colours are assigned in order: group1+, 
+group1+group2+, group2+, group2+group3+, group3+, group1+group3+.</p></td>
     </tr>
     <tr>
       <th>non_sig_colour</th>
@@ -249,6 +252,14 @@ NULL this will be calculated using <code><a href='https://rdrr.io/r/base/pretty.
       <td><p>Angle in  pi radians for the radial axis (default = 5/6).</p></td>
     </tr>
     <tr>
+      <th>plot_height</th>
+      <td><p>Plot height in px (default=700).</p></td>
+    </tr>
+    <tr>
+      <th>plot_width</th>
+      <td><p>Plot width in px (default=700).</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>Optional grid parameters to pass to 
 <code><a href='polar_grid.html'>polar_grid</a></code>.</p></td>
@@ -268,7 +279,8 @@ treatment response phenotypes.</a>
 <em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_example_meta</span>,
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>example_data</span>)
+<span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_example_meta</span>,
                           <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
                           <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
                           <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_example_p</span>,
@@ -280,13 +292,7 @@ treatment response phenotypes.</a>
                           <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
                           <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
 
-<span class='no'>col_vector</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/setNames.html'>setNames</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'green'</span>, <span class='st'>'cyan'</span>, <span class='st'>'gold2'</span>, <span class='st'>'blue'</span>, <span class='st'>'purple'</span>),
-                      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Fibroid+'</span>, <span class='st'>'Fibroid+Lymphoid+'</span>,
-                        <span class='st'>'Fibroid+Myeloid+'</span>, <span class='st'>'Lymphoid+'</span>,
-                        <span class='st'>'Lymphoid+Myeloid+'</span>))
-
-<span class='fu'><a href='radial_ggplot.html'>radial_ggplot</a></span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>, <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>),
-              <span class='kw'>colours</span><span class='kw'>=</span><span class='no'>col_vector</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='radial_plotly-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>radial_plotly</span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>, <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>))</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

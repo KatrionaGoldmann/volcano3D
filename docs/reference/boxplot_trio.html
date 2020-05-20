@@ -47,8 +47,8 @@
 
 
 <meta property="og:title" content="Boxplot to compare groups — boxplot_trio" />
-<meta property="og:description" content="Plots the expression of a specific row in expression to compare the three 
-groups in a boxplot." />
+<meta property="og:description" content="Plots the expression of a specific row in expression to compare the three
+groups in a boxplot using either ggplot or plotly." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -156,8 +156,8 @@ groups in a boxplot." />
     </div>
 
     <div class="ref-description">
-    <p>Plots the expression of a specific row in expression to compare the three 
-groups in a boxplot.</p>
+    <p>Plots the expression of a specific row in expression to compare the three
+groups in a boxplot using either ggplot or plotly.</p>
     </div>
 
     <pre class="usage"><span class='fu'>boxplot_trio</span>(
@@ -169,7 +169,8 @@ groups in a boxplot.</p>
   <span class='kw'>my_comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>stat_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>step_increase</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>step_increase</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='kw'>plot_method</span> <span class='kw'>=</span> <span class='st'>"ggplot"</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -178,45 +179,46 @@ groups in a boxplot.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>polar</th>
-      <td><p>A polar object including expression data from groups of 
+      <td><p>A polar object including expression data from groups of
 interest. Created by <code><a href='polar_coords.html'>polar_coords</a></code>.</p></td>
     </tr>
     <tr>
       <th>value</th>
-      <td><p>The row name or number in <code>polar@expression</code> to be 
+      <td><p>The row name or number in <code>polar@expression</code> to be
 analysed</p></td>
     </tr>
     <tr>
       <th>box_colours</th>
-      <td><p>The fill colours for each box 
-(default = c('blue', 'red', 'green3') ).</p></td>
+      <td><p>The fill colours for each box
+(default = c('green3', 'blue', 'red') assigned in order of levels_order).</p></td>
     </tr>
     <tr>
       <th>test</th>
-      <td><p>The statistical test used to compare expression. 
+      <td><p>The statistical test used to compare expression.
 Allowed values include:</p><ul>
-<li><p><code>polar_pvalue</code> (default) and 'polar_padj' for the pvalues 
+<li><p><code>polar_pvalue</code> (default) and 'polar_padj' for the pvalues
  and adjusted pvalues in the polar object.</p></li>
-<li><p><code>polar_multi_pvalue</code> and <code>polar_multi_padj</code> for the pvalues 
- and adjusted pvalues across all groups using the 
+<li><p><code>polar_multi_pvalue</code> and <code>polar_multi_padj</code> for the pvalues
+ and adjusted pvalues across all groups using the
  <code>polar@multi_group_test </code> columns.</p></li>
 <li><p><code><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></code> (parametric) and
  <code><a href='https://rdrr.io/r/stats/wilcox.test.html'>wilcox.test</a></code> (non-parametric). Perform comparison
  between groups of samples.</p></li>
-<li><p><code><a href='https://rdrr.io/r/stats/anova.html'>anova</a></code> (parametric) and 
+<li><p><code><a href='https://rdrr.io/r/stats/anova.html'>anova</a></code> (parametric) and
  <code><a href='https://rdrr.io/r/stats/kruskal.test.html'>kruskal.test</a></code> (non-parametric). Perform one-way ANOVA
  test comparing multiple groups.</p></li>
 </ul></td>
     </tr>
     <tr>
       <th>levels_order</th>
-      <td><p>A character vector stating the contrast groups to be 
-plotted, in order.</p></td>
+      <td><p>A character vector stating the contrast groups to be
+plotted, in order. If NULL this defaults to the levels in
+polar@sampledata[, polar@contrast].</p></td>
     </tr>
     <tr>
       <th>my_comparisons</th>
-      <td><p>A list of contrasts to pass to 
-<code><a href='https://rdrr.io/pkg/ggpubr/man/stat_compare_means.html'>stat_compare_means</a></code>. If NULL (default) all contrast 
+      <td><p>A list of contrasts to pass to
+<code><a href='https://rdrr.io/pkg/ggpubr/man/stat_compare_means.html'>stat_compare_means</a></code>. If NULL (default) all contrast
 pvalues are calculated and plotted.</p></td>
     </tr>
     <tr>
@@ -229,8 +231,12 @@ pvalues are calculated and plotted.</p></td>
     </tr>
     <tr>
       <th>step_increase</th>
-      <td><p>The distance between statistics on the y-axis 
-(default = 0.1).</p></td>
+      <td><p>The distance between statistics on the y-axis
+(default = 0.05).</p></td>
+    </tr>
+    <tr>
+      <th>plot_method</th>
+      <td><p>Whether to use 'plotly' or 'ggplot'. Default is 'ggplot'</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -240,14 +246,14 @@ pvalues are calculated and plotted.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a 'ggplot' boxplot featuring the differential expression 
+    <p>Returns a plotly boxplot featuring the differential expression
 between groups in comparison with annotated pvalues.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Lewis, Myles J., et al. (2019). 
+    <p>Lewis, Myles J., et al. (2019).
 <a href='https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1'>
-Molecular portraits of early rheumatoid arthritis identify clinical and 
-treatment response phenotypes.</a> 
+Molecular portraits of early rheumatoid arthritis identify clinical and
+treatment response phenotypes.</a>
 <em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -265,10 +271,8 @@ treatment response phenotypes.</a>
                           <span class='kw'>fc_col_suffix</span><span class='kw'>=</span><span class='st'>'log2FoldChange'</span>,
                           <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
 
-<span class='fu'>boxplot_trio</span>(<span class='no'>syn_polar</span>,
-         <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"SLAMF6"</span>,
-          <span class='kw'>levels_order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Lymphoid"</span>, <span class='st'>"Myeloid"</span>, <span class='st'>"Fibroid"</span>),
-          <span class='kw'>box_colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"blue"</span>, <span class='st'>"red"</span>, <span class='st'>"green3"</span>))</div><div class='img'><img src='boxplot_trio-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>boxplot_trio</span>(<span class='no'>syn_polar</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"SLAMF6"</span>, <span class='kw'>plot_method</span><span class='kw'>=</span><span class='st'>"plotly"</span>)
+<span class='fu'>boxplot_trio</span>(<span class='no'>syn_polar</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"SLAMF6"</span>)</div><div class='img'><img src='boxplot_trio-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

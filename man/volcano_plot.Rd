@@ -26,7 +26,7 @@ volcano_plot(
 )
 }
 \arguments{
-\item{pvalues_df}{The pvalues datatable. This must contain pvalue, padj, 
+\item{pvalues_df}{The pvalues data frame. This must contain pvalue, padj, 
 logFC columns as well as a label column.}
 
 \item{comparison}{The comparison to use}

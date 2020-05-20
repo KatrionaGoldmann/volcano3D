@@ -68,7 +68,7 @@ syn_polar <- polar_coords(sampledata = syn_example_meta,
                           fc_col_suffix='log2FoldChange',
                           fc_cutoff = 0.3)
                     
-polar_grid(r_vector=syn_polar@polar$r_zscore,
+grid <- polar_grid(r_vector=syn_polar@polar$r_zscore,
            z_vector=NULL,
            r_axis_ticks = NULL,
            z_axis_ticks = c(0, 8, 16, 32),

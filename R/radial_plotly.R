@@ -28,8 +28,8 @@
 #' @param axis_ticks A numerical vector of radial axis tick breaks. If
 #' NULL this will be calculated using \code{\link[base]{pretty}}.
 #' @param axis_angle Angle in  pi radians for the radial axis (default = 5/6).
-#' @param plot_height Plot height in pt (default=7).
-#' @param plot_width Plot width in pt (default=7).
+#' @param plot_height Plot height in px (default=700).
+#' @param plot_width Plot width in px (default=700).
 #' @param ... Optional grid parameters to pass to 
 #' \code{\link[volcano3D]{polar_grid}}.
 #' @return Returns a 'plotly' plot featuring variables on a tri-axis
@@ -77,8 +77,8 @@ radial_plotly <- function(polar,
                           axis_label_size = 10,
                           axis_ticks = NULL,
                           axis_angle = 5/6, 
-                          plot_height = 7, 
-                          plot_width = 7,
+                          plot_height = 700, 
+                          plot_width = 700,
                           ...){
     
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")

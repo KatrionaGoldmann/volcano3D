@@ -184,9 +184,6 @@ radial_ggplot <- function(polar,
     
     grid@polar_grid <- grid@polar_grid[grid@polar_grid$area != "cylinder", ]
     
-    
-
-    
     # markers are plotted in order of rows so push ns to the bottom of plot
     polar_df <- polar_df[c(which(polar_df$sig ==  polar@non_sig_name),
                            which(polar_df$sig !=  polar@non_sig_name)), ]
@@ -196,8 +193,8 @@ radial_ggplot <- function(polar,
     hadj[hadj ==  -1] <- 0
     
     polar_df$cg <- switch(colour_scale, 
-                         "discrete"=polar_df$col, 
-                         "continuous"=polar_df$hue)
+                          "discrete"=polar_df$col, 
+                          "continuous"=polar_df$hue)
     
     if(! is.null(label_rows)){
         if(! all(is.numeric(label_rows))) {
@@ -220,8 +217,9 @@ radial_ggplot <- function(polar,
         labs(x = "", y = "", color = "") +
         
         # Concentric circles and radial spokes
-        geom_path(data = grid@polar_grid, aes_string(x = "x", y = "y"), 
-                                   alpha = 0.2) +
+        geom_path(data = grid@polar_grid, 
+                  aes_string(x = "x", y = "y"), 
+                  alpha = 0.2) +
         
         # Three radial axes
         geom_path(data = grid@axes, aes_string(x = "x", y = "y")) +
@@ -244,14 +242,16 @@ radial_ggplot <- function(polar,
                  color = "black", size = axis_title_size) +
         
         # Add markers
-        geom_point(aes_string(colour="sig"), size = marker_size,
+        geom_point(aes_string(colour=switch(colour_scale,
+                                            "discrete"= "sig",
+                                            "continuous" = "hue")), 
+                   size = marker_size,
                    alpha = marker_alpha) +
         
-        scale_color_manual(values =
-                               switch(colour_scale,
-                                      "discrete"=as.character(cols),
-                                      "continuous"=
-                                          levels(factor(polar_df$c)))) +
+        scale_color_manual(
+            values = switch(colour_scale,
+                       "discrete" = as.character(cols),
+                       "continuous" = levels(factor(polar_df$hue)))) +
         
         # Set the background colour etc.
         theme(axis.line = element_blank(),
@@ -263,7 +263,7 @@ radial_ggplot <- function(polar,
               legend.key = element_blank(),
               legend.justification = c(1, 1),
               legend.position = switch(colour_scale, 
-                                       "discrete"=c(1, 1), 
+                                       "discrete"="right", 
                                        "continuous"="none"),
               legend.text = element_text(size = legend_size), 
               legend.background = element_rect(fill="transparent", colour=NA),

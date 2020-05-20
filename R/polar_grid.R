@@ -79,7 +79,7 @@ setClass("grid", slots = list(
 #'                           fc_col_suffix='log2FoldChange',
 #'                           fc_cutoff = 0.3)
 #'                     
-#' polar_grid(r_vector=syn_polar@polar$r_zscore,
+#' grid <- polar_grid(r_vector=syn_polar@polar$r_zscore,
 #'            z_vector=NULL,
 #'            r_axis_ticks = NULL,
 #'            z_axis_ticks = c(0, 8, 16, 32),
@@ -153,6 +153,7 @@ polar_grid <- function(r_vector = NULL,
                            z = z_cyl, 
                            area = "cylinder")
   }
+  
   polar_grid <- rbind(polar_grid_top, cylindrical_grid, cylinder)
   
   # Add the three axes

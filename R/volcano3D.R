@@ -24,7 +24,7 @@
 #' (default = 1). Decreasing this makes the plot appear more squat. 
 #' @param xy_aspectratio The aspect ratio for the xy axis compared to z
 #' (default = 1). Decreasing this makes the grid wider in the plot window. 
-#' @param plot_height The plot height in pt. Default=7. 
+#' @param plot_height The plot height in px. Default=700. 
 #' @param ... Optional parameters to pass to \code{\link{polar_grid}}.
 #' @return Returns a cylindrical 3D plotly plot featuring variables on a 
 #' tri-axis radial graph with the -log10(multi-group test p-value) on the 
@@ -36,6 +36,7 @@
 #' treatment response phenotypes.}
 #' \emph{Cell reports}, \strong{28}:9
 #' @importFrom plotly plot_ly add_trace add_text layout %>%
+#' @importFrom grDevices hsv rgb
 #' @keywords hplot iplot
 #' @concept volcanoplot 
 #' @export
@@ -75,7 +76,7 @@ volcano3D <- function(polar,
                       axis_angle = 0.5, 
                       z_aspectratio = 1, 
                       xy_aspectratio = 1,
-                      plot_height = 7,
+                      plot_height = 700,
                       ...){
     
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")

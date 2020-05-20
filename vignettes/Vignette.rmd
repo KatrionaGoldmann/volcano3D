@@ -7,14 +7,14 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
-
+  
 ```{r setup, include = FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE, 
-                      warning = FALSE, 
-                      message = FALSE, 
-                      fig.height = 7, 
-                      fig.width=7, 
-                      fig.align = "center")
+warning = FALSE, 
+message = FALSE, 
+fig.height = 7, 
+fig.width=7, 
+fig.align = "center")
 library(knitr)
 library(kableExtra)
 ```
@@ -132,19 +132,19 @@ mytable = data.frame(
               "the pvalues data.frame which contains the statistical\
                 significance of probes between groups. This contains: \
               \n * three pvalue columns: one for each comparison with \
-              column names of format `paste0(groups[i], '-', groups[j], ' ', p_col_suffix)`.\ 
+              column names of format `paste(groups[i], groups[j], p_col_suffix, sep='_')`.\ 
               We recommend \
               using 'limma' or 'DESeq' pipelines to calculate these pvalues for \
               gene expression.\ 
               \n * _optional_ fold change columns: one for each comparison with\
-              column names of format `paste0(groups[i], '-', groups[j], ' ', fc_col_suffix)`  \
+              column names of format `paste0(groups[i], groups[j], fc_col_suffix, sep='_')`  \
               \n * _optional_ adjusted pvalue columns: one for each comparison\
-              with column names of format `paste0(groups[i], '-', groups[j], ' ', padj_col_suffix)` \
+              with column names of format `paste0(groups[i], groups[j], padj_col_suffix, sep='_')` \
               \n * an _optional_ multi-group pvalue column: from a multi-group\
-              test with column name of the form `paste(multi_group_prefix, p_col_suffix)`.This is typically\
+              test with column name of the form `paste0(multi_group_prefix, '_', p_col_suffix)`.This is typically\
               generated using ANOVA or likelihood ratio tests between all three groups. \
               \n * an _optional_ multi-group adjusted pvalue column: from a\
-              multi-group test (column names of form `paste(multiGroupPrefix, padjColSuffix)`). \
+              multi-group test (column names of form `paste0(multiGroupPrefix, '_', padjColSuffix)`). \
               \n For more information on how to create pvalues data frames see the\
               [pvalue generator vignette](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html)."),
   exp = c("expression\ 
@@ -173,6 +173,8 @@ mytable = data.frame(
 kable(t(mytable), row.names = FALSE, col.names = c("Variable", "Details")) %>%
   kable_styling(font_size=11)
 ```
+
+## Creating Polar Coordinates
 
 Using the example_data from PEAC we can create a polar object for
 differentially expressed genes. Here syn_example_rld is the log transformed 
@@ -207,8 +209,8 @@ head(syn_polar@pvalues)
 
 ```{r, echo=FALSE}
 head(syn_polar@pvalues) %>%
-  kable() %>%
-  kable_styling(font_size=8.7)
+  kable(col.names = gsub("_l", " _l", gsub("_p", " _p", colnames(syn_polar@pvalues))) )%>%
+  kable_styling(font_size=6.5, full_width = TRUE)
 ```
 
 The `sig` column in `syn_polar@polar` allows us to determine relative
@@ -240,7 +242,7 @@ table(syn_polar@polar$sig) %>%
   kable_styling(full_width = F)
 ```
 
-### Volcano Plots
+## Volcano Plots
 
 If there is a fold change column previously provided, we can now investigate
 the comparisons between pathotypes using the
@@ -262,20 +264,14 @@ syn_plots <- volcano_trio(polar = syn_polar,
 syn_plots$All
 ```
 
-### Radial Plots
+## Radial Plots
 
 The differential expression can now be visualised on an interactive radar plot
 using radial_plotly. The
 `labelRows` variable allows any markers of interest to be labelled.
 
-```{r, fig.height=9, fig.width=9, out.height="150%"}
-col_vector = setNames(c('green', 'cyan', 'gold2', 'blue', 'purple'),
-                       c('Fibroid+', 'Fibroid+Lymphoid+',
-                         'Fibroid+Myeloid+', 'Lymphoid+',
-                         'Lymphoid+Myeloid+'))
-
-radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "GREM2", "FMOD"), 
-              colours=c('green', 'cyan', 'blue', 'purple', 'red', 'gold2')) 
+```{r, fig.height=5}
+radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "GREM2", "FMOD")) 
 ```
 
 By hovering over certain point you can also determine genes for
@@ -287,61 +283,88 @@ Similarly we can create a static ggplot image using radial_ggplot:
 radial_ggplot(polar = syn_polar,
               label_rows = c("SLAMF6", "FMOD", "GREM2"),
               marker_size = 2.3,
-              legend_size = 10,
-              colours = col_vector) +
+              legend_size = 10) +
   theme(legend.position = "right")
 ```
 
-### Boxplots
+## Boxplots
 
 We can then interrogate any one specific variable as a boxplot, to investigate
 these differences. This is build using ggplot2 so can easily be edited by the
 user to add features.
 
-```{r, fig.height = 2.7, fig.width = 7}
+```{r, fig.height = 3.2, fig.width = 7}
 plot1 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
                       text_size = 7,
                       test = "polar_padj",
-                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                      box_colours = c("blue", "red", "green3"),
-                      step_increase = 0.1) 
+                      my_comparisons=list(c("Lymphoid", "Myeloid"),
+                                          c("Lymphoid", "Fibroid")))
 
 plot2 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
-                      my_comparisons=list(c("Lymphoid", "Myeloid"),
-                                          c("Lymphoid", "Fibroid")),
+                      box_colours = c("violet", "gold2"),
+                      levels_order = c("Lymphoid", "Fibroid"),
                       text_size = 7,
-                      test = "polar_padj",
-                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                      box_colours = c("blue", "red", "green3")) 
+                      test = "polar_padj")
 
 plot3 <- boxplot_trio(syn_polar,
                       value = "FMOD",
                       text_size = 7,
                       stat_size=2.5,
-                      test = "t.test",
-                      levels_order = c("Myeloid", "Fibroid", "Lymphoid"),
-                      box_colours = c("red", "green3", "blue")) 
+                      test = "polar_multi_padj",
+                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
+                      box_colours = c("blue", "red", "green3"))
 
-subplot(plot1, plot2, plot3, titleY = TRUE)
+ggarrange(plot1, plot2, plot3)
 ```
 
-### Three Dimensional Volcano Plots
+Alternatively for static ggplot boxplots: 
+
+```{r, fig.height=2.7}
+plot1 <- boxplot_trio(syn_polar,
+                      value = "SLAMF6",
+                      text_size = 7,
+                      test = "polar_padj",
+                      my_comparisons=list(c("Lymphoid", "Myeloid"),
+                                          c("Lymphoid", "Fibroid")))
+
+plot2 <- boxplot_trio(syn_polar,
+                      value = "SLAMF6",
+                      box_colours = c("violet", "gold2"),
+                      levels_order = c("Lymphoid", "Fibroid"),
+                      text_size = 7,
+                      test = "polar_padj")
+
+plot3 <- boxplot_trio(syn_polar,
+                      value = "FMOD",
+                      text_size = 7,
+                      stat_size=2.5,
+                      test = "polar_multi_padj",
+                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
+                      box_colours = c("blue", "red", "green3"))
+
+ggarrange(plot1, plot2, plot3, ncol=3)
+```
+
+
+## Three Dimensional Volcano Plots
 
 The final thing we can look at is the 3D volcano plot which projects
 differential gene expression onto cylindrical coordinates.
 
-```{r}
+```{r, fig.height=5}
 p <- volcano3D(syn_polar,
                label_rows = c("SLAMF6", "GREM2", "FMOD"),
                label_size = 10,
                xy_aspectratio = 1,
-               z_aspectratio = 0.9)
+               z_aspectratio = 0.9, 
+               plot_height = 700)
+p
 ```
 
-Again this produces an interactive plot, unfortunately WebGL is not supported in 
-vignette htmls but to see this in action you can visit the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html)
+Again this produces an interactive plot, unfortunately WebGL is not supported in
+vignette html but to see this in action you can visit the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html)
 . If you have
 the orca command-line utility installed, this can be used to
 save static images. To install follow the instructions
@@ -354,7 +377,7 @@ orca(p, "./volcano_3d_synovium.svg", format = "svg")
 
 ---
 
-## Citation
+# Citation
 
 volcano3D was developed by the bioinformatics team at the
 [Experimental Medicine & Rheumatology department](https://www.qmul.ac.uk/whri/emr/)

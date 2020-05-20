@@ -1,6 +1,5 @@
 ac
 BH
-bonferroni
 Camilo
 celrep
 Codecov
@@ -20,7 +19,6 @@ DT
 Duraisingham
 fc
 FC
-fdr
 ggplot
 Ggplot
 ggpubr
@@ -28,9 +26,6 @@ ggrepel
 github
 Github
 HitCount
-hochberg
-holm
-hommel
 hpc
 hsv
 io
@@ -43,7 +38,6 @@ Lifecycle
 limegreen
 limma
 Limma
-limmaWorkflow
 logFC
 maxExp
 myeloid
@@ -59,14 +53,15 @@ Pathotypes
 peac
 PEAC
 plotly
+Plotly
 Presnell
 pvalue
 pvalues
 Pvalues
+px
 qmul
 QuSAGE
 rld
-RNAseq
 Rouphael
 RShiny
 rstudio

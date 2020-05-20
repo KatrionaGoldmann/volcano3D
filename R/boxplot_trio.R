@@ -35,10 +35,13 @@
 #' @param ... Other parameters for \code{\link[ggpubr]{stat_compare_means}}
 #' @return Returns a plotly boxplot featuring the differential expression
 #' between groups in comparison with annotated pvalues.
-#' @importFrom ggpubr compare_means
+#' @importFrom ggpubr compare_means ggboxplot stat_pvalue_manual 
+#' stat_compare_means 
 #' @importFrom plotly layout plot_ly add_trace add_markers
 #' @importFrom utils combn
 #' @importFrom grDevices hsv
+#' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate 
+#' geom_point scale_color_manual aes geom_jitter element_rect aes_string
 #' @keywords hplot
 #' @references
 #' Lewis, Myles J., et al. (2019).
@@ -62,6 +65,7 @@
 #'                           fc_col_suffix='log2FoldChange',
 #'                           fc_cutoff = 0.3)
 #'
+#' boxplot_trio(syn_polar, value = "SLAMF6", plot_method="plotly")
 #' boxplot_trio(syn_polar, value = "SLAMF6")
 
 boxplot_trio <- function(polar,
@@ -288,7 +292,7 @@ boxplot_trio <- function(polar,
       
       a <- list(
         x = as.numeric(pvals$x.position),
-        y = 0.1 + pvals$y.position,
+        y = step_increase + pvals$y.position,
         text = format(pvals$p, digits=3),
         xref = "x",
         yref = "y",
@@ -336,7 +340,7 @@ boxplot_trio <- function(polar,
       pvals_sc$x.position <- map_pos[pvals_sc$group1] +
         (map_pos[pvals_sc$group2] - map_pos[pvals_sc$group1])/2
       pvals_sc$y.position <- pvals_sc$y.position[1]*
-        (1 + 0.01 + step_increase*(seq_len(nrow(pvals_sc))-1))
+        (1.01 + step_increase*(seq_len(nrow(pvals_sc))-1))
       
       lines <- list()
       for (i in seq_len(nrow(pvals_sc))) {
@@ -349,7 +353,7 @@ boxplot_trio <- function(polar,
       
       a <- list(
         x = as.numeric(pvals_sc$x.position),
-        y = 0.1 + pvals_sc$y.position,
+        y = step_increase + pvals_sc$y.position,
         text = pvals_sc$new_p_label,
         xref = "x",
         yref = "y",
@@ -367,7 +371,7 @@ boxplot_trio <- function(polar,
       
       a <- list(
         x = 2,
-        y = 0.5 + max(df$row, na.rm=TRUE),
+        y = step_increase + max(df$row, na.rm=TRUE),
         text = format(pvals, digits=3),
         xref = "x",
         yref = "y",

@@ -1,7 +1,7 @@
 #' Creates a single volcano plot
 #'
 #' This function creates a volcano plot for one comparison group
-#' @param pvalues_df The pvalues datatable. This must contain pvalue, padj, 
+#' @param pvalues_df The pvalues data frame. This must contain pvalue, padj, 
 #' logFC columns as well as a label column. 
 #' @param comparison The comparison to use
 #' @importFrom ggplot2 ggplot labs geom_path geom_path geom_text annotate 

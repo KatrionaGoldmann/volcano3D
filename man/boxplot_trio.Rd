@@ -84,6 +84,7 @@ syn_polar <- polar_coords(sampledata = syn_example_meta,
                           fc_col_suffix='log2FoldChange',
                           fc_cutoff = 0.3)
 
+boxplot_trio(syn_polar, value = "SLAMF6", plot_method="plotly")
 boxplot_trio(syn_polar, value = "SLAMF6")
 }
 \references{

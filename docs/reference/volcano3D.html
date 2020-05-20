@@ -160,7 +160,7 @@
 
     <pre class="usage"><span class='fu'>volcano3D</span>(
   <span class='no'>polar</span>,
-  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"green3"</span>, <span class='st'>"cyan"</span>, <span class='st'>"blue"</span>, <span class='st'>"purple"</span>, <span class='st'>"red"</span>, <span class='st'>"gold2"</span>),
   <span class='kw'>non_sig_colour</span> <span class='kw'>=</span> <span class='st'>"grey60"</span>,
   <span class='kw'>colour_scale</span> <span class='kw'>=</span> <span class='st'>"discrete"</span>,
   <span class='kw'>continuous_shift</span> <span class='kw'>=</span> <span class='fl'>120</span>,
@@ -171,6 +171,7 @@
   <span class='kw'>axis_angle</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>z_aspectratio</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>xy_aspectratio</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>plot_height</span> <span class='kw'>=</span> <span class='fl'>700</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -183,9 +184,10 @@
     </tr>
     <tr>
       <th>colours</th>
-      <td><p>A named vector of colours for the groups. If NULL colours
-will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
-unnamed colours will be assigned in polar@polar$sig level order.</p></td>
+      <td><p>A vector of colour names or hex triplets for each of the 
+six groups. Default = c("green3", "cyan", "blue", 
+"purple", "red", "gold2"). Colours are assigned in order: group1+, 
+group1+group2+, group2+, group2+group3+, group3+, group1+group3+.</p></td>
     </tr>
     <tr>
       <th>non_sig_colour</th>
@@ -234,6 +236,10 @@ default values of  <code><a href='polar_grid.html'>polar_grid</a></code>.</p></t
       <th>xy_aspectratio</th>
       <td><p>The aspect ratio for the xy axis compared to z
 (default = 1). Decreasing this makes the grid wider in the plot window.</p></td>
+    </tr>
+    <tr>
+      <th>plot_height</th>
+      <td><p>The plot height in px. Default=700.</p></td>
     </tr>
     <tr>
       <th>...</th>

@@ -160,7 +160,7 @@
 
     <pre class="usage"><span class='fu'>radial_ggplot</span>(
   <span class='no'>polar</span>,
-  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"green3"</span>, <span class='st'>"cyan"</span>, <span class='st'>"blue"</span>, <span class='st'>"purple"</span>, <span class='st'>"red"</span>, <span class='st'>"gold2"</span>),
   <span class='kw'>non_sig_colour</span> <span class='kw'>=</span> <span class='st'>"grey60"</span>,
   <span class='kw'>colour_scale</span> <span class='kw'>=</span> <span class='st'>"discrete"</span>,
   <span class='kw'>continuous_shift</span> <span class='kw'>=</span> <span class='fl'>120</span>,
@@ -188,9 +188,10 @@ polar coordinates. Created by <code><a href='polar_coords.html'>polar_coords</a>
     </tr>
     <tr>
       <th>colours</th>
-      <td><p>A named vector of colours for the groups. If NULL colours
-will be assigned to c('green3', 'cyan', 'gold2', 'blue', 'purple' 'red'). If 
-unnamed colours will be assigned in polar@polar$sig level order.</p></td>
+      <td><p>A vector of colour names or hex triplets for each of the 
+six groups. Default = c("green3", "cyan", "blue", 
+"purple", "red", "gold2"). Colours are assigned in order: group1+, 
+group1+group2+, group2+, group2+group3+, group3+, group1+group3+.</p></td>
     </tr>
     <tr>
       <th>non_sig_colour</th>
@@ -289,13 +290,7 @@ treatment response phenotypes.</a>
                           <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
                           <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
 
-<span class='no'>col_vector</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/setNames.html'>setNames</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'green'</span>, <span class='st'>'cyan'</span>, <span class='st'>'gold2'</span>, <span class='st'>'blue'</span>, <span class='st'>'purple'</span>),
-                      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Fibroid+'</span>, <span class='st'>'Fibroid+Lymphoid+'</span>,
-                        <span class='st'>'Fibroid+Myeloid+'</span>, <span class='st'>'Lymphoid+'</span>,
-                        <span class='st'>'Lymphoid+Myeloid+'</span>))
-
-<span class='fu'>radial_ggplot</span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>, <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>),
-              <span class='kw'>colours</span><span class='kw'>=</span><span class='no'>col_vector</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='radial_ggplot-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>radial_ggplot</span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>, <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='radial_ggplot-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

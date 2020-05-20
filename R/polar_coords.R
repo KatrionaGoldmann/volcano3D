@@ -219,12 +219,12 @@ polar_coords <- function(sampledata,
             notFinding <- notFinding[! is.na(notFinding)]
             
             # check if ordering of groups in column names is the wrong way round
-            check <- strsplit(gsub(paste0("_", col_suffix), "", notFinding), 
-                              "_")
+            check <- strsplit(gsub(paste0("_", col_suffix), 
+                                          "", notFinding), "_")
             
             for (order_check in check){
                 og <- paste(order_check[1], order_check[2], col_suffix, sep="_")
-                reverse <- paste0(order_check[2], order_check[1], col_suffix, 
+                reverse <- paste(order_check[2], order_check[1], col_suffix, 
                                   sep="_")
                 if(reverse %in% colnames(pvalues)){
                     colnames(pvalues)[colnames(pvalues) == reverse] <- og
@@ -235,11 +235,11 @@ polar_coords <- function(sampledata,
                             pvalues[, og] <- -1*pvalues[, og]
                         }
                     }
-                    warning(paste(og, 
+                    message(paste(og, 
                                   "was not found in colnames(pvalues), but", 
                                   reverse, 
-                                  "was - the column name has now been 
-                                  reversed"))
+                                  "was - the column name has now been", 
+                                  "reversed. "))
                     notFinding <- notFinding[notFinding != og]
                 }
             }
@@ -328,8 +328,8 @@ polar_coords <- function(sampledata,
     sampledata$contrast <- droplevels(sampledata[, contrast])
     contrast_groups <- levels(sampledata[, contrast])
     if(length(contrast_groups) != 3) {
-        stop("The number of variables in the contrast column of sampledata
-             does not equal 3")
+        stop(paste("The number of variables in the contrast column of", 
+                   "sampledata does not equal 3"))
     }
     
     # Calculate the polar coordinates (uses radians)

@@ -10,10 +10,10 @@ vignette: >
   
 ```{r setup, include = FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE, 
-warning = FALSE, 
-message = FALSE, 
-fig.align = 'center',
-dev.args=list(bg="transparent")
+  warning = FALSE, 
+  message = FALSE, 
+  fig.align = 'center',
+  dev.args=list(bg="transparent")
 )
 
 
@@ -160,19 +160,19 @@ mytable = data.frame(
               "the pvalues data.frame which contains the statistical\
                 significance of probes between groups. This contains: \
               \n * three pvalue columns: one for each comparison with \
-              column names of format `paste0(groups[i], '-', groups[j], ' ', p_col_suffix)`.\ 
+              column names of format `paste0(groups[i], '_', groups[j], '_', p_col_suffix)`.\ 
               We recommend \
               using 'limma' or 'DESeq' pipelines to calculate these pvalues for \
               gene expression.\ 
               \n * _optional_ fold change columns: one for each comparison with\
-              column names of format `paste0(groups[i], '-', groups[j], ' ', fc_col_suffix)`  \
+              column names of format `paste0(groups[i], '_', groups[j], '_', fc_col_suffix)`  \
               \n * _optional_ adjusted pvalue columns: one for each comparison\
-              with column names of format `paste0(groups[i], '-', groups[j], ' ', padj_col_suffix)` \
+              with column names of format `paste0(groups[i], '_', groups[j], '_', padj_col_suffix)` \
               \n * an _optional_ multi-group pvalue column: from a multi-group\
-              test with column name of the form `paste(multi_group_prefix, p_col_suffix)`.This is typically\
+              test with column name of the form `paste0(multi_group_prefix, '_', p_col_suffix)`.This is typically\
               generated using ANOVA or likelihood ratio tests between all three groups. \
               \n * an _optional_ multi-group adjusted pvalue column: from a\
-              multi-group test (column names of form `paste(multiGroupPrefix, padjColSuffix)`). \
+              multi-group test (column names of form `paste0(multiGroupPrefix, '_', padjColSuffix)`). \
               \n For more information on how to create pvalues data frames see the\
               [pvalue generator vignette](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html)."),
   exp = c("expression\ 
@@ -231,8 +231,8 @@ head(syn_polar@pvalues)
 
 ```{r, echo=FALSE}
 head(syn_polar@pvalues) %>%
-  kable() %>%
-  kable_styling(font_size=8.7)
+  kable(col.names = gsub("_l", " _l", gsub("_p", " _p", colnames(syn_polar@pvalues))) )%>%
+  kable_styling(font_size=6)
 ```
 
 The `sig` column in `syn_polar@polar` allows us to determine relative
@@ -292,8 +292,7 @@ be labelled.
 
 ```{r, out.height="100%", out.width="100%"}
 radial_plotly(polar = syn_polar, 
-              label_rows = c("SLAMF6", "PARP16", "ITM2C")) %>%
- layout(width = 650, height=600)
+              label_rows = c("SLAMF6", "PARP16", "ITM2C"))
 ```
 
 By hovering over certain points you can also determine genes for
@@ -303,7 +302,7 @@ Similarly we can create a static ggplot image using radial_ggplot:
 
 ```{r, fig.height=4.5, fig.width=7}
 radial_ggplot(polar = syn_polar,
-              label_rows = c("SLAMF6", "PARP16", "ITM2C"),
+              label_rows = c("SLAMF6", "FMOD"),
               marker_size = 2.3,
               legend_size = 10) +
   theme(legend.position = "right")
@@ -316,10 +315,10 @@ to a hsv variable. This angle can be offset by `continuous_shift`.
 radial_ggplot(polar = syn_polar,
               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
               marker_size = 2.3,
-              marker_alpha=0.3,
+              marker_alpha=0.7,
               colour_scale = "continuous",
               continuous_shift=120,
-              legend_size = 10)
+              legend_size = 10) 
 ```
 
 
@@ -327,25 +326,25 @@ radial_ggplot(polar = syn_polar,
 
 We can then interrogate any one specific variable as a boxplot, to investigate
 these differences. This is build using ggplot2 so can easily be edited by the
-user to add features.
+user to add features. Using plotly:
 
-```{r, fig.height = 2.7, fig.width = 7}
+```{r, fig.height = 3.7, fig.width=7}
 plot1 <- boxplot_trio(syn_polar,
-                      value = "SLAMF6",
+                      value = "FAM92B",
                       text_size = 7,
                       test = "polar_padj",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       box_colours = c("blue", "red", "green3"),
-                      step_increase = 0.1) +
-  labs(title="Adjusted Pvalues between Pathotypes")
+                      step_increase = 0.2,
+                      plot_method='plotly')
 
 plot2 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
                       text_size = 7,
                       test = "polar_multi_padj",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                      box_colours = c("blue", "red", "green3")) +
-  labs(title="LRT between SLAMF6 Expression")
+                      box_colours = c("blue", "red", "green3"), 
+                      plot_method='plotly') 
 
 plot3 <- boxplot_trio(syn_polar,
                       value = "PARP16",
@@ -353,11 +352,39 @@ plot3 <- boxplot_trio(syn_polar,
                       stat_size=2.5,
                       test = "t.test",
                       levels_order = c("Myeloid", "Fibroid"),
-                      box_colours = c("red", "green3")) +
-  labs(title="T-tests bewteen PARP16 Exp.")
+                      box_colours = c("pink", "gold"), 
+                      plot_method='plotly') 
 
+plotly::subplot(plot1, plot2, plot3, titleY=TRUE, margin=0.05)
+```
 
-ggarrange(plot1, plot2, plot3, ncol = 3)
+Or using ggplot
+
+```{r, fig.height = 3.2, fig.width=7}
+plot1 <- boxplot_trio(syn_polar,
+                      value = "FAM92B",
+                      text_size = 7,
+                      test = "polar_padj",
+                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
+                      box_colours = c("blue", "red", "green3"),
+                      step_increase = 0.1)
+
+plot2 <- boxplot_trio(syn_polar,
+                      value = "SLAMF6",
+                      text_size = 7,
+                      test = "polar_multi_padj",
+                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
+                      box_colours = c("blue", "red", "green3")) 
+
+plot3 <- boxplot_trio(syn_polar,
+                      value = "PARP16",
+                      text_size = 7,
+                      stat_size=2.5,
+                      test = "t.test",
+                      levels_order = c("Myeloid", "Fibroid"),
+                      box_colours = c("pink", "gold")) 
+
+ggarrange(plot1, plot2, plot3, ncol=3)
 ```
 
 ### Three Dimensional Volcano Plots
@@ -365,14 +392,15 @@ ggarrange(plot1, plot2, plot3, ncol = 3)
 The final thing we can look at is the 3D volcano plot which projects
 differential gene expression onto cylindrical coordinates.
 
-```{r, out.height="150%", out.width="100%"}
+```{r, fig.width=7}
 p <- volcano3D(syn_polar,
                label_rows = c("SLAMF6", "PARP16", "ITM2C"),
                label_size = 10,
                xy_aspectratio = 1,
-               z_aspectratio = 0.9)
+               z_aspectratio = 0.9, 
+               plot_height = 800)
 
-p %>% layout(legend = list(x = 100, y = 0.7), width = 550, height=800)
+p 
 ```
 
 Again this produces an interactive plot. If you have
@@ -381,8 +409,25 @@ save static images. To install follow the instructions
 [here](https://github.com/plotly/orca#installation).
 
 ```{r, eval = FALSE}
-orca(p, "./volcano_3d_synovium.svg", format = "svg")
+orca(p, "~/Desktop/volcano_3d_synovium.svg", format = "svg")
 ```
+
+We can alter the colours using the colours parameter. These colours are assigned
+in order
+
+```{r, fig.width=7}
+p <- volcano3D(syn_polar,
+               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
+               label_size = 10,
+               xy_aspectratio = 1,
+               z_aspectratio = 0.9, 
+               colours = c("grey60", "grey60", "blue", 
+                           "grey60", "grey60", "grey60"), 
+               plot_height=800)
+
+p 
+```
+
 
 ### Altering the Plots
 
@@ -408,14 +453,25 @@ four_grid = polar_grid(r_vector=syn_polar@polar$r_zscore,
                        r_axis_ticks = NULL,
                        z_axis_ticks = c(0, 8, 16, 32),
                        n_spokes = 4)
+```
 
+We can inspect the grid using `show_grid()`:
+
+```{r, fig.width=7}
+p <- show_grid(four_grid)
+
+p$cylindrical
+```
+
+and pass it into the plotting functions:
+
+```{r, fig.width=7}
 volcano3D(syn_polar,
           grid = four_grid,
           label_rows = c("SLAMF6", "PARP16", "ITM2C"),
           label_size = 10,
           xy_aspectratio = 1,
-          z_aspectratio = 0.9) %>% 
-  layout(legend = list(x = 100, y = 0.5), width = 550, height=800)
+          z_aspectratio = 0.9)
 ```
 
 For example to extend the radial axis and increasing the number of spokes in 2D
@@ -423,10 +479,10 @@ we can apply:
 
 ```{r, fig.height=5, fig.widht=5}
 new_grid = polar_grid(r_vector=NULL,
-                        z_vector=-log10(syn_polar@pvalues$`LRT pvalue`),
-                        r_axis_ticks = c(1, 2, 3),
-                        z_axis_ticks = NULL,
-                        n_spokes = 24)
+                      z_vector=-log10(syn_polar@pvalues$LRT_pvalue),
+                      r_axis_ticks = c(1, 2, 3),
+                      z_axis_ticks = NULL,
+                      n_spokes = 24)
 ```
 
 #### Altering the Labels
@@ -462,16 +518,16 @@ pvalues were generated using
 data(Li_pvalues)
 
 syn_mod_polar <- polar_coords(sampledata = syn_metadata,
-                           contrast = "Pathotype",
-                           pvalues = syn_mod_pvalues,
-                           p_col_suffix = "p.value",
-                           padj_col_suffix = "q.value",
-                           fc_col_suffix = "logFC",
-                           multi_group_prefix = NULL,
-                           expression = syn_mod,
-                           significance_cutoff = 0.01,
-                           fc_cutoff = 0.1
-                           )
+                              contrast = "Pathotype",
+                              pvalues = syn_mod_pvalues,
+                              p_col_suffix = "p.value",
+                              padj_col_suffix = "q.value",
+                              fc_col_suffix = "logFC",
+                              multi_group_prefix = NULL,
+                              expression = syn_mod,
+                              significance_cutoff = 0.01,
+                              fc_cutoff = 0.1
+)
 ```
 
 
@@ -499,11 +555,6 @@ syn_mod_plots$All
 
 ```{r, out.height="100%", out.width="90%", fig.height=8, fig.width=10}
 radial_plotly(polar = syn_mod_polar,
-              colours = c("Fibroid+"="green3",
-                          "Fibroid+Myeloid+"="gold2",
-                          "Lymphoid+"="blue",
-                          "Lymphoid+Myeloid+"="purple",
-                          "Myeloid+"="red"),
               label_rows = c("M156.0", "M37.2"))
 ```
 
@@ -512,17 +563,11 @@ Or a ggplot static image using radial_ggplot:
 ```{r, warning = FALSE, fig.height=4.5, fig.width=7}
 radial_ggplot(polar = syn_mod_polar,
               label_rows = c("M156.0", "M37.2"),
-              colours = c("Fibroid+"="green3",
-                          "Fibroid+Myeloid+"="gold2",
-                          "Lymphoid+"="blue",
-                          "Lymphoid+Myeloid+"="purple",
-                          "Myeloid+"="red"),
               marker_size = 2.7,
               label_size = 5,
               axis_lab_size = 3,
               axis_title_size = 5,
-              legend_size = 10) +
-  theme(legend.position = "right")
+              legend_size = 10) 
 ```
 
 ### Boxplots
@@ -532,18 +577,18 @@ these differences.
 
 ```{r, fig.height = 2.8, fig.width=5}
 plot1 <- boxplot_trio(syn_mod_polar,
-                     value = "M156.0",
-                     test = "wilcox.test",
-                     levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                     box_colours = c("blue", "red", "green3"))
+                      value = "M156.0",
+                      test = "wilcox.test",
+                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
+                      box_colours = c("blue", "red", "green3"))
 
 plot2 <- boxplot_trio(syn_mod_polar,
-                     value = "M37.2",
-                     test = "wilcox.test",
-                     levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                     box_colours = c("blue", "red", "green3"))
+                      value = "M37.2",
+                      test = "wilcox.test",
+                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
+                      box_colours = c("blue", "red", "green3"))
 
-ggarrange(plot1, plot2)
+ggpubr::ggarrange(plot1, plot2)
 ```
 
 ---
