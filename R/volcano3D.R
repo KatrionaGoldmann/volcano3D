@@ -6,18 +6,17 @@
 #' six groups. Default = c("green3", "cyan", "blue", 
 #' "purple", "red", "gold2"). Colours are assigned in order: group1+, 
 #' group1+group2+, group2+, group2+group3+, group3+, group1+group3+. 
-#' @param non_sig_colour The colour for non-significant markers according to 
-#' fold change (default='grey60').
+#' @param non_sig_colour The colour for non-significant markers 
+#' (default='grey60').
 #' @param colour_scale whether to use a 'discrete' or 'continuous' colour scale 
 #' (default = 'discrete').
-#' @param continuous_shift the number of degrees (between 0 and 360) 
-#' corresponding to the angle to offset the continuous colour scale by. The 
-#' continuous colour scale is calculated by converting the angle to hue where 
+#' @param continuous_shift the number of radians (between 0 and 6) 
+#' to offset the polar angle when calculating the continuous colour scale. 
 #' @param label_rows A vector of row names or numbers to label.
 #' @param grid An optional grid object. If NULL this will be calculated using 
 #' default values of  \code{\link{polar_grid}}. 
-#' @param fc_or_zscore whether to use fold change or z-score for the p-values 
-#' (default = 'zscore').
+#' @param fc_or_zscore whether to use fold change or z-score for the p-values. 
+#' Options are 'zscore' (default) or 'fc').
 #' @param label_size font size for labels (default = 14).
 #' @param axis_angle Angle in radians for the z axis (default = 0.5). 
 #' @param z_aspectratio The aspect ratio for the z axis compared to x and y 
@@ -68,7 +67,7 @@ volcano3D <- function(polar,
                                 "purple", "red", "gold2"), 
                       non_sig_colour = "grey60",
                       colour_scale = "discrete",
-                      continuous_shift = 120, 
+                      continuous_shift = 4, 
                       label_rows = c(),
                       grid = NULL, 
                       fc_or_zscore = "zscore",
@@ -131,13 +130,13 @@ volcano3D <- function(polar,
     if(! is.numeric(continuous_shift)) {
         stop('continuous_shift must be a numeric')
     }
-    if(! (0 <= continuous_shift & continuous_shift <= 360) ) {
-        stop('continuous_shift must be between 0 and 360')
+    if(! (0 <= continuous_shift & continuous_shift <= 6) ) {
+        stop('continuous_shift must be between 0 and 6')
     }
     
     # Calculate the colours by significance
-    offset <- (polar_df$angle_degrees[!is.na(polar_df$angle_degrees)] + 
-                   continuous_shift)/360
+    offset <- (polar_df$angle[!is.na(polar_df$angle)] + 
+                   continuous_shift/6)
     offset[offset > 1] <- offset[offset > 1] - 1
     polar_df$hue <- hsv(offset, 1, 1)
     polar_df$hue[polar_df$sig == polar@non_sig_name] <- non_sig_colour
