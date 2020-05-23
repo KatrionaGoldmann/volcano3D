@@ -32,15 +32,14 @@ three-level factor used for contrast.}
 
 \item{pvalues}{A data frame containing: \itemize{
 \item three `p_col_suffix` columns: one for 
-the pvalue for each comparison between groups. 
-\item three optional
-`fc_col_suffix` columns for the fold change between each comparison 
-(if NULL, no Fold Change columns are included); 
+the pvalue for each comparison between groups;
+\item three optional `fc_col_suffix` columns for the fold change between 
+each comparison (if NULL, no Fold Change columns are included); 
 \item three optional `padj_col_suffix` columns (if NULL 
 adjusted p values are calculated using `padjust_method`); 
 \item and optional 'p', 
 'padj and 'fc' columns for a three-way test, such as ANOVA or likelihood 
-ratio test, defined by `multi_group_prefix`.
+ratio test, defined by `multi_group_prefix`. 
 }}
 
 \item{expression}{An optional data frame containing expression data for
@@ -52,21 +51,22 @@ match the rows in pvalues and the columns must contain samples which match
 to \code{levels(sampledata[, 'contrasts'])}).}
 
 \item{p_col_suffix}{The suffix word to define columns containing p values
-(default = 'pvalues').}
+(default = 'pvalues'). These must not contain underscores;}
 
 \item{padj_col_suffix}{The suffix word to define columns containing adjusted
-p values (default = 'padj'). If NULL these will be calculated using
-\code{padjust_method}.}
+p values (default = 'padj').  These must not contain underscores. 
+If NULL these will be calculated using \code{padjust_method}}
 
 \item{fc_col_suffix}{The optional suffix word to define columns containing 
-log fold change values (default = 'logFC').}
+log fold change values (default = 'logFC'). These must not contain 
+underscores.}
 
 \item{padjust_method}{The method used to calculate adjusted p values if 
 padj_col_suffix is NULL (default = 'BH'). See \code{\link[stats]{p.adjust}}.}
 
 \item{multi_group_prefix}{Optional column prefix for statistics (p, padj, 
 and fold change) across all three groups (typically ANOVA or likelihood 
-ratio tests). default = NULL.}
+ratio tests). default = NULL. These must not contain underscores}
 
 \item{non_sig_name}{Category name to assign to non-significant points}
 

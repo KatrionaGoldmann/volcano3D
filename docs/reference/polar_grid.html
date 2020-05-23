@@ -175,30 +175,31 @@ plot</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>r_vector</th>
-      <td><p>An optional numerical vector for the  radial coordinates. 
-This is used to calculate breaks on the r axis using 
-<code><a href='https://rdrr.io/r/base/pretty.html'>pretty</a></code>. If this is NULL the r_axis_ticks are used as 
+      <td><p>An optional numerical vector for the  radial coordinates.
+This is used to calculate breaks on the r axis using
+<code><a href='https://rdrr.io/r/base/pretty.html'>pretty</a></code>. If this is NULL the r_axis_ticks are used as
 breaks.</p></td>
     </tr>
     <tr>
       <th>z_vector</th>
-      <td><p>An optional numerical vector for the z coordinates. 
-This is used to calculate breaks on the z axis using <code>pretty</code>. If this 
+      <td><p>An optional numerical vector for the z coordinates.
+This is used to calculate breaks on the z axis using <code>pretty</code>. If this
 is NULL the z_axis_ticks are used as breaks.</p></td>
     </tr>
     <tr>
       <th>r_axis_ticks</th>
-      <td><p>A numerical vector of breaks for the radial axis (used 
+      <td><p>A numerical vector of breaks for the radial axis (used
 if r_vector is NULL).</p></td>
     </tr>
     <tr>
       <th>z_axis_ticks</th>
-      <td><p>A numerical vector of breaks for the z axis (used 
+      <td><p>A numerical vector of breaks for the z axis (used
 if z_vector is NULL).</p></td>
     </tr>
     <tr>
       <th>axis_angle</th>
-      <td><p>angle to position the radial axis in pi (default = 5/6)</p></td>
+      <td><p>angle in radians to position the radial axis
+(default = 5/6)</p></td>
     </tr>
     <tr>
       <th>n_spokes</th>
@@ -244,8 +245,7 @@ treatment response phenotypes.</a>
                           <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
                           <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
                           <span class='kw'>fc_col_suffix</span><span class='kw'>=</span><span class='st'>'log2FoldChange'</span>,
-                          <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
-
+                          <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)</div><div class='output co'>#&gt; <span class='message'>• Some  columns were not originally numeric. These have been converted.</span></div><div class='input'>
 <span class='no'>grid</span> <span class='kw'>&lt;-</span> <span class='fu'>polar_grid</span>(<span class='kw'>r_vector</span><span class='kw'>=</span><span class='no'>syn_polar</span>@<span class='kw'>polar</span>$<span class='no'>r_zscore</span>,
            <span class='kw'>z_vector</span><span class='kw'>=</span><span class='kw'>NULL</span>,
            <span class='kw'>r_axis_ticks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,

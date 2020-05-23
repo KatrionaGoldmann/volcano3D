@@ -10,8 +10,10 @@
 #' (default='grey60').
 #' @param colour_scale whether to use a 'discrete' or 'continuous' colour scale 
 #' (default = 'discrete').
-#' @param continuous_shift the number of radians (between 0 and 6) 
-#' to offset the polar angle when calculating the continuous colour scale. 
+#' @param continuous_shift The number of radians 
+#' to offset the continuous colour scale by. This is calculated by converting 
+#' the angle to a hue using \code{\link[grDevices]{hsv}} where 0 corresponds to
+#' the colour scale starting with red and 2 with magenta (default = 2). 
 #' @param label_rows A vector of row names or numbers to label.
 #' @param grid An optional grid object. If NULL this will be calculated using 
 #' default values of  \code{\link{polar_grid}}. 
@@ -67,7 +69,7 @@ volcano3D <- function(polar,
                                 "purple", "red", "gold2"), 
                       non_sig_colour = "grey60",
                       colour_scale = "discrete",
-                      continuous_shift = 4, 
+                      continuous_shift = 1.33, 
                       label_rows = c(),
                       grid = NULL, 
                       fc_or_zscore = "zscore",
@@ -130,13 +132,12 @@ volcano3D <- function(polar,
     if(! is.numeric(continuous_shift)) {
         stop('continuous_shift must be a numeric')
     }
-    if(! (0 <= continuous_shift & continuous_shift <= 6) ) {
-        stop('continuous_shift must be between 0 and 6')
+    if(! (0 <= continuous_shift & continuous_shift <= 2) ) {
+        stop('continuous_shift must be between 0 and 2')
     }
     
     # Calculate the colours by significance
-    offset <- (polar_df$angle[!is.na(polar_df$angle)] + 
-                   continuous_shift/6)
+    offset <- (polar_df$angle[!is.na(polar_df$angle)] + continuous_shift/2)
     offset[offset > 1] <- offset[offset > 1] - 1
     polar_df$hue <- hsv(offset, 1, 1)
     polar_df$hue[polar_df$sig == polar@non_sig_name] <- non_sig_colour

@@ -9,7 +9,7 @@ radial_ggplot(
   colours = c("green3", "cyan", "blue", "purple", "red", "gold2"),
   non_sig_colour = "grey60",
   colour_scale = "discrete",
-  continuous_shift = 120,
+  continuous_shift = 1.33,
   label_rows = NULL,
   arrow_length = 1,
   grid = NULL,
@@ -25,30 +25,30 @@ radial_ggplot(
 )
 }
 \arguments{
-\item{polar}{A polar object with the pvalues between groups of interest and 
+\item{polar}{A polar object with the pvalues between groups of interest and
 polar coordinates. Created by \code{\link{polar_coords}}.}
 
-\item{colours}{A vector of colour names or hex triplets for each of the 
-six groups. Default = c("green3", "cyan", "blue", 
-"purple", "red", "gold2"). Colours are assigned in order: group1+, 
+\item{colours}{A vector of colour names or hex triplets for each of the
+six groups. Default = c("green3", "cyan", "blue",
+"purple", "red", "gold2"). Colours are assigned in order: group1+,
 group1+group2+, group2+, group2+group3+, group3+, group1+group3+.}
 
-\item{non_sig_colour}{non_sig_colour The colour for non-significant markers 
+\item{non_sig_colour}{The colour for non-significant markers 
 (default = "grey60").}
 
-\item{colour_scale}{whether to use a "discrete" or "continuous" colour scale 
+\item{colour_scale}{whether to use a "discrete" or "continuous" colour scale
 (default = "discrete").}
 
-\item{continuous_shift}{the number of degrees (between 0 and 360) 
-corresponding to the angle to offset the continuous colour scale by. The 
-continuous colour scale is calculated by converting the angle to hue where 0 
-degrees corresponds to red and 360 degrees to magenta (default = 120).}
+\item{continuous_shift}{the number of radians (between 0 and 2)
+corresponding to the angle to offset the continuous colour scale by. The
+continuous colour scale is calculated by converting the angle to hue where 0
+corresponds to red and 2 to magenta (default = 1.33).}
 
 \item{label_rows}{A vector of row names or numbers to label.}
 
 \item{arrow_length}{length of label arrow (default = 1).}
 
-\item{grid}{An optional grid object. If NULL this will be calculated using 
+\item{grid}{An optional grid object. If NULL this will be calculated using
 default values of  \code{\link{polar_grid}}.}
 
 \item{fc_or_zscore}{Whether to use the z-score or fold change as magnitude.
@@ -69,11 +69,11 @@ Options are 'zscore' (default) or 'fc'.}
 
 \item{legend_size}{Size for the legend text (default = 20).}
 
-\item{...}{Optional grid parameters to pass to 
+\item{...}{Optional grid parameters to pass to
 \code{\link[volcano3D]{polar_grid}}.}
 }
 \value{
-Returns a polar 'ggplot' object featuring variables on a tri-axis 
+Returns a polar 'ggplot' object featuring variables on a tri-axis
 radial graph
 }
 \description{
@@ -82,17 +82,17 @@ This function creates a radar plot using 'ggplot' for a three-way comparison
 \examples{
 data(example_data)
 syn_polar <- polar_coords(sampledata = syn_example_meta,
-                          contrast = "Pathotype", 
-                          groups = NULL, 
-                          pvalues = syn_example_p, 
-                          expression = syn_example_rld, 
-                          p_col_suffix = "pvalue", 
-                          padj_col_suffix = "padj", 
-                          non_sig_name = "Not Significant", 
+                          contrast = "Pathotype",
+                          groups = NULL,
+                          pvalues = syn_example_p,
+                          expression = syn_example_rld,
+                          p_col_suffix = "pvalue",
+                          padj_col_suffix = "padj",
+                          non_sig_name = "Not Significant",
                           multi_group_prefix = "LRT",
-                          significance_cutoff = 0.01, 
+                          significance_cutoff = 0.01,
                           fc_cutoff = 0.3)
-                          
+
 radial_ggplot(polar = syn_polar, label_rows = c("SLAMF6"))
 }
 \references{

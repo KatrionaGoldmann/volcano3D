@@ -25,8 +25,8 @@ interest. Created by \code{\link{polar_coords}}.}
 \item{value}{The row name or number in \code{polar@expression} to be
 analysed}
 
-\item{box_colours}{The fill colours for each box
-(default = c('green3', 'blue', 'red') assigned in order of levels_order).}
+\item{box_colours}{The fill colours for each box assigned in order of
+levels_order. Default = c('green3', 'blue', 'red') ).}
 
 \item{test}{The statistical test used to compare expression.
 Allowed values include: \itemize{
@@ -62,7 +62,7 @@ pvalues are calculated and plotted.}
 \item{...}{Other parameters for \code{\link[ggpubr]{stat_compare_means}}}
 }
 \value{
-Returns a plotly boxplot featuring the differential expression
+Returns a boxplot featuring the differential expression
 between groups in comparison with annotated pvalues.
 }
 \description{

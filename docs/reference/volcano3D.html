@@ -163,7 +163,7 @@
   <span class='kw'>colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"green3"</span>, <span class='st'>"cyan"</span>, <span class='st'>"blue"</span>, <span class='st'>"purple"</span>, <span class='st'>"red"</span>, <span class='st'>"gold2"</span>),
   <span class='kw'>non_sig_colour</span> <span class='kw'>=</span> <span class='st'>"grey60"</span>,
   <span class='kw'>colour_scale</span> <span class='kw'>=</span> <span class='st'>"discrete"</span>,
-  <span class='kw'>continuous_shift</span> <span class='kw'>=</span> <span class='fl'>120</span>,
+  <span class='kw'>continuous_shift</span> <span class='kw'>=</span> <span class='fl'>1.33</span>,
   <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(),
   <span class='kw'>grid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>fc_or_zscore</span> <span class='kw'>=</span> <span class='st'>"zscore"</span>,
@@ -191,8 +191,8 @@ group1+group2+, group2+, group2+group3+, group3+, group1+group3+.</p></td>
     </tr>
     <tr>
       <th>non_sig_colour</th>
-      <td><p>The colour for non-significant markers according to 
-fold change (default='grey60').</p></td>
+      <td><p>The colour for non-significant markers 
+(default='grey60').</p></td>
     </tr>
     <tr>
       <th>colour_scale</th>
@@ -201,9 +201,10 @@ fold change (default='grey60').</p></td>
     </tr>
     <tr>
       <th>continuous_shift</th>
-      <td><p>the number of degrees (between 0 and 360) 
-corresponding to the angle to offset the continuous colour scale by. The 
-continuous colour scale is calculated by converting the angle to hue where</p></td>
+      <td><p>The number of radians 
+to offset the continuous colour scale by. This is calculated by converting 
+the angle to a hue using <code><a href='https://rdrr.io/r/grDevices/hsv.html'>hsv</a></code> where 0 corresponds to
+the colour scale starting with red and 2 with magenta (default = 2).</p></td>
     </tr>
     <tr>
       <th>label_rows</th>
@@ -216,8 +217,8 @@ default values of  <code><a href='polar_grid.html'>polar_grid</a></code>.</p></t
     </tr>
     <tr>
       <th>fc_or_zscore</th>
-      <td><p>whether to use fold change or z-score for the p-values 
-(default = 'zscore').</p></td>
+      <td><p>whether to use fold change or z-score for the p-values. 
+Options are 'zscore' (default) or 'fc').</p></td>
     </tr>
     <tr>
       <th>label_size</th>
@@ -273,8 +274,7 @@ treatment response phenotypes.</a>
                           <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
                           <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
                           <span class='kw'>fc_col_suffix</span><span class='kw'>=</span><span class='st'>'log2FoldChange'</span>,
-                          <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
-
+                          <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)</div><div class='output co'>#&gt; <span class='message'>• Some  columns were not originally numeric. These have been converted.</span></div><div class='input'>
 <span class='fu'>volcano3D</span>(<span class='no'>syn_polar</span>,
     <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"FMOD"</span>, <span class='st'>"LAMP5"</span>, <span class='st'>"TNNT3"</span>),
     <span class='kw'>xy_aspectratio</span> <span class='kw'>=</span> <span class='fl'>1</span>,

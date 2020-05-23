@@ -1,4 +1,4 @@
-#This file contains the extra features for the initial load
+# This file contains the extra features for the initial load
 
 # Welcome message
 .onAttach <- function(libname, pkgname) {

@@ -2,6 +2,8 @@
 title: "volcano3D Vignette"
 author: "Katriona Goldmann"
 output: rmarkdown::html_vignette
+toc:
+  depth: 5
 vignette: >
   \VignetteIndexEntry{volcano3D package}
   \VignetteEngine{knitr::knitr}
@@ -106,24 +108,22 @@ Variables used in this vignette:
 | Variable | Definition   |
 |-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | <b>contrast</b> | the variable by which samples can be split into three groups. |
-| <b>groups</b> | the three levels/categories of the contrast variable. |
+| <b>groups</b> | the three levels/categories of the contrast variable. These should not contain underscores.|
 | <b>comparison</b> | two groups between which a statistical test can be performed. There should be three comparisons total. For the examples outlined in this vignette we look at comparisons: 'lymphoid-myeloid', 'lymphoid-fibroid' and 'myeloid-fibroid'. |
 | <b>p</b> | p value |
 | <b>FC</b> | fold change |
 | <b>padj</b> | adjusted p value |
-| <b>suffix</b> | the tail word in a column name. In this package it states the statistical parameter (e.g. _logFC is the log FC variable)  |
+| <b>suffix</b> | the tail word in a column name. In this package it states the statistical parameter (e.g. _logFC is the log FC variable).  |
 | <b>prefix</b> | the leading word in a column name. In this package it states the statistical test (e.g. LRT is the likelihood ratio test). |
 | <b>polar</b> | A polar coordinates object, of S4 class, containing the expression data, sample data, pvalues and polar coordinates. |
 
 
 
-# Examples 
+# Example 1. Synovial Gene Data
 
 This vignette will demonstrate the power of this package using a basic example
 from the [PEAC data set](http://www.peac-mrc.mds.qmul.ac.uk). Here we will focus
 on the synovial data from this cohort.
-
-## 1. Synovial Gene Data
 
 Using the synovial biopsies from PEAC we can create a polar object for
 differentially expressed genes. The sample data used in this vignette can be 
@@ -160,14 +160,14 @@ mytable = data.frame(
               "the pvalues data.frame which contains the statistical\
                 significance of probes between groups. This contains: \
               \n * three pvalue columns: one for each comparison with \
-              column names of format `paste0(groups[i], '_', groups[j], '_', p_col_suffix)`.\ 
+              column names of format `paste(groups[i], groups[j], p_col_suffix, sep='_')`.\ 
               We recommend \
               using 'limma' or 'DESeq' pipelines to calculate these pvalues for \
               gene expression.\ 
               \n * _optional_ fold change columns: one for each comparison with\
-              column names of format `paste0(groups[i], '_', groups[j], '_', fc_col_suffix)`  \
+              column names of format `paste(groups[i], groups[j], fc_col_suffix, sep='_')`  \
               \n * _optional_ adjusted pvalue columns: one for each comparison\
-              with column names of format `paste0(groups[i], '_', groups[j], '_', padj_col_suffix)` \
+              with column names of format `paste(groups[i], groups[j], padj_col_suffix, sep='_')` \
               \n * an _optional_ multi-group pvalue column: from a multi-group\
               test with column name of the form `paste0(multi_group_prefix, '_', p_col_suffix)`.This is typically\
               generated using ANOVA or likelihood ratio tests between all three groups. \
@@ -181,19 +181,19 @@ mytable = data.frame(
            is used to calculate z-score and fold change, therefore it should be a \
            normalised expression object such as log transformed or variance stabilised."),
   groups = c("groups", "The groups to be compared (in order). If NULL this \
-             defaults to `levels(sampledata[, 'contrasts'])`."), 
-  pcsuff = c("p_col_suffix", "The suffix of column names with pvalues (default is 'pvalue')."),
+             defaults to `levels(sampledata[, 'contrasts'])`. These must not contain underscores."), 
+  pcsuff = c("p_col_suffix", "The suffix of column names with pvalues (default is 'pvalue'). This must not contain underscores."),
   padjsuff = c("padj_col_suffix", "The suffix of column names with adjusted pvalues (default\
-  is 'padj'). If NULL the adjusted pvalue is calculated using `p_col_suffix` and\
+  is 'padj').  This must not contain underscores. If NULL the adjusted pvalue is calculated using `p_col_suffix` and\
   `pvalue_method`."),
   padjmeth = c("padjust_method", "The method to calculate adjusted pvalues if not already\
   provided. Must be one of c('holm', 'hochberg', 'hommel', 'bonferroni', 'BH',\
   'BY', 'fdr', 'none'). Default is 'BH'."),
   gc_suff = c("fc_col_suffix", "The suffix of column names with log(fold change) values\
-  (default is 'logFC')."),
+  (default is 'logFC'). This must not contain underscores."),
   mpref = c("multi_group_prefix", "The prefix for columns containing statistics for a\
   multi-group test (this is typically a likelihood ratio test or ANOVA). Default\
-  is NULL."),
+  is NULL. This must not contain underscores."),
   lab = c("label_column", "A column name in pvalues which is to be used to label markers\
   of interest at plotting stage. If NULL the rownames will be used.")
 )
@@ -206,6 +206,9 @@ kable(t(mytable), row.names = FALSE, col.names = c("Variable", "Details")) %>%
 For example we can map the PEAC data to polar coordinates using: 
 
 ```{r}
+
+syn_pvalues$Fibroid_Lymphoid_pvalue = factor(syn_pvalues$Fibroid_Lymphoid_pvalue)
+
 syn_polar <- polar_coords(sampledata = syn_metadata,
                           contrast = "Pathotype",
                           pvalues = syn_pvalues,
@@ -262,7 +265,7 @@ table(syn_polar@polar$sig) %>%
   kable_styling(full_width = F)
 ```
 
-### Volcano Plots
+## Volcano Plots
 
 If there is a fold change column previously provided, we can now investigate
 the comparisons between pathotypes using the
@@ -284,7 +287,7 @@ syn_plots <- volcano_trio(polar = syn_polar,
 syn_plots$All
 ```
 
-### Radial Plots
+## Radial Plots
 
 The differential expression can now be visualised on an interactive radar plot 
 using radial_plotly. The `labelRows` variable allows any markers of interest to 
@@ -317,18 +320,18 @@ radial_ggplot(polar = syn_polar,
               marker_size = 2.3,
               marker_alpha=0.7,
               colour_scale = "continuous",
-              continuous_shift=120,
+              continuous_shift=1.33,
               legend_size = 10) 
 ```
 
 
-### Boxplots
+## Boxplots
 
 We can then interrogate any one specific variable as a boxplot, to investigate
 these differences. This is build using ggplot2 so can easily be edited by the
 user to add features. Using plotly:
 
-```{r, fig.height = 3.7, fig.width=7}
+```{r, fig.height = 3.7, fig.width=9}
 plot1 <- boxplot_trio(syn_polar,
                       value = "FAM92B",
                       text_size = 7,
@@ -387,7 +390,7 @@ plot3 <- boxplot_trio(syn_polar,
 ggarrange(plot1, plot2, plot3, ncol=3)
 ```
 
-### Three Dimensional Volcano Plots
+## Three Dimensional Volcano Plots
 
 The final thing we can look at is the 3D volcano plot which projects
 differential gene expression onto cylindrical coordinates.
@@ -412,8 +415,8 @@ save static images. To install follow the instructions
 orca(p, "~/Desktop/volcano_3d_synovium.svg", format = "svg")
 ```
 
-We can alter the colours using the colours parameter. These colours are assigned
-in order
+We can alter the colours using the colours parameter. These are assigned in 
+order group1+, group1+group2+, group2+, group2+group3+, group3+, group1+group3+.
 
 ```{r, fig.width=7}
 p <- volcano3D(syn_polar,
@@ -429,9 +432,9 @@ p
 ```
 
 
-### Altering the Plots
+## Altering the Plots
 
-#### Altering the Grid
+### Altering the Grid
 
 By default volcano3D generates a grid using 12 spokes. If you wish to override
 any of these variables it is possible to pass in your own grid. This is also
@@ -447,7 +450,7 @@ r_axis_ticks and z_axis_ticks.
 For example we can decrease the number of radial spokes to 4, while altering
 the z axis ticks:
 
-```{r, out.height = "150%", out.width = "100%"}
+```{r}
 four_grid = polar_grid(r_vector=syn_polar@polar$r_zscore,
                        z_vector=NULL,
                        r_axis_ticks = NULL,
@@ -455,7 +458,8 @@ four_grid = polar_grid(r_vector=syn_polar@polar$r_zscore,
                        n_spokes = 4)
 ```
 
-We can inspect the grid using `show_grid()`:
+We can inspect the grid using `show_grid()` which creates both the polar and 
+cylindrical coordinate system:
 
 ```{r, fig.width=7}
 p <- show_grid(four_grid)
@@ -485,7 +489,7 @@ new_grid = polar_grid(r_vector=NULL,
                       n_spokes = 24)
 ```
 
-#### Altering the Labels
+### Altering the Labels
 
 By default the rownames of the pvalues object is used to label markers of
 interest. This can be altered by amending the label column in the polar object:
@@ -501,7 +505,7 @@ radial_ggplot(polar = syn_polar,
   theme(legend.position = "right")
 ```
 
-## 2. Synovial Modular Data
+# Example 2. Synovial Modular Data
 
 We can then collapse this into a modular analysis using a list of gene sets.
 In this example we have used the blood transcript modules curated by Li et. al.
@@ -512,7 +516,7 @@ derived from a systems biology study of five human vaccines. Nature immunology,
 pvalues were generated using
 [QuSAGE methodology](http://clip.med.yale.edu/qusage/).
 
-### Creating polar coordinates
+## Creating polar coordinates
 
 ```{r}
 data(Li_pvalues)
@@ -531,7 +535,7 @@ syn_mod_polar <- polar_coords(sampledata = syn_metadata,
 ```
 
 
-### Volcano Plots
+## Volcano Plots
 
 We can now investigate the comparisons between pathotypes using the
 volcano_trio function.
@@ -550,7 +554,7 @@ syn_mod_plots <- volcano_trio(polar = syn_mod_polar,
 syn_mod_plots$All
 ```
 
-### Radial Plots
+## Radial Plots
 
 
 ```{r, out.height="100%", out.width="90%", fig.height=8, fig.width=10}
@@ -570,7 +574,7 @@ radial_ggplot(polar = syn_mod_polar,
               legend_size = 10) 
 ```
 
-### Boxplots
+## Boxplots
 
 We can then interrogate any one specific variable as a boxplot, to investigate
 these differences.

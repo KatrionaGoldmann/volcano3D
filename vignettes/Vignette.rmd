@@ -100,13 +100,13 @@ Variables used in this vignette:
 | <span style="color:maroon">Variable</span> | <span style="color:maroon">Definition </span>  |
 |-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | contrast | the variable by which samples can be split into three groups. |
-| groups | the three levels/categories of the contrast variable. |
+| groups | the three levels/categories of the contrast variable. These should not contain underscores. |
 | comparison | two groups between which a statistical test can be performed. There should be three comparisons total. For the examples outlined in this vignette we look at comparisons: 'lymphoid-myeloid', 'lymphoid-fibroid' and 'myeloid-fibroid'. |
 | p | p value |
 | FC | fold change |
 | padj | adjusted p value |
-| suffix | the tail word in a column name. In this package it states the statistical parameter (e.g. _logFC is the log FC variable)  |
-| prefix | the leading word in a column name. In this package it states the statistical test (e.g. LRT is the likelihood ratio test). |
+| suffix | the tail word in a column name. In this package it states the statistical parameter (e.g. logFC is the log FC variable). |
+| prefix | the leading word in a column name. In this package it states the statistical test (e.g. LRT is the likelihood ratio test).  |
 | polar | A polar coordinates object, of S4 class, containing the expression data, sample data, pvalues and polar coordinates. |
 
 
@@ -153,19 +153,19 @@ mytable = data.frame(
            is used to calculate z-score and fold change, therefore it should be a \
            normalised expression object such as log transformed or variance stabilised counts."),
   groups = c("groups", "The groups to be compared (in order). If NULL this \
-             defaults to `levels(sampledata[, 'contrasts'])`."), 
-  pcsuff = c("p_col_suffix", "The suffix of column names with pvalues (default is 'pvalue')."),
+             defaults to `levels(sampledata[, 'contrasts'])`. These must not contain underscores."), 
+  pcsuff = c("p_col_suffix", "The suffix of column names with pvalues (default is 'pvalue'). This must not contain underscores."),
   padjsuff = c("padj_col_suffix", "The suffix of column names with adjusted pvalues (default\
-  is 'padj'). If NULL the adjusted pvalue is calculated using `p_col_suffix` and\
+  is 'padj'). This must not contain underscores. If NULL the adjusted pvalue is calculated using `p_col_suffix` and\
   `pvalue_method`."),
   padjmeth = c("padjust_method", "The method to calculate adjusted pvalues if not already\
   provided. Must be one of c('holm', 'hochberg', 'hommel', 'bonferroni', 'BH',\
   'BY', 'fdr', 'none'). Default is 'BH'."),
   gc_suff = c("fc_col_suffix", "The suffix of column names with log(fold change) values\
-  (default is 'logFC')."),
+  (default is 'logFC'). This must not contain underscores."),
   mpref = c("multi_group_prefix", "The prefix for columns containing statistics for a\
   multi-group test (this is typically a likelihood ratio test or ANOVA). Default\
-  is NULL."),
+  is NULL. This must not contain underscores."),
   lab = c("label_column", "A column name in pvalues which is to be used to label markers\
   of interest at plotting stage. If NULL the rownames will be used.")
 )
@@ -290,8 +290,7 @@ radial_ggplot(polar = syn_polar,
 ## Boxplots
 
 We can then interrogate any one specific variable as a boxplot, to investigate
-these differences. This is build using ggplot2 so can easily be edited by the
-user to add features.
+these differences. 
 
 ```{r, fig.height = 3.2, fig.width = 7}
 plot1 <- boxplot_trio(syn_polar,
@@ -316,37 +315,8 @@ plot3 <- boxplot_trio(syn_polar,
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       box_colours = c("blue", "red", "green3"))
 
-ggarrange(plot1, plot2, plot3)
-```
-
-Alternatively for static ggplot boxplots: 
-
-```{r, fig.height=2.7}
-plot1 <- boxplot_trio(syn_polar,
-                      value = "SLAMF6",
-                      text_size = 7,
-                      test = "polar_padj",
-                      my_comparisons=list(c("Lymphoid", "Myeloid"),
-                                          c("Lymphoid", "Fibroid")))
-
-plot2 <- boxplot_trio(syn_polar,
-                      value = "SLAMF6",
-                      box_colours = c("violet", "gold2"),
-                      levels_order = c("Lymphoid", "Fibroid"),
-                      text_size = 7,
-                      test = "polar_padj")
-
-plot3 <- boxplot_trio(syn_polar,
-                      value = "FMOD",
-                      text_size = 7,
-                      stat_size=2.5,
-                      test = "polar_multi_padj",
-                      levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                      box_colours = c("blue", "red", "green3"))
-
 ggarrange(plot1, plot2, plot3, ncol=3)
 ```
-
 
 ## Three Dimensional Volcano Plots
 

@@ -9,6 +9,8 @@ authors:
   Katriona Goldmann:
     href: https://github.com/KatrionaGoldmann
 
+toc:
+  depth: 5
 
 navbar:
   components:

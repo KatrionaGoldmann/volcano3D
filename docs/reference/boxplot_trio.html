@@ -189,8 +189,8 @@ analysed</p></td>
     </tr>
     <tr>
       <th>box_colours</th>
-      <td><p>The fill colours for each box
-(default = c('green3', 'blue', 'red') assigned in order of levels_order).</p></td>
+      <td><p>The fill colours for each box assigned in order of
+levels_order. Default = c('green3', 'blue', 'red') ).</p></td>
     </tr>
     <tr>
       <th>test</th>
@@ -246,7 +246,7 @@ pvalues are calculated and plotted.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a plotly boxplot featuring the differential expression
+    <p>Returns a boxplot featuring the differential expression
 between groups in comparison with annotated pvalues.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -269,8 +269,7 @@ treatment response phenotypes.</a>
                           <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
                           <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
                           <span class='kw'>fc_col_suffix</span><span class='kw'>=</span><span class='st'>'log2FoldChange'</span>,
-                          <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
-
+                          <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)</div><div class='output co'>#&gt; <span class='message'>• Some  columns were not originally numeric. These have been converted.</span></div><div class='input'>
 <span class='fu'>boxplot_trio</span>(<span class='no'>syn_polar</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"SLAMF6"</span>, <span class='kw'>plot_method</span><span class='kw'>=</span><span class='st'>"plotly"</span>)
 <span class='fu'>boxplot_trio</span>(<span class='no'>syn_polar</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"SLAMF6"</span>)</div><div class='img'><img src='boxplot_trio-1.png' alt='' width='700' height='433' /></div></pre>
   </div>

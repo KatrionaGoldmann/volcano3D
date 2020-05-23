@@ -184,12 +184,12 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>pvalues_df</th>
-      <td><p>The pvalues data frame. This must contain pvalue, padj, 
-logFC columns as well as a label column.</p></td>
+      <td><p>The pvalues data frame. This must contain a pvalue, padj,
+and logFC column as well as a label column.</p></td>
     </tr>
     <tr>
       <th>comparison</th>
-      <td><p>The comparison to use</p></td>
+      <td><p>The comparison (column_prefix) to use.</p></td>
     </tr>
     <tr>
       <th>p_cutoff</th>
@@ -201,7 +201,7 @@ logFC columns as well as a label column.</p></td>
     </tr>
     <tr>
       <th>label_rows</th>
-      <td><p>Row numbers or names for values to be annotated/labelled
+      <td><p>Row numbers or names of values to be annotated/labelled
 (default = NULL).</p></td>
     </tr>
     <tr>
@@ -217,8 +217,13 @@ p values (default = 'padj'). If NULL these will be calculated using
     </tr>
     <tr>
       <th>fc_col_suffix</th>
-      <td><p>The optional suffix word to define columns containing 
+      <td><p>The optional suffix word to define columns containing
 log fold change values (default = 'logFC').</p></td>
+    </tr>
+    <tr>
+      <th>label_col</th>
+      <td><p>Optional column name in 'pvalues_df' for labelling markers.
+If NULL the rownames of pvalues are used.</p></td>
     </tr>
     <tr>
       <th>label_size</th>
@@ -238,9 +243,9 @@ log fold change values (default = 'logFC').</p></td>
     </tr>
     <tr>
       <th>sig_names</th>
-      <td><p>A character vector of labels to be used for: 
-non-significant; adjusted p &lt; p_cutoff; |Fold Change| &gt; fc_cutoff; and 
-finally adjusted p &lt; p_cutoff. 
+      <td><p>A character vector of labels to be used for:
+non-significant; adjusted p &lt; p_cutoff; |Fold Change| &gt; fc_cutoff; and
+finally adjusted p &lt; p_cutoff.
 If NULL c('Not Significant', <code><a href='https://rdrr.io/r/base/paste.html'>paste('Padj &lt;', `p_cutoff`)</a></code>,
 <code><a href='https://rdrr.io/r/base/paste.html'>paste('|FC| &gt;', `fc_cutoff`)</a></code>,
 <code><a href='https://rdrr.io/r/base/paste.html'>paste('Padj &lt;', `p_cutoff`, 'and |FC| &gt;', `fc_cutoff`)</a></code>) is used.</p></td>
@@ -268,16 +273,11 @@ adjusted p &lt; p_cutoff;
       <td><p>A character vector stating the colour of lines to be
 used for fc_line and p_line respectively (default = c('black', 'black')).</p></td>
     </tr>
-    <tr>
-      <th>label_column</th>
-      <td><p>Optional column name in pvalues for markers to be 
-labelled with at plotting stage. If NULL the rownames of pvalues are used.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a single ggplot volcano plots.</p>
+    <p>Returns a single volcano plot.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Lewis, Myles J., et al. (2019).

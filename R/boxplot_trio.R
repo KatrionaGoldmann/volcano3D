@@ -6,8 +6,8 @@
 #' interest. Created by \code{\link{polar_coords}}.
 #' @param value The row name or number in \code{polar@expression} to be
 #' analysed
-#' @param box_colours The fill colours for each box
-#' (default = c('green3', 'blue', 'red') assigned in order of levels_order).
+#' @param box_colours The fill colours for each box assigned in order of
+#' levels_order. Default = c('green3', 'blue', 'red') ).
 #' @param test The statistical test used to compare expression.
 #' Allowed values include: \itemize{
 #'  \item \code{polar_pvalue} (default) and 'polar_padj' for the pvalues
@@ -33,14 +33,14 @@
 #' (default = 0.05).
 #' @param plot_method Whether to use 'plotly' or 'ggplot'. Default is 'ggplot'
 #' @param ... Other parameters for \code{\link[ggpubr]{stat_compare_means}}
-#' @return Returns a plotly boxplot featuring the differential expression
+#' @return Returns a boxplot featuring the differential expression
 #' between groups in comparison with annotated pvalues.
-#' @importFrom ggpubr compare_means ggboxplot stat_pvalue_manual 
-#' stat_compare_means 
+#' @importFrom ggpubr compare_means ggboxplot stat_pvalue_manual
+#' stat_compare_means
 #' @importFrom plotly layout plot_ly add_trace add_markers
 #' @importFrom utils combn
 #' @importFrom grDevices hsv
-#' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate 
+#' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate
 #' geom_point scale_color_manual aes geom_jitter element_rect aes_string
 #' @keywords hplot
 #' @references
@@ -79,11 +79,11 @@ boxplot_trio <- function(polar,
                          step_increase = 0.05,
                          plot_method="ggplot",
                          ...){
-  
+
   sampledata <- polar@sampledata
   expression <- polar@expression
   pvalues <- polar@pvalues
-  
+
   if(! test %in% c("polar_pvalue", "polar_padj", "polar_multi_pvalue",
                    "polar_multi_padj", "t.test", "wilcox.test", "anova",
                    "kruskal.test")) {
@@ -116,7 +116,7 @@ boxplot_trio <- function(polar,
     }
     return(x)
   }))
-  
+
   if(! class(sampledata) %in% c("data.frame")) {
     stop("sampledata must be a data frame")
   }
@@ -140,34 +140,79 @@ boxplot_trio <- function(polar,
   if(! plot_method %in% c('plotly', 'ggplot')){
     stop("plot_method must be either plotly or ggplot")
   }
-  
+
   colour_map <- setNames(box_colours, levels_order)
   sampledata$comp <- sampledata[, polar@contrast]
   expression <- expression[, match(as.character(sampledata$ID),
                                    colnames(expression))]
-  
+
   if(class(value) ==  "character") {
     index <- which(rownames(expression) ==  value)
   }
-  
+
   if(is.null(my_comparisons)) {
-    comps <- levels(sampledata$comp)
+    comps <- levels_order
     my_comparisons <- lapply(seq_len(ncol(combn(comps, 2))), function(i) {
       as.character(combn(comps, 2)[, i])
     })
   }
-  
+
   df <- data.frame("ID" = sampledata$ID,
                    "group" = sampledata$comp,
                    "row" = as.numeric(as.character(expression[value, ])))
   df <- df[! is.na(df$row), ]
   df <- df[df$group %in% levels_order, ]
-  
+
   # relevel based on defined order
   df$group <- factor(df$group, levels_order)
   df$col <- factor(df$group, labels=colour_map[match(levels(df$group),
                                                      names(colour_map))])
-  
+
+  map_pos <- setNames(seq_along(levels(df$group)), levels(df$group))
+
+  # Calculate the pvalues depending on test
+  if(test %in% c("t.test", "wilcox.test", "anova", "kruskal.test")){
+    pvals <- compare_means(formula = row ~ group, data = df,
+                           comparisons = my_comparisons,
+                           method = test,
+                           step.increase = step_increase,
+                           size=stat_size)
+
+    pvals$x.position <- map_pos[pvals$group1] +
+      (map_pos[pvals$group2] - map_pos[pvals$group1])/2
+    pvals$y.position <- max(df$row, na.rm=TRUE)*
+      (1.01 + step_increase*c(seq_len(nrow(pvals))-1))
+    pvals$new_p_label <- pvals$p.format
+
+    # groups comparisons
+  } else if (! grepl("multi", test)){
+    pvals <- pvalues[value, ]
+    pvals <- pvals[, grepl(gsub("polar_", "", test), colnames(pvals))]
+    if(! is.null(polar@multi_group_test)){
+      pvals <- pvals[, ! grepl(polar@multi_group_test, colnames(pvals))]
+    }
+    colnames(pvals) <- gsub(paste0("_", gsub("polar_", "", test)), "",
+                                 colnames(pvals))
+    rownames(pvals) <- "p"
+    pvals <- data.frame(t(pvals))
+    pvals$group1 <- gsub("_.*", "", rownames(pvals))
+    pvals$group2 <- gsub(".*_", "", rownames(pvals))
+    pvals$p.format <- format(pvals$p, digits=2)
+    pvals$method <- test
+    pvals$y.position <- max(df$row, na.rm=TRUE)
+    pvals$comp <- paste0(pvals$group1, "_", pvals$group2)
+    pvals$x.position <- map_pos[pvals$group1] +
+      (map_pos[pvals$group2] - map_pos[pvals$group1])/2
+    pvals$y.position <- pvals$y.position[1]*
+      (1.01 + step_increase*(seq_len(nrow(pvals))-1))
+
+    # muti group comparisons
+  } else{
+    pvals <- pvalues[value, ]
+    pvals <- pvals[, grepl(gsub("polar_multi_", "", test), colnames(pvals))]
+    pvals <- pvals[, grepl(polar@multi_group_test, colnames(pvals))]
+  }
+
   if(plot_method == 'ggplot'){
     p <- ggboxplot(data = df,
                    x = "group",
@@ -186,63 +231,21 @@ boxplot_trio <- function(polar,
             plot.background = element_rect(fill="transparent", color=NA),
             panel.background = element_rect(fill="transparent", colour=NA),
             legend.background = element_rect(fill="transparent", colour=NA))
-    
-    
-    if(test %in% c("t.test", "wilcox.test", "anova", "kruskal.test")){
-      p <- p + stat_compare_means(comparisons = my_comparisons,
-                                  method = test,
-                                  step.increase = step_increase,
-                                  size=stat_size, ...)
-    } else if (! grepl("multi", test)){
-      # groups comparisons
-      pvals <- pvalues[value, ]
-      pvals <- pvals[, grepl(gsub("polar_", "", test), colnames(pvals))]
-      if(! is.null(polar@multi_group_test)){
-        pvals <- pvals[, ! grepl(polar@multi_group_test, colnames(pvals))]
-      }
-      colnames(pvals) <- gsub(paste0("_", gsub("polar_", "", test)), "",
-                              colnames(pvals))
-      
-      rev_comp <- unlist(lapply(my_comparisons, function(x) {
-        c(paste(unlist(x), collapse="_"),
-          paste(rev(unlist(x)), collapse="_"))
-      }))
-      
-      pvals_sc <- compare_means(row ~ group, data = df)
-      pvals_sc <- pvals_sc[paste(pvals_sc$group1, pvals_sc$group2, sep="_")
-                           %in% rev_comp, ]
-      pvals_sc$comp <- paste0(pvals_sc$group1, "_", pvals_sc$group2)
-      
-      colnames(pvals) <- unlist(lapply(colnames(pvals), function(x) {
-        if(x %in% pvals_sc$comp) {
-          out <- x
-        } else{
-          gs <- unlist(strsplit(x, split="_"))
-          out <- paste0(gs[2], "_", gs[1])
-        }
-        out
-      }))
-      pvals <- data.frame(t(pvals))
-      pvals_sc$new_p <- pvals[match(pvals_sc$comp, rownames(pvals)), 1]
-      pvals_sc$new_p_label <- format(pvals_sc$new_p, digits = 2)
-      pvals_sc$y.position <- max(df$row, na.rm=TRUE)
-      
+
+
+    if(! grepl("multi", test)){
+
       p <- p + stat_pvalue_manual(
-        data = pvals_sc, label = "new_p_label",
+        data = pvals, label = "p.format",
         xmin = "group1", xmax = "group2",
         step.increase = step_increase,
         y.position = "y.position",
         size=stat_size, ...)
     } else{
-      # muti group comparisons
-      pvals <- pvalues[value, ]
-      pvals <- pvals[, grepl(gsub("polar_multi_", "", test), colnames(pvals))]
-      pvals <- pvals[, grepl(polar@multi_group_test, colnames(pvals))]
-      
+      # muti group comparison
       p <- p + annotate("text", x = 0.5 + length(unique(df$group))/2,
                         y = Inf, vjust = 2, hjust = 0.5,
                         label = paste("p =", format(pvals, digits = 2)))
-      
     }
   } else{
     p <- df %>%
@@ -266,22 +269,10 @@ boxplot_trio <- function(polar,
       xaxis = list(title = polar@contrast, tickvals = 1:3,
                    ticktext = levels(df$group)),
       yaxis = list(title = paste(value, "Expression")))
-    
-    
-    if(test %in% c("t.test", "wilcox.test", "anova", "kruskal.test")){
-      pvals <- compare_means(formula = row ~ group, data = df,
-                             comparisons = my_comparisons,
-                             method = test,
-                             step.increase = step_increase,
-                             size=stat_size)
-      
-      map_pos <- setNames(seq_along(levels(df$group)), levels(df$group))
-      pvals$x.position <- map_pos[pvals$group1] +
-        (map_pos[pvals$group2] - map_pos[pvals$group1])/2
-      pvals$y.position <- max(df$row, na.rm=TRUE)*
-        (1.01 + step_increase*c(seq_len(nrow(pvals))-1))
-      
-      lines <- list()
+
+
+    lines <- list()
+    if(! grepl("multi", test)){
       for (i in seq_len(nrow(pvals))) {
         line <- list()
         line[["x0"]] <- map_pos[pvals$group1][i]
@@ -289,86 +280,20 @@ boxplot_trio <- function(polar,
         line[c("y0", "y1")] <- pvals$y.position[i]
         lines <- c(lines, list(line))
       }
-      
+
       a <- list(
         x = as.numeric(pvals$x.position),
-        y = step_increase + pvals$y.position,
-        text = format(pvals$p, digits=3),
+        y = pvals$y.position,
+        text = format(pvals$p.format, digits=3),
         xref = "x",
         yref = "y",
+        yanchor = "bottom",
         showarrow = FALSE
       )
-      
+
       p <- p %>% layout(annotations = a, shapes=lines)
-      
-    } else if (! grepl("multi", test)){
-      # groups comparisons
-      pvals <- pvalues[value, ]
-      pvals <- pvals[, grepl(gsub("polar_", "", test), colnames(pvals))]
-      if(! is.null(polar@multi_group_test)){
-        pvals <- pvals[, ! grepl(polar@multi_group_test, colnames(pvals))]
-      }
-      colnames(pvals) <- gsub(" ", "",
-                              gsub(paste0("_", gsub("polar_", "", test)), "",
-                                   colnames(pvals)))
-      
-      rev_comp <- unlist(lapply(my_comparisons, function(x) {
-        c(paste(unlist(x), collapse="_"),
-          paste(rev(unlist(x)), collapse="_"))
-      }))
-      
-      pvals_sc <- compare_means(row ~ group, data = df)
-      pvals_sc <- pvals_sc[paste0(pvals_sc$group1, "_", pvals_sc$group2) %in%
-                             rev_comp, ]
-      pvals_sc$comp <- paste0(pvals_sc$group1, "_", pvals_sc$group2)
-      
-      colnames(pvals) <- unlist(lapply(colnames(pvals), function(x) {
-        if(x %in% pvals_sc$comp) {
-          out <- x
-        } else{
-          gs <- unlist(strsplit(x, split="_"))
-          out <- paste0(gs[2], "_", gs[1])
-        }
-        out
-      }))
-      pvals <- data.frame(t(pvals))
-      pvals_sc$new_p <- pvals[match(pvals_sc$comp, rownames(pvals)), 1]
-      pvals_sc$new_p_label <- format(pvals_sc$new_p, digits = 2)
-      pvals_sc$y.position <- max(df$row, na.rm=TRUE)
-      map_pos <- setNames(seq_along(levels(df$group)), levels(df$group))
-      
-      pvals_sc$x.position <- map_pos[pvals_sc$group1] +
-        (map_pos[pvals_sc$group2] - map_pos[pvals_sc$group1])/2
-      pvals_sc$y.position <- pvals_sc$y.position[1]*
-        (1.01 + step_increase*(seq_len(nrow(pvals_sc))-1))
-      
-      lines <- list()
-      for (i in seq_len(nrow(pvals_sc))) {
-        line <- list()
-        line[["x0"]] <- map_pos[pvals_sc$group1][i]
-        line[["x1"]] <- map_pos[pvals_sc$group2][i]
-        line[c("y0", "y1")] <- pvals_sc$y.position[i]
-        lines <- c(lines, list(line))
-      }
-      
-      a <- list(
-        x = as.numeric(pvals_sc$x.position),
-        y = step_increase + pvals_sc$y.position,
-        text = pvals_sc$new_p_label,
-        xref = "x",
-        yref = "y",
-        showarrow = FALSE
-      )
-      
-      p <- p %>% layout(annotations = a, shapes=lines)
-      
-      
+
     } else{
-      # muti group comparisons
-      pvals <- pvalues[value, ]
-      pvals <- pvals[, grepl(gsub("polar_multi_", "", test), colnames(pvals))]
-      pvals <- pvals[, grepl(polar@multi_group_test, colnames(pvals))]
-      
       a <- list(
         x = 2,
         y = step_increase + max(df$row, na.rm=TRUE),
@@ -377,11 +302,12 @@ boxplot_trio <- function(polar,
         yref = "y",
         showarrow = FALSE
       )
-      
+
       p <- p %>% layout(annotations = a)
-      
     }
+
+
   }
-  
+
   return(p)
 }

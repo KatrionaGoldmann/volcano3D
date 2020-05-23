@@ -7,34 +7,34 @@
 show_grid(grid, plot_height = 700, axis_angle = 0)
 }
 \arguments{
-\item{grid}{A grid object produced by \code{\link{polar_grid}}}
+\item{grid}{A grid object produced by \code{\link{polar_grid}}.}
 
 \item{plot_height}{The plot height in px (default=700),}
 
-\item{axis_angle}{The angle at which to add axis (default=0)}
+\item{axis_angle}{The angle in radians at which to add axis (default=0).}
 }
 \value{
-Returns a list containing a polar and cylindrical coordinate system
+Returns a list containing a polar and cylindrical coordinate system.
 }
 \description{
-This function creates an interactive grids in polar and cylindrical 
+This function creates an interactive grids in polar and cylindrical
 coordinates
 }
 \examples{
 data(example_data)
 syn_polar <- polar_coords(sampledata = syn_example_meta,
-                       contrast = "Pathotype", 
-                       groups = NULL, 
-                       pvalues = syn_example_p, 
-                       expression = syn_example_rld, 
-                       p_col_suffix = "pvalue", 
-                       padj_col_suffix = "padj", 
-                       non_sig_name = "Not Significant", 
+                       contrast = "Pathotype",
+                       groups = NULL,
+                       pvalues = syn_example_p,
+                       expression = syn_example_rld,
+                       p_col_suffix = "pvalue",
+                       padj_col_suffix = "padj",
+                       non_sig_name = "Not Significant",
                        multi_group_prefix = "LRT",
-                       significance_cutoff = 0.01, 
+                       significance_cutoff = 0.01,
                        fc_col_suffix='log2FoldChange',
                        fc_cutoff = 0.3)
-                 
+
 grid <- polar_grid(r_vector=syn_polar@polar$r_zscore,
         z_vector=-log(syn_polar@pvalues$LRT_pvalue),
         r_axis_ticks = NULL,

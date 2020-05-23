@@ -182,7 +182,7 @@ factor.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>polar</th>
-      <td><p>A polar object with the pvalues between groups of interest. 
+      <td><p>A polar object with the pvalues between groups of interest.
 Created by <code><a href='polar_coords.html'>polar_coords</a></code>.</p></td>
     </tr>
     <tr>
@@ -195,7 +195,7 @@ Created by <code><a href='polar_coords.html'>polar_coords</a></code>.</p></td>
     </tr>
     <tr>
       <th>label_rows</th>
-      <td><p>Row numbers or names for values to be annotated/labelled
+      <td><p>Row numbers or names of values to be annotated/labelled
 (default = NULL).</p></td>
     </tr>
     <tr>
@@ -216,9 +216,9 @@ Created by <code><a href='polar_coords.html'>polar_coords</a></code>.</p></td>
     </tr>
     <tr>
       <th>sig_names</th>
-      <td><p>A character vector of labels to be used for: 
-non-significant; adjusted p &lt; p_cutoff; |Fold Change| &gt; fc_cutoff; and 
-finally adjusted p &lt; p_cutoff. 
+      <td><p>A character vector of labels to be used for:
+non-significant; adjusted p &lt; p_cutoff; |Fold Change| &gt; fc_cutoff; and
+finally adjusted p &lt; p_cutoff.
 If NULL c('Not Significant', <code><a href='https://rdrr.io/r/base/paste.html'>paste('Padj &lt;', `p_cutoff`)</a></code>,
 <code><a href='https://rdrr.io/r/base/paste.html'>paste('|FC| &gt;', `fc_cutoff`)</a></code>,
 <code><a href='https://rdrr.io/r/base/paste.html'>paste('Padj &lt;', `p_cutoff`, 'and |FC| &gt;', `fc_cutoff`)</a></code>) is used.</p></td>
@@ -248,15 +248,15 @@ used for fc_line and p_line respectively (default = c('black', 'black')).</p></t
     </tr>
     <tr>
       <th>share_axes</th>
-      <td><p>Logical whether plots should share axes when plotted 
+      <td><p>Logical whether plots should share axes when plotted
 together.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a list of ggplot volcano plots. The first three elements 
-contain comparisons between all contrasts. The last element in the list is a 
+    <p>Returns a list of ggplot volcano plots. The first three elements
+contain comparisons between all contrasts. The last element in the list is a
 combined figure for all three plots.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -279,8 +279,7 @@ treatment response phenotypes.</a>
                           <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
                           <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
                           <span class='kw'>fc_col_suffix</span><span class='kw'>=</span><span class='st'>'log2FoldChange'</span>,
-                          <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
-<span class='no'>syn_volcano_plots</span> <span class='kw'>&lt;-</span> <span class='fu'>volcano_trio</span>(<span class='kw'>polar</span><span class='kw'>=</span><span class='no'>syn_polar</span>)
+                          <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)</div><div class='output co'>#&gt; <span class='message'>• Some  columns were not originally numeric. These have been converted.</span></div><div class='input'><span class='no'>syn_volcano_plots</span> <span class='kw'>&lt;-</span> <span class='fu'>volcano_trio</span>(<span class='kw'>polar</span><span class='kw'>=</span><span class='no'>syn_polar</span>)
 <span class='no'>syn_volcano_plots</span>$<span class='no'>All</span></div><div class='img'><img src='volcano_trio-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

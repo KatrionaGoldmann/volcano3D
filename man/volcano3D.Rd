@@ -9,7 +9,7 @@ volcano3D(
   colours = c("green3", "cyan", "blue", "purple", "red", "gold2"),
   non_sig_colour = "grey60",
   colour_scale = "discrete",
-  continuous_shift = 120,
+  continuous_shift = 1.33,
   label_rows = c(),
   grid = NULL,
   fc_or_zscore = "zscore",
@@ -29,23 +29,24 @@ six groups. Default = c("green3", "cyan", "blue",
 "purple", "red", "gold2"). Colours are assigned in order: group1+, 
 group1+group2+, group2+, group2+group3+, group3+, group1+group3+.}
 
-\item{non_sig_colour}{The colour for non-significant markers according to 
-fold change (default='grey60').}
+\item{non_sig_colour}{The colour for non-significant markers 
+(default='grey60').}
 
 \item{colour_scale}{whether to use a 'discrete' or 'continuous' colour scale 
 (default = 'discrete').}
 
-\item{continuous_shift}{the number of degrees (between 0 and 360) 
-corresponding to the angle to offset the continuous colour scale by. The 
-continuous colour scale is calculated by converting the angle to hue where}
+\item{continuous_shift}{The number of radians 
+to offset the continuous colour scale by. This is calculated by converting 
+the angle to a hue using \code{\link[grDevices]{hsv}} where 0 corresponds to
+the colour scale starting with red and 2 with magenta (default = 2).}
 
 \item{label_rows}{A vector of row names or numbers to label.}
 
 \item{grid}{An optional grid object. If NULL this will be calculated using 
 default values of  \code{\link{polar_grid}}.}
 
-\item{fc_or_zscore}{whether to use fold change or z-score for the p-values 
-(default = 'zscore').}
+\item{fc_or_zscore}{whether to use fold change or z-score for the p-values. 
+Options are 'zscore' (default) or 'fc').}
 
 \item{label_size}{font size for labels (default = 14).}
 

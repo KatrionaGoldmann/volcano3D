@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="Plots grid objects for inspection using plotly — show_grid" />
-<meta property="og:description" content="This function creates an interactive grids in polar and cylindrical 
+<meta property="og:description" content="This function creates an interactive grids in polar and cylindrical
 coordinates" />
 <meta property="og:image" content="/logo.png" />
 
@@ -156,7 +156,7 @@ coordinates" />
     </div>
 
     <div class="ref-description">
-    <p>This function creates an interactive grids in polar and cylindrical 
+    <p>This function creates an interactive grids in polar and cylindrical
 coordinates</p>
     </div>
 
@@ -167,7 +167,7 @@ coordinates</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>grid</th>
-      <td><p>A grid object produced by <code><a href='polar_grid.html'>polar_grid</a></code></p></td>
+      <td><p>A grid object produced by <code><a href='polar_grid.html'>polar_grid</a></code>.</p></td>
     </tr>
     <tr>
       <th>plot_height</th>
@@ -175,13 +175,13 @@ coordinates</p>
     </tr>
     <tr>
       <th>axis_angle</th>
-      <td><p>The angle at which to add axis (default=0)</p></td>
+      <td><p>The angle in radians at which to add axis (default=0).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a list containing a polar and cylindrical coordinate system</p>
+    <p>Returns a list containing a polar and cylindrical coordinate system.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Lewis, Myles J., et al. (2019).
@@ -203,8 +203,7 @@ treatment response phenotypes.</a>
                        <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
                        <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
                        <span class='kw'>fc_col_suffix</span><span class='kw'>=</span><span class='st'>'log2FoldChange'</span>,
-                       <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
-
+                       <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)</div><div class='output co'>#&gt; <span class='message'>• Some  columns were not originally numeric. These have been converted.</span></div><div class='input'>
 <span class='no'>grid</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_grid.html'>polar_grid</a></span>(<span class='kw'>r_vector</span><span class='kw'>=</span><span class='no'>syn_polar</span>@<span class='kw'>polar</span>$<span class='no'>r_zscore</span>,
         <span class='kw'>z_vector</span><span class='kw'>=</span>-<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>syn_polar</span>@<span class='kw'>pvalues</span>$<span class='no'>LRT_pvalue</span>),
         <span class='kw'>r_axis_ticks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,

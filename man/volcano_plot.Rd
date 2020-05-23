@@ -26,16 +26,16 @@ volcano_plot(
 )
 }
 \arguments{
-\item{pvalues_df}{The pvalues data frame. This must contain pvalue, padj, 
-logFC columns as well as a label column.}
+\item{pvalues_df}{The pvalues data frame. This must contain a pvalue, padj,
+and logFC column as well as a label column.}
 
-\item{comparison}{The comparison to use}
+\item{comparison}{The comparison (column_prefix) to use.}
 
 \item{p_cutoff}{The cut-off for pvalue significance (default = 0.05).}
 
 \item{fc_cutoff}{The cut-off for fold change significance (default = 1).}
 
-\item{label_rows}{Row numbers or names for values to be annotated/labelled
+\item{label_rows}{Row numbers or names of values to be annotated/labelled
 (default = NULL).}
 
 \item{p_col_suffix}{The suffix word to define columns containing p values
@@ -45,8 +45,11 @@ logFC columns as well as a label column.}
 p values (default = 'padj'). If NULL these will be calculated using
 \code{padjust_method}.}
 
-\item{fc_col_suffix}{The optional suffix word to define columns containing 
+\item{fc_col_suffix}{The optional suffix word to define columns containing
 log fold change values (default = 'logFC').}
+
+\item{label_col}{Optional column name in 'pvalues_df' for labelling markers.
+If NULL the rownames of pvalues are used.}
 
 \item{label_size}{The font size of labels (default = 3)}
 
@@ -56,9 +59,9 @@ log fold change values (default = 'logFC').}
 
 \item{shared_legend_size}{The size for the legend (default = 1).}
 
-\item{sig_names}{A character vector of labels to be used for: 
-non-significant; adjusted p < p_cutoff; |Fold Change| > fc_cutoff; and 
-finally adjusted p < p_cutoff. 
+\item{sig_names}{A character vector of labels to be used for:
+non-significant; adjusted p < p_cutoff; |Fold Change| > fc_cutoff; and
+finally adjusted p < p_cutoff.
 If NULL c('Not Significant', \code{paste('Padj <', `p_cutoff`)},
 \code{paste('|FC| >', `fc_cutoff`)},
 \code{paste('Padj <', `p_cutoff`, 'and |FC| >', `fc_cutoff`)}) is used.}
@@ -77,23 +80,20 @@ adjusted p < p_cutoff;
 
 \item{line_colours}{A character vector stating the colour of lines to be
 used for fc_line and p_line respectively (default = c('black', 'black')).}
-
-\item{label_column}{Optional column name in pvalues for markers to be 
-labelled with at plotting stage. If NULL the rownames of pvalues are used.}
 }
 \value{
-Returns a single ggplot volcano plots.
+Returns a single volcano plot.
 }
 \description{
 This function creates a volcano plot for one comparison group
 }
 \examples{
 data("example_data")
-volcano_plot(syn_example_p, 
-             "Fibroid_Lymphoid", 
-             label_col = "Gene", 
-             label_rows=c("SLAMF6"), 
-             fc_col_suffix="log2FoldChange") 
+volcano_plot(syn_example_p,
+             "Fibroid_Lymphoid",
+             label_col = "Gene",
+             label_rows=c("SLAMF6"),
+             fc_col_suffix="log2FoldChange")
 }
 \references{
 Lewis, Myles J., et al. (2019).

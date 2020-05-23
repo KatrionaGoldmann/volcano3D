@@ -15,22 +15,23 @@ polar_grid(
 )
 }
 \arguments{
-\item{r_vector}{An optional numerical vector for the  radial coordinates. 
-This is used to calculate breaks on the r axis using 
-\code{\link[base]{pretty}}. If this is NULL the r_axis_ticks are used as 
+\item{r_vector}{An optional numerical vector for the  radial coordinates.
+This is used to calculate breaks on the r axis using
+\code{\link[base]{pretty}}. If this is NULL the r_axis_ticks are used as
 breaks.}
 
-\item{z_vector}{An optional numerical vector for the z coordinates. 
-This is used to calculate breaks on the z axis using \code{pretty}. If this 
+\item{z_vector}{An optional numerical vector for the z coordinates.
+This is used to calculate breaks on the z axis using \code{pretty}. If this
 is NULL the z_axis_ticks are used as breaks.}
 
-\item{r_axis_ticks}{A numerical vector of breaks for the radial axis (used 
+\item{r_axis_ticks}{A numerical vector of breaks for the radial axis (used
 if r_vector is NULL).}
 
-\item{z_axis_ticks}{A numerical vector of breaks for the z axis (used 
+\item{z_axis_ticks}{A numerical vector of breaks for the z axis (used
 if z_vector is NULL).}
 
-\item{axis_angle}{angle to position the radial axis in pi (default = 5/6)}
+\item{axis_angle}{angle in radians to position the radial axis
+(default = 5/6)}
 
 \item{n_spokes}{the number of outward spokes to be plotted (default = 12)}
 
@@ -56,18 +57,18 @@ plot
 \examples{
 data(example_data)
 syn_polar <- polar_coords(sampledata = syn_example_meta,
-                          contrast = "Pathotype", 
-                          groups = NULL, 
-                          pvalues = syn_example_p, 
-                          expression = syn_example_rld, 
-                          p_col_suffix = "pvalue", 
-                          padj_col_suffix = "padj", 
-                          non_sig_name = "Not Significant", 
+                          contrast = "Pathotype",
+                          groups = NULL,
+                          pvalues = syn_example_p,
+                          expression = syn_example_rld,
+                          p_col_suffix = "pvalue",
+                          padj_col_suffix = "padj",
+                          non_sig_name = "Not Significant",
                           multi_group_prefix = "LRT",
-                          significance_cutoff = 0.01, 
+                          significance_cutoff = 0.01,
                           fc_col_suffix='log2FoldChange',
                           fc_cutoff = 0.3)
-                    
+
 grid <- polar_grid(r_vector=syn_polar@polar$r_zscore,
            z_vector=NULL,
            r_axis_ticks = NULL,

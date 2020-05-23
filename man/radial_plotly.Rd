@@ -9,7 +9,7 @@ radial_plotly(
   colours = c("green3", "cyan", "blue", "purple", "red", "gold2"),
   non_sig_colour = "grey60",
   colour_scale = "discrete",
-  continuous_shift = 120,
+  continuous_shift = 1.33,
   label_rows = NULL,
   arrow_length = 50,
   grid = NULL,
@@ -25,31 +25,31 @@ radial_plotly(
 )
 }
 \arguments{
-\item{polar}{A polar object with the pvalues between groups of interest and 
+\item{polar}{A polar object with the pvalues between groups of interest and
 polar coordinates. Created by \code{\link{polar_coords}}.}
 
-\item{colours}{A vector of colour names or hex triplets for each of the 
-six groups. Default = c("green3", "cyan", "blue", 
-"purple", "red", "gold2"). Colours are assigned in order: group1+, 
+\item{colours}{A vector of colour names or hex triplets for each of the
+six groups. Default = c("green3", "cyan", "blue",
+"purple", "red", "gold2"). Colours are assigned in order: group1+,
 group1+group2+, group2+, group2+group3+, group3+, group1+group3+.}
 
-\item{non_sig_colour}{The colour for non-significant markers 
+\item{non_sig_colour}{The colour for non-significant markers
 (default = "grey60").}
 
-\item{colour_scale}{whether to use a 'discrete' or 'continuous' colour scale 
+\item{colour_scale}{whether to use a 'discrete' or 'continuous' colour scale
 (default = 'discrete').}
 
-\item{continuous_shift}{The number of degrees (between 0 and 360) 
-to offset the continuous colour scale by. This is calculated by converting 
+\item{continuous_shift}{The number of radians (between 0 and 6)
+to offset the continuous colour scale by. This is calculated by converting
 the angle to a hue using \code{\link[grDevices]{hsv}} where 0 corresponds to
-the colour scale starting with red and 360 with magenta (default = 120).}
+the colour scale starting with red and 360 with magenta (default = 2).}
 
 \item{label_rows}{A vector of row names or numbers to label.}
 
 \item{arrow_length}{The length of label arrows (default = 50).}
 
-\item{grid}{An optional grid object. If NULL this will be calculated using 
-default values of  \code{\link{polar_grid}}.}
+\item{grid}{An optional grid object. If NULL this will be calculated using
+the default values of \code{\link{polar_grid}}.}
 
 \item{fc_or_zscore}{Whether to use the z-score or fold change as magnitude.
 Options are 'zscore' (default) or 'fc'.}
@@ -63,13 +63,13 @@ Options are 'zscore' (default) or 'fc'.}
 \item{axis_ticks}{A numerical vector of radial axis tick breaks. If
 NULL this will be calculated using \code{\link[base]{pretty}}.}
 
-\item{axis_angle}{Angle in  pi radians for the radial axis (default = 5/6).}
+\item{axis_angle}{Angle in radians for the radial axis (default = 5/6).}
 
 \item{plot_height}{Plot height in px (default=700).}
 
 \item{plot_width}{Plot width in px (default=700).}
 
-\item{...}{Optional grid parameters to pass to 
+\item{...}{Optional parameters to pass to
 \code{\link[volcano3D]{polar_grid}}.}
 }
 \value{
@@ -77,23 +77,23 @@ Returns a 'plotly' plot featuring variables on a tri-axis
 radial graph
 }
 \description{
-This function creates an interactive 'plotly' object which maps differential 
+This function creates an interactive 'plotly' object which maps differential
 expression onto a polar coordinates.
 }
 \examples{
 data(example_data)
 syn_polar <- polar_coords(sampledata = syn_example_meta,
-                          contrast = "Pathotype", 
-                          groups = NULL, 
-                          pvalues = syn_example_p, 
-                          expression = syn_example_rld, 
-                          p_col_suffix = "pvalue", 
-                          padj_col_suffix = "padj", 
-                          non_sig_name = "Not Significant", 
+                          contrast = "Pathotype",
+                          groups = NULL,
+                          pvalues = syn_example_p,
+                          expression = syn_example_rld,
+                          p_col_suffix = "pvalue",
+                          padj_col_suffix = "padj",
+                          non_sig_name = "Not Significant",
                           multi_group_prefix = "LRT",
-                          significance_cutoff = 0.01, 
+                          significance_cutoff = 0.01,
                           fc_cutoff = 0.3)
-                        
+
 radial_plotly(polar = syn_polar, label_rows = c("SLAMF6"))
 }
 \references{

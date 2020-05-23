@@ -22,14 +22,14 @@ volcano_trio(
 )
 }
 \arguments{
-\item{polar}{A polar object with the pvalues between groups of interest. 
+\item{polar}{A polar object with the pvalues between groups of interest.
 Created by \code{\link{polar_coords}}.}
 
 \item{p_cutoff}{The cut-off for pvalue significance (default = 0.05).}
 
 \item{fc_cutoff}{The cut-off for fold change significance (default = 1).}
 
-\item{label_rows}{Row numbers or names for values to be annotated/labelled
+\item{label_rows}{Row numbers or names of values to be annotated/labelled
 (default = NULL).}
 
 \item{label_size}{The font size of labels (default = 3)}
@@ -40,9 +40,9 @@ Created by \code{\link{polar_coords}}.}
 
 \item{shared_legend_size}{The size for the legend (default = 1).}
 
-\item{sig_names}{A character vector of labels to be used for: 
-non-significant; adjusted p < p_cutoff; |Fold Change| > fc_cutoff; and 
-finally adjusted p < p_cutoff. 
+\item{sig_names}{A character vector of labels to be used for:
+non-significant; adjusted p < p_cutoff; |Fold Change| > fc_cutoff; and
+finally adjusted p < p_cutoff.
 If NULL c('Not Significant', \code{paste('Padj <', `p_cutoff`)},
 \code{paste('|FC| >', `fc_cutoff`)},
 \code{paste('Padj <', `p_cutoff`, 'and |FC| >', `fc_cutoff`)}) is used.}
@@ -62,12 +62,12 @@ adjusted p < p_cutoff;
 \item{line_colours}{A character vector stating the colour of lines to be
 used for fc_line and p_line respectively (default = c('black', 'black')).}
 
-\item{share_axes}{Logical whether plots should share axes when plotted 
+\item{share_axes}{Logical whether plots should share axes when plotted
 together.}
 }
 \value{
-Returns a list of ggplot volcano plots. The first three elements 
-contain comparisons between all contrasts. The last element in the list is a 
+Returns a list of ggplot volcano plots. The first three elements
+contain comparisons between all contrasts. The last element in the list is a
 combined figure for all three plots.
 }
 \description{
@@ -77,15 +77,15 @@ factor.
 \examples{
 data(example_data)
 syn_polar <- polar_coords(sampledata = syn_example_meta,
-                          contrast = "Pathotype", 
-                          groups = NULL, 
-                          pvalues = syn_example_p, 
-                          expression = syn_example_rld, 
-                          p_col_suffix = "pvalue", 
-                          padj_col_suffix = "padj", 
-                          non_sig_name = "Not Significant", 
+                          contrast = "Pathotype",
+                          groups = NULL,
+                          pvalues = syn_example_p,
+                          expression = syn_example_rld,
+                          p_col_suffix = "pvalue",
+                          padj_col_suffix = "padj",
+                          non_sig_name = "Not Significant",
                           multi_group_prefix = "LRT",
-                          significance_cutoff = 0.01, 
+                          significance_cutoff = 0.01,
                           fc_col_suffix='log2FoldChange',
                           fc_cutoff = 0.3)
 syn_volcano_plots <- volcano_trio(polar=syn_polar)
