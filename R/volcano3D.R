@@ -20,6 +20,10 @@
 #' @param fc_or_zscore whether to use fold change or z-score for the p-values. 
 #' Options are 'zscore' (default) or 'fc').
 #' @param label_size font size for labels (default = 14).
+#' @param marker_size Size of the markers (default = 6).
+#' @param marker_alpha Opacity for the markers (default = 0.7).
+#' @param marker_outline_colour Colour for marker outline (default = white)
+#' @param marker_outline_width Width for marker outline (default = 0.5)
 #' @param axis_angle Angle in radians for the z axis (default = 0.5). 
 #' @param z_aspectratio The aspect ratio for the z axis compared to x and y 
 #' (default = 1). Decreasing this makes the plot appear more squat. 
@@ -74,6 +78,10 @@ volcano3D <- function(polar,
                       grid = NULL, 
                       fc_or_zscore = "zscore",
                       label_size = 14,
+                      marker_size = 6,
+                      marker_alpha = 0.7,
+                      marker_outline_colour = "white",
+                      marker_outline_width = 0.5,
                       axis_angle = 0.5, 
                       z_aspectratio = 1, 
                       xy_aspectratio = 1,
@@ -224,9 +232,12 @@ volcano3D <- function(polar,
     axis_settings_xy[['range']] <- c(-1*(grid@r+1), grid@r+1)
     
     plot_ly(data = volcano_toptable, x = ~x, y = ~y, z = ~logP,
-            marker = list(size = 2.6), 
+            marker = list(size = marker_size, sizemode = 'diameter', 
+                          line = list(color = marker_outline_colour, 
+                                      width = marker_outline_width)),
             height = plot_height,
             key=~label,
+            opacity = marker_alpha,
             color = ~switch(colour_scale,
                             "discrete" = sig,
                             "continuous" = I(hue)),

@@ -1,6 +1,6 @@
-#' Three-way radial comparison Polar Plot (using 'plotly')
+#' Three-way radial comparison Polar Plot (using plotly)
 #'
-#' This function creates an interactive 'plotly' object which maps differential
+#' This function creates an interactive plotly object which maps differential
 #' expression onto a polar coordinates.
 #' @param polar A polar object with the pvalues between groups of interest and
 #' polar coordinates. Created by \code{\link{polar_coords}}.
@@ -23,6 +23,10 @@
 #' @param fc_or_zscore Whether to use the z-score or fold change as magnitude.
 #' Options are 'zscore' (default) or 'fc'.
 #' @param label_size Font size of labels/annotations (default = 14)
+#' @param marker_size Size of the markers (default = 6).
+#' @param marker_alpha Opacity for the markers (default = 0.7).
+#' @param marker_outline_colour Colour for marker outline (default = white)
+#' @param marker_outline_width Width for marker outline (default = 0.5)
 #' @param axis_title_size Font size for axis titles (default = 16)
 #' @param axis_label_size Font size for axis labels (default = 10)
 #' @param axis_ticks A numerical vector of radial axis tick breaks. If
@@ -32,7 +36,7 @@
 #' @param plot_width Plot width in px (default=700).
 #' @param ... Optional parameters to pass to
 #' \code{\link[volcano3D]{polar_grid}}.
-#' @return Returns a 'plotly' plot featuring variables on a tri-axis
+#' @return Returns a plotly plot featuring variables on a tri-axis
 #' radial graph
 #' @importFrom plotly plot_ly add_trace add_text add_markers layout
 #' @importFrom stats p.adjust setNames
@@ -73,6 +77,10 @@ radial_plotly <- function(polar,
                           grid = NULL,
                           fc_or_zscore = "zscore",
                           label_size = 14,
+                          marker_size = 6,
+                          marker_alpha = 0.7,
+                          marker_outline_colour = "white",
+                          marker_outline_width = 0.5,
                           axis_title_size = 16,
                           axis_label_size = 10,
                           axis_ticks = NULL,
@@ -218,6 +226,8 @@ radial_plotly <- function(polar,
                  arrowcolor = row$col,
                  arrowwidth = 1,
                  arrowhead = 6,
+                 xanchor = ifelse(row$x < 0, "right", "left"),
+                 xanchor = ifelse(row$y < 0, "bottom", "top"),
                  arrowsize = 1.5)
         })
     } else {annot <- list()}
@@ -225,12 +235,12 @@ radial_plotly <- function(polar,
     polar_df <- polar_df[c(which(polar_df$hue == non_sig_colour),
                            which(polar_df$hue != non_sig_colour)), ]
 
-    # 'plotly' plot
+    # plotly plot
     p <- plot_ly(data = polar_df, x = ~x, mode = "none", type = "scatter",
                  colors = switch(colour_scale,
                                  "discrete" = colour_levels,
                                  "continuous" = NULL),
-                 source = "BOTH",
+                 source = "BOTH", 
                  showlegend = FALSE) %>%
         # add the grid
         add_trace(x = polar_grid$x, y = polar_grid$y, color = I("#CBCBCB"),
@@ -241,7 +251,7 @@ radial_plotly <- function(polar,
                   line = list(width = 2), showlegend = FALSE, type = "scatter",
                   mode = "lines", hoverinfo = "none", inherit = FALSE) %>%
         # add the label text
-        add_text(x = axis_labs$x, y = axis_labs$y,
+        add_text(x = axis_labs$x, y = axis_labs$y, 
                  text = levels(polar@sampledata[, polar@contrast]),
                  color = I("black"), type = "scatter", mode = "text",
                  textfont = list(size = axis_title_size),
@@ -259,27 +269,32 @@ radial_plotly <- function(polar,
                             showgrid = FALSE),
                plot_bgcolor = "rgba(0,0,0,0)",
                paper_bgcolor = 'rgba(0,0,0,0)',
-               autosize = TRUE,
+               autosize = TRUE, uirevision=list(editable=TRUE),
                annotations = annot)  %>%
         # label radial axis
-        add_text(x = text_coords$x, y =  -text_coords$y,
+        add_text(x = text_coords$x, y = -text_coords$y,
                  text = text_coords$text, textposition = 'top center',
                  textfont = list(size = axis_label_size), color = I("black"),
                  hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
         # add the markers
         add_markers(data = polar_df, x = ~x, y = ~y, key = ~label,
+                    opacity = marker_alpha,
                     color = ~switch(colour_scale,
                                     "discrete" = sig,
                                     "continuous" = I(hue)),
                     colors = switch(colour_scale,
                                     "discrete" = levels(polar_df$col),
                                     "continuous" = NULL),
-                    marker = list(size = 6, sizemode = 'diameter'),
+                    marker = list(size = marker_size, sizemode = 'diameter', 
+                                  line = list(color = marker_outline_colour, 
+                                              width = marker_outline_width)),
                     hoverinfo = 'text', key = rownames(polar_df),
                     inherit = TRUE, type = "scatter",
                     mode = "markers", text = rownames(polar_df),
                     showlegend = (colour_scale == "discrete"))
-
+    
+    
+    
     return(p)
 
 }

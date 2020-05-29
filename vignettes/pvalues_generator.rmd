@@ -232,7 +232,6 @@ Pvals_limma_DE <- lapply(contrasts, function(x){
     
     out <- topTable(fit, adjust.method = "fdr", coef= id, number=Inf, 
                     sort.by="none")
-    rownames(out) <- make.names(out$ID, unique=T)
     out <- out[,c("P.Value", "adj.P.Val", "logFC")]
     colnames(out) <- c("pvalue", "padj", "log2FoldChange")
     out
@@ -250,6 +249,7 @@ Pvals_limma <- cbind(Pvals_limma_DE[[1]],
                      Pvals_limma_DE[[2]], 
                      Pvals_limma_DE[[3]], 
                      Pvals_overall)
+Pvals_limma <- Pvals_limma[complete.cases(Pvals_limma), ]
 
 colnames(Pvals_limma) <- c(paste0(rep(gsub("-", "_", contrasts), each=3), "_",
                                  rep(colnames(Pvals_limma_DE[[1]]), 3)), 

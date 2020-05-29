@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Three-way radial comparison Polar Plot (using 'plotly') — radial_plotly • volcano3D</title>
+<title>Three-way radial comparison Polar Plot (using plotly) — radial_plotly • volcano3D</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Three-way radial comparison Polar Plot (using 'plotly') — radial_plotly" />
-<meta property="og:description" content="This function creates an interactive 'plotly' object which maps differential
+<meta property="og:title" content="Three-way radial comparison Polar Plot (using plotly) — radial_plotly" />
+<meta property="og:description" content="This function creates an interactive plotly object which maps differential
 expression onto a polar coordinates." />
 <meta property="og:image" content="/logo.png" />
 
@@ -150,13 +150,13 @@ expression onto a polar coordinates." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Three-way radial comparison Polar Plot (using 'plotly')</h1>
+    <h1>Three-way radial comparison Polar Plot (using plotly)</h1>
     <small class="dont-index">Source: <a href='https://github.com/KatrionaGoldmann/volcano3D/blob/master/R/radial_plotly.R'><code>R/radial_plotly.R</code></a></small>
     <div class="hidden name"><code>radial_plotly.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function creates an interactive 'plotly' object which maps differential
+    <p>This function creates an interactive plotly object which maps differential
 expression onto a polar coordinates.</p>
     </div>
 
@@ -171,6 +171,10 @@ expression onto a polar coordinates.</p>
   <span class='kw'>grid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>fc_or_zscore</span> <span class='kw'>=</span> <span class='st'>"zscore"</span>,
   <span class='kw'>label_size</span> <span class='kw'>=</span> <span class='fl'>14</span>,
+  <span class='kw'>marker_size</span> <span class='kw'>=</span> <span class='fl'>6</span>,
+  <span class='kw'>marker_alpha</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
+  <span class='kw'>marker_outline_colour</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
+  <span class='kw'>marker_outline_width</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>axis_title_size</span> <span class='kw'>=</span> <span class='fl'>16</span>,
   <span class='kw'>axis_label_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>axis_ticks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -235,6 +239,22 @@ Options are 'zscore' (default) or 'fc'.</p></td>
       <td><p>Font size of labels/annotations (default = 14)</p></td>
     </tr>
     <tr>
+      <th>marker_size</th>
+      <td><p>Size of the markers (default = 6).</p></td>
+    </tr>
+    <tr>
+      <th>marker_alpha</th>
+      <td><p>Opacity for the markers (default = 0.7).</p></td>
+    </tr>
+    <tr>
+      <th>marker_outline_colour</th>
+      <td><p>Colour for marker outline (default = white)</p></td>
+    </tr>
+    <tr>
+      <th>marker_outline_width</th>
+      <td><p>Width for marker outline (default = 0.5)</p></td>
+    </tr>
+    <tr>
       <th>axis_title_size</th>
       <td><p>Font size for axis titles (default = 16)</p></td>
     </tr>
@@ -268,7 +288,7 @@ NULL this will be calculated using <code><a href='https://rdrr.io/r/base/pretty.
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns a 'plotly' plot featuring variables on a tri-axis
+    <p>Returns a plotly plot featuring variables on a tri-axis
 radial graph</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -303,7 +323,7 @@ treatment response phenotypes.</a>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://github.com/KatrionaGoldmann'>Katriona Goldmann</a>.</p>
+  <p>Developed by <a href='https://github.com/KatrionaGoldmann'>Katriona Goldmann</a>, <a href='https://www.qmul.ac.uk/whri/people/academic-staff/items/lewismyles.html'>Myles Lewis</a>.</p>
 </div>
 
 <div class="pkgdown">

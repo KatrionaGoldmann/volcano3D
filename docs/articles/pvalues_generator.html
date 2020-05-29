@@ -527,7 +527,6 @@ AACS
 
     <span class="no">out</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/toptable.html">topTable</a></span>(<span class="no">fit</span>, <span class="kw">adjust.method</span> <span class="kw">=</span> <span class="st">"fdr"</span>, <span class="kw">coef</span><span class="kw">=</span> <span class="no">id</span>, <span class="kw">number</span><span class="kw">=</span><span class="fl">Inf</span>,
                     <span class="kw">sort.by</span><span class="kw">=</span><span class="st">"none"</span>)
-    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">out</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span>(<span class="no">out</span>$<span class="no">ID</span>, <span class="kw">unique</span><span class="kw">=</span><span class="no">T</span>)
     <span class="no">out</span> <span class="kw">&lt;-</span> <span class="no">out</span>[,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"P.Value"</span>, <span class="st">"adj.P.Val"</span>, <span class="st">"logFC"</span>)]
     <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">out</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pvalue"</span>, <span class="st">"padj"</span>, <span class="st">"log2FoldChange"</span>)
     <span class="no">out</span>
@@ -541,6 +540,7 @@ AACS
                      <span class="no">Pvals_limma_DE</span><span class="kw">[[</span><span class="fl">2</span>]],
                      <span class="no">Pvals_limma_DE</span><span class="kw">[[</span><span class="fl">3</span>]],
                      <span class="no">Pvals_overall</span>)
+<span class="no">Pvals_limma</span> <span class="kw">&lt;-</span> <span class="no">Pvals_limma</span>[<span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span>(<span class="no">Pvals_limma</span>), ]
 
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">Pvals_limma</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"-"</span>, <span class="st">"_"</span>, <span class="no">contrasts</span>), <span class="kw">each</span><span class="kw">=</span><span class="fl">3</span>), <span class="st">"_"</span>,
                                  <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">Pvals_limma_DE</span><span class="kw">[[</span><span class="fl">1</span>]]), <span class="fl">3</span>)),
@@ -906,7 +906,7 @@ AACS
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://github.com/KatrionaGoldmann">Katriona Goldmann</a>.</p>
+  <p>Developed by <a href="https://github.com/KatrionaGoldmann">Katriona Goldmann</a>, <a href="https://www.qmul.ac.uk/whri/people/academic-staff/items/lewismyles.html">Myles Lewis</a>.</p>
 </div>
 
 <div class="pkgdown">

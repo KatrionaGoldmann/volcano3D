@@ -14,6 +14,10 @@ volcano3D(
   grid = NULL,
   fc_or_zscore = "zscore",
   label_size = 14,
+  marker_size = 6,
+  marker_alpha = 0.7,
+  marker_outline_colour = "white",
+  marker_outline_width = 0.5,
   axis_angle = 0.5,
   z_aspectratio = 1,
   xy_aspectratio = 1,
@@ -49,6 +53,14 @@ default values of  \code{\link{polar_grid}}.}
 Options are 'zscore' (default) or 'fc').}
 
 \item{label_size}{font size for labels (default = 14).}
+
+\item{marker_size}{Size of the markers (default = 6).}
+
+\item{marker_alpha}{Opacity for the markers (default = 0.7).}
+
+\item{marker_outline_colour}{Colour for marker outline (default = white)}
+
+\item{marker_outline_width}{Width for marker outline (default = 0.5)}
 
 \item{axis_angle}{Angle in radians for the z axis (default = 0.5).}
 

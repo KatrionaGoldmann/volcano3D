@@ -2,7 +2,7 @@
 % Please edit documentation in R/radial_plotly.R
 \name{radial_plotly}
 \alias{radial_plotly}
-\title{Three-way radial comparison Polar Plot (using 'plotly')}
+\title{Three-way radial comparison Polar Plot (using plotly)}
 \usage{
 radial_plotly(
   polar,
@@ -15,6 +15,10 @@ radial_plotly(
   grid = NULL,
   fc_or_zscore = "zscore",
   label_size = 14,
+  marker_size = 6,
+  marker_alpha = 0.7,
+  marker_outline_colour = "white",
+  marker_outline_width = 0.5,
   axis_title_size = 16,
   axis_label_size = 10,
   axis_ticks = NULL,
@@ -56,6 +60,14 @@ Options are 'zscore' (default) or 'fc'.}
 
 \item{label_size}{Font size of labels/annotations (default = 14)}
 
+\item{marker_size}{Size of the markers (default = 6).}
+
+\item{marker_alpha}{Opacity for the markers (default = 0.7).}
+
+\item{marker_outline_colour}{Colour for marker outline (default = white)}
+
+\item{marker_outline_width}{Width for marker outline (default = 0.5)}
+
 \item{axis_title_size}{Font size for axis titles (default = 16)}
 
 \item{axis_label_size}{Font size for axis labels (default = 10)}
@@ -73,11 +85,11 @@ NULL this will be calculated using \code{\link[base]{pretty}}.}
 \code{\link[volcano3D]{polar_grid}}.}
 }
 \value{
-Returns a 'plotly' plot featuring variables on a tri-axis
+Returns a plotly plot featuring variables on a tri-axis
 radial graph
 }
 \description{
-This function creates an interactive 'plotly' object which maps differential
+This function creates an interactive plotly object which maps differential
 expression onto a polar coordinates.
 }
 \examples{

@@ -19,6 +19,8 @@ radial_ggplot(
   axis_label_size = 3,
   marker_alpha = 0.7,
   marker_size = 3,
+  marker_outline_colour = "white",
+  marker_outline_width = 0.5,
   axis_angle = 1/6,
   legend_size = 20,
   ...
@@ -63,6 +65,10 @@ Options are 'zscore' (default) or 'fc'.}
 \item{marker_alpha}{The alpha parameter for markers (default = 0.7).}
 
 \item{marker_size}{Size of the markers (default = 3).}
+
+\item{marker_outline_colour}{Colour for marker outline (default = white)}
+
+\item{marker_outline_width}{Width for marker outline (default = 0.5)}
 
 \item{axis_angle}{Angle for the radial axis labels in pi radians
 (default = 1/6).}

@@ -9,6 +9,11 @@ News
 * Made the fold change columns optional
 * Allowed custom grid to be passed in
 * Pass label columns as plotly keys in volcano3d and radial_plotly
+* Pass label columns as plotly keys in volcano3d and radial_plotly
+* Add plotly height and width parameters
+* Add plotly boxplots
+* Create default colours 
+* Improve polar_coords speed
 
 # volcano3D 0.1.0
 

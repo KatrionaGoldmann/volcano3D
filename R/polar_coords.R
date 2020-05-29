@@ -195,11 +195,19 @@ polar_coords <- function(sampledata,
     }
     if(is.null(groups)) {groups <- levels(sampledata[, contrast])}
     if(length(groups) != 3) stop("There number of groups does not equal 3")
-    if(! is.null(groups)) {
-        if(! all(groups %in% levels(sampledata[, contrast]))) {
-            stop('Make sure all groups are in sampledata[, contrast]')
-        }
+    if(! all(groups %in% levels(sampledata[, contrast]))) {
+        stop('Make sure all groups are in sampledata[, contrast]')
     }
+    if(any(grepl("_", groups))) {
+        stop("groups must not contain underscores")
+    }
+    if(any(grepl("_", c(p_col_suffix, fc_col_suffix, padj_col_suffix)))) {
+        id <- which(grepl("_", c(p_col_suffix, fc_col_suffix, padj_col_suffix)))
+        p <- c("p_col_suffix", "fc_col_suffix", "padj_col_suffix")[id]
+        stop(paste(paste(p, collapse=", "), "must not contain underscores"))
+    }
+    
+    
     
     comparisons <- c(paste(groups[1], groups[2], sep="_"),
                      paste(groups[2], groups[3], sep="_"),
@@ -310,7 +318,7 @@ polar_coords <- function(sampledata,
     if(length(which(colSums(is.na(pvalues)) == nrow(pvalues)))){
         stop(paste(paste(names(which(
             colSums(is.na(pvalues)) == nrow(pvalues))), collapse=", "), 
-                   'contains only NA or could not be converted to a numeric.'))
+            'contains only NA or could not be converted to a numeric.'))
     }
     
     # If adjusted p is not available, calculate

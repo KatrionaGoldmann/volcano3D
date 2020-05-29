@@ -1,6 +1,7 @@
 ## Test environments
 * local OS X install, R 3.6
 * Ubuntu 18.04.4, R 3.6
+* windows-x86_64-devel
 
 ## R CMD check results
 
@@ -15,10 +16,6 @@ Maintainer: ‘Katriona Goldmann <k.goldmann@qmul.ac.uk>’
 
 ## Changes from last submission
 
-* Elaboration in the Description field of the DESCRIPTION file.
-
-* Added reference and DOI to DESCRIPTION file
-
-* Created a toy example so was able to remove \dontrun{}.
-
-* No longer required to load github package, removed options call
+* Corrected case of R packages in description file
+* omit the quotes around the author of the reference.
+* use the Authors@R 
