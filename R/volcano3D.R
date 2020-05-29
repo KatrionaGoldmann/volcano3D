@@ -20,10 +20,10 @@
 #' @param fc_or_zscore whether to use fold change or z-score for the p-values. 
 #' Options are 'zscore' (default) or 'fc').
 #' @param label_size font size for labels (default = 14).
-#' @param marker_size Size of the markers (default = 6).
-#' @param marker_alpha Opacity for the markers (default = 0.7).
+#' @param marker_size Size of the markers (default = 2.7).
+#' @param marker_alpha Opacity for the markers (default = 1).
 #' @param marker_outline_colour Colour for marker outline (default = white)
-#' @param marker_outline_width Width for marker outline (default = 0.5)
+#' @param marker_outline_width Width for marker outline (default = 0)
 #' @param axis_angle Angle in radians for the z axis (default = 0.5). 
 #' @param z_aspectratio The aspect ratio for the z axis compared to x and y 
 #' (default = 1). Decreasing this makes the plot appear more squat. 
@@ -78,10 +78,10 @@ volcano3D <- function(polar,
                       grid = NULL, 
                       fc_or_zscore = "zscore",
                       label_size = 14,
-                      marker_size = 6,
-                      marker_alpha = 0.7,
+                      marker_size = 2.7,
+                      marker_alpha = 1,
                       marker_outline_colour = "white",
-                      marker_outline_width = 0.5,
+                      marker_outline_width = 0,
                       axis_angle = 0.5, 
                       z_aspectratio = 1, 
                       xy_aspectratio = 1,

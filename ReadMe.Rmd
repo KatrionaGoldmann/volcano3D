@@ -96,9 +96,8 @@ library(volcano3D)
 
 ### volcano3D data
 
-The sample data can then also be installed (this can only be done 
-after volcano3D is imported first or from the 
-[source](https://github.com/KatrionaGoldmann/volcano3Ddata))
+The sample data can then also be installed either from 
+[source](https://github.com/KatrionaGoldmann/volcano3Ddata)) or using:
 
 ```{r, eval=FALSE}
 install.packages("volcano3Ddata")
@@ -113,13 +112,12 @@ Queen Mary University London.
 
 If you use this package please cite as: 
 
-> Lewis, Myles J., et al. _Molecular portraits of early rheumatoid arthritis 
-identify clinical and treatment response phenotypes_. Cell reports 28.9 (2019): 
-2455-2470.
-
-or using:
-
 ```{r}
 citation("volcano3D")
 ```
 
+or:
+
+> Lewis, Myles J., et al. _Molecular portraits of early rheumatoid arthritis 
+identify clinical and treatment response phenotypes_. Cell reports 28.9 (2019): 
+2455-2470.

@@ -17,10 +17,10 @@ volcano plot. These plots can be converted to interactive visualisations
 using plotly.
 
 The
-[vignette](https://katrionagoldmann.github.io/volcano3D/articles/Vignette.html)
+[vignette](file:///Users/kgoldmann/Documents/Analyses/volcano_package/volcano3D/docs/articles/Extended_Vignette.html)
 explores a case study from the PEAC rheumatoid arthritis trial
 (Pathobiology of Early Arthritis Cohort). The methodology has been
-published in [Lewis, Myles J., et al. *Molecular portraits of early
+published in [Lewis, Myles J., et al. *Molecular portraits of early
 rheumatoid arthritis identify clinical and treatment response
 phenotypes*. Cell reports 28.9 (2019): 2455-2470. (DOI:
 10.1016/j.celrep.2019.07.091)](https://doi.org/10.1016/j.celrep.2019.07.091)
@@ -65,9 +65,8 @@ Getting Started
 
 ### volcano3D data
 
-The sample data can then also be installed (this can only be done after
-volcano3D is imported first or from the
-[source](https://github.com/KatrionaGoldmann/volcano3Ddata))
+The sample data can then also be installed either from
+[source](https://github.com/KatrionaGoldmann/volcano3Ddata)) or using:
 
     install.packages("volcano3Ddata")
 
@@ -82,12 +81,6 @@ London.
 
 If you use this package please cite as:
 
-> Lewis, Myles J., et al. *Molecular portraits of early rheumatoid
-> arthritis identify clinical and treatment response phenotypes*. Cell
-> reports 28.9 (2019): 2455-2470.
-
-or using:
-
     citation("volcano3D")
 
     ## 
@@ -95,7 +88,7 @@ or using:
     ## 
     ##   Katriona Goldmann and Myles Lewis (2020). volcano3D: Interactive
     ##   Plotting of Three-Way Differential Expression Analysis. R package
-    ##   version 1.0.0.9000. https://github.com/KatrionaGoldmann/volcano3D
+    ##   version 1.0.0. https://github.com/KatrionaGoldmann/volcano3D
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
@@ -104,6 +97,12 @@ or using:
     ## Analysis},
     ##     author = {Katriona Goldmann and Myles Lewis},
     ##     year = {2020},
-    ##     note = {R package version 1.0.0.9000},
+    ##     note = {R package version 1.0.0},
     ##     url = {https://github.com/KatrionaGoldmann/volcano3D},
     ##   }
+
+or:
+
+> Lewis, Myles J., et al. *Molecular portraits of early rheumatoid
+> arthritis identify clinical and treatment response phenotypes*. Cell
+> reports 28.9 (2019): 2455-2470.
