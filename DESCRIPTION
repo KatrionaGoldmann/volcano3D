@@ -7,7 +7,7 @@ Authors@R: c(person("Katriona", "Goldmann", role = c("aut", "cre"),
                        email = "k.goldmann@qmul.ac.uk"),
                 person("Myles", "Lewis", role = c("aut", "ctb")))
 Maintainer: Katriona Goldmann <k.goldmann@qmul.ac.uk>
-URL: https://github.com/KatrionaGoldmann/volcano3D
+URL: https://katrionagoldmann.github.io/volcano3D/index.html, https://github.com/KatrionaGoldmann/volcano3D
 BugReports: https://github.com/KatrionaGoldmann/volcano3D/issues
 Description: Differential expression (DE) analysis can be used to discover quantitative changes in expression levels between experimental groups. Such results are typically visualised using volcano plots, however in cases where more than two experimental groups are involved, visualising results can become convoluted and it quickly becomes difficult to see the wood for the trees. This package provides easy-to-use functions to extract and visualise outputs from DE between three groups (primarily aimed at 'limma' and 'DESeq2' outputs). We present novel methods to map DE results into polar coordinates to enable users to combine and simultaneously view three sets of results. These graphics also possess optional 'plotly' outputs for interactive and three-dimensional functionality, as seen in Lewis et. al. (2019) <doi:10.1016/j.celrep.2019.07.091>.
 Language: en-gb

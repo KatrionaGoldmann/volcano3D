@@ -29,7 +29,7 @@ render_toc("./pvalues_generator.rmd")
 # Introduction 
 
 This vignette provides an example for creating pvalues objects for the 
-volcano3D pipeline using DESeq2 and Limma-voom. 
+volcano3D pipeline using DESeq2 and limma-voom. 
 
 This example consists of a case study from the PEAC 
 rheumatoid arthritis project (Pathobiology of Early Arthritis Cohort). 
@@ -44,8 +44,6 @@ with an interactive web tool available at
 ## Getting Started
 
 ### Install from CRAN
-
-*Not yet publicly available:*
 
 ```{r, eval = FALSE}
 install.packages("volcano3D")

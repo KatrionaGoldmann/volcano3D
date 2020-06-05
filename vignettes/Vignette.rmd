@@ -19,6 +19,12 @@ library(knitr)
 library(kableExtra)
 ```
 
+[![Lifecycle: Maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![CRAN status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
+[![Downloads](https://cranlogs.r-pkg.org/badges/volcano3D?color=orange)](https://cran.rstudio.com/package=volcano3D)
+`r paste0("[![", Sys.Date(),"]","(",paste0("https://img.shields.io/badge/last%20git%20commit-", gsub('-', '--', Sys.Date()),"-turquoise.svg"), ")]","(",'https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md',")")`
+
 
 # volcano3D <img src="https://katrionagoldmann.github.io/volcano3D/logo.png" align="right" alt="" width="200" hspace="20" style="border: 0;"/>
 
@@ -36,8 +42,9 @@ visualisation of differentially expressed genes in a three-dimensional
 volcano plot. These plots can be converted to interactive visualisations using
 plotly. 
 
-This vignette covers the basic features of the package using a subset example. 
-To explore more extensive examples and tutorials see the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html) 
+This vignette covers the basic features of the package using a subset example 
+data set. 
+To explore more extensive examples and view the interactive radial and volcano plots, see the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html) 
 which explores a case study from the PEAC 
 rheumatoid arthritis trial (Pathobiology of Early Arthritis Cohort). 
 The methodology has been published in 
@@ -75,7 +82,6 @@ There are also supplementary vignettes with further information on:
 ```{r, eval = FALSE}
 install.packages("volcano3D")
 ```
-
 
 ### Install from Github
 
@@ -267,15 +273,17 @@ syn_plots$All
 ## Radial Plots
 
 The differential expression can now be visualised on an interactive radar plot
-using radial_plotly. The
-`labelRows` variable allows any markers of interest to be labelled.
+using radial_plotly. Unfortunately CRAN does not support interactive plotly 
+images in the vignette, but these can be viewed on the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html).
 
-```{r, fig.height=5}
+```{r, eval=FALSE, fig.height=5}
 radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "GREM2", "FMOD")) 
 ```
 
-By hovering over certain point you can also determine genes for
-future interrogation.
+<img src="./radial_plotly.png" align="center" alt="" width="700" style="border: 0;"/>
+
+When interactive, it is possible to identify genes for
+future interrogation by hovering over certain markers.
 
 Similarly we can create a static ggplot image using radial_ggplot:
 
@@ -321,9 +329,11 @@ ggarrange(plot1, plot2, plot3, ncol=3)
 ## Three Dimensional Volcano Plots
 
 The final thing we can look at is the 3D volcano plot which projects
-differential gene expression onto cylindrical coordinates.
+differential gene expression onto cylindrical coordinates. Again CRAN does not 
+support WebGL in the vignette so we only include a static image in this document. 
+However the fully interactive plots can be viewed on the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html).
 
-```{r, fig.height=5}
+```{r, eval=FALSE, fig.height=5}
 p <- volcano3D(syn_polar,
                label_rows = c("SLAMF6", "GREM2", "FMOD"),
                label_size = 10,
@@ -333,8 +343,10 @@ p <- volcano3D(syn_polar,
 p
 ```
 
-Again this produces an interactive plot, unfortunately WebGL is not supported in
-vignette html but to see this in action you can visit the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html)
+<img src="./volcano3D.png" align="center" alt="" width="500" style="border: 0;"/>
+
+Again this produces an interactive plot but since WebGL is not supported in
+vignette html we have only included a static image. To see this in action you can visit the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html)
 . If you have
 the orca command-line utility installed, this can be used to
 save static images. To install follow the instructions

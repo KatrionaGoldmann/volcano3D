@@ -1,7 +1,15 @@
 News
 =====
 
+# volcano3D 1.0.1
+###### 05/06/2020
+
+* update vignette for CRAN (remove WebGL)
+* update default plotly parameters
+
+
 # volcano3D 1.0.0
+###### 29/05/2020
 
 * Combined create\_dep and polar\_coord functions so no longer backwards compatible. 
 * Combined the 3D and 2D functions of polar\_grid
@@ -16,5 +24,6 @@ News
 * Improve polar_coords speed
 
 # volcano3D 0.1.0
+###### 27/04/2020
 
 * This is the initial release of volcano3D
