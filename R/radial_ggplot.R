@@ -22,6 +22,9 @@
 #' @param fc_or_zscore Whether to use the z-score or fold change as magnitude.
 #' Options are 'zscore' (default) or 'fc'.
 #' @param label_size Font size of labels/annotations (default = 5).
+#' @param colour_code_labels Logical whether label annotations should be colour
+#' coded. If FALSE label_colour is used.
+#' @param label_colour Colour of annotation labels if not colour coded. 
 #' @param axis_title_size Font size for axis titles (default = 5)
 #' @param axis_label_size Font size for axis labels (default = 3)
 #' @param marker_alpha The alpha parameter for markers (default = 0.7).
@@ -75,6 +78,8 @@ radial_ggplot <- function(polar,
                           grid = NULL,
                           fc_or_zscore = "zscore",
                           label_size = 5,
+                          colour_code_labels = TRUE,
+                          label_colour = NULL,
                           axis_title_size = 5,
                           axis_label_size = 3,
                           marker_alpha = 0.7,
@@ -97,6 +102,9 @@ radial_ggplot <- function(polar,
     }
     if(! (0 <= continuous_shift & continuous_shift <= 2) ) {
         stop('continuous_shift must be between 0 and 2')
+    }
+    if(! colour_code_labels & is.null(label_colour)){
+        stop('If colour_code_labels is false please enter a valid label_colour')
     }
 
     groups <- levels(polar@sampledata[, polar@contrast])
@@ -221,17 +229,29 @@ radial_ggplot <- function(polar,
         annotation_df$yend <- arrow_length*sign(annotation_df$y)*
             abs(grid@r*sin(annotation_df$theta))
     }
-
+    
+   
+    
     p <- ggplot(polar_df, aes_string(x = "x", y = "y")) +
-        labs(x = "", y = "", color = "") +
+        labs(x = "", y = "", color = "") 
 
-        # Concentric circles and radial spokes
-        geom_path(data = grid@polar_grid,
+    # Concentric circles and radial spokes
+    rem <- which(is.na(grid@polar_grid$x))
+    invisible(lapply(1:(length(rem)-1), function(g){
+        p <<- p + geom_path(data = grid@polar_grid[(rem[g]+1):(rem[g+1]-1), ],
                   aes_string(x = "x", y = "y"),
-                  alpha = 0.2) +
+                  alpha = 0.2)
+        }))
+    
+    # Three radial axes
+    rem <- c(0, which(is.na(grid@axes$x) ))
+    invisible(lapply(1:(length(rem)-1), function(g){
+        p <<- p + geom_path(data = grid@axes[(rem[g]+1):(rem[g+1]-1), ],
+                            aes_string(x = "x", y = "y"))
+    }))
+    
 
-        # Three radial axes
-        geom_path(data = grid@axes, aes_string(x = "x", y = "y")) +
+    p <- p +
 
         # radial axes ticks
         geom_text(data = grid@text_coords,
@@ -297,18 +317,19 @@ radial_ggplot <- function(polar,
         annotation_df$xadj[annotation_df$xend1 < 0] <- 1
         annotation_df$yadj <- 0
         annotation_df$yadj[annotation_df$yend1 < 0] <- 1
+        if(colour_code_labels) ac <- annotation_df$cg else ac <- label_colour 
         p <- p + geom_segment(data = annotation_df,
                               aes_string(x = "x",
                                          y = "y",
                                          xend = "xend1",
                                          yend = "yend1"),
-                              colour = annotation_df$cg, size = 0.5,
+                              colour = ac, size = 0.5,
                               arrow = arrow(length = unit(0, "cm"))) +
             geom_text(data = annotation_df,
                       aes_string(x = "xend2", y = "yend2", label = "label"),
                       hjust = "outward",
                       vjust = "outward",
-                      color = annotation_df$cg,
+                      color = ac,
                       size = label_size) +
             geom_point(data = annotation_df,
                        aes_string(x = "x", y = "y"),

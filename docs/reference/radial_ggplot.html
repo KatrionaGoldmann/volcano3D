@@ -90,7 +90,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -169,6 +169,8 @@
   <span class='kw'>grid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>fc_or_zscore</span> <span class='kw'>=</span> <span class='st'>"zscore"</span>,
   <span class='kw'>label_size</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>colour_code_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>label_colour</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>axis_title_size</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>axis_label_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>marker_alpha</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
@@ -235,6 +237,15 @@ Options are 'zscore' (default) or 'fc'.</p></td>
       <td><p>Font size of labels/annotations (default = 5).</p></td>
     </tr>
     <tr>
+      <th>colour_code_labels</th>
+      <td><p>Logical whether label annotations should be colour
+coded. If FALSE label_colour is used.</p></td>
+    </tr>
+    <tr>
+      <th>label_colour</th>
+      <td><p>Colour of annotation labels if not colour coded.</p></td>
+    </tr>
+    <tr>
       <th>axis_title_size</th>
       <td><p>Font size for axis titles (default = 5)</p></td>
     </tr>
@@ -299,7 +310,7 @@ treatment response phenotypes.</a>
                           <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
                           <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
                           <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)</div><div class='output co'>#&gt; <span class='message'>• Some  columns were not originally numeric. These have been converted.</span></div><div class='input'>
-<span class='fu'>radial_ggplot</span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>, <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='radial_ggplot-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>radial_ggplot</span>(<span class='kw'>polar</span> <span class='kw'>=</span> <span class='no'>syn_polar</span>, <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"SLAMF6"</span>))</div><div class='img'><img src='radial_ggplot-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

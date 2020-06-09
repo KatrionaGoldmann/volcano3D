@@ -24,7 +24,6 @@ library(kableExtra)
 source("https://gist.githubusercontent.com/KatrionaGoldmann/3d6dfd6aa4cc5c3940bb72dc49beae02/raw/26e78c78a7a9d096d695c708e8a45830a1d1121a/render_toc.R")
 ```
 
-
 <img src="../logo.png" align="right" alt="" width="200" style="border: 0;" />
 
 ```{r toc, echo = FALSE}
@@ -85,6 +84,8 @@ library(devtools)
 install_github("KatrionaGoldmann/volcano3D")
 ```
 
+### Load the package
+
 ```{r}
 library(volcano3D)
 ```
@@ -138,6 +139,15 @@ library(volcano3Ddata)
 data("syn_data")
 ```
 
+Samples in this cohort fall into three pathotype groups: 
+
+```{r}
+kable(table(syn_metadata$Pathotype), col.names = c("Pathotype", "Count"))
+```
+
+In this example we are interested in genes that are differentially expressed 
+between each of these groups. 
+
 First we will set up a polar object, using the polar_coords function, which
 uses:
 
@@ -147,7 +157,7 @@ mytable = data.frame(
   \n\n(required)", 
   "This shows information for each sample in rows and must contain:\ 
                 \n * an ID column: Containing the sample IDs. This must be titled ‘ID’.\ 
-                \n * a contrast column: A column containing the three-level factor used for contrasts.\ 
+                \n * a contrast column: Indicates which of the three groups each sample belongs to.\ 
                 \n \n"), 
   contrast = c("contrast\ 
                \n\n(required)", 
@@ -199,13 +209,9 @@ kable(t(mytable), row.names = FALSE, col.names = c("Variable", "Details")) %>%
   kable_styling(font_size=11)
 ```
 
-
-For example we can map the PEAC data to polar coordinates using: 
+We can map the PEAC data to polar coordinates using: 
 
 ```{r}
-
-syn_pvalues$Fibroid_Lymphoid_pvalue = factor(syn_pvalues$Fibroid_Lymphoid_pvalue)
-
 syn_polar <- polar_coords(sampledata = syn_metadata,
                           contrast = "Pathotype",
                           pvalues = syn_pvalues,
@@ -220,8 +226,8 @@ syn_polar <- polar_coords(sampledata = syn_metadata,
                           fc_cutoff = 0.1)
 ```
 
-The produces a polar object with a pvalues slot which should have at least two 
-statistics for each comparison - pvalue and adjusted pvalue - with an optional 
+This creates an polar class object with slots for: sampledata, contrast, pvalues, multi_group_test, expression, polar and non_sig_name. The pvalues slot which should have a data frame with at least two 
+statistics for each comparison - pvalue and adjusted pvalue - and an optional 
 logarithmic fold change statistic. In this case we are including fold change 
 for downstream visualisations: 
 
@@ -325,7 +331,7 @@ radial_ggplot(polar = syn_polar,
 ## Boxplots
 
 We can then interrogate any one specific variable as a boxplot, to investigate
-these differences. This is build using ggplot2 so can easily be edited by the
+these differences. This is build using either ggplot2 or plotly so can easily be edited by the
 user to add features. Using plotly:
 
 ```{r, fig.height = 3.7, fig.width=9}
@@ -403,16 +409,7 @@ p <- volcano3D(syn_polar,
 p 
 ```
 
-Again this produces an interactive plot. If you have
-the orca command-line utility installed, this can be used to
-save static images. To install follow the instructions
-[here](https://github.com/plotly/orca#installation).
-
-```{r, eval = FALSE}
-orca(p, "~/Desktop/volcano_3d_synovium.svg", format = "svg")
-```
-
-We can alter the colours using the colours parameter. These are assigned in 
+We can alter the colour code using the colours parameter. These are assigned in 
 order group1+, group1+group2+, group2+, group2+group3+, group3+, group1+group3+.
 
 ```{r, fig.width=7}
@@ -428,6 +425,38 @@ p <- volcano3D(syn_polar,
 p 
 ```
 
+## Saving Plotly Plots
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+### Static Images
+
+There are a few ways to save plotly plots as static images. Firstly plotly 
+offers a download button ( <i class="fa fa-camera" aria-hidden="true"></i> ) in the figure mode bar (appears top right). 
+By default this saves images as png, however it is possible to convert to svg, jpeg or webp using:
+
+```{r, eval=FALSE}
+p %>% plotly::config(toImageButtonOptions = list(format = "svg"))
+```
+
+Alternatively, if orca command-line utility is installed, this can also be used to
+save plotly images. To install follow the instructions
+[here](https://github.com/plotly/orca#installation).
+
+```{r, eval = FALSE}
+orca(p, "./volcano_3d_synovium.svg", format = "svg")
+```
+
+### Interactive HTML
+
+The full plotly objects can be saved to HTML by converting them to widgets and 
+saving with the htmlwidgets package: 
+
+```{r, eval=FALSE}
+htmlwidgets::saveWidget(as_widget(p), "volcano3D.html")
+```
+
 
 ## Altering the Plots
 
@@ -438,13 +467,11 @@ any of these variables it is possible to pass in your own grid. This is also
 possible for the 3D radial plots where the z elements can be left as NULL.
 
 By manually creating a grid object it is possible to change the tick points on
-axes as well as the number of radial spokes (n_spokes).
-
-The default ticks are calculated from r_vector and z_vector using the
+axes as well as the number of radial spokes (n_spokes). The default ticks are calculated from r_vector and z_vector using the
 `pretty` function. This can be overwritten by passing tick points in
 r_axis_ticks and z_axis_ticks.
 
-For example we can decrease the number of radial spokes to 4, while altering
+For example, we can decrease the number of radial spokes to 4, while altering
 the z axis ticks:
 
 ```{r}
@@ -475,7 +502,7 @@ volcano3D(syn_polar,
           z_aspectratio = 0.9)
 ```
 
-For example to extend the radial axis and increasing the number of spokes in 2D
+For example to extend the radial axis and increase the number of spokes in 2D
 we can apply:
 
 ```{r, fig.height=5, fig.widht=5}
@@ -484,6 +511,19 @@ new_grid = polar_grid(r_vector=NULL,
                       r_axis_ticks = c(1, 2, 3),
                       z_axis_ticks = NULL,
                       n_spokes = 24)
+```
+
+### Altering the Annotations
+
+To amend or reposition the plotly labels it is possible to use the editable parameter. 
+This allows you to move annotation features (labels), change text including 
+legends and titles. Click on a feature to change it:
+
+```{r, fig.height=4.5, fig.width=7}
+p = radial_plotly(polar = syn_polar, 
+                  label_rows = c("SLAMF6", "PARP16", "ITM2C"))
+
+p %>% config(editable = TRUE)
 ```
 
 ### Altering the Labels
@@ -504,7 +544,7 @@ radial_ggplot(polar = syn_polar,
 
 # Example 2. Synovial Modular Data
 
-We can then collapse this into a modular analysis using a list of gene sets.
+We can collapse this example into a modular analysis using a list of gene sets.
 In this example we have used the blood transcript modules curated by Li et. al.
 in ['Li, S., Rouphael, N., Duraisingham, S., Romero-Steiner, S., Presnell, S.,
 Davis, C., ... & Kasturi, S. (2014). Molecular signatures of antibody responses
@@ -514,6 +554,8 @@ pvalues were generated using
 [QuSAGE methodology](http://clip.med.yale.edu/qusage/).
 
 ## Creating polar coordinates
+
+The modular analysis can be loaded through Li_pvalues:
 
 ```{r}
 data(Li_pvalues)
@@ -533,9 +575,6 @@ syn_mod_polar <- polar_coords(sampledata = syn_metadata,
 
 
 ## Volcano Plots
-
-We can now investigate the comparisons between pathotypes using the
-volcano_trio function.
 
 ```{r, message = FALSE, fig.height=2.8, fig.width=7}
 syn_mod_plots <- volcano_trio(polar = syn_mod_polar,
@@ -573,8 +612,7 @@ radial_ggplot(polar = syn_mod_polar,
 
 ## Boxplots
 
-We can then interrogate any one specific variable as a boxplot, to investigate
-these differences.
+We can then interrogate specific modules with boxplot_trio:
 
 ```{r, fig.height = 2.8, fig.width=5}
 plot1 <- boxplot_trio(syn_mod_polar,
@@ -598,13 +636,14 @@ ggpubr::ggarrange(plot1, plot2)
 
 If you use this package please cite as:
 
+```{r}
+citation("volcano3D")
+```
+
+or using:
+
 > Lewis, Myles J., et al. 'Molecular portraits of early rheumatoid arthritis
 identify clinical and treatment response phenotypes.' Cell reports 28.9 (2019):
 2455-2470.
 
-or using:
-
-```{r}
-citation("volcano3D")
-```
 

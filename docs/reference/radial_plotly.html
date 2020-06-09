@@ -91,7 +91,7 @@ expression onto a polar coordinates." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -171,6 +171,8 @@ expression onto a polar coordinates.</p>
   <span class='kw'>grid</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>fc_or_zscore</span> <span class='kw'>=</span> <span class='st'>"zscore"</span>,
   <span class='kw'>label_size</span> <span class='kw'>=</span> <span class='fl'>14</span>,
+  <span class='kw'>colour_code_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>label_colour</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>marker_size</span> <span class='kw'>=</span> <span class='fl'>6</span>,
   <span class='kw'>marker_alpha</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
   <span class='kw'>marker_outline_colour</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
@@ -237,6 +239,15 @@ Options are 'zscore' (default) or 'fc'.</p></td>
     <tr>
       <th>label_size</th>
       <td><p>Font size of labels/annotations (default = 14)</p></td>
+    </tr>
+    <tr>
+      <th>colour_code_labels</th>
+      <td><p>Logical whether label annotations should be colour
+coded. If FALSE label_colour is used.</p></td>
+    </tr>
+    <tr>
+      <th>label_colour</th>
+      <td><p>HTML colour of annotation labels if not colour coded.</p></td>
     </tr>
     <tr>
       <th>marker_size</th>

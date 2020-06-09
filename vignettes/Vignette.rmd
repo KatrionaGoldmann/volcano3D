@@ -1,12 +1,18 @@
 ---
-title: "volcano3D package"
+title: "volcano3D"
 author: "Katriona Goldmann"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{volcano3D package}
+  %\VignetteIndexEntry{volcano3D}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
+  
+<style>
+  .title{
+    display: none;
+  }
+</style>  
   
 ```{r setup, include = FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE, 
@@ -19,14 +25,8 @@ library(knitr)
 library(kableExtra)
 ```
 
-[![Lifecycle: Maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
-[![CRAN status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
-[![Downloads](https://cranlogs.r-pkg.org/badges/volcano3D?color=orange)](https://cran.rstudio.com/package=volcano3D)
-`r paste0("[![", Sys.Date(),"]","(",paste0("https://img.shields.io/badge/last%20git%20commit-", gsub('-', '--', Sys.Date()),"-turquoise.svg"), ")]","(",'https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md',")")`
 
-
-# volcano3D <img src="https://katrionagoldmann.github.io/volcano3D/logo.png" align="right" alt="" width="200" hspace="20" style="border: 0;"/>
+# volcano3D <img src="https://katrionagoldmann.github.io/volcano3D/logo.png" align="right" alt="" width="200" hspace="50" vspace="50" style="border: 0;"/>
 
 ```{r, echo=FALSE}
 library(ggplot2)
@@ -42,9 +42,9 @@ visualisation of differentially expressed genes in a three-dimensional
 volcano plot. These plots can be converted to interactive visualisations using
 plotly. 
 
-This vignette covers the basic features of the package using a subset example 
-data set. 
-To explore more extensive examples and view the interactive radial and volcano plots, see the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html) 
+This vignette covers the basic features of the package using a small example 
+data set. To explore more extensive examples and view the interactive radial 
+and volcano plots, see the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html) 
 which explores a case study from the PEAC 
 rheumatoid arthritis trial (Pathobiology of Early Arthritis Cohort). 
 The methodology has been published in 
@@ -52,21 +52,22 @@ The methodology has been published in
 identify clinical and treatment response phenotypes_. Cell reports 28.9 (2019): 
 2455-2470.
 (DOI: 10.1016/j.celrep.2019.07.091)](https://doi.org/10.1016/j.celrep.2019.07.091)
-with an interactive web tool available at 
-[https://peac.hpc.qmul.ac.uk](https://peac.hpc.qmul.ac.uk).  
-
-This tool acts as a searchable interface to examine relationships between 
-individual synovial and blood gene transcript levels and histological, clinical, 
-and radiographic parameters, and clinical response at 6 months. 
-An interactive interface allows the gene module analysis to be explored for 
-relationships between modules and clinical parameters. 
-The PEAC interactive web tool was creating as an 
+with an interactive, searchable web tool available at 
+[https://peac.hpc.qmul.ac.uk](https://peac.hpc.qmul.ac.uk). This was creating as an 
 [R Shiny app](https://shiny.rstudio.com) and deployed to the web using a server. 
+
 
 There are also supplementary vignettes with further information on:
 
 - [setting up the input pvalues data frame](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html)
 - [using the volcano3D package to create and deploy a shiny app](https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html)
+
+</br>
+[![Lifecycle: Maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![CRAN status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
+[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange)](https://CRAN.R-project.org/grand-total/package=volcano3D)
+`r paste0("[![", Sys.Date(),"]","(",paste0("https://img.shields.io/badge/last%20commit-", gsub('-', '--', Sys.Date()),"-turquoise.svg"), ")]","(",'https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md',")")`
 
 ## Getting Started
 
@@ -90,7 +91,7 @@ library(devtools)
 install_github("KatrionaGoldmann/volcano3D")
 ```
 
-Load the package
+### Load the package
 
 ```{r}
 library(volcano3D)
@@ -118,9 +119,38 @@ Variables used in this vignette:
 
 # Examples
 
-This vignette uses a subset data set to explore the functions. 
-First we will set up a polar object, using the polar_coords function, which
-has inputs:
+This vignette uses a subset of the 500 most highly differentially expressed genes 
+from the PEAC data to explore the package functions. 
+This can be loaded using:
+
+```{r}
+data("example_data")
+```
+
+Which contains: 
+
+* syn_example_rld - the log transformed expression data
+
+* syn_example_p - the pvalues data frame containing differential
+expression statistics about each gene
+
+* syn_example_meta which contains information
+about each sample. 
+
+For more information on how to create such objects see [here](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html). 
+
+Samples in this cohort fall into three pathotype groups: 
+
+```{r}
+kable(table(syn_example_meta$Pathotype), col.names = c("Pathotype", "Count"))
+```
+
+These will be used as the differential expression groups for the three-way analysis. 
+
+## Creating Polar Coordinates
+
+First, the differential expression can be mapped to polar coordinates using the polar_coords 
+function, which has inputs:
 
 ```{r, echo=FALSE}
 mytable = data.frame(
@@ -128,14 +158,14 @@ mytable = data.frame(
   \n\n(required)", 
   "This shows information for each sample in rows and must contain:\ 
                 \n * an ID column: Containing the sample IDs. This must be titled ‘ID’.\ 
-                \n * a contrast column: A column containing the three-level factor used for contrasts.\ 
+                \n * a contrast column: Indicates which of the three groups each sample belongs to.\ 
                 \n \n"), 
   contrast = c("contrast\ 
                \n\n(required)", 
-               "The column name in sampledata which contains the three-level factor used for contrast"), 
+               "The column name in sampledata which contains the three-level factor to be used for contrast"), 
   pvalues = c("pvalues\ 
               \n\n(required)", 
-              "the pvalues data.frame which contains the statistical\
+              "the pvalues data frame which contains the statistical\
                 significance of probes between groups. This contains: \
               \n * three pvalue columns: one for each comparison with \
               column names of format `paste(groups[i], groups[j], p_col_suffix, sep='_')`.\ 
@@ -180,13 +210,7 @@ kable(t(mytable), row.names = FALSE, col.names = c("Variable", "Details")) %>%
   kable_styling(font_size=11)
 ```
 
-## Creating Polar Coordinates
-
-Using the example_data from PEAC we can create a polar object for
-differentially expressed genes. Here syn_example_rld is the log transformed 
-expression data; syn_example_p is the pvalues data frame containing differential
-expression statistics about each gene; and syn_example_meta contains information
-about each sample. 
+This can be applied to the example data as below: 
 
 ```{r}
 data("example_data")
@@ -205,9 +229,9 @@ syn_polar <- polar_coords(sampledata = syn_example_meta,
                           fc_cutoff = 0.1)
 ```
 
-The pvalues slot should now have at least two statistics for each comparison -
-pvalue and adjusted pvalue with an optional logarithmic fold change statistic
-also:
+This creates an polar class object with slots for: sampledata, contrast, 
+pvalues, multi_group_test, expression, polar and non_sig_name. The pvalues slot should now have at least two statistics for each comparison -
+pvalue and adjusted pvalue - and an optional logarithmic fold change statistic:
 
 ```{r, eval=FALSE}
 head(syn_polar@pvalues)
@@ -250,10 +274,10 @@ table(syn_polar@polar$sig) %>%
 
 ## Volcano Plots
 
-If there is a fold change column previously provided, we can now investigate
-the comparisons between pathotypes using the
-volcano_trio function. This creates three
-[ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) outputs.
+If a fold change column was previously provided, 
+the comparisons between pathotypes can be investigated using the
+volcano_trio function. This creates
+[ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) outputs:
 
 ```{r, fig.height=2.8, fig.width=7}
 syn_plots <- volcano_trio(polar = syn_polar,
@@ -272,20 +296,21 @@ syn_plots$All
 
 ## Radial Plots
 
-The differential expression can now be visualised on an interactive radar plot
-using radial_plotly. Unfortunately CRAN does not support interactive plotly 
-images in the vignette, but these can be viewed on the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html).
+The differential expression can now be visualised on an interactive radial plot
+using radial_plotly. 
 
 ```{r, eval=FALSE, fig.height=5}
 radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "GREM2", "FMOD")) 
 ```
 
-<img src="./radial_plotly.png" align="center" alt="" width="700" style="border: 0;"/>
+<img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/radial_plotly.png" align="center" alt="" width="700" style="border: 0;"/>
 
-When interactive, it is possible to identify genes for
+
+
+Unfortunately CRAN does not support interactive plotly in the vignette, but these can be viewed on the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html). When interactive, it is possible to identify genes for
 future interrogation by hovering over certain markers.
 
-Similarly we can create a static ggplot image using radial_ggplot:
+Similarly a static ggplot image can be created using radial_ggplot:
 
 ```{r, fig.height=4.5, fig.width=7}
 radial_ggplot(polar = syn_polar,
@@ -297,8 +322,8 @@ radial_ggplot(polar = syn_polar,
 
 ## Boxplots
 
-We can then interrogate any one specific variable as a boxplot, to investigate
-these differences. 
+Any one specific probe can be interrogated using a boxplot to investigate
+differences between groups:
 
 ```{r, fig.height = 3.2, fig.width = 7}
 plot1 <- boxplot_trio(syn_polar,
@@ -313,7 +338,8 @@ plot2 <- boxplot_trio(syn_polar,
                       box_colours = c("violet", "gold2"),
                       levels_order = c("Lymphoid", "Fibroid"),
                       text_size = 7,
-                      test = "polar_padj")
+                      test = "polar_padj"
+                      )
 
 plot3 <- boxplot_trio(syn_polar,
                       value = "FMOD",
@@ -328,10 +354,9 @@ ggarrange(plot1, plot2, plot3, ncol=3)
 
 ## Three Dimensional Volcano Plots
 
-The final thing we can look at is the 3D volcano plot which projects
-differential gene expression onto cylindrical coordinates. Again CRAN does not 
-support WebGL in the vignette so we only include a static image in this document. 
-However the fully interactive plots can be viewed on the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html).
+Lastly, the 3D volcano plot can be used to project
+differential gene expression onto cylindrical coordinates. Again, CRAN does not 
+support WebGL for the interactive 3D plot, however this can be viewed in the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html).
 
 ```{r, eval=FALSE, fig.height=5}
 p <- volcano3D(syn_polar,
@@ -343,19 +368,39 @@ p <- volcano3D(syn_polar,
 p
 ```
 
-<img src="./volcano3D.png" align="center" alt="" width="500" style="border: 0;"/>
+<img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/volcano3D.png" align="center" alt="" width="500" style="border: 0;"/>
 
-Again this produces an interactive plot but since WebGL is not supported in
-vignette html we have only included a static image. To see this in action you can visit the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html)
-. If you have
-the orca command-line utility installed, this can be used to
-save static images. To install follow the instructions
+## Saving Plotly Plots
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+### Static Images
+
+There are a few ways to save plotly plots as static images. Firstly plotly 
+offers a download button ( <i class="fa fa-camera" aria-hidden="true"></i> ) in the figure mode bar (appears top right). 
+By default this saves images as png, however it is possible to convert to svg, jpeg or webp using:
+
+```{r, eval=FALSE}
+p %>% plotly::config(toImageButtonOptions = list(format = "svg"))
+```
+
+Alternatively, if orca command-line utility is installed, this can also be used to
+save plotly images. To install follow the instructions
 [here](https://github.com/plotly/orca#installation).
 
 ```{r, eval = FALSE}
 orca(p, "./volcano_3d_synovium.svg", format = "svg")
 ```
 
+### Interactive HTML
+
+The full plotly objects can be saved to HTML by converting them to widgets and 
+saving with the htmlwidgets package: 
+
+```{r, eval=FALSE}
+htmlwidgets::saveWidget(as_widget(p), "volcano3D.html")
+```
 
 ---
 
@@ -368,11 +413,12 @@ Queen Mary University London.
 
 If you use this package please cite as:
 
-> Lewis, Myles J., et al. _Molecular portraits of early rheumatoid arthritis
-identify clinical and treatment response phenotypes_. Cell reports 28.9 (2019):
-2455-2470.
-or using:
-
 ```{r}
 citation("volcano3D")
 ```
+
+or using:
+
+> Lewis, Myles J., et al. _Molecular portraits of early rheumatoid arthritis
+identify clinical and treatment response phenotypes_. Cell reports 28.9 (2019):
+2455-2470.

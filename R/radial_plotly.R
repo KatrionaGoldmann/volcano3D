@@ -23,6 +23,9 @@
 #' @param fc_or_zscore Whether to use the z-score or fold change as magnitude.
 #' Options are 'zscore' (default) or 'fc'.
 #' @param label_size Font size of labels/annotations (default = 14)
+#' @param colour_code_labels Logical whether label annotations should be colour
+#' coded. If FALSE label_colour is used.
+#' @param label_colour HTML colour of annotation labels if not colour coded. 
 #' @param marker_size Size of the markers (default = 6).
 #' @param marker_alpha Opacity for the markers (default = 0.7).
 #' @param marker_outline_colour Colour for marker outline (default = white)
@@ -77,6 +80,8 @@ radial_plotly <- function(polar,
                           grid = NULL,
                           fc_or_zscore = "zscore",
                           label_size = 14,
+                          colour_code_labels = TRUE,
+                          label_colour = NULL,
                           marker_size = 6,
                           marker_alpha = 0.7,
                           marker_outline_colour = "white",
@@ -113,6 +118,9 @@ radial_plotly <- function(polar,
     }
     if(is.null(non_sig_colour)){
         stop('Please enter a valid non_sig_colour')
+    }
+    if(! colour_code_labels & is.null(label_colour)){
+        stop('If colour_code_labels is false please enter a valid label_colour')
     }
 
     # check if hex or can be converted to hex
@@ -216,16 +224,17 @@ radial_plotly <- function(polar,
         annot <- lapply(label_rows, function(i) {
             row  <- polar_df[i, ]
             theta <- atan(row$y/row$x)
+            if(colour_code_labels) ac <- row$col else ac <- label_colour 
             list(x = row$x,
                  y = row$y,
                  text = as.character(row$label),
                  textangle = 0,
                  ax = sign(row$x)*arrow_length*grid@r*cos(theta),
                  ay  = -1*sign(row$x)*arrow_length*grid@r*sin(theta),
-                 font = list(color = row$col, size = label_size),
-                 arrowcolor = row$col,
+                 font = list(color = ac, size = label_size),
+                 arrowcolor = ac,
                  arrowwidth = 1,
-                 arrowhead = 6,
+                 arrowhead = 0,
                  xanchor = ifelse(row$x < 0, "right", "left"),
                  xanchor = ifelse(row$y < 0, "bottom", "top"),
                  arrowsize = 1.5)

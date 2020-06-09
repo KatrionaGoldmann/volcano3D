@@ -205,6 +205,10 @@ boxplot_trio <- function(polar,
       (map_pos[pvals$group2] - map_pos[pvals$group1])/2
     pvals$y.position <- pvals$y.position[1]*
       (1.01 + step_increase*(seq_len(nrow(pvals))-1))
+    comp_use <- unlist(lapply(my_comparisons, function(x) { 
+      c(paste0(x[1], "_", x[2]), paste0(x[2], "_", x[1]))
+      }))
+    pvals <- pvals[pvals$comp %in% comp_use, ]
 
     # muti group comparisons
   } else{

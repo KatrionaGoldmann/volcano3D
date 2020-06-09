@@ -15,6 +15,8 @@ radial_plotly(
   grid = NULL,
   fc_or_zscore = "zscore",
   label_size = 14,
+  colour_code_labels = TRUE,
+  label_colour = NULL,
   marker_size = 6,
   marker_alpha = 0.7,
   marker_outline_colour = "white",
@@ -59,6 +61,11 @@ the default values of \code{\link{polar_grid}}.}
 Options are 'zscore' (default) or 'fc'.}
 
 \item{label_size}{Font size of labels/annotations (default = 14)}
+
+\item{colour_code_labels}{Logical whether label annotations should be colour
+coded. If FALSE label_colour is used.}
+
+\item{label_colour}{HTML colour of annotation labels if not colour coded.}
 
 \item{marker_size}{Size of the markers (default = 6).}
 

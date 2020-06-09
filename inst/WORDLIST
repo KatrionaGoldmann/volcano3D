@@ -2,7 +2,6 @@ ac
 BH
 Camilo
 celrep
-Codecov
 com
 coord
 coords
@@ -29,6 +28,7 @@ Github
 HitCount
 hpc
 hsv
+htmlwidgets
 io
 Jillian
 Kasturi
@@ -55,6 +55,7 @@ peac
 PEAC
 plotly
 Plotly
+png
 Presnell
 pvalue
 pvalues
@@ -73,6 +74,7 @@ shinyapps
 shinycssloaders
 sig
 steelblue
+svg
 syn
 synovium
 tri
@@ -81,6 +83,7 @@ ui
 uk
 volcanoplot
 voom
+webp
 www
 xy
 zscore
