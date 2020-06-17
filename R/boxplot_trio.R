@@ -28,6 +28,7 @@
 #' \code{\link[ggpubr]{stat_compare_means}}. If NULL (default) all contrast
 #' pvalues are calculated and plotted.
 #' @param text_size The font size of text (default = 10)
+#' @param stat_colour Colour to print statistics (default="black").
 #' @param stat_size The font size of statistical parameter (default = 3).
 #' @param step_increase The distance between statistics on the y-axis
 #' (default = 0.05).
@@ -75,6 +76,7 @@ boxplot_trio <- function(polar,
                          levels_order = NULL,
                          my_comparisons = NULL,
                          text_size = 10,
+                         stat_colour = "black",
                          stat_size = 3,
                          step_increase = 0.05,
                          plot_method="ggplot",
@@ -224,7 +226,7 @@ boxplot_trio <- function(polar,
                    xlab = "",
                    ylab = paste(polar@pvalues$label[index], "Expression"),
                    fill = "group",
-                   color="group",
+                   color = "group",
                    palette = box_colours,
                    outlier.shape = NA,
                    alpha = 0.3) +
@@ -243,12 +245,12 @@ boxplot_trio <- function(polar,
         data = pvals, label = "p.format",
         xmin = "group1", xmax = "group2",
         step.increase = step_increase,
-        y.position = "y.position",
+        y.position = "y.position", color = stat_colour,
         size=stat_size, ...)
     } else{
       # muti group comparison
       p <- p + annotate("text", x = 0.5 + length(unique(df$group))/2,
-                        y = Inf, vjust = 2, hjust = 0.5,
+                        y = Inf, vjust = 2, hjust = 0.5, color = stat_colour,
                         label = paste("p =", format(pvals, digits = 2)))
     }
   } else{
@@ -278,7 +280,7 @@ boxplot_trio <- function(polar,
     lines <- list()
     if(! grepl("multi", test)){
       for (i in seq_len(nrow(pvals))) {
-        line <- list()
+        line <- list(line=list(color = stat_colour))
         line[["x0"]] <- map_pos[pvals$group1][i]
         line[["x1"]] <- map_pos[pvals$group2][i]
         line[c("y0", "y1")] <- pvals$y.position[i]
@@ -292,6 +294,7 @@ boxplot_trio <- function(polar,
         xref = "x",
         yref = "y",
         yanchor = "bottom",
+        font = list(color = stat_colour),
         showarrow = FALSE
       )
 
@@ -304,6 +307,7 @@ boxplot_trio <- function(polar,
         text = format(pvals, digits=3),
         xref = "x",
         yref = "y",
+        font = list(color = stat_colour),
         showarrow = FALSE
       )
 

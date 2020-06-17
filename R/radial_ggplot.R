@@ -25,6 +25,8 @@
 #' @param colour_code_labels Logical whether label annotations should be colour
 #' coded. If FALSE label_colour is used.
 #' @param label_colour Colour of annotation labels if not colour coded. 
+#' @param grid_colour The colour of the grid (default="grey80"). 
+#' @param axis_colour The colour of the grid axes and labels (default="black").
 #' @param axis_title_size Font size for axis titles (default = 5)
 #' @param axis_label_size Font size for axis labels (default = 3)
 #' @param marker_alpha The alpha parameter for markers (default = 0.7).
@@ -80,6 +82,8 @@ radial_ggplot <- function(polar,
                           label_size = 5,
                           colour_code_labels = TRUE,
                           label_colour = NULL,
+                          grid_colour = "grey80", 
+                          axis_colour = "black",
                           axis_title_size = 5,
                           axis_label_size = 3,
                           marker_alpha = 0.7,
@@ -240,14 +244,14 @@ radial_ggplot <- function(polar,
     invisible(lapply(1:(length(rem)-1), function(g){
         p <<- p + geom_path(data = grid@polar_grid[(rem[g]+1):(rem[g+1]-1), ],
                   aes_string(x = "x", y = "y"),
-                  alpha = 0.2)
+                  colour=grid_colour)
         }))
     
     # Three radial axes
     rem <- c(0, which(is.na(grid@axes$x) ))
     invisible(lapply(1:(length(rem)-1), function(g){
         p <<- p + geom_path(data = grid@axes[(rem[g]+1):(rem[g+1]-1), ],
-                            aes_string(x = "x", y = "y"))
+                            aes_string(x = "x", y = "y"), color=axis_colour)
     }))
     
 
@@ -258,6 +262,7 @@ radial_ggplot <- function(polar,
                   aes_string(x = "x",
                              y = "y",
                              label = "text"),
+                  color = axis_colour,
                   vjust = -1,
                   size = axis_label_size) +
 
@@ -268,7 +273,7 @@ radial_ggplot <- function(polar,
                  hjust = hadj,
                  vjust = -1*sign(grid@axis_labs$y),
                  label = levels(polar@sampledata[, polar@contrast]),
-                 color = "black", size = axis_title_size) +
+                 color = axis_colour, size = axis_title_size) +
 
         # Add markers
         geom_point(aes_string(fill=switch(colour_scale,

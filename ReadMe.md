@@ -5,7 +5,7 @@ v2](https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg)](https://www
 [![CRAN
 status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
 [![Downloads](https://cranlogs.r-pkg.org/badges/volcano3D?color=orange)](https://cran.rstudio.com/package=volcano3D)
-[![2020-06-05](https://img.shields.io/badge/last%20git%20commit-2020--06--05-turquoise.svg)](https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md)
+[![2020-06-16](https://img.shields.io/badge/last%20git%20commit-2020--06--16-turquoise.svg)](https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md)
 [![HitCount](http://hits.dwyl.com/KatrionaGoldmann/volcano3D.svg)](http://hits.dwyl.com/KatrionaGoldmann/volcano3D)
 
 volcano3D <img src="logo.png" align="right" alt="" width="200" hspace="20" />
@@ -67,7 +67,7 @@ Getting Started
 The sample data can then also be installed either from
 [source](https://github.com/KatrionaGoldmann/volcano3Ddata) or using:
 
-    install.packages("volcano3Ddata")
+    install_github("KatrionaGoldmann/volcano3Ddata")
 
 Citation
 --------

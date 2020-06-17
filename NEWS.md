@@ -2,12 +2,13 @@ News
 =====
 
 # volcano3D 1.0.1
-###### 08/06/2020
+###### 16/06/2020
 
 * update vignette for CRAN (remove WebGL)
 * update default plotly parameters
 * Allow optional colour coding of labels in radial plots
 * remove ggplot warnings of NA in geom_path 
+* Allow colour of grids and axes to be changed
 
 
 # volcano3D 1.0.0

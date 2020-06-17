@@ -17,6 +17,8 @@ radial_plotly(
   label_size = 14,
   colour_code_labels = TRUE,
   label_colour = NULL,
+  grid_colour = "grey80",
+  axis_colour = "black",
   marker_size = 6,
   marker_alpha = 0.7,
   marker_outline_colour = "white",
@@ -66,6 +68,10 @@ Options are 'zscore' (default) or 'fc'.}
 coded. If FALSE label_colour is used.}
 
 \item{label_colour}{HTML colour of annotation labels if not colour coded.}
+
+\item{grid_colour}{The colour of the grid (default="grey80").}
+
+\item{axis_colour}{The colour of the grid axes and labels (default="black").}
 
 \item{marker_size}{Size of the markers (default = 6).}
 

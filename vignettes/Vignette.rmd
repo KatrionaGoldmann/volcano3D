@@ -300,7 +300,8 @@ The differential expression can now be visualised on an interactive radial plot
 using radial_plotly. 
 
 ```{r, eval=FALSE, fig.height=5}
-radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "GREM2", "FMOD")) 
+radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "GREM2", "FMOD"), 
+              grid_colour="pink", axis_colour="blue") 
 ```
 
 <img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/radial_plotly.png" align="center" alt="" width="700" style="border: 0;"/>

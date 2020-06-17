@@ -16,3 +16,4 @@ Logo.png
 ^ReadMe\.md$
 ^doc$
 ^Meta$
+.travis.yml

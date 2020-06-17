@@ -12,6 +12,7 @@ boxplot_trio(
   levels_order = NULL,
   my_comparisons = NULL,
   text_size = 10,
+  stat_colour = "black",
   stat_size = 3,
   step_increase = 0.05,
   plot_method = "ggplot",
@@ -51,6 +52,8 @@ polar@sampledata[, polar@contrast].}
 pvalues are calculated and plotted.}
 
 \item{text_size}{The font size of text (default = 10)}
+
+\item{stat_colour}{Colour to print statistics (default="black").}
 
 \item{stat_size}{The font size of statistical parameter (default = 3).}
 

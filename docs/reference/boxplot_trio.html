@@ -168,6 +168,7 @@ groups in a boxplot using either ggplot or plotly.</p>
   <span class='kw'>levels_order</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>my_comparisons</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>stat_colour</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
   <span class='kw'>stat_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>step_increase</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
   <span class='kw'>plot_method</span> <span class='kw'>=</span> <span class='st'>"ggplot"</span>,
@@ -226,6 +227,10 @@ pvalues are calculated and plotted.</p></td>
       <td><p>The font size of text (default = 10)</p></td>
     </tr>
     <tr>
+      <th>stat_colour</th>
+      <td><p>Colour to print statistics (default="black").</p></td>
+    </tr>
+    <tr>
       <th>stat_size</th>
       <td><p>The font size of statistical parameter (default = 3).</p></td>
     </tr>
@@ -269,7 +274,8 @@ treatment response phenotypes.</a>
                           <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
                           <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
                           <span class='kw'>fc_col_suffix</span><span class='kw'>=</span><span class='st'>'log2FoldChange'</span>,
-                          <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)</div><div class='output co'>#&gt; <span class='message'>• Some  columns were not originally numeric. These have been converted.</span></div><div class='input'>
+                          <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
+
 <span class='fu'>boxplot_trio</span>(<span class='no'>syn_polar</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"SLAMF6"</span>, <span class='kw'>plot_method</span><span class='kw'>=</span><span class='st'>"plotly"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `arrange_()` is deprecated as of dplyr 0.7.0.</span>
 #&gt; <span class='warning'>Please use `arrange()` instead.</span>
 #&gt; <span class='warning'>See vignette('programming') for more help</span>

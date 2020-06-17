@@ -96,7 +96,7 @@ The sample data can then also be installed either from
 [source](https://github.com/KatrionaGoldmann/volcano3Ddata) or using:
 
 ```{r, eval=FALSE}
-install.packages("volcano3Ddata")
+install_github("KatrionaGoldmann/volcano3Ddata")
 ```
 
 ## Citation

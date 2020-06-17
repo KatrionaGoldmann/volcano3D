@@ -20,6 +20,8 @@
 #' @param fc_or_zscore whether to use fold change or z-score for the p-values. 
 #' Options are 'zscore' (default) or 'fc').
 #' @param label_size font size for labels (default = 14).
+#' @param grid_colour The colour of the cylindrical grid (default="grey80"). 
+#' @param axis_colour The colour of the grid axes and labels (default="black").
 #' @param marker_size Size of the markers (default = 2.7).
 #' @param marker_alpha Opacity for the markers (default = 1).
 #' @param marker_outline_colour Colour for marker outline (default = white)
@@ -78,6 +80,8 @@ volcano3D <- function(polar,
                       grid = NULL, 
                       fc_or_zscore = "zscore",
                       label_size = 14,
+                      grid_colour = "grey80", 
+                      axis_colour = "black",
                       marker_size = 2.7,
                       marker_alpha = 1,
                       marker_outline_colour = "white",
@@ -253,18 +257,18 @@ volcano3D <- function(polar,
             type = "scatter3d", mode = "markers") %>%
         
         add_trace(x = polar_grid$x, y = polar_grid$y, z = polar_grid$z, 
-                  color = I("#CBCBCB"), line = list(width = 2),
+                  color = I(grid_colour), line = list(width = 2),
                   showlegend = FALSE, type = "scatter3d", mode = "lines", 
                   hoverinfo = "none",inherit = FALSE) %>%
         
         # Horizontal axes
-        add_trace(x = axes$x, y = axes$y, z = 0, color = I("black"),
+        add_trace(x = axes$x, y = axes$y, z = 0, color = I(axis_colour),
                   line = list(width = 2), showlegend = FALSE, 
                   type = "scatter3d", mode = "lines", hoverinfo = "none", 
                   inherit = FALSE) %>%
         add_text(x = axis_labels$x, y = axis_labels$y, z = 0, 
                  text = levels(polar@sampledata[, polar@contrast]),
-                 color = I("black"), type = "scatter3d", mode = "text", 
+                 color = I(axis_colour), type = "scatter3d", mode = "text", 
                  textfont = list(size = 16),textposition = 'middle center', 
                  hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
         # label z axis
@@ -275,18 +279,18 @@ volcano3D <- function(polar,
                  z = c(grid@z_breaks, h/2)*0.95,
                  text = c(grid@z_breaks, '-log<sub>10</sub>P'),
                  textposition = 'middle left', textfont = list(size = 10),  
-                 color = I("black"), hoverinfo = 'none', showlegend = FALSE, 
-                 inherit = FALSE) %>%
+                 color = I(axis_colour), hoverinfo = 'none', 
+                 showlegend = FALSE, inherit = FALSE) %>%
         
         add_trace(x = R*sinpi(axis_angle), y = R*cospi(axis_angle), 
-                  z = c(0, h), color = I("black"),line = list(width = 2), 
+                  z = c(0, h), color = I(axis_colour),line = list(width = 2), 
                   showlegend = FALSE, type = "scatter3d", mode = "lines",
                   hoverinfo = "none", inherit = FALSE) %>%
         
         # label radial axis
         add_text(x = grid@text_coords$x, y = grid@text_coords$y, z = 0.05,
                  text = grid@text_coords$text, textposition = 'top center', 
-                 textfont = list(size = 10), color = I("black"), 
+                 textfont = list(size = 10), color = I(axis_colour), 
                  hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
         
         add_trace(type = 'scatter3d', mode = 'text', 
@@ -294,7 +298,7 @@ volcano3D <- function(polar,
                   y = unlist(lapply(annot, "[[", "y")), 
                   z = unlist(lapply(annot, "[[", "z")),
                   text = unlist(lapply(annot, "[[", "text")), 
-                  showlegend = FALSE, inherit = FALSE,
+                  showlegend = FALSE, inherit = FALSE, color=I(axis_colour),
                   textfont = list(size = label_size))  %>%
         
         layout(showlegend = TRUE, dragmode = "turntable",

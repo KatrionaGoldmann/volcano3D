@@ -309,9 +309,11 @@ polar_coords <- function(sampledata,
     # If not numeric, convert.
     not_numeric <- names(which(lapply(pvalues[, possible_cols], class) != 
                                    "numeric"))
+    if(length(not_numeric) > 0){
     message(paste("\u2022 Some", paste(unique(
         gsub(".*_", "", c(not_numeric, num_con))), collapse=", "), 
         'columns were not originally numeric. These have been converted.'))
+    }
     pvalues[, not_numeric] <- vapply(not_numeric, function(x) {
         as.numeric(as.character(pvalues[, x]))
     }, FUN.VALUE=rep(0, nrow(pvalues)))
