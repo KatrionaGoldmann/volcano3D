@@ -15,11 +15,15 @@
 #' the angle to a hue using \code{\link[grDevices]{hsv}} where 0 corresponds to
 #' the colour scale starting with red and 2 with magenta (default = 2). 
 #' @param label_rows A vector of row names or numbers to label.
+#' @param arrow_length The length of label arrows (default = 50).
 #' @param grid An optional grid object. If NULL this will be calculated using 
 #' default values of  \code{\link{polar_grid}}. 
 #' @param fc_or_zscore whether to use fold change or z-score for the p-values. 
 #' Options are 'zscore' (default) or 'fc').
 #' @param label_size font size for labels (default = 14).
+#' @param colour_code_labels Logical whether label annotations should be colour
+#' coded. If FALSE label_colour is used.
+#' @param label_colour HTML colour of annotation labels if not colour coded.
 #' @param grid_colour The colour of the cylindrical grid (default="grey80"). 
 #' @param axis_colour The colour of the grid axes and labels (default="black").
 #' @param marker_size Size of the markers (default = 2.7).
@@ -68,8 +72,6 @@
 #'     label_size = 10, 
 #'     z_aspectratio = 0.9)
 
-
-
 volcano3D <- function(polar,
                       colours=c("green3", "cyan", "blue", 
                                 "purple", "red", "gold2"), 
@@ -80,6 +82,9 @@ volcano3D <- function(polar,
                       grid = NULL, 
                       fc_or_zscore = "zscore",
                       label_size = 14,
+                      arrow_length=50, 
+                      colour_code_labels = TRUE,
+                      label_colour = NULL,
                       grid_colour = "grey80", 
                       axis_colour = "black",
                       marker_size = 2.7,
@@ -94,6 +99,10 @@ volcano3D <- function(polar,
     
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
     polar_df <- polar@polar
+    
+    if(! colour_code_labels & is.null(label_colour)){
+        stop('If colour_code_labels is false please enter a valid label_colour')
+    }
     
     if(! is.null(colours) & length(colours) != 6){
         stop(paste("colours must be a character vector of plotting colours of", 
@@ -226,10 +235,12 @@ volcano3D <- function(polar,
             }}
         annot <- lapply(label_rows, function(i) {
             row <- volcano_toptable[i, ]
+            if(colour_code_labels) ac <- row$col else ac <- label_colour 
             annot <- list(x = row$x, y = row$y, z = row$logP, text = row$label, 
-                          textangle = 0, ax = 75, ay = 0, arrowcolor = "black", 
+                          textangle = 0, ax = arrow_length, ay  = 0,
+                          arrowcolor = ac, font = list(color = ac),
                           arrowwidth = 1, arrowhead = 6, arrowsize = 1.5, 
-                          xanchor = "left", yanchor = "middle")
+                          yanchor = "middle")
         })
     } else {annot <- list()}
     
@@ -292,23 +303,23 @@ volcano3D <- function(polar,
                  text = grid@text_coords$text, textposition = 'top center', 
                  textfont = list(size = 10), color = I(axis_colour), 
                  hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
+    
+    layout(
+        margin = list(0, 0, 0, 0),
+        paper_bgcolor = 'rgba(0, 0, 0, 0)',
+        plot_bgcolor = 'rgba(0, 0, 0, 0)',
         
-        add_trace(type = 'scatter3d', mode = 'text', 
-                  x = unlist(lapply(annot, "[[", "x")),
-                  y = unlist(lapply(annot, "[[", "y")), 
-                  z = unlist(lapply(annot, "[[", "z")),
-                  text = unlist(lapply(annot, "[[", "text")), 
-                  showlegend = FALSE, inherit = FALSE, color=I(axis_colour),
-                  textfont = list(size = label_size))  %>%
-        
-        layout(showlegend = TRUE, dragmode = "turntable",
-               margin = list(0, 0, 0, 0),
-               paper_bgcolor = 'rgba(0, 0, 0, 0)',
-               plot_bgcolor = 'rgba(0, 0, 0, 0)',
-               scene = list(xaxis = axis_settings_xy,
-                            yaxis = axis_settings_xy,
-                            zaxis = axis_settings,
-                            aspectratio = list(x = xy_aspectratio, 
-                                               y = xy_aspectratio, 
-                                               z = z_aspectratio)))
+        scene = list(
+            aspectratio = list(x = xy_aspectratio, 
+                               y = xy_aspectratio, 
+                               z = z_aspectratio),
+            dragmode = "turntable",
+            xaxis = axis_settings_xy,
+            yaxis = axis_settings_xy,
+            zaxis = axis_settings,
+            annotations = annot),
+        xaxis = list(title = "x"),
+        yaxis = list(title = "y")
+    )
 }
+

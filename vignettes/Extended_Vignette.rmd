@@ -402,11 +402,13 @@ differential gene expression onto cylindrical coordinates.
 p <- volcano3D(syn_polar,
                label_rows = c("SLAMF6", "PARP16", "ITM2C"),
                label_size = 10,
+               colour_code_labels = F,
+               label_colour = "black",
                xy_aspectratio = 1,
                z_aspectratio = 0.9, 
                plot_height = 800)
 
-p 
+p
 ```
 
 We can alter the colour code using the colours parameter. These are assigned in 
@@ -425,12 +427,12 @@ p <- volcano3D(syn_polar,
 p 
 ```
 
-## Saving Plotly Plots
+# Saving Plotly Plots
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-### Static Images
+## Static Images
 
 There are a few ways to save plotly plots as static images. Firstly plotly 
 offers a download button ( <i class="fa fa-camera" aria-hidden="true"></i> ) in the figure mode bar (appears top right). 
@@ -448,7 +450,7 @@ save plotly images. To install follow the instructions
 orca(p, "./volcano_3d_synovium.svg", format = "svg")
 ```
 
-### Interactive HTML
+## Interactive HTML
 
 The full plotly objects can be saved to HTML by converting them to widgets and 
 saving with the htmlwidgets package: 
@@ -458,9 +460,9 @@ htmlwidgets::saveWidget(as_widget(p), "volcano3D.html")
 ```
 
 
-## Altering the Plots
+# Altering the Plots
 
-### Altering the Grid
+## Altering the Grid
 
 By default volcano3D generates a grid using 12 spokes. If you wish to override
 any of these variables it is possible to pass in your own grid. This is also
@@ -513,7 +515,7 @@ new_grid = polar_grid(r_vector=NULL,
                       n_spokes = 24)
 ```
 
-### Altering the Annotations
+## Altering the Annotations
 
 To amend or reposition the plotly labels it is possible to use the editable parameter. 
 This allows you to move annotation features (labels), change text including 
@@ -526,7 +528,7 @@ p = radial_plotly(polar = syn_polar,
 p %>% config(editable = TRUE)
 ```
 
-### Altering the Labels
+## Altering the Labels
 
 By default the rownames of the pvalues object is used to label markers of
 interest. This can be altered by amending the label column in the polar object:

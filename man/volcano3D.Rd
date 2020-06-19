@@ -14,6 +14,9 @@ volcano3D(
   grid = NULL,
   fc_or_zscore = "zscore",
   label_size = 14,
+  arrow_length = 50,
+  colour_code_labels = TRUE,
+  label_colour = NULL,
   grid_colour = "grey80",
   axis_colour = "black",
   marker_size = 2.7,
@@ -55,6 +58,13 @@ default values of  \code{\link{polar_grid}}.}
 Options are 'zscore' (default) or 'fc').}
 
 \item{label_size}{font size for labels (default = 14).}
+
+\item{arrow_length}{The length of label arrows (default = 50).}
+
+\item{colour_code_labels}{Logical whether label annotations should be colour
+coded. If FALSE label_colour is used.}
+
+\item{label_colour}{HTML colour of annotation labels if not colour coded.}
 
 \item{grid_colour}{The colour of the cylindrical grid (default="grey80").}
 

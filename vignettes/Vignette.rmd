@@ -68,6 +68,8 @@ There are also supplementary vignettes with further information on:
 [![CRAN status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange)](https://CRAN.R-project.org/grand-total/package=volcano3D)
 `r paste0("[![", Sys.Date(),"]","(",paste0("https://img.shields.io/badge/last%20commit-", gsub('-', '--', Sys.Date()),"-turquoise.svg"), ")]","(",'https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md',")")`
+[![Build Status](https://travis-ci.org/KatrionaGoldmann/volcano3D.svg?branch=master)](https://travis-ci.org/KatrionaGoldmann/volcano3D)
+
 
 ## Getting Started
 
