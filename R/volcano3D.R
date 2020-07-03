@@ -14,6 +14,8 @@
 #' to offset the continuous colour scale by. This is calculated by converting 
 #' the angle to a hue using \code{\link[grDevices]{hsv}} where 0 corresponds to
 #' the colour scale starting with red and 2 with magenta (default = 2). 
+#' @param axis_title_offset The position scaling between grid and axis titles 
+#' (default=1.2)
 #' @param label_rows A vector of row names or numbers to label.
 #' @param arrow_length The length of label arrows (default = 50).
 #' @param grid An optional grid object. If NULL this will be calculated using 
@@ -78,6 +80,7 @@ volcano3D <- function(polar,
                       non_sig_colour = "grey60",
                       colour_scale = "discrete",
                       continuous_shift = 1.33, 
+                      axis_title_offset = 1.2,
                       label_rows = c(),
                       grid = NULL, 
                       fc_or_zscore = "zscore",
@@ -277,10 +280,11 @@ volcano3D <- function(polar,
                   line = list(width = 2), showlegend = FALSE, 
                   type = "scatter3d", mode = "lines", hoverinfo = "none", 
                   inherit = FALSE) %>%
-        add_text(x = axis_labels$x, y = axis_labels$y, z = 0, 
-                 text = levels(polar@sampledata[, polar@contrast]),
+        add_text(x = axis_labels$x*axis_title_offset, 
+                 y = axis_labels$y*axis_title_offset, 
+                 z = 0, text = levels(polar@sampledata[, polar@contrast]),
                  color = I(axis_colour), type = "scatter3d", mode = "text", 
-                 textfont = list(size = 16),textposition = 'middle center', 
+                 textfont = list(size = 16), textposition = 'middle center', 
                  hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
         # label z axis
         add_text(x = c(rep(1.05*R*sinpi(axis_angle), grid@n_z_breaks), 

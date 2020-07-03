@@ -26,6 +26,7 @@ library(kableExtra)
 [![Downloads](https://cranlogs.r-pkg.org/badges/volcano3D?color=orange)](https://cran.rstudio.com/package=volcano3D)
 `r paste0("[![", Sys.Date(),"]","(",paste0("https://img.shields.io/badge/last%20git%20commit-", gsub('-', '--', Sys.Date()),"-turquoise.svg"), ")]","(",'https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md',")")`
 [![HitCount](http://hits.dwyl.com/KatrionaGoldmann/volcano3D.svg)](http://hits.dwyl.com/KatrionaGoldmann/volcano3D)
+[![GitHub issues](https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/issues/)
 
 # volcano3D <img src="logo.png" align="right" alt="" width="200" hspace="20" />
 
@@ -117,3 +118,4 @@ or:
 > Lewis, Myles J., et al. _Molecular portraits of early rheumatoid arthritis 
 identify clinical and treatment response phenotypes_. Cell reports 28.9 (2019): 
 2455-2470.
+

@@ -38,6 +38,7 @@ render_toc("./Extended_Vignette.rmd")
 [![CRAN status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
 [![Downloads](https://cranlogs.r-pkg.org/badges/volcano3D?color=orange)](https://cran.rstudio.com/package=volcano3D)
 `r paste0("[![", Sys.Date(),"]","(",paste0("https://img.shields.io/badge/last%20git%20commit-", gsub('-', '--', Sys.Date()),"-turquoise.svg"), ")]","(",'https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md',")")`
+[![GitHub issues](https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/issues/)
 
 # Introduction 
 
@@ -179,9 +180,7 @@ mytable = data.frame(
               test with column name of the form `paste0(multi_group_prefix, '_', p_col_suffix)`.This is typically\
               generated using ANOVA or likelihood ratio tests between all three groups. \
               \n * an _optional_ multi-group adjusted pvalue column: from a\
-              multi-group test (column names of form `paste0(multiGroupPrefix, '_', padjColSuffix)`). \
-              \n For more information on how to create pvalues data frames see the\
-              [pvalue generator vignette](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html)."),
+              multi-group test (column names of form `paste0(multiGroupPrefix, '_', padjColSuffix)`). "),
   exp = c("expression\ 
               \n\n(required)", 
           "A data frame or matrix containing the expression data. This \
@@ -226,7 +225,7 @@ syn_polar <- polar_coords(sampledata = syn_metadata,
                           fc_cutoff = 0.1)
 ```
 
-This creates an polar class object with slots for: sampledata, contrast, pvalues, multi_group_test, expression, polar and non_sig_name. The pvalues slot which should have a data frame with at least two 
+This creates a polar class object with slots for: sampledata, contrast, pvalues, multi_group_test, expression, polar and non_sig_name. The pvalues slot which should have a data frame with at least two 
 statistics for each comparison - pvalue and adjusted pvalue - and an optional 
 logarithmic fold change statistic. In this case we are including fold change 
 for downstream visualisations: 
@@ -298,7 +297,8 @@ be labelled.
 
 ```{r, out.height="100%", out.width="100%"}
 radial_plotly(polar = syn_polar, 
-              label_rows = c("SLAMF6", "PARP16", "ITM2C"))
+              label_rows = c("SLAMF6", "PARP16", "ITM2C"), 
+              hover="label")
 ```
 
 By hovering over certain points you can also determine genes for
@@ -402,6 +402,7 @@ differential gene expression onto cylindrical coordinates.
 p <- volcano3D(syn_polar,
                label_rows = c("SLAMF6", "PARP16", "ITM2C"),
                label_size = 10,
+               axis_title_offset = 1.3,
                colour_code_labels = F,
                label_colour = "black",
                xy_aspectratio = 1,

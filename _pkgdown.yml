@@ -1,4 +1,5 @@
 template:
+  path: "inst/pkgdown"
   params:
     bootswatch: cosmo
     ganalytics: UA-158679490-1
@@ -9,25 +10,34 @@ authors:
   Katriona Goldmann:
     href: https://github.com/KatrionaGoldmann
 
+
+
+
 toc:
   depth: 5
 
 navbar:
-  components:
-    articles:
-      text: Vignettes
+  left:
+    - icon: fa-home
+      href: index.html
+  right:
+    - text: "Getting Started"
+      icon: fas fa-book
       menu:
-      - text: Volcano3D Vignette
-        href: articles/Extended_Vignette.html
-      - text: -------
-      - text: "Additional Tutorials"
-      - text: "Generating Pvalues Objects"
-        href: articles/pvalues_generator.html
-      - text: "Using Volcano3D to create Shiny Apps"
-        href: articles/shiny_builder.html
-    news:
-      text: News
+        - text: Volcano3D Vignette
+          href: articles/Extended_Vignette.html
+        - text: -------
+        - text: "Additional Tutorials"
+        - text: "Generating Pvalues Objects"
+          href: articles/pvalues_generator.html
+        - text: "Using Volcano3D to create Shiny Apps"
+          href: articles/shiny_builder.html
+    - icon: fa-newspaper-o
+      text: "news"
       href: news/index.html
-    reference:
-      text: "Manual"
+    - icon: fa-file-code-o
+      text: "Reference Manual"
       href: reference/index.html
+    - icon: fa-github fa-lg
+      text: "github"
+      href: https://github.com/KatrionaGoldmann/volcano3D

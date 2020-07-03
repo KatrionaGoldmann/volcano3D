@@ -1,6 +1,12 @@
 News
 =====
 
+# volcano3D 1.0.2
+###### 03/07/2020
+
+* add offset for 3D axis titles
+
+
 # volcano3D 1.0.1
 ###### 26/06/2020
 

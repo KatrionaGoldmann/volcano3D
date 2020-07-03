@@ -5,8 +5,10 @@ v2](https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg)](https://www
 [![CRAN
 status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
 [![Downloads](https://cranlogs.r-pkg.org/badges/volcano3D?color=orange)](https://cran.rstudio.com/package=volcano3D)
-[![2020-06-16](https://img.shields.io/badge/last%20git%20commit-2020--06--16-turquoise.svg)](https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md)
+[![2020-07-03](https://img.shields.io/badge/last%20git%20commit-2020--07--03-turquoise.svg)](https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md)
 [![HitCount](http://hits.dwyl.com/KatrionaGoldmann/volcano3D.svg)](http://hits.dwyl.com/KatrionaGoldmann/volcano3D)
+[![GitHub
+issues](https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/issues/)
 
 volcano3D <img src="logo.png" align="right" alt="" width="200" hspace="20" />
 =============================================================================
@@ -86,9 +88,8 @@ If you use this package please cite as:
     ## To cite package 'volcano3D' in publications use:
     ## 
     ##   Katriona Goldmann and Myles Lewis (2020). volcano3D: Interactive
-    ##   Plotting of Three-Way Differential Expression Analysis.
-    ##   https://katrionagoldmann.github.io/volcano3D/index.html,
-    ##   https://github.com/KatrionaGoldmann/volcano3D.
+    ##   Plotting of Three-Way Differential Expression Analysis. R package
+    ##   version 1.0.1. https://CRAN.R-project.org/package=volcano3D
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
@@ -97,8 +98,8 @@ If you use this package please cite as:
     ## Analysis},
     ##     author = {Katriona Goldmann and Myles Lewis},
     ##     year = {2020},
-    ##     note = {https://katrionagoldmann.github.io/volcano3D/index.html,
-    ## https://github.com/KatrionaGoldmann/volcano3D},
+    ##     note = {R package version 1.0.1},
+    ##     url = {https://CRAN.R-project.org/package=volcano3D},
     ##   }
 
 or:

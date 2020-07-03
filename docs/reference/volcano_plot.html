@@ -98,16 +98,17 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
-<li>
-  <a href="../reference/index.html">Manual</a>
-</li>
-<li class="dropdown">
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Vignettes
+    <span class="fas fa fas fa-book"></span>
+     
+    Getting Started
      
     <span class="caret"></span>
   </a>
@@ -126,14 +127,24 @@
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
-</li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/KatrionaGoldmann/volcano3D/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="../news/index.html">
+    <span class="fa fa-newspaper-o"></span>
      
+    news
+  </a>
+</li>
+<li>
+  <a href="../reference/index.html">
+    <span class="fa fa-file-code-o"></span>
+     
+    Reference Manual
+  </a>
+</li>
+<li>
+  <a href="https://github.com/KatrionaGoldmann/volcano3D">
+    <span class="fa fa-github fa-lg"></span>
+     
+    github
   </a>
 </li>
       </ul>
@@ -303,12 +314,70 @@ treatment response phenotypes.</a>
 
 
       <footer>
-      <div class="copyright">
-  <p>Developed by <a href='https://github.com/KatrionaGoldmann'>Katriona Goldmann</a>, <a href='https://www.qmul.ac.uk/whri/people/academic-staff/items/lewismyles.html'>Myles Lewis</a>.</p>
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+
+<style>
+  #left {
+    float:left;
+  }
+  #right {
+    width:100%;
+    position:relative;
+    text-align:right;
+    align:right;
+    float:right;
+  }
+  *.icon-grey {color: navy}
+  j {
+    text-align:center;
+    vertical-align:middle;
+    position: relative;
+    padding-bottom: 12px;
+  }
+  .smadge:after{
+    content:"EMR";
+    position: absolute;
+    background: navy;
+    height:1rem;
+    top:1rem;
+    right:-0.5rem;
+    width:2rem;
+    text-align: center;
+    line-height: 1rem;;
+    font-size: 0.7rem;
+    color: white;
+  }
+  .bladge:after{
+    content:"C4TB";
+    position: absolute;
+    background: navy;
+    height:1rem;
+    top:1rem;
+    right:-0.5rem;
+    width:2rem;
+    text-align: center;
+    line-height: 1rem;;
+    font-size: 0.7rem;
+    color: white;
+  }
+</style>
+
+<div id="left">
+Developed by <a href="https://www.turing.ac.uk/people/enrichment-students/katriona-goldmann">Katriona Goldmann</a> and <a href="https://www.qmul.ac.uk/whri/people/academic-staff/items/lewismyles.html">Myles Lewis</a>
 </div>
 
-<div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+<div id="right">
+<a href="https://www.qmul.ac.uk/whri/emr/"><j class="fa fa-university fa-2x  icon-grey smadge" aria-hidden="false" style="color:#cc0099"></j></a>
+<span style="margin-left:1rem"></span>
+
+<a href="https://www.qmul.ac.uk/c4tb/"><j class="fa fa-university fa-2x  icon-grey bladge" aria-hidden="false" style="color:#cc0099"></j></a>
+<span style="margin-left:1rem"></span>
+
+<a href="mailto:k.goldmann@qmul.ac.uk" class="fas fa-envelope fa-2x" style="color:#cc0099"></a><span style="margin-left:1rem"></span>
+<a href="https://github.com/KatrionaGoldmann"><i class="fab fa-github fa-2x" style="color:#cc0099"></i></a>
+<span style="margin-left:1rem"></span>
+
+<a href="https://twitter.com/_katriona"><i class="fab fa-twitter fa-2x" style="color:#cc0099"></i></a>
 </div>
 
       </footer>

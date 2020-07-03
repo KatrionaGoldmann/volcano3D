@@ -69,6 +69,7 @@ There are also supplementary vignettes with further information on:
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange)](https://cranlogs.r-pkg.org/badges/grand-total/volcano3D)
 `r paste0("[![", Sys.Date(),"]","(",paste0("https://img.shields.io/badge/last%20commit-", gsub('-', '--', Sys.Date()),"-turquoise.svg"), ")]","(",'https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md',")")`
 [![Build Status](https://travis-ci.org/KatrionaGoldmann/volcano3D.svg?branch=master)](https://travis-ci.org/KatrionaGoldmann/volcano3D)
+[![GitHub issues](https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/issues/)
 
 
 ## Getting Started
@@ -302,8 +303,7 @@ The differential expression can now be visualised on an interactive radial plot
 using radial_plotly. 
 
 ```{r, eval=FALSE, fig.height=5}
-radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "GREM2", "FMOD"), 
-              grid_colour="pink", axis_colour="blue") 
+radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "GREM2", "FMOD")) 
 ```
 
 <img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/radial_plotly.png" align="center" alt="" width="700" style="border: 0;"/>
@@ -366,6 +366,7 @@ p <- volcano3D(syn_polar,
                label_rows = c("SLAMF6", "GREM2", "FMOD"),
                label_size = 10,
                xy_aspectratio = 1,
+               title_offset = 1.5,
                z_aspectratio = 0.9, 
                plot_height = 700)
 p
