@@ -5,6 +5,7 @@ News
 ###### 03/07/2020
 
 * add offset for 3D axis titles
+* Allow changes to the hover text 
 
 
 # volcano3D 1.0.1

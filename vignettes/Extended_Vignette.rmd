@@ -292,13 +292,32 @@ syn_plots$All
 ## Radial Plots
 
 The differential expression can now be visualised on an interactive radar plot 
-using radial_plotly. The `labelRows` variable allows any markers of interest to 
-be labelled.
+using radial_plotly. 
+
+Using the `hover` parameter (implemented v1.0.2) the plotly hover information 
+can be altered by referencing the columns available in polar@polar and 
+polar@pvlaues i.e.: 
+
+```{r}
+unique(c(colnames(syn_polar@polar), colnames(syn_polar@pvalues)))
+```
+
+For example to show all pvalues on hover we can use: 
+
+```{r}
+hovertext = "paste(label, 
+              '\nL vs M pvalue:', format(Lymphoid_Myeloid_pvalue, digits=3), 
+              '\nM vs F pvalue:', format(Myeloid_Fibroid_pvalue, digits=3), 
+              '\nL vs F pvalue:', format(Fibroid_Lymphoid_pvalue, digits=3))"
+```
+
+Similarly the `labelRows` variable allows any markers of interest to be 
+labelled:
 
 ```{r, out.height="100%", out.width="100%"}
 radial_plotly(polar = syn_polar, 
               label_rows = c("SLAMF6", "PARP16", "ITM2C"), 
-              hover="label")
+              hover=hovertext)
 ```
 
 By hovering over certain points you can also determine genes for
@@ -423,6 +442,7 @@ p <- volcano3D(syn_polar,
                z_aspectratio = 0.9, 
                colours = c("grey60", "grey60", "blue", 
                            "grey60", "grey60", "grey60"), 
+               hover_text = "paste0(Name, '\n', sig)",
                plot_height=800)
 
 p 

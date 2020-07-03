@@ -26,6 +26,22 @@
 #' @param colour_code_labels Logical whether label annotations should be colour
 #' coded. If FALSE label_colour is used.
 #' @param label_colour HTML colour of annotation labels if not colour coded. 
+#' @param hover_text A character string containing the argument for hover text
+#' (default="label"). Possible columns include: \itemize{
+#' \item "Name" or "label": name and label column for each marker
+#' \item paste(group, "_axis") the position for each marker on a given axis
+#' \item "x_zscore", "y_zscore" or "r_zscore": The position according to z-score
+#' \item "x_fc", "y_fc" or "r_fc": The position according to fold change
+#' \item "angle", "angle_degrees": Then marker angle
+#' \item "max_exp" or "sig": The maximally expressed group or significant group
+#' \item "col" or "hue": The colour or hue of the marker
+#' \item paste0(group A, "_", group B, "_pvalue"): The pvalue for comparisons
+#' \item paste0(group A, "_", group B, "_padj"): The pvalue for comparisons
+#' \item paste0(group A, "_", group B, "_logFC"): The pvalue for comparisons
+#' \item paste0(multi_group_test, "_pvalue"), 
+#' paste0(multi_group_test, "_padj"),  paste0(multi_group_test, "_logFC"): 
+#' The stats for all multi-group tests.
+#' }
 #' @param grid_colour The colour of the grid (default="grey80"). 
 #' @param axis_colour The colour of the grid axes and labels (default="black").
 #' @param marker_size Size of the markers (default = 6).
@@ -84,6 +100,7 @@ radial_plotly <- function(polar,
                           label_size = 14,
                           colour_code_labels = TRUE,
                           label_colour = NULL,
+                          hover_text = "label",
                           grid_colour = "grey80", 
                           axis_colour = "black",
                           marker_size = 6,
@@ -99,7 +116,12 @@ radial_plotly <- function(polar,
                           ...){
 
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
-    polar_df <- polar@polar
+    polar_df <- cbind(polar@polar, polar@pvalues)
+    
+    polar_df$hover <- eval(parse(
+        text = paste0("with(polar_df, ", hover_text, ")")))
+    
+    polar_df <- polar_df[, c(colnames(polar@polar), "hover")]
 
     if(! is.null(colours) & length(colours) != 6){
         stop(paste("colours must be a character vector of plotting colours of",
@@ -190,7 +212,6 @@ radial_plotly <- function(polar,
     if(any(duplicated(colours))){
         warning(paste("Some colours are repeated. These will be compressed",
                       "into one significance group"))
-
         colours <- setNames(
             unique(colours),
             unlist(lapply(unique(colours), function(x) {
@@ -247,14 +268,13 @@ radial_plotly <- function(polar,
 
     polar_df <- polar_df[c(which(polar_df$hue == non_sig_colour),
                            which(polar_df$hue != non_sig_colour)), ]
-
+        
     # plotly plot
     p <- plot_ly(data = polar_df, x = ~x, mode = "none", type = "scatter",
                  colors = switch(colour_scale,
                                  "discrete" = colour_levels,
                                  "continuous" = NULL),
-                 source = "BOTH", 
-                 showlegend = FALSE) %>%
+                 source = "BOTH", showlegend = FALSE) %>%
         # add the grid
         add_trace(x = polar_grid$x, y = polar_grid$y, color = I(grid_colour),
                   line = list(width = 1), showlegend = FALSE, type = "scatter",
@@ -292,6 +312,7 @@ radial_plotly <- function(polar,
                  showlegend = FALSE, inherit = FALSE) %>%
         # add the markers
         add_markers(data = polar_df, x = ~x, y = ~y, key = ~label,
+                    text = ~hover,
                     opacity = marker_alpha,
                     color = ~switch(colour_scale,
                                     "discrete" = sig,

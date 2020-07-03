@@ -24,7 +24,7 @@ setClassUnion("df_or_matrix", c("data.frame", "matrix"))
 #'       \item The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'
 #'       \item 'angle': The angle in radians for polar coordinates
 #'       \item 'angle_degrees': The angle in degrees
-#'       \item 'maxExp': The group with the highest expression
+#'       \item 'max_exp': The group with the highest expression
 #'       \item 'sig': The significance category
 #'   }
 #' @slot non_sig_name The category name for variables which are not significant
@@ -96,7 +96,7 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #'       \item{The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'}
 #'       \item{'angle': The angle in radians for polar coordinates}
 #'       \item{'angle_degrees': The angle in degrees}
-#'       \item{'maxExp': The maximally expressed group}
+#'       \item{'max_exp': The maximally expressed group}
 #'       \item{'sig': The significance group}
 #'   }
 #'   \item{'pvalues'} A data frame containing the p-values, adjusted p-values,
@@ -406,7 +406,7 @@ polar_coords <- function(sampledata,
         groups[pvalues[, paste(multi_group_prefix, "padj", sep="_")] >= 
                    significance_cutoff] <- 'grey60'
     }
-    polar_colours$maxExp <- colnames(polar_colours)[max.col(
+    polar_colours$max_exp <- colnames(polar_colours)[max.col(
         polar_colours[, 1:3])]
     comp_map <- colnames(polar_colours)[1:3]
     comp_cols <- colnames(pvalues)[grepl("pvalue", colnames(pvalues)) & 
@@ -417,7 +417,7 @@ polar_coords <- function(sampledata,
                pvalues[,comp_cols[2]] >= significance_cutoff &
                pvalues[,comp_cols[3]] >= significance_cutoff] <-
         'grey60'
-    polar_colours$maxExp[pvalues[,comp_cols[1]] >= significance_cutoff &
+    polar_colours$max_exp[pvalues[,comp_cols[1]] >= significance_cutoff &
                              pvalues[,comp_cols[2]] >= significance_cutoff &
                              pvalues[,comp_cols[3]] >= significance_cutoff] <-
         non_sig_name
@@ -447,24 +447,24 @@ polar_coords <- function(sampledata,
         max_res <- c(paste0(comp_map[3], ".11"),
                      paste0(comp_map[1], "1.1"),
                      paste0(comp_map[2], "11."))
-        pairwise$maxExp <- non_sig_name
+        pairwise$max_exp <- non_sig_name
         
         # Fill in colours - for up in one group
         for(iter in 1:3){
-            pairwise$maxExp[grep(sig_res[iter], pairwiseSig)] <-
+            pairwise$max_exp[grep(sig_res[iter], pairwiseSig)] <-
                 colnames(polar_colours)[iter]
         }
         
         # Fill colours if up in two groups
         for(iter in 1:3){
             iterIDs <- sort(c(iter, iter%%3 + 1))
-            pairwise$maxExp[grep(max_res[iter], pairwiseSig)] <-
+            pairwise$max_exp[grep(max_res[iter], pairwiseSig)] <-
                 paste(colnames(polar_colours)[iterIDs[1]], "+",
                       colnames(polar_colours)[iterIDs[2]], "+", sep = "")
         }
         
         pairwise$Name <- rownames(pairwise)
-        polar_colours$sig <- pairwise$maxExp[match(rownames(polar_colours),
+        polar_colours$sig <- pairwise$max_exp[match(rownames(polar_colours),
                                                    rownames(pairwise))]
     }
     polar_colours$sig[is.na(polar_colours$sig)] <- non_sig_name
@@ -485,7 +485,7 @@ polar_coords <- function(sampledata,
                                        "x_fc", "y_fc", "r_fc",
                                        "angle",
                                        "angle_degrees",
-                                       "maxExp",
+                                       "max_exp",
                                        "sig")]
     
     if(! identical(rownames(polar_colours), rownames(pvalues))) {
@@ -493,8 +493,8 @@ polar_coords <- function(sampledata,
     }
     
     colnames(polar_colours)[colnames(polar_colours) %in% contrast_groups] <- 
-        paste(colnames(polar_colours)[colnames(polar_colours) %in% 
-                                          contrast_groups], "axis")
+        paste0(colnames(polar_colours)[colnames(polar_colours) %in% 
+                                          contrast_groups], "_axis")
     polar_colours$label <- pvalues$label
     
     methods::new("polar",

@@ -37,7 +37,7 @@ normalised expression object such as log transformed or variance stabilised.}
     \item The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'
     \item 'angle': The angle in radians for polar coordinates
     \item 'angle_degrees': The angle in degrees
-    \item 'maxExp': The group with the highest expression
+    \item 'max_exp': The group with the highest expression
     \item 'sig': The significance category
 }}
 

@@ -90,7 +90,7 @@ Returns an S4 polar object containing:
       \item{The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'}
       \item{'angle': The angle in radians for polar coordinates}
       \item{'angle_degrees': The angle in degrees}
-      \item{'maxExp': The maximally expressed group}
+      \item{'max_exp': The maximally expressed group}
       \item{'sig': The significance group}
   }
   \item{'pvalues'} A data frame containing the p-values, adjusted p-values,

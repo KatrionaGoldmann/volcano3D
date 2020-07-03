@@ -26,6 +26,22 @@
 #' @param colour_code_labels Logical whether label annotations should be colour
 #' coded. If FALSE label_colour is used.
 #' @param label_colour HTML colour of annotation labels if not colour coded.
+#' @param hover_text A character string containing the argument for hover text
+#' (default="label"). Possible columns include: \itemize{
+#' \item "Name" or "label": name and label column for each marker
+#' \item paste(group, "_axis") the position for each marker on a given axis
+#' \item "x_zscore", "y_zscore" or "r_zscore": The position according to z-score
+#' \item "x_fc", "y_fc" or "r_fc": The position according to fold change
+#' \item "angle", "angle_degrees": Then marker angle
+#' \item "max_exp" or "sig": The maximally expressed group or significant group
+#' \item "col" or "hue": The colour or hue of the marker
+#' \item paste0(group 1, "_", group 2, "_pvalue"): The pvalue for comparisons
+#' \item paste0(group 1, "_", group 2, "_padj"): The pvalue for comparisons
+#' \item paste0(group 1, "_", group 2, "_logFC"): The pvalue for comparisons
+#' \item paste0(multi_group_test, "_pvalue"), 
+#' paste0(multi_group_test, "_padj"), paste0(multi_group_test, "_logFC"): 
+#' The stats for all multi-group tests.
+#' }
 #' @param grid_colour The colour of the cylindrical grid (default="grey80"). 
 #' @param axis_colour The colour of the grid axes and labels (default="black").
 #' @param marker_size Size of the markers (default = 2.7).
@@ -88,6 +104,7 @@ volcano3D <- function(polar,
                       arrow_length=50, 
                       colour_code_labels = TRUE,
                       label_colour = NULL,
+                      hover_text = "label",
                       grid_colour = "grey80", 
                       axis_colour = "black",
                       marker_size = 2.7,
@@ -101,7 +118,12 @@ volcano3D <- function(polar,
                       ...){
     
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
-    polar_df <- polar@polar
+    polar_df <- cbind(polar@polar, polar@pvalues)
+    
+    polar_df$hover <- eval(parse(
+        text = paste0("with(polar_df, ", hover_text, ")")))
+    
+    polar_df <- polar_df[, c(colnames(polar@polar), "hover")]
     
     if(! colour_code_labels & is.null(label_colour)){
         stop('If colour_code_labels is false please enter a valid label_colour')
@@ -259,15 +281,10 @@ volcano3D <- function(polar,
             color = ~switch(colour_scale,
                             "discrete" = sig,
                             "continuous" = I(hue)),
-            hoverinfo = 'text', 
+            hoverinfo = 'text', text = ~hover,
             colors = switch(colour_scale,
                             "discrete" = colours,
                             "continuous" = NULL),
-            text = ~paste0(label, 
-                           "<br>Theta = ", as.integer(angle_degrees), "\u00B0",
-                           "<br>r = ", formatC(r, digits = 3), 
-                           "<br>P = ", format(logP, digits = 3, 
-                                              scientific = 3)),
             type = "scatter3d", mode = "markers") %>%
         
         add_trace(x = polar_grid$x, y = polar_grid$y, z = polar_grid$z, 

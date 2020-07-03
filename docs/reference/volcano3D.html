@@ -90,7 +90,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -183,6 +183,7 @@
   <span class='kw'>arrow_length</span> <span class='kw'>=</span> <span class='fl'>50</span>,
   <span class='kw'>colour_code_labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>label_colour</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>hover_text</span> <span class='kw'>=</span> <span class='st'>"label"</span>,
   <span class='kw'>grid_colour</span> <span class='kw'>=</span> <span class='st'>"grey80"</span>,
   <span class='kw'>axis_colour</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
   <span class='kw'>marker_size</span> <span class='kw'>=</span> <span class='fl'>2.7</span>,
@@ -262,6 +263,25 @@ coded. If FALSE label_colour is used.</p></td>
     <tr>
       <th>label_colour</th>
       <td><p>HTML colour of annotation labels if not colour coded.</p></td>
+    </tr>
+    <tr>
+      <th>hover_text</th>
+      <td><p>A character string containing the argument for hover text
+(default="label"). Possible columns include:</p><ul>
+<li><p>"Name" or "label": name and label column for each marker</p></li>
+<li><p>paste(group, "_axis") the position for each marker on a given axis</p></li>
+<li><p>"x_zscore", "y_zscore" or "r_zscore": The position according to z-score</p></li>
+<li><p>"x_fc", "y_fc" or "r_fc": The position according to fold change</p></li>
+<li><p>"angle", "angle_degrees": Then marker angle</p></li>
+<li><p>"max_exp" or "sig": The maximally expressed group or significant group</p></li>
+<li><p>"col" or "hue": The colour or hue of the marker</p></li>
+<li><p>paste0(group 1, "_", group 2, "_pvalue"): The pvalue for comparisons</p></li>
+<li><p>paste0(group 1, "_", group 2, "_padj"): The pvalue for comparisons</p></li>
+<li><p>paste0(group 1, "_", group 2, "_logFC"): The pvalue for comparisons</p></li>
+<li><p>paste0(multi_group_test, "_pvalue"), 
+paste0(multi_group_test, "_padj"), paste0(multi_group_test, "_logFC"): 
+The stats for all multi-group tests.</p></li>
+</ul></td>
     </tr>
     <tr>
       <th>grid_colour</th>
@@ -367,7 +387,7 @@ treatment response phenotypes.</a>
     align:right;
     float:right;
   }
-  *.icon-grey {color: navy}
+  *.icon-grey {color: lightgrey}
   j {
     text-align:center;
     vertical-align:middle;
@@ -377,28 +397,30 @@ treatment response phenotypes.</a>
   .smadge:after{
     content:"EMR";
     position: absolute;
-    background: navy;
-    height:1rem;
+    background: lightgrey;
+    height:1.2rem;
     top:1rem;
-    right:-0.5rem;
-    width:2rem;
+    right:-1rem;
+    width:2.3rem;
     text-align: center;
     line-height: 1rem;;
-    font-size: 0.7rem;
-    color: white;
+    font-size: 1rem;
+    color: #cc0099;
+    border-radius: 10%;
   }
   .bladge:after{
     content:"C4TB";
     position: absolute;
-    background: navy;
-    height:1rem;
+    background: lightgrey;
+    height:1.2rem;
     top:1rem;
-    right:-0.5rem;
-    width:2rem;
+    right:-1rem;
+    width:2.7rem;
     text-align: center;
     line-height: 1rem;;
-    font-size: 0.7rem;
-    color: white;
+    font-size: 1rem;
+    color: #cc0099;
+    border-radius: 10%;
   }
 </style>
 

@@ -18,6 +18,7 @@ volcano3D(
   arrow_length = 50,
   colour_code_labels = TRUE,
   label_colour = NULL,
+  hover_text = "label",
   grid_colour = "grey80",
   axis_colour = "black",
   marker_size = 2.7,
@@ -69,6 +70,23 @@ Options are 'zscore' (default) or 'fc').}
 coded. If FALSE label_colour is used.}
 
 \item{label_colour}{HTML colour of annotation labels if not colour coded.}
+
+\item{hover_text}{A character string containing the argument for hover text
+(default="label"). Possible columns include: \itemize{
+\item "Name" or "label": name and label column for each marker
+\item paste(group, "_axis") the position for each marker on a given axis
+\item "x_zscore", "y_zscore" or "r_zscore": The position according to z-score
+\item "x_fc", "y_fc" or "r_fc": The position according to fold change
+\item "angle", "angle_degrees": Then marker angle
+\item "max_exp" or "sig": The maximally expressed group or significant group
+\item "col" or "hue": The colour or hue of the marker
+\item paste0(group 1, "_", group 2, "_pvalue"): The pvalue for comparisons
+\item paste0(group 1, "_", group 2, "_padj"): The pvalue for comparisons
+\item paste0(group 1, "_", group 2, "_logFC"): The pvalue for comparisons
+\item paste0(multi_group_test, "_pvalue"), 
+paste0(multi_group_test, "_padj"), paste0(multi_group_test, "_logFC"): 
+The stats for all multi-group tests.
+}}
 
 \item{grid_colour}{The colour of the cylindrical grid (default="grey80").}
 

@@ -92,7 +92,7 @@ sample data and polar coordinates." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -290,7 +290,7 @@ labelled with at plotting stage. If NULL the rownames of pvalues are used.</p></
 <li><p>The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'</p></li>
 <li><p>'angle': The angle in radians for polar coordinates</p></li>
 <li><p>'angle_degrees': The angle in degrees</p></li>
-<li><p>'maxExp': The maximally expressed group</p></li>
+<li><p>'max_exp': The maximally expressed group</p></li>
 <li><p>'sig': The significance group</p></li>
 </ul></li>
 <li><p>'pvalues' A data frame containing the p-values, adjusted p-values,
@@ -359,7 +359,7 @@ treatment response phenotypes.</a>
     align:right;
     float:right;
   }
-  *.icon-grey {color: navy}
+  *.icon-grey {color: lightgrey}
   j {
     text-align:center;
     vertical-align:middle;
@@ -369,28 +369,30 @@ treatment response phenotypes.</a>
   .smadge:after{
     content:"EMR";
     position: absolute;
-    background: navy;
-    height:1rem;
+    background: lightgrey;
+    height:1.2rem;
     top:1rem;
-    right:-0.5rem;
-    width:2rem;
+    right:-1rem;
+    width:2.3rem;
     text-align: center;
     line-height: 1rem;;
-    font-size: 0.7rem;
-    color: white;
+    font-size: 1rem;
+    color: #cc0099;
+    border-radius: 10%;
   }
   .bladge:after{
     content:"C4TB";
     position: absolute;
-    background: navy;
-    height:1rem;
+    background: lightgrey;
+    height:1.2rem;
     top:1rem;
-    right:-0.5rem;
-    width:2rem;
+    right:-1rem;
+    width:2.7rem;
     text-align: center;
     line-height: 1rem;;
-    font-size: 0.7rem;
-    color: white;
+    font-size: 1rem;
+    color: #cc0099;
+    border-radius: 10%;
   }
 </style>
 

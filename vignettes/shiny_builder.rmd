@@ -445,25 +445,3 @@ businesses. I have not looked into using this method
 but for more information see 
 [https://rstudio.com/products/connect/](https://rstudio.com/products/connect/)
 
----
-
-# Source code
-
-Browse source code at 
-[https://github.com/KatrionaGoldmann/volcano3D](https://github.com/KatrionaGoldmann/volcano3D)
-
-Report suggestions or bugs at 
-[https://github.com/KatrionaGoldmann/volcano3D/issues](https://github.com/KatrionaGoldmann/volcano3D/issues)
-
----
-
-<font size="6"> Katriona Goldmann</font>
-
-PhD Student &#183; Queen Mary University London &#183; The Alan Turing Institute
-
-<a href="http://www.github.com/KatrionaGoldmann" class="fab fa-github" target="_blank"> </a> &#183;
-<a href="http://www.twitter.com/_katriona" class="fab fa-twitter" target="_blank"> _katriona</a> &#183;
-<a href="https://www.linkedin.com/in/katriona-goldmann-4a4a95103/" class="fa fa-linkedin" target="_blank"> </a> &#183;
-<a href="mailto:kgoldmann@turing.ac.uk" class="fas fa-envelope"> @turing.ac.uk</a> &#183;
-<a href="mailto:k.goldmann@qmul.ac.uk" class="fas fa-envelope"> @qmul.ac.uk</a> 
-
