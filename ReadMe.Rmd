@@ -23,7 +23,7 @@ library(kableExtra)
 [![Lifecycle: Maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 [![CRAN status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
-[![Downloads](https://cranlogs.r-pkg.org/badges/volcano3D?color=orange)](https://cran.rstudio.com/package=volcano3D)
+[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange)](https://cran.rstudio.com/package=volcano3D)
 `r paste0("[![", Sys.Date(),"]","(",paste0("https://img.shields.io/badge/last%20git%20commit-", gsub('-', '--', Sys.Date()),"-turquoise.svg"), ")]","(",'https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md',")")`
 [![HitCount](http://hits.dwyl.com/KatrionaGoldmann/volcano3D.svg)](http://hits.dwyl.com/KatrionaGoldmann/volcano3D)
 [![GitHub issues](https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/issues/)
