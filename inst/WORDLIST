@@ -23,7 +23,6 @@ ggplot
 Ggplot
 ggpubr
 ggrepel
-github
 Github
 HitCount
 hpc
@@ -32,15 +31,11 @@ htmlwidgets
 io
 Jillian
 Kasturi
-katriona
-KatrionaGoldmann
 Kobos
 Lifecycle
-limegreen
 limma
 Limma
 logFC
-maxExp
 myeloid
 Myeloid
 Orduz
@@ -73,7 +68,6 @@ shinyApp
 shinyapps
 shinycssloaders
 sig
-steelblue
 svg
 syn
 synovium
@@ -81,6 +75,7 @@ tri
 txi
 ui
 uk
+upregulated
 volcanoplot
 voom
 webp

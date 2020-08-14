@@ -111,7 +111,7 @@
 
       
 
-      </header><script src="Vignette_files/header-attrs-2.3/header-attrs.js"></script><script src="Vignette_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="Vignette_files/kePrint-0.0.1/kePrint.js"></script><div class="row">
+      </header><script src="Vignette_files/header-attrs-2.3/header-attrs.js"></script><script src="Vignette_files/kePrint-0.0.1/kePrint.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>volcano3D</h1>
@@ -141,7 +141,7 @@
 <li><a href="https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html">setting up the input pvalues data frame</a></li>
 <li><a href="https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html">using the volcano3D package to create and deploy a shiny app</a></li>
 </ul>
-<p> <a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: Maturing"></a> <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html"><img src="https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg" alt="License: GPL v2"></a> <a href="https://cran.r-project.org/package=volcano3D"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a> <a href="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D"><img src="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange" alt="Downloads"></a> <a href="https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md"><img src="https://img.shields.io/badge/last%20commit-2020--07--07-turquoise.svg" alt="2020-07-07"></a> <a href="https://travis-ci.org/KatrionaGoldmann/volcano3D"><img src="https://travis-ci.org/KatrionaGoldmann/volcano3D.svg?branch=master" alt="Build Status"></a> <a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/"><img src="https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg" alt="GitHub issues"></a></p>
+<p> <a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: Maturing"></a> <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html"><img src="https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg" alt="License: GPL v2"></a> <a href="https://cran.r-project.org/package=volcano3D"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a> <a href="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D"><img src="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange" alt="Downloads"></a> <a href="https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md"><img src="https://img.shields.io/badge/last%20commit-2020--08--14-turquoise.svg" alt="2020-08-14"></a> <a href="https://travis-ci.org/KatrionaGoldmann/volcano3D"><img src="https://travis-ci.org/KatrionaGoldmann/volcano3D.svg?branch=master" alt="Build Status"></a> <a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/"><img src="https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg" alt="GitHub issues"></a></p>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting Started</h2>
@@ -774,11 +774,12 @@ Lymphoid+Myeloid+
 <a href="#volcano-plots" class="anchor"></a>Volcano Plots</h2>
 <p>If a fold change column was previously provided, the comparisons between pathotypes can be investigated using the volcano_trio function. This creates <a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a> outputs:</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">syn_plots</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/volcano_trio.html">volcano_trio</a></span>(<span class="kw">polar</span> <span class="kw">=</span> <span class="no">syn_polar</span>,
-                          <span class="kw">sig_names</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"not significant"</span>,<span class="st">"significant"</span>,
-                                        <span class="st">"not significant"</span>,<span class="st">"significant"</span>),
-                          <span class="kw">colours</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"grey60"</span>,  <span class="st">"slateblue1"</span>), <span class="fl">2</span>),
+                          <span class="kw">sig_names</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"significant"</span>, <span class="st">"significant"</span>,
+                                        <span class="st">"not significant"</span>, <span class="st">"not significant"</span>),
+                          <span class="kw">colours</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"slateblue1"</span>,  <span class="st">"grey60"</span>), <span class="kw">each</span><span class="kw">=</span><span class="fl">2</span>),
+                          <span class="kw">colour_scheme</span><span class="kw">=</span><span class="st">"none"</span>,
                           <span class="kw">text_size</span> <span class="kw">=</span> <span class="fl">9</span>,
-                          <span class="kw">marker_size</span><span class="kw">=</span><span class="fl">1</span>,
+                          <span class="kw">marker_size</span><span class="kw">=</span><span class="fl">1.5</span>,
                           <span class="kw">shared_legend_size</span> <span class="kw">=</span> <span class="fl">0.9</span>,
                           <span class="kw">label_rows</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"SLAMF6"</span>, <span class="st">"BOC"</span>, <span class="st">"FMOD"</span>),
                           <span class="kw">fc_line</span> <span class="kw">=</span> <span class="fl">FALSE</span>,

@@ -284,11 +284,12 @@ volcano_trio function. This creates
 
 ```{r, fig.height=2.8, fig.width=7}
 syn_plots <- volcano_trio(polar = syn_polar,
-                          sig_names = c("not significant","significant",
-                                        "not significant","significant"),
-                          colours = rep(c("grey60",  "slateblue1"), 2),
+                          sig_names = c("significant", "significant",
+                                        "not significant", "not significant"),
+                          colours = rep(c("slateblue1",  "grey60"), each=2),
+                          colour_scheme="none", 
                           text_size = 9,
-                          marker_size=1,
+                          marker_size=1.5,
                           shared_legend_size = 0.9,
                           label_rows = c("SLAMF6", "BOC", "FMOD"),
                           fc_line = FALSE, 

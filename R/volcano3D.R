@@ -269,7 +269,8 @@ volcano3D <- function(polar,
         })
     } else {annot <- list()}
     
-    axis_settings_xy[['range']] <- c(-1*(grid@r+1), grid@r+1)
+    axis_settings_xy[['range']] <- c(-1.05*axis_title_offset*(grid@r+1), 
+                                     1.05*axis_title_offset*(grid@r+1))
     
     plot_ly(data = volcano_toptable, x = ~x, y = ~y, z = ~logP,
             marker = list(size = marker_size, sizemode = 'diameter', 
@@ -287,6 +288,7 @@ volcano3D <- function(polar,
                             "continuous" = NULL),
             type = "scatter3d", mode = "markers") %>%
         
+        # Add the cylindrical grid
         add_trace(x = polar_grid$x, y = polar_grid$y, z = polar_grid$z, 
                   color = I(grid_colour), line = list(width = 2),
                   showlegend = FALSE, type = "scatter3d", mode = "lines", 
@@ -304,9 +306,11 @@ volcano3D <- function(polar,
                  textfont = list(size = 16), textposition = 'middle center', 
                  hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
         # label z axis
-        add_text(x = c(rep(1.05*R*sinpi(axis_angle), grid@n_z_breaks), 
+        add_text(x = c(rep(1.05*axis_title_offset*R*sinpi(axis_angle), 
+                           grid@n_z_breaks), 
                        1.2*R*sinpi(axis_angle)),
-                 y = c(rep(1.05*R*cospi(axis_angle), grid@n_z_breaks), 
+                 y = c(rep(1.05*axis_title_offset*R*cospi(axis_angle), 
+                           grid@n_z_breaks), 
                        1.2*R*cospi(axis_angle)),
                  z = c(grid@z_breaks, h/2)*0.95,
                  text = c(grid@z_breaks, '-log<sub>10</sub>P'),

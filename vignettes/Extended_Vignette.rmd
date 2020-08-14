@@ -267,16 +267,52 @@ the comparisons between pathotypes using the
 volcano_trio function. This creates three
 [ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) outputs.
 
-```{r, fig.height=2.8, fig.width=7}
+```{r, fig.height=2.8, fig.width=10}
 syn_plots <- volcano_trio(polar = syn_polar,
-                          sig_names = c("not significant","significant",
-                                        "not significant","significant"),
-                          colours = rep(c("grey60",  "slateblue1"), 2),
+                          sig_names = rep(c("not significant","significant"), each=2),
+                          colours = rep(c( "slateblue1", "grey60"), each=2),
+                          colour_scheme="none",
                           text_size = 9,
-                          marker_size=1,
+                          marker_size=1.5,
                           shared_legend_size = 0.9,
                           label_rows = c("SLAMF6", "PARP16", "ITM2C"),
                           fc_line = FALSE,
+                          share_axes = FALSE)
+
+syn_plots$All
+```
+
+Alternatively using the polar significance levels
+
+```{r, fig.height=2.8, fig.width=10}
+syn_plots <- volcano_trio(polar = syn_polar,
+                          colour_scheme="polar",
+                          colours = c('green3', 'cyan',  'blue', 
+                                     'purple', 'red', 'gold2', 'grey60'),
+                          text_size = 9,
+                          marker_size=1.5,
+                          shared_legend_size = 0.9,
+                          label_rows = c("SLAMF6", "PARP16", "ITM2C"),
+                          fc_line = FALSE,
+                          p_line = FALSE,
+                          share_axes = FALSE)
+
+syn_plots$All
+```
+
+or the upregulated group within the standard volcano plot: 
+
+```{r, fig.height=2.8, fig.width=10}
+syn_plots <- volcano_trio(polar = syn_polar,
+                          colour_scheme="upregulated",
+                          colours = c('green3', 'cyan',  'blue', 
+                                     'purple', 'red', 'goldenrod', 'grey60'),
+                          text_size = 9,
+                          marker_size=1.5,
+                          shared_legend_size = 0.9,
+                          label_rows = c("SLAMF6", "PARP16", "ITM2C"),
+                          fc_line = FALSE,
+                          p_line = FALSE,
                           share_axes = FALSE)
 
 syn_plots$All

@@ -1,4 +1,4 @@
-pandoc: 2.9.2.1
+pandoc: '2.10'
 pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
@@ -6,5 +6,5 @@ articles:
   Vignette: Vignette.html
   pvalues_generator: pvalues_generator.html
   shiny_builder: shiny_builder.html
-last_built: 2020-07-07T21:02Z
+last_built: 2020-08-14T13:31Z
 

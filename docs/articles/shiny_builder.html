@@ -111,7 +111,7 @@
 
       
 
-      </header><script src="shiny_builder_files/header-attrs-2.3/header-attrs.js"></script><script src="shiny_builder_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="shiny_builder_files/font-awesome-5.1.0/css/all.css" rel="stylesheet">
+      </header><script src="shiny_builder_files/header-attrs-2.3/header-attrs.js"></script><link href="shiny_builder_files/font-awesome-5.1.0/css/all.css" rel="stylesheet">
 <link href="shiny_builder_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet">
 <div class="row">
   <div class="col-md-9 contents">
@@ -205,19 +205,19 @@
 <p>Using the first example from the shiny website we can create a very basic shiny app. First we build user interface. This sets up the layout and appearance of the app. In this case we will create a histogram, ‘distPlot’, with a given number of bins selected by the ‘bins’ input:</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shiny</span>)
 
-<span class="no">ui</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(
-        <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/titlePanel.html">titlePanel</a></span>(<span class="st">"Hello Shiny!"</span>),
-        <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/sidebarLayout.html">sidebarLayout</a></span>(
-            <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/sidebarLayout.html">sidebarPanel</a></span>(
-                <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/sliderInput.html">sliderInput</a></span>(<span class="st">"bins"</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"No. of bins:"</span>, <span class="kw">min</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">max</span> <span class="kw">=</span> <span class="fl">50</span>,
+<span class="no">ui</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidPage</a></span>(
+        <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/titlePanel.html">titlePanel</a></span>(<span class="st">"Hello Shiny!"</span>),
+        <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sidebarLayout.html">sidebarLayout</a></span>(
+            <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sidebarLayout.html">sidebarPanel</a></span>(
+                <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sliderInput.html">sliderInput</a></span>(<span class="st">"bins"</span>, <span class="kw">label</span> <span class="kw">=</span> <span class="st">"No. of bins:"</span>, <span class="kw">min</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">max</span> <span class="kw">=</span> <span class="fl">50</span>,
                             <span class="kw">value</span> <span class="kw">=</span> <span class="fl">30</span>)
             ),
-            <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/sidebarLayout.html">mainPanel</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html">plotOutput</a></span>(<span class="kw">outputId</span> <span class="kw">=</span> <span class="st">"distPlot"</span>))
+            <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sidebarLayout.html">mainPanel</a></span>(<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/plotOutput.html">plotOutput</a></span>(<span class="kw">outputId</span> <span class="kw">=</span> <span class="st">"distPlot"</span>))
         )
     )</pre></body></html></div>
 <p>Next we build a server which contains the instructions and functions we needs to interact with the ui and build the app:</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">server</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">input</span>, <span class="no">output</span>) {
-        <span class="no">output</span>$<span class="no">distPlot</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html">renderPlot</a></span>({
+        <span class="no">output</span>$<span class="no">distPlot</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/renderPlot.html">renderPlot</a></span>({
             <span class="no">x</span>    <span class="kw">&lt;-</span> <span class="no">faithful</span>$<span class="no">waiting</span>
             <span class="no">bins</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="no">x</span>), <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="no">x</span>), <span class="kw">length.out</span> <span class="kw">=</span> <span class="no">input</span>$<span class="no">bins</span> + <span class="fl">1</span>)
             <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span>(<span class="no">x</span>, <span class="kw">breaks</span> <span class="kw">=</span> <span class="no">bins</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"#75AADB"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"white"</span>,
@@ -227,7 +227,7 @@
 }</pre></body></html></div>
 <p>Lastly we call the shinyApp function to create an application. When run locally this open an interactive app, but for the sake of this vignette it is has been left as non-interactive.</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shiny</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span> <span class="kw">=</span> <span class="no">ui</span>, <span class="kw">server</span> <span class="kw">=</span> <span class="no">server</span>)</pre></body></html></div>
+<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span> <span class="kw">=</span> <span class="no">ui</span>, <span class="kw">server</span> <span class="kw">=</span> <span class="no">server</span>)</pre></body></html></div>
 <p><img src="shiny_builder_files/figure-html/unnamed-chunk-7-1.png" width="672" style="background-color: #9ecff7; padding:10px;"></p>
 </div>
 <div id="peac-shiny-example" class="section level1">
@@ -275,7 +275,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">DT</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggpubr</span>)
 
-<span class="no">ui</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/navbarPage.html">navbarPage</a></span>(
+<span class="no">ui</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/navbarPage.html">navbarPage</a></span>(
     <span class="kw">windowTitle</span><span class="kw">=</span><span class="st">"PEAC RNA-Seq"</span>,
     <span class="kw">selected</span><span class="kw">=</span><span class="st">"a"</span>,
     <span class="kw">fluid</span><span class="kw">=</span><span class="fl">TRUE</span>,
@@ -284,80 +284,80 @@
     <span class="no">tags</span>$<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">tags</span>$<span class="fu">link</span>(<span class="kw">rel</span><span class="kw">=</span><span class="st">"shortcut icon"</span>, <span class="kw">href</span><span class="kw">=</span><span class="st">"favicon.ico"</span>)),
 
     <span class="co"># Tab 1: The navigation page with links to other tabs</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(
-        <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">div</a></span>(
-            <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">img</a></span>(
+    <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/tabPanel.html">tabPanel</a></span>(
+        <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reexports.html">div</a></span>(
+            <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reexports.html">img</a></span>(
                 <span class="kw">src</span><span class="kw">=</span><span class="st">"http://qm-web.chem.qmul.ac.uk/qm-resources/images/crown_tab.gif"</span>,
                 <span class="kw">height</span><span class="kw">=</span><span class="fl">30</span>, <span class="kw">style</span><span class="kw">=</span><span class="st">"padding: 0px 0px;"</span>), <span class="st">"PEAC RNA-Seq"</span>),
         <span class="kw">value</span><span class="kw">=</span><span class="st">"a"</span>,
-        <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(
-            <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidRow</a></span>(
-                <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/column.html">column</a></span>(<span class="fl">12</span>, <span class="kw">align</span><span class="kw">=</span><span class="st">"center"</span>,
-                       <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionLink</a></span>(
+        <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidPage</a></span>(
+            <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidRow</a></span>(
+                <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/column.html">column</a></span>(<span class="fl">12</span>, <span class="kw">align</span><span class="kw">=</span><span class="st">"center"</span>,
+                       <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/actionButton.html">actionLink</a></span>(
                            <span class="st">"link_to_tabpanel_v"</span>,
-                           <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">div</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">img</a></span>(
+                           <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reexports.html">div</a></span>(<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reexports.html">img</a></span>(
                                <span class="kw">src</span><span class="kw">=</span><span class="st">"https://bit.ly/39LH4Nv"</span>,
                                <span class="kw">height</span><span class="kw">=</span><span class="fl">150</span>, <span class="kw">width</span><span class="kw">=</span><span class="fl">150</span>),
-                                <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">HTML</a></span>(<span class="st">"&lt;br/&gt;3D Volcano Plot"</span>),
+                                <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reexports.html">HTML</a></span>(<span class="st">"&lt;br/&gt;3D Volcano Plot"</span>),
                                <span class="kw">style</span><span class="kw">=</span><span class="st">"display: inline-block; padding: 0px 10px 0px 10px;"</span>)),
-                       <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionLink</a></span>(
+                       <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/actionButton.html">actionLink</a></span>(
                            <span class="st">"link_to_tabpanel_g"</span>,
-                           <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">div</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">img</a></span>(<span class="kw">src</span><span class="kw">=</span><span class="st">"https://bit.ly/2yGQSvk"</span>,
+                           <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reexports.html">div</a></span>(<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reexports.html">img</a></span>(<span class="kw">src</span><span class="kw">=</span><span class="st">"https://bit.ly/2yGQSvk"</span>,
                                    <span class="kw">height</span><span class="kw">=</span><span class="fl">150</span>, <span class="kw">width</span><span class="kw">=</span><span class="fl">150</span>),
-                                <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">HTML</a></span>(<span class="st">"&lt;br/&gt;Gene Correlations"</span>),
+                                <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reexports.html">HTML</a></span>(<span class="st">"&lt;br/&gt;Gene Correlations"</span>),
                                <span class="kw">style</span><span class="kw">=</span><span class="st">"display: inline-block; padding: 0px 10px 0px 10px;"</span>)),
-                       <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionLink</a></span>(
+                       <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/actionButton.html">actionLink</a></span>(
                            <span class="st">"link_to_tabpanel_c"</span>,
-                           <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">div</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">img</a></span>(<span class="kw">src</span><span class="kw">=</span><span class="st">"https://bit.ly/3dVXPJ7"</span>,
+                           <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reexports.html">div</a></span>(<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reexports.html">img</a></span>(<span class="kw">src</span><span class="kw">=</span><span class="st">"https://bit.ly/3dVXPJ7"</span>,
                                    <span class="kw">height</span><span class="kw">=</span><span class="fl">150</span>, <span class="kw">width</span><span class="kw">=</span><span class="fl">150</span>),
-                                 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">HTML</a></span>(<span class="st">"&lt;br/&gt;Table of Pvalues"</span>),
+                                 <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reexports.html">HTML</a></span>(<span class="st">"&lt;br/&gt;Table of Pvalues"</span>),
                                <span class="kw">style</span><span class="kw">=</span><span class="st">"display: inline-block; padding: 0px 10px 0px 10px;"</span>)))
             )
         )),
 
 
     <span class="co"># Tab 2: 3D volcano plot </span>
-    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Volcano"</span>, <span class="kw">value</span><span class="kw">=</span><span class="st">"v"</span>,
-             <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(
-                 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/column.html">column</a></span>(<span class="fl">8</span>, <span class="fu"><a href="https://rdrr.io/pkg/shinycssloaders/man/withSpinner.html">withSpinner</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/plotly/man/plotly-shiny.html">plotlyOutput</a></span>(<span class="st">"volcano"</span>, <span class="kw">height</span><span class="kw">=</span><span class="fl">720</span>))),
-                 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/column.html">column</a></span>(<span class="fl">4</span>,
-                        <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidRow</a></span>(
+    <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/tabPanel.html">tabPanel</a></span>(<span class="st">"Volcano"</span>, <span class="kw">value</span><span class="kw">=</span><span class="st">"v"</span>,
+             <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidPage</a></span>(
+                 <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/column.html">column</a></span>(<span class="fl">8</span>, <span class="fu"><a href="https://rdrr.io/pkg/shinycssloaders/man/withSpinner.html">withSpinner</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/plotly/man/plotly-shiny.html">plotlyOutput</a></span>(<span class="st">"volcano"</span>, <span class="kw">height</span><span class="kw">=</span><span class="fl">720</span>))),
+                 <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/column.html">column</a></span>(<span class="fl">4</span>,
+                        <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidRow</a></span>(
                             <span class="co"># option for data type</span>
-                            <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/column.html">column</a></span>(<span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/radioButtons.html">radioButtons</a></span>(<span class="st">"data_type"</span>,
-                                                   <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">h5</a></span>(<span class="st">"Polar radius"</span>),
+                            <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/column.html">column</a></span>(<span class="fl">4</span>, <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/radioButtons.html">radioButtons</a></span>(<span class="st">"data_type"</span>,
+                                                   <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reexports.html">h5</a></span>(<span class="st">"Polar radius"</span>),
                                                    <span class="kw">choices</span><span class="kw">=</span>
                                                        <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"Z score"</span><span class="kw">=</span><span class="fl">1</span>,
                                                             <span class="st">"Fold change"</span><span class="kw">=</span><span class="fl">2</span>),
                                                    <span class="kw">selected</span><span class="kw">=</span><span class="fl">1</span>)),
                             <span class="co"># option for colour scheme (discrete or continuous)</span>
-                            <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/column.html">column</a></span>(<span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/radioButtons.html">radioButtons</a></span>(<span class="st">"colour_type"</span>,
-                                                   <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">h5</a></span>(<span class="st">"Colour scheme"</span>),
+                            <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/column.html">column</a></span>(<span class="fl">4</span>, <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/radioButtons.html">radioButtons</a></span>(<span class="st">"colour_type"</span>,
+                                                   <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reexports.html">h5</a></span>(<span class="st">"Colour scheme"</span>),
                                                    <span class="kw">choices</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"Discrete"</span><span class="kw">=</span><span class="fl">1</span>,
                                                                 <span class="st">"Continuous"</span><span class="kw">=</span><span class="fl">2</span>),
                                                    <span class="kw">selected</span><span class="kw">=</span><span class="fl">1</span>))),
-                        <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidRow</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html">plotOutput</a></span>(<span class="st">"boxplots"</span>, <span class="kw">height</span><span class="kw">=</span><span class="fl">400</span>))
+                        <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidRow</a></span>(<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/plotOutput.html">plotOutput</a></span>(<span class="st">"boxplots"</span>, <span class="kw">height</span><span class="kw">=</span><span class="fl">400</span>))
                  ))
     ),
 
     <span class="co"># Tab 3: Gene search:</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Genes"</span>, <span class="kw">value</span><span class="kw">=</span><span class="st">"g"</span>,
-             <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(
-                 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/column.html">column</a></span>(<span class="fl">3</span>,
-                        <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/selectInput.html">selectizeInput</a></span>(
-                            <span class="st">"gene"</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/reexports.html">h5</a></span>(<span class="st">"Select a Gene"</span>),
+    <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/tabPanel.html">tabPanel</a></span>(<span class="st">"Genes"</span>, <span class="kw">value</span><span class="kw">=</span><span class="st">"g"</span>,
+             <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidPage</a></span>(
+                 <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/column.html">column</a></span>(<span class="fl">3</span>,
+                        <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/selectInput.html">selectizeInput</a></span>(
+                            <span class="st">"gene"</span>, <span class="kw">label</span><span class="kw">=</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/reexports.html">h5</a></span>(<span class="st">"Select a Gene"</span>),
                             <span class="kw">choices</span><span class="kw">=</span><span class="no">syn_polar</span>@<span class="kw">polar</span>$<span class="no">label</span>,
                             <span class="kw">options</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
                                 <span class="kw">onInitialize</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span>(
                                     <span class="st">'function() { this.setValue(""); }'</span>)))),
-                 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/column.html">column</a></span>(<span class="fl">9</span>, <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/plotOutput.html">plotOutput</a></span>(<span class="st">"gene_plots"</span>)))
+                 <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/column.html">column</a></span>(<span class="fl">9</span>, <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/plotOutput.html">plotOutput</a></span>(<span class="st">"gene_plots"</span>)))
     ),
 
     <span class="co"># Tab 4: table setup:</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span>(<span class="st">"Table"</span>, <span class="kw">value</span><span class="kw">=</span><span class="st">"t"</span>,
-             <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span>(
-                 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/column.html">column</a></span>(
+    <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/tabPanel.html">tabPanel</a></span>(<span class="st">"Table"</span>, <span class="kw">value</span><span class="kw">=</span><span class="st">"t"</span>,
+             <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html">fluidPage</a></span>(
+                 <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/column.html">column</a></span>(
                      <span class="fl">2</span>,
-                     <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/checkboxGroupInput.html">checkboxGroupInput</a></span>(
+                     <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/checkboxGroupInput.html">checkboxGroupInput</a></span>(
                          <span class="st">'group'</span>,
                          <span class="st">'Select upregulated groups'</span>,
                          <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="no">syn_polar</span>@<span class="kw">polar</span>$<span class="no">sig</span>)[-<span class="fl">1</span>],
@@ -365,7 +365,7 @@
                          <span class="kw">selected</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="no">syn_polar</span>@<span class="kw">polar</span>$<span class="no">sig</span>)[
                              <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="no">syn_polar</span>@<span class="kw">polar</span>$<span class="no">sig</span>) <span class="kw">!=</span>
                                  <span class="st">"Not Significant"</span>])),
-                 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/column.html">column</a></span>(<span class="fl">10</span>, <span class="kw pkg">DT</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/dataTableOutput.html">dataTableOutput</a></span>(<span class="st">"full_table"</span>))
+                 <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/column.html">column</a></span>(<span class="fl">10</span>, <span class="kw pkg">DT</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/dataTableOutput.html">dataTableOutput</a></span>(<span class="st">"full_table"</span>))
              ))
 
 )</pre></body></html></div>
@@ -374,12 +374,12 @@
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">server</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">input</span>, <span class="no">output</span>, <span class="no">session</span>) {
 
     <span class="co"># Navitation tab: allow images to link to tabs</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html">observeEvent</a></span>(<span class="no">input</span>$<span class="no">link_to_tabpanel_v</span>, {
-        <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html">updateNavbarPage</a></span>(<span class="no">session</span>, <span class="st">"mainNavbarPage"</span>, <span class="st">"v"</span>)})
-    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html">observeEvent</a></span>(<span class="no">input</span>$<span class="no">link_to_tabpanel_g</span>, {
-        <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html">updateNavbarPage</a></span>(<span class="no">session</span>, <span class="st">"mainNavbarPage"</span>, <span class="st">"g"</span>)})
-    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html">observeEvent</a></span>(<span class="no">input</span>$<span class="no">link_to_tabpanel_t</span>, {
-        <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html">updateNavbarPage</a></span>(<span class="no">session</span>, <span class="st">"mainNavbarPage"</span>, <span class="st">"t"</span>)})
+    <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html">observeEvent</a></span>(<span class="no">input</span>$<span class="no">link_to_tabpanel_v</span>, {
+        <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/updateTabsetPanel.html">updateNavbarPage</a></span>(<span class="no">session</span>, <span class="st">"mainNavbarPage"</span>, <span class="st">"v"</span>)})
+    <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html">observeEvent</a></span>(<span class="no">input</span>$<span class="no">link_to_tabpanel_g</span>, {
+        <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/updateTabsetPanel.html">updateNavbarPage</a></span>(<span class="no">session</span>, <span class="st">"mainNavbarPage"</span>, <span class="st">"g"</span>)})
+    <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html">observeEvent</a></span>(<span class="no">input</span>$<span class="no">link_to_tabpanel_t</span>, {
+        <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/updateTabsetPanel.html">updateNavbarPage</a></span>(<span class="no">session</span>, <span class="st">"mainNavbarPage"</span>, <span class="st">"t"</span>)})
 
     <span class="co"># Volcano tab: Create the 3D volcano plot</span>
     <span class="no">output</span>$<span class="no">volcano</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/plotly/man/plotly-shiny.html">renderPlotly</a></span>({
@@ -400,9 +400,9 @@
 
 
     <span class="co"># Volcano tab: Create pathotype boxplots when genes clicked </span>
-    <span class="no">output</span>$<span class="no">boxplots</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html">renderPlot</a></span>({
+    <span class="no">output</span>$<span class="no">boxplots</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/renderPlot.html">renderPlot</a></span>({
         <span class="no">s</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/plotly/man/event_data.html">event_data</a></span>(<span class="st">"plotly_click"</span>)
-        <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/req.html">req</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">s</span>) <span class="kw">&gt;</span> <span class="fl">0</span>)
+        <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/req.html">req</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">s</span>) <span class="kw">&gt;</span> <span class="fl">0</span>)
         <span class="no">gene</span> <span class="kw">=</span> <span class="no">s</span>$<span class="no">key</span>
         <span class="fu"><a href="../reference/boxplot_trio.html">boxplot_trio</a></span>(<span class="no">syn_polar</span>,
                      <span class="kw">value</span> <span class="kw">=</span> <span class="no">gene</span>,
@@ -414,9 +414,9 @@
     })
 
     <span class="co"># Gene tab: create plots for selected genes</span>
-    <span class="no">output</span>$<span class="no">gene_plots</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html">renderPlot</a></span>({
+    <span class="no">output</span>$<span class="no">gene_plots</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/renderPlot.html">renderPlot</a></span>({
         <span class="no">s</span> <span class="kw">&lt;-</span> <span class="no">input</span>$<span class="no">gene</span>
-        <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/req.html">req</a></span>(<span class="no">s</span> <span class="kw">!=</span> <span class="st">""</span>)
+        <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/req.html">req</a></span>(<span class="no">s</span> <span class="kw">!=</span> <span class="st">""</span>)
 
         <span class="co"># synovium pathotype boxplot</span>
         <span class="no">gene</span> <span class="kw">&lt;-</span> <span class="no">input</span>$<span class="no">gene</span>
@@ -469,7 +469,7 @@
 }</pre></body></html></div>
 <p><strong>PEAC shinyApp</strong></p>
 <p>Once the ui and server are build we can output the app <em>(note in markdown/html format this is not interactive)</em>.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span> <span class="kw">=</span> <span class="no">ui</span>, <span class="kw">server</span> <span class="kw">=</span> <span class="no">server</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html">shinyApp</a></span>(<span class="kw">ui</span> <span class="kw">=</span> <span class="no">ui</span>, <span class="kw">server</span> <span class="kw">=</span> <span class="no">server</span>)</pre></body></html></div>
 <p><img src="shiny_builder_files/figure-html/unnamed-chunk-12-1.png" width="672" style="background-color: #9ecff7; padding:10px;"></p>
 </div>
 <div id="hosting-and-deploying-shiny-apps" class="section level1">

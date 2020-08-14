@@ -16,10 +16,13 @@ volcano_plot(
   label_col = "label",
   label_size = 3,
   text_size = 10,
-  marker_size = 0.7,
-  shared_legend_size = 1,
+  marker_alpha = 0.7,
+  marker_size = 3,
+  marker_outline_colour = "white",
+  marker_outline_width = 0.5,
   sig_names = NULL,
-  colours = c("grey60", "salmon", "steelblue", "limegreen"),
+  colour_col = FALSE,
+  colours = c("salmon", "steelblue", "limegreen", "grey60"),
   fc_line = TRUE,
   p_line = TRUE,
   line_colours = c("black", "black")
@@ -31,7 +34,8 @@ and logFC column as well as a label column.}
 
 \item{comparison}{The comparison (column_prefix) to use.}
 
-\item{p_cutoff}{The cut-off for pvalue significance (default = 0.05).}
+\item{p_cutoff}{The cut-off for adjusted pvalue significance (default = 
+0.05).}
 
 \item{fc_cutoff}{The cut-off for fold change significance (default = 1).}
 
@@ -55,22 +59,54 @@ If NULL the rownames of pvalues are used.}
 
 \item{text_size}{The font size of text (default = 10)}
 
-\item{marker_size}{The size of markers (default = 0.7)}
+\item{marker_alpha}{The alpha parameter for markers (default = 0.7).}
 
-\item{shared_legend_size}{The size for the legend (default = 1).}
+\item{marker_size}{The size of markers (default = 3)}
+
+\item{marker_outline_colour}{Colour for marker outline (default = white)}
+
+\item{marker_outline_width}{Width for marker outline (default = 0.5)}
 
 \item{sig_names}{A character vector of labels to be used for:
 non-significant; adjusted p < p_cutoff; |Fold Change| > fc_cutoff; and
 finally adjusted p < p_cutoff.
-If NULL c('Not Significant', \code{paste('Padj <', `p_cutoff`)},
-\code{paste('|FC| >', `fc_cutoff`)},
-\code{paste('Padj <', `p_cutoff`, 'and |FC| >', `fc_cutoff`)}) is used.}
+If NULL c('Not Significant', \code{paste('Padj <', p_cutoff)},
+\code{paste('|FC| >', fc_cutoff)},
+\code{paste('Padj <', p_cutoff, 'and |FC| >', fc_cutoff)}) is used.}
 
-\item{colours}{A character vector of colours to be used for non-significant;
-adjusted p < p_cutoff;
-|Fold Change| >, fc_cutoff; and adjusted p < p_cutoff. default = p_cutoff &
-|Fold Change| > fc_cutoff markers respectively
-(default = c('grey60', 'salmon', 'steelblue', 'limegreen')).}
+\item{colour_col}{Logical whether colour coding has been passed in 
+through `pvalues_df$col`.}
+
+\item{colours}{A character vector of colours to be used. This can be of 
+length 3, 4, 7 or 8 depending on the colour coding desired. 
+   \itemize{
+      \item If length is 3, c(a,b,c): Only the significant wings are 
+      highlighted (where p>p_cutoff and abs(fc)>fc_cutoff) on the graph: 
+      \itemize{
+      \item a: padj <= p_cutoff & fc <= -1*fc_cutoff
+     \item b: padj <= p_cutoff & fc >= fc_cutoff
+      \item c: padj >  p_cutoff | abs(fc) < fc_cutoff
+      }
+      \item If length is 4, c(a,b,c,d): 
+      \itemize{
+      \item a: padj <= p_cutoff & abs(fc) >= fc_cutoff
+      \item b: padj <= p_cutoff & abs(fc) < fc_cutoff
+      \item c: padj > p_cutoff & abs(fc) >= fc_cutoff
+      \item d: padj < p_cutoff & abs(fc) < fc_cutoff
+      }
+      \item If length is 8 c(a,b,c,d,e,f,g,h): Each significance group is 
+      colour-coded
+      \itemize{
+      \item a: padj <= p_cutoff & fc <= -1*fc_cutoff
+      \item b: padj <=  p_cutoff & -1*fc_cutoff < fc <= 0
+      \item c: padj <=  p_cutoff & 0 < fc < fc_cutoff
+      \item d: padj <= p_cutoff & fc >= fc_cutoff
+      \item e: padj > p_cutoff & fc <= -1*fc_cutoff
+      \item f: padj >  p_cutoff & -1*fc_cutoff < fc <= 0
+      \item g: padj >  p_cutoff & 0 < fc < fc_cutoff
+      \item h: padj > p_cutoff & fc >= fc_cutoff
+      }
+  }}
 
 \item{fc_line}{Logical whether to add vertical dashed line at fc_cutoff
 (default = TRUE).}

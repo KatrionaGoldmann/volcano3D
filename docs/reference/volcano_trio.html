@@ -178,10 +178,14 @@ factor.</p>
   <span class='kw'>label_rows</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>label_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>text_size</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>marker_size</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
+  <span class='kw'>marker_alpha</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
+  <span class='kw'>marker_size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>marker_outline_colour</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
+  <span class='kw'>marker_outline_width</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>shared_legend_size</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>sig_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"grey60"</span>, <span class='st'>"salmon"</span>, <span class='st'>"steelblue"</span>, <span class='st'>"limegreen"</span>),
+  <span class='kw'>colour_scheme</span> <span class='kw'>=</span> <span class='st'>"none"</span>,
+  <span class='kw'>colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"salmon"</span>, <span class='st'>"steelblue"</span>, <span class='st'>"limegreen"</span>, <span class='st'>"grey60"</span>),
   <span class='kw'>fc_line</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>p_line</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>line_colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"black"</span>, <span class='st'>"black"</span>),
@@ -198,7 +202,8 @@ Created by <code><a href='polar_coords.html'>polar_coords</a></code>.</p></td>
     </tr>
     <tr>
       <th>p_cutoff</th>
-      <td><p>The cut-off for pvalue significance (default = 0.05).</p></td>
+      <td><p>The cut-off for adjusted pvalue significance (default = 
+0.05).</p></td>
     </tr>
     <tr>
       <th>fc_cutoff</th>
@@ -218,8 +223,20 @@ Created by <code><a href='polar_coords.html'>polar_coords</a></code>.</p></td>
       <td><p>The font size of text (default = 10)</p></td>
     </tr>
     <tr>
+      <th>marker_alpha</th>
+      <td><p>The alpha parameter for markers (default = 0.7).</p></td>
+    </tr>
+    <tr>
       <th>marker_size</th>
-      <td><p>The size of markers (default = 0.7)</p></td>
+      <td><p>The size of markers (default = 3)</p></td>
+    </tr>
+    <tr>
+      <th>marker_outline_colour</th>
+      <td><p>Colour for marker outline (default = white)</p></td>
+    </tr>
+    <tr>
+      <th>marker_outline_width</th>
+      <td><p>Width for marker outline (default = 0.5)</p></td>
     </tr>
     <tr>
       <th>shared_legend_size</th>
@@ -227,20 +244,41 @@ Created by <code><a href='polar_coords.html'>polar_coords</a></code>.</p></td>
     </tr>
     <tr>
       <th>sig_names</th>
-      <td><p>A character vector of labels to be used for:
-non-significant; adjusted p &lt; p_cutoff; |Fold Change| &gt; fc_cutoff; and
-finally adjusted p &lt; p_cutoff.
+      <td><p>A character vector of labels to be used for colour coding. 
 If NULL c('Not Significant', <code><a href='https://rdrr.io/r/base/paste.html'>paste('Padj &lt;', `p_cutoff`)</a></code>,
 <code><a href='https://rdrr.io/r/base/paste.html'>paste('|FC| &gt;', `fc_cutoff`)</a></code>,
 <code><a href='https://rdrr.io/r/base/paste.html'>paste('Padj &lt;', `p_cutoff`, 'and |FC| &gt;', `fc_cutoff`)</a></code>) is used.</p></td>
     </tr>
     <tr>
       <th>colours</th>
-      <td><p>A character vector of colours to be used for non-significant;
-adjusted p &lt; p_cutoff;
-|Fold Change| &gt;, fc_cutoff; and adjusted p &lt; p_cutoff. default = p_cutoff &amp;
-|Fold Change| &gt; fc_cutoff markers respectively
-(default = c('grey60', 'salmon', 'steelblue', 'limegreen')).</p></td>
+      <td><p>A character vector of colours to be used. This can be of 
+length 3, 4, 7 or 8 depending on the colour coding desired.</p><ul>
+<li><p>If length is 3, c(a,b,c): Only the significant wings are 
+      highlighted (where p&gt;p_cutoff and abs(fc)&gt;fc_cutoff) on the graph:</p><ul>
+<li><p>a: padj &lt;= p_cutoff &amp; fc &lt;= -1*fc_cutoff</p></li>
+<li><p>b: padj &lt;= p_cutoff &amp; fc &gt;= fc_cutoff</p></li>
+<li><p>c: padj &gt;  p_cutoff | abs(fc) &lt; fc_cutoff</p></li>
+</ul></li>
+<li><p>If length is 4, c(a,b,c,d):</p><ul>
+<li><p>a: padj &lt;= p_cutoff &amp; abs(fc) &gt;= fc_cutoff</p></li>
+<li><p>b: padj &lt;= p_cutoff &amp; abs(fc) &lt; fc_cutoff</p></li>
+<li><p>c: padj &gt; p_cutoff &amp; abs(fc) &gt;= fc_cutoff</p></li>
+<li><p>d: padj &lt; p_cutoff &amp; abs(fc) &lt; fc_cutoff</p></li>
+</ul></li>
+<li><p>If length is 7 the `polar@polar$sig` is used to colour code the 
+      probes. `colour_scheme` must be set to 'polar'</p></li>
+<li><p>If length is 8 c(a,b,c,d,e,f,g,h): Each significance group is 
+      colour-coded</p><ul>
+<li><p>a: padj &lt;= p_cutoff &amp; fc &lt;= -1*fc_cutoff</p></li>
+<li><p>b: padj &lt;=  p_cutoff &amp; -1*fc_cutoff &lt; fc &lt;= 0</p></li>
+<li><p>c: padj &lt;=  p_cutoff &amp; 0 &lt; fc &lt; fc_cutoff</p></li>
+<li><p>d: padj &lt;= p_cutoff &amp; fc &gt;= fc_cutoff</p></li>
+<li><p>e: padj &gt; p_cutoff &amp; fc &lt;= -1*fc_cutoff</p></li>
+<li><p>f: padj &gt;  p_cutoff &amp; -1*fc_cutoff &lt; fc &lt;= 0</p></li>
+<li><p>g: padj &gt;  p_cutoff &amp; 0 &lt; fc &lt; fc_cutoff</p></li>
+<li><p>h: padj &gt; p_cutoff &amp; fc &gt;= fc_cutoff</p></li>
+</ul></li>
+</ul></td>
     </tr>
     <tr>
       <th>fc_line</th>
