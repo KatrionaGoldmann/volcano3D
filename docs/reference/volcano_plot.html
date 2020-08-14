@@ -188,6 +188,7 @@
   <span class='kw'>sig_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>colour_col</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"salmon"</span>, <span class='st'>"steelblue"</span>, <span class='st'>"limegreen"</span>, <span class='st'>"grey60"</span>),
+  <span class='kw'>drop_unused_cols</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>fc_line</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>p_line</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>line_colours</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"black"</span>, <span class='st'>"black"</span>)
@@ -306,6 +307,11 @@ length 3, 4, 7 or 8 depending on the colour coding desired.</p><ul>
 <li><p>h: padj &gt; p_cutoff &amp; fc &gt;= fc_cutoff</p></li>
 </ul></li>
 </ul></td>
+    </tr>
+    <tr>
+      <th>drop_unused_cols</th>
+      <td><p>Logical whether to drop colours not used from legend 
+(default=T).</p></td>
     </tr>
     <tr>
       <th>fc_line</th>

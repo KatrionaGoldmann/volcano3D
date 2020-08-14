@@ -62,6 +62,8 @@
 #'       \item h: padj > p_cutoff & fc >= fc_cutoff
 #'       }
 #'   }
+#' @param drop_unused_cols Logical whether to drop colours not used from legend 
+#' (default=T). 
 #' @param fc_line Logical whether to add vertical dashed line at fc_cutoff
 #' (default = TRUE).
 #' @param p_line Logical whether to add horizontal dashed line at p_cutoff
@@ -110,6 +112,7 @@ volcano_plot <- function(pvalues_df,
                          colour_col = FALSE, 
                          colours = c("salmon", "steelblue", 
                                      "limegreen", "grey60"),
+                         drop_unused_cols = TRUE, 
                          fc_line = TRUE,
                          p_line = TRUE,
                          line_colours = c("black", "black")){
@@ -208,6 +211,7 @@ volcano_plot <- function(pvalues_df,
   if(colour_col){
     mapping <- setNames(levels(toptable$col), colours)
     toptable$cols <- toptable$col
+    sig_names <- levels(toptable$cols)
   } else{ mapping <- setNames(sig_names, colours)}
   
   toptable <- toptable[! is.na(toptable$logFC), ]
@@ -215,13 +219,15 @@ volcano_plot <- function(pvalues_df,
   toptable <- toptable[! is.na(-log10(toptable$padj)), ]
   toptable$lp <- -log10(toptable$pvalue)
   
+  
+  
   # Create the volcano plot ggplot
   p <- ggplot(toptable, aes_string(x = "logFC", y = "lp")) +
     geom_point(data = toptable, size=marker_size, alpha=marker_alpha, 
                color = marker_outline_colour, stroke = marker_outline_width,
                aes_string(fill="cols"), shape=21) +
-    scale_fill_manual(values = names(mapping)[match(
-      levels(droplevels(toptable$cols)), mapping)]) +
+    scale_fill_manual(limits = sig_names, values = colours, 
+                      drop=drop_unused_cols) +
     labs(y = expression(-log["10"]*p),
          x = expression(log["2"]*FC),
          title = gsub("_", " vs ", comparison),
@@ -404,8 +410,8 @@ volcano_trio <- function(polar,
   }
   if(colour_scheme %in% c("polar", "upregulated") & length(colours) != 7){
     stop(paste("For polar or upregulated colour schemes, colours must be of", 
-    "length 7 to match c(levels(polar@sampledata[, polar@contrast]), ",
-    "polar@non_sig_name)"))
+               "length 7 to match c(levels(polar@sampledata[,", 
+               "polar@contrast]), polar@non_sig_name)"))
   }
   
   groups <- levels(polar@sampledata[, polar@contrast])
@@ -497,7 +503,7 @@ volcano_trio <- function(polar,
       colours_use <- colours[c(1,3,5,7)]
       colours_use <- colours_use[c(rev(match(unlist(strsplit(x, "_")), 
                                              options)), 4)]
-      sig_names <- c(paste0(rev(unlist(strsplit(x, "_"))), "+"), 
+      sig_names <- c(paste("Up in", rev(unlist(strsplit(x, "_")))), 
                      polar@non_sig_name) 
     } else{
       colours_use <- colours
@@ -518,7 +524,8 @@ volcano_trio <- function(polar,
                  colours = colours_use,
                  fc_line = fc_line,
                  p_line = p_line,
-                 line_colours = line_colours)
+                 drop_unused_cols = FALSE, 
+                 line_colours = line_colours) 
   })
   names(plot_outputs) <- groups
   
@@ -527,13 +534,9 @@ volcano_trio <- function(polar,
   out <- plot_outputs
   
   if(colour_scheme != "upregulated"){
-    out[[1]] <- out[[1]] + rremove("legend")
-    out[[2]] <- out[[2]] + rremove("legend")
-    
-    legend <- get_legend(out[[3]])
-    
-    out[[3]] <- out[[3]] + rremove("legend")
-    out[[4]] <- as_ggplot(legend)
+    out[[1]] <- out[[1]] + 
+      theme(legend.key.size = unit(shared_legend_size, "cm"),
+            legend.key.width = unit(shared_legend_size,"cm"))
   }
   
   if(share_axes){
@@ -551,7 +554,8 @@ volcano_trio <- function(polar,
     plotlist = out,
     ncol = length(out),
     nrow = 1,
-    widths = c(2, 2, 2, shared_legend_size)[length(out)])
+    legend="right",
+    common.legend = colour_scheme != "upregulated") 
   
   return(plot_outputs)
 }

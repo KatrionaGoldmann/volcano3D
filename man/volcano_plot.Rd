@@ -23,6 +23,7 @@ volcano_plot(
   sig_names = NULL,
   colour_col = FALSE,
   colours = c("salmon", "steelblue", "limegreen", "grey60"),
+  drop_unused_cols = TRUE,
   fc_line = TRUE,
   p_line = TRUE,
   line_colours = c("black", "black")
@@ -107,6 +108,9 @@ length 3, 4, 7 or 8 depending on the colour coding desired.
       \item h: padj > p_cutoff & fc >= fc_cutoff
       }
   }}
+
+\item{drop_unused_cols}{Logical whether to drop colours not used from legend 
+(default=T).}
 
 \item{fc_line}{Logical whether to add vertical dashed line at fc_cutoff
 (default = TRUE).}

@@ -306,7 +306,7 @@ or the upregulated group within the standard volcano plot:
 syn_plots <- volcano_trio(polar = syn_polar,
                           colour_scheme="upregulated",
                           colours = c('green3', 'cyan',  'blue', 
-                                     'purple', 'red', 'goldenrod', 'grey60'),
+                                     'purple', 'red', 'gold2', 'grey60'),
                           text_size = 9,
                           marker_size=1.5,
                           shared_legend_size = 0.9,
