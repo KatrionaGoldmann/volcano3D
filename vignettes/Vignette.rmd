@@ -83,11 +83,15 @@ There are also supplementary vignettes with further information on:
 
 ### Install from CRAN
 
+[![CRAN status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
+
 ```{r, eval = FALSE}
 install.packages("volcano3D")
 ```
 
 ### Install from Github
+
+[![GitHub tag](https://img.shields.io/github/tag/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/tags/)
 
 ```{r, eval = FALSE}
 library(devtools)

@@ -45,11 +45,15 @@ with an interactive web tool available at
 
 ### Install from CRAN
 
+[![CRAN status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
+
 ```{r, eval = FALSE}
 install.packages("volcano3D")
 ```
 
 ### Install from Github
+
+[![GitHub tag](https://img.shields.io/github/tag/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/tags/)
 
 ```{r, eval = FALSE}
 library(devtools)
@@ -58,11 +62,10 @@ install_github("KatrionaGoldmann/volcano3D")
 
 The sample data used in this vignette can be loaded from the 
 [volcano3Ddata package](https://github.com/KatrionaGoldmann/volcano3Ddata). 
-This is only possible after volcano3D is imported. 
+
 
 ```{r, eval=FALSE}
-library(volcano3D)
-install.packages("volcano3Ddata")
+devtools::install_github("KatrionaGoldmann/volcano3Ddata")
 ```
 
 ---
