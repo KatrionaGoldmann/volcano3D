@@ -1,6 +1,12 @@
 News
 =====
 
+# volcano3D 1.0.3
+###### 15/08/2020
+* fix legend dropping levels in volcano_trio
+* update volcano3D xy limits to prevent titles disappearing
+* allow flexible colour-cdoding in standard volcano plot
+
 # volcano3D 1.0.2
 ###### 03/07/2020
 
