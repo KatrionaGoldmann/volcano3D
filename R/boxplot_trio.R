@@ -188,6 +188,10 @@ boxplot_trio <- function(polar,
 
     # groups comparisons
   } else if (! grepl("multi", test)){
+    if(! any(grepl(gsub("polar_", "", test), colnames(pvalues)))){
+      stop(paste(test, "tests must have", gsub(".*_", "", test), 
+                 "columns in polar@pvalues"))
+    }
     pvals <- pvalues[value, ]
     pvals <- pvals[, grepl(gsub("polar_", "", test), colnames(pvals))]
     if(! is.null(polar@multi_group_test)){
@@ -214,6 +218,10 @@ boxplot_trio <- function(polar,
 
     # muti group comparisons
   } else{
+    if(! any(grepl(gsub("polar_multi_", "", test), colnames(pvalues)))){
+      stop(paste(test, "tests must have", gsub(".*_", "", test), 
+                 "columns in polar@pvalues"))
+    }
     pvals <- pvalues[value, ]
     pvals <- pvals[, grepl(gsub("polar_multi_", "", test), colnames(pvals))]
     pvals <- pvals[, grepl(polar@multi_group_test, colnames(pvals))]
@@ -319,3 +327,4 @@ boxplot_trio <- function(polar,
 
   return(p)
 }
+

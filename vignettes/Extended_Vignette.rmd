@@ -5,17 +5,17 @@ output: rmarkdown::html_vignette
 toc:
   depth: 5
 vignette: >
-  \VignetteIndexEntry{volcano3D package}
+  \VignetteIndexEntry{volcano3D Package}
   \VignetteEngine{knitr::knitr}
   \usepackage[utf8]{inputenc}
 ---
   
 ```{r setup, include = FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE, 
-  warning = FALSE, 
-  message = FALSE, 
-  fig.align = 'center',
-  dev.args=list(bg="transparent")
+warning = FALSE, 
+message = FALSE, 
+fig.align = 'center',
+dev.args=list(bg="transparent")
 )
 
 
@@ -67,11 +67,15 @@ There are also supplementary vignettes with further information on:
 
 ### Install from CRAN
 
+[![CRAN status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
+
 ```{r, eval = FALSE}
 install.packages("volcano3D")
 ```
 
 ### Install from Github
+
+[![GitHub tag](https://img.shields.io/github/tag/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/tags/)
 
 ```{r, eval = FALSE}
 library(devtools)
@@ -215,13 +219,15 @@ syn_polar <- polar_coords(sampledata = syn_metadata,
                           non_sig_name = "Not Significant",
                           significance_cutoff = 0.01,
                           label_column = NULL,
-                          fc_cutoff = 0.1)
+                          fc_cutoff = 0.1, 
+                          cutoff_criteria="pvalue")
 ```
 
-This creates a polar class object with slots for: sampledata, contrast, pvalues, multi_group_test, expression, polar and non_sig_name. The pvalues slot which should have a data frame with at least two 
-statistics for each comparison - pvalue and adjusted pvalue - and an optional 
-logarithmic fold change statistic. In this case we are including fold change 
-for downstream visualisations: 
+This creates a polar class object with slots for: sampledata, contrast, pvalues, 
+multi_group_test, expression, polar and non_sig_name. The pvalues slot which 
+should have a data frame with statistics for each comparison - pvalue and 
+optional logarithmic fold change and adjusted pvalue statistics. In this case 
+we are including fold change for downstream visualisations: 
 
 ```{r, eval=FALSE}
 head(syn_polar@pvalues)
@@ -288,7 +294,7 @@ Alternatively using the polar significance levels
 syn_plots <- volcano_trio(polar = syn_polar,
                           colour_scheme="polar",
                           colours = c('green3', 'cyan',  'blue', 
-                                     'purple', 'red', 'gold2', 'grey60'),
+                                      'purple', 'red', 'gold2', 'grey60'),
                           text_size = 9,
                           marker_size=1.5,
                           shared_legend_size = 0.9,
@@ -306,7 +312,7 @@ or the upregulated group within the standard volcano plot:
 syn_plots <- volcano_trio(polar = syn_polar,
                           colour_scheme="upregulated",
                           colours = c('green3', 'cyan',  'blue', 
-                                     'purple', 'red', 'gold2', 'grey60'),
+                                      'purple', 'red', 'gold2', 'grey60'),
                           text_size = 9,
                           marker_size=1.5,
                           shared_legend_size = 0.9,
@@ -317,6 +323,43 @@ syn_plots <- volcano_trio(polar = syn_polar,
 
 syn_plots$All
 ```
+
+These use the pvalue column to colour-code significance. Alternatively we can use 
+the adjusted pvalues (right) if right: 
+
+```{r, fig.height=2.8, fig.width=6.6}
+p <- volcano_trio(polar = syn_polar,
+                  colour_scheme="upregulated",
+                  colours = c('green3', 'cyan',  'blue', 
+                              'purple', 'red', 'gold2', 'grey60'),
+                  text_size = 9,
+                  marker_size=1.5,
+                  shared_legend_size = 0.9,
+                  label_rows = c("SLAMF6", "PARP16", "ITM2C"),
+                  fc_line = FALSE,
+                  p_line = TRUE,
+                  share_axes = FALSE, 
+                  marker_outline_colour="black")
+
+padj <- volcano_trio(polar = syn_polar,
+                     colour_scheme="upregulated",
+                     colours = c('green3', 'cyan',  'blue', 
+                                 'purple', 'red', 'gold2', 'grey60'),
+                     text_size = 9,
+                     marker_size=1.5,
+                     shared_legend_size = 0.9,
+                     label_rows = c("SLAMF6", "PARP16", "ITM2C"),
+                     fc_line = FALSE,
+                     p_line = TRUE,
+                     share_axes = FALSE, 
+                     marker_outline_colour="black", 
+                     cutoff_criteria = "padj")
+
+ggarrange(p$Fibroid_Lymphoid + labs(subtitle="Pvalue cutoff"), 
+          padj$Fibroid_Lymphoid + labs(subtitle="Adjusted pvalue cutoff"), 
+          common.legend = T)
+```
+
 
 ## Radial Plots
 
@@ -395,7 +438,7 @@ plot1 <- boxplot_trio(syn_polar,
 plot2 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
                       text_size = 7,
-                      test = "polar_multi_padj",
+                      test = "polar_multi_pvalue",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       box_colours = c("blue", "red", "green3"), 
                       plot_method='plotly') 
@@ -418,7 +461,7 @@ Or using ggplot
 plot1 <- boxplot_trio(syn_polar,
                       value = "FAM92B",
                       text_size = 7,
-                      test = "polar_padj",
+                      test = "polar_pvalue",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       box_colours = c("blue", "red", "green3"),
                       step_increase = 0.1)
@@ -426,7 +469,7 @@ plot1 <- boxplot_trio(syn_polar,
 plot2 <- boxplot_trio(syn_polar,
                       value = "SLAMF6",
                       text_size = 7,
-                      test = "polar_multi_padj",
+                      test = "polar_multi_pvalue",
                       levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
                       box_colours = c("blue", "red", "green3")) 
 
@@ -621,7 +664,8 @@ syn_mod_polar <- polar_coords(sampledata = syn_metadata,
                               multi_group_prefix = NULL,
                               expression = syn_mod,
                               significance_cutoff = 0.01,
-                              fc_cutoff = 0.1
+                              fc_cutoff = 0.1,
+                              cutoff_criteria = "pvalue"
 )
 ```
 

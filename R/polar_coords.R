@@ -75,7 +75,8 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' log fold change values (default = 'logFC'). These must not contain 
 #' underscores.
 #' @param padjust_method The method used to calculate adjusted p values if 
-#' padj_col_suffix is NULL (default = 'BH'). See \code{\link[stats]{p.adjust}}.
+#' padj_col_suffix is NULL (default = 'BH'). See \code{\link[stats]{p.adjust}}. 
+#' If NULL no adjusted pvalue is calculated. 
 #' @param multi_group_prefix Optional column prefix for statistics (p, padj, 
 #' and fold change) across all three groups (typically ANOVA or likelihood 
 #' ratio tests). default = NULL. These must not contain underscores
@@ -86,6 +87,8 @@ setClass("polar", slots = list(sampledata = "data.frame",
 #' classed as \code{non_sig_name}` (default = 0.3).
 #' @param label_column Optional column name in pvalues for markers to be 
 #' labelled with at plotting stage. If NULL the rownames of pvalues are used. 
+#' @param cutoff_criteria Whether to use pvalue or padj for the colour coding 
+#' significance cutoff. 
 #' @return Returns an S4 polar object containing:
 #' \itemize{
 #'   \item{'polar'} A data.frame containing:
@@ -152,9 +155,13 @@ polar_coords <- function(sampledata,
                          non_sig_name = "Not Significant",
                          significance_cutoff = 0.01, 
                          fc_cutoff=0.3, 
-                         label_column = NULL){
+                         label_column = NULL, 
+                         cutoff_criteria = "pvalue"){
     
     # Check for errors
+    if(! cutoff_criteria %in% c("pvalue", "padj")){
+      stop("cutoff_criteria must be either 'pvalue', or 'padj' where available")
+    }
     if(! class(sampledata) %in% c("data.frame")) {
         stop("sampledata must be a data frame")
     }
@@ -207,12 +214,9 @@ polar_coords <- function(sampledata,
         stop(paste(paste(p, collapse=", "), "must not contain underscores"))
     }
     
-    
-    
     comparisons <- c(paste(groups[1], groups[2], sep="_"),
                      paste(groups[2], groups[3], sep="_"),
                      paste(groups[3], groups[1], sep="_"))
-    
     
     # Check column names of correct format exist in pvalues data frame
     found <- num_con <- c()
@@ -323,8 +327,12 @@ polar_coords <- function(sampledata,
             'contains only NA or could not be converted to a numeric.'))
     }
     
+    pvalues <- pvalues[, c(possible_cols, "label")]
+    colnames(pvalues) <- gsub(p_col_suffix, "pvalue", colnames(pvalues))
+    
+    
     # If adjusted p is not available, calculate
-    if(is.null(padj_col_suffix)) {
+    if(is.null(padj_col_suffix) & ! is.null(padjust_method)) {
         for(comp in c(comparisons, multi_group_prefix)){
             pvalues$new <- p.adjust(pvalues[, paste(comp, p_col_suffix, 
                                                     sep="_")],
@@ -334,12 +342,11 @@ polar_coords <- function(sampledata,
             possible_cols <- c(possible_cols, paste0(comp, "_padj"))
         }
         padj_col_suffix <- "padj"
+    } else if(! is.null(padj_col_suffix)){
+      colnames(pvalues) <- gsub(padj_col_suffix, "padj", colnames(pvalues))
     }
+ 
     
-    
-    pvalues <- pvalues[, c(possible_cols, "label")]
-    colnames(pvalues) <- gsub(p_col_suffix, "pvalue", colnames(pvalues))
-    colnames(pvalues) <- gsub(padj_col_suffix, "padj", colnames(pvalues))
     if(! is.null(fc_col_suffix)) {
         colnames(pvalues) <- gsub(fc_col_suffix, "logFC", colnames(pvalues))
     }
@@ -401,15 +408,20 @@ polar_coords <- function(sampledata,
     polar_colours$r_fc <- with(polar_colours, sqrt(x_fc^2 + y_fc^2))
     
     # pick the most highly expressed group
+    if(! length(which(grepl(cutoff_criteria, colnames(pvalues)))) %in% c(3, 4)){
+      stop("cutoff_criteria must have corresponding columns in the pvalues 
+           data frame (either pvalue or padj if available) for each comparison")
+    }
     groups <- as.character(max.col(polar_colours[, 1:3]))
     if(! is.null(multi_group_prefix)){
-        groups[pvalues[, paste(multi_group_prefix, "padj", sep="_")] >= 
-                   significance_cutoff] <- 'grey60'
+        groups[pvalues[, paste(multi_group_prefix, cutoff_criteria, sep="_")] 
+               >= significance_cutoff] <- 'grey60'
     }
     polar_colours$max_exp <- colnames(polar_colours)[max.col(
         polar_colours[, 1:3])]
     comp_map <- colnames(polar_colours)[1:3]
-    comp_cols <- colnames(pvalues)[grepl("pvalue", colnames(pvalues)) & 
+    comp_cols <- colnames(pvalues)[grepl(cutoff_criteria, 
+                                         colnames(pvalues)) & 
                                        colnames(pvalues) != 
                                        paste(multi_group_prefix, "pvalue")]
     
@@ -470,7 +482,8 @@ polar_coords <- function(sampledata,
     polar_colours$sig[is.na(polar_colours$sig)] <- non_sig_name
     polar_colours$sig[polar_colours$r_fc < fc_cutoff] <- non_sig_name
     if(! is.null(multi_group_prefix)){
-        polar_colours$sig[pvalues[, paste0(multi_group_prefix, "_pvalue")] >= 
+        polar_colours$sig[pvalues[, paste0(multi_group_prefix, "_", 
+                                           cutoff_criteria)] >= 
                               significance_cutoff] <- non_sig_name
     } 
     polar_colours$sig <- as.character(polar_colours$sig)

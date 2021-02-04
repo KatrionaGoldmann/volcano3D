@@ -91,7 +91,7 @@ coordinates" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -99,7 +99,7 @@ coordinates" />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -107,7 +107,7 @@ coordinates" />
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa fas fa-book"></span>
+    <span class="fas fa-book"></span>
      
     Getting Started
      
@@ -129,21 +129,21 @@ coordinates" />
 </li>
 <li>
   <a href="../news/index.html">
-    <span class="fa fa-newspaper-o"></span>
+    <span class="fas fa-newspaper-o"></span>
      
     news
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
-    <span class="fa fa-file-code-o"></span>
+    <span class="fas fa-file-code-o"></span>
      
     Reference Manual
   </a>
 </li>
 <li>
   <a href="https://github.com/KatrionaGoldmann/volcano3D">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -171,7 +171,7 @@ coordinates" />
 coordinates</p>
     </div>
 
-    <pre class="usage"><span class='fu'>show_grid</span>(<span class='no'>grid</span>, <span class='kw'>plot_height</span> <span class='kw'>=</span> <span class='fl'>700</span>, <span class='kw'>axis_angle</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+    <pre class="usage"><span class='fu'>show_grid</span><span class='op'>(</span><span class='va'>grid</span>, plot_height <span class='op'>=</span> <span class='fl'>700</span>, axis_angle <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,27 +202,28 @@ treatment response phenotypes.</a>
 <em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>example_data</span>)
-<span class='no'>syn_polar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span>(<span class='kw'>sampledata</span> <span class='kw'>=</span> <span class='no'>syn_example_meta</span>,
-                       <span class='kw'>contrast</span> <span class='kw'>=</span> <span class='st'>"Pathotype"</span>,
-                       <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-                       <span class='kw'>pvalues</span> <span class='kw'>=</span> <span class='no'>syn_example_p</span>,
-                       <span class='kw'>expression</span> <span class='kw'>=</span> <span class='no'>syn_example_rld</span>,
-                       <span class='kw'>p_col_suffix</span> <span class='kw'>=</span> <span class='st'>"pvalue"</span>,
-                       <span class='kw'>padj_col_suffix</span> <span class='kw'>=</span> <span class='st'>"padj"</span>,
-                       <span class='kw'>non_sig_name</span> <span class='kw'>=</span> <span class='st'>"Not Significant"</span>,
-                       <span class='kw'>multi_group_prefix</span> <span class='kw'>=</span> <span class='st'>"LRT"</span>,
-                       <span class='kw'>significance_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-                       <span class='kw'>fc_col_suffix</span><span class='kw'>=</span><span class='st'>'log2FoldChange'</span>,
-                       <span class='kw'>fc_cutoff</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span>
+<span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span><span class='op'>(</span>sampledata <span class='op'>=</span> <span class='va'>syn_example_meta</span>,
+                       contrast <span class='op'>=</span> <span class='st'>"Pathotype"</span>,
+                       groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+                       pvalues <span class='op'>=</span> <span class='va'>syn_example_p</span>,
+                       expression <span class='op'>=</span> <span class='va'>syn_example_rld</span>,
+                       p_col_suffix <span class='op'>=</span> <span class='st'>"pvalue"</span>,
+                       padj_col_suffix <span class='op'>=</span> <span class='st'>"padj"</span>,
+                       non_sig_name <span class='op'>=</span> <span class='st'>"Not Significant"</span>,
+                       multi_group_prefix <span class='op'>=</span> <span class='st'>"LRT"</span>,
+                       significance_cutoff <span class='op'>=</span> <span class='fl'>0.01</span>,
+                       fc_col_suffix<span class='op'>=</span><span class='st'>'log2FoldChange'</span>,
+                       fc_cutoff <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span>
 
-<span class='no'>grid</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='polar_grid.html'>polar_grid</a></span>(<span class='kw'>r_vector</span><span class='kw'>=</span><span class='no'>syn_polar</span>@<span class='kw'>polar</span>$<span class='no'>r_zscore</span>,
-        <span class='kw'>z_vector</span><span class='kw'>=</span>-<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span>(<span class='no'>syn_polar</span>@<span class='kw'>pvalues</span>$<span class='no'>LRT_pvalue</span>),
-        <span class='kw'>r_axis_ticks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-        <span class='kw'>z_axis_ticks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-<span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>show_grid</span>(<span class='no'>grid</span>)
-<span class='no'>p</span>$<span class='no'>polar</span>
-<span class='no'>p</span>$<span class='no'>cyl</span></div></pre>
+<span class='va'>grid</span> <span class='op'>&lt;-</span> <span class='fu'><a href='polar_grid.html'>polar_grid</a></span><span class='op'>(</span>r_vector<span class='op'>=</span><span class='va'>syn_polar</span><span class='op'>@</span><span class='va'>polar</span><span class='op'>$</span><span class='va'>r_zscore</span>,
+        z_vector<span class='op'>=</span><span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>syn_polar</span><span class='op'>@</span><span class='va'>pvalues</span><span class='op'>$</span><span class='va'>LRT_pvalue</span><span class='op'>)</span>,
+        r_axis_ticks <span class='op'>=</span> <span class='cn'>NULL</span>,
+        z_axis_ticks <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'>show_grid</span><span class='op'>(</span><span class='va'>grid</span><span class='op'>)</span>
+<span class='va'>p</span><span class='op'>$</span><span class='va'>polar</span>
+<span class='va'>p</span><span class='op'>$</span><span class='va'>cyl</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

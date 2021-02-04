@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -52,7 +52,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home"></span>
+    <span class="fas fa-home"></span>
      
   </a>
 </li>
@@ -60,7 +60,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa fas fa-book"></span>
+    <span class="fas fa-book"></span>
      
     Getting Started
      
@@ -82,21 +82,21 @@
 </li>
 <li>
   <a href="../news/index.html">
-    <span class="fa fa-newspaper-o"></span>
+    <span class="fas fa-newspaper-o"></span>
      
     news
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
-    <span class="fa fa-file-code-o"></span>
+    <span class="fas fa-file-code-o"></span>
      
     Reference Manual
   </a>
 </li>
 <li>
   <a href="https://github.com/KatrionaGoldmann/volcano3D">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fas fa-github fa-lg"></span>
      
     github
   </a>
@@ -111,7 +111,8 @@
 
       
 
-      </header><script src="pvalues_generator_files/header-attrs-2.3/header-attrs.js"></script><script src="pvalues_generator_files/kePrint-0.0.1/kePrint.js"></script><div class="row">
+      </header><script src="pvalues_generator_files/header-attrs-2.6/header-attrs.js"></script><script src="pvalues_generator_files/kePrint-0.0.1/kePrint.js"></script><link href="pvalues_generator_files/lightable-0.0.1/lightable.css" rel="stylesheet">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Pvalues Generator</h1>
@@ -137,16 +138,20 @@
 <div id="install-from-cran" class="section level3">
 <h3 class="hasAnchor">
 <a href="#install-from-cran" class="anchor"></a>Install from CRAN</h3>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"volcano3D"</span>)</pre></body></html></div>
+<p><a href="https://cran.r-project.org/package=volcano3D"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a></p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"volcano3D"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="install-from-github" class="section level3">
 <h3 class="hasAnchor">
 <a href="#install-from-github" class="anchor"></a>Install from Github</h3>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">devtools</span>)
-<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)</pre></body></html></div>
-<p>The sample data used in this vignette can be loaded from the <a href="https://github.com/KatrionaGoldmann/volcano3Ddata">volcano3Ddata package</a>. This is only possible after volcano3D is imported.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">volcano3D</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"volcano3Ddata"</span>)</pre></body></html></div>
+<p><a href="https://GitHub.com/KatrionaGoldmann/volcano3D/tags/"><img src="https://img.shields.io/github/tag/KatrionaGoldmann/volcano3D.svg" alt="GitHub tag"></a></p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span>
+<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"KatrionaGoldmann/volcano3D"</span><span class="op">)</span></code></pre></div>
+<p>The sample data used in this vignette can be loaded from the <a href="https://github.com/KatrionaGoldmann/volcano3Ddata">volcano3Ddata package</a>.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"KatrionaGoldmann/volcano3Ddata"</span><span class="op">)</span></code></pre></div>
 <hr>
 </div>
 </div>
@@ -159,21 +164,23 @@
 <li>The sample data which contains information for each sample in rows.</li>
 </ol>
 <p>These can both be loaded from the syn_txi dataset in the volcano3Ddata package.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">volcano3Ddata</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"syn_txi"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/KatrionaGoldmann/volcano3D_data">volcano3Ddata</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"syn_txi"</span><span class="op">)</span></code></pre></div>
 <p>Check the alignment and make sure there are only three possible contrasts (in this case three unique Pathotypes)</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="kw">if</span>(! <span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span>(<span class="no">syn_metadata</span>$<span class="no">ID</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">syn_txi</span>$<span class="no">abundance</span>))){
-    <span class="fu"><a href="https://rdrr.io/r/base/stop.html">stop</a></span>(<span class="st">"mis-aligned"</span>)
-}
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span><span class="op">(</span><span class="op">!</span> <span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">syn_metadata</span><span class="op">$</span><span class="va">ID</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">syn_txi</span><span class="op">$</span><span class="va">abundance</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"mis-aligned"</span><span class="op">)</span>
+<span class="op">}</span>
 
-<span class="kw">if</span>(<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="no">syn_metadata</span>$<span class="no">Pathotype</span>)) <span class="kw">!=</span> <span class="fl">3</span>){
-    <span class="fu"><a href="https://rdrr.io/r/base/stop.html">stop</a></span>(<span class="st">"The number of unique pathotypes must qual 3"</span>)
-}
+<span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">syn_metadata</span><span class="op">$</span><span class="va">Pathotype</span><span class="op">)</span><span class="op">)</span> <span class="op">!=</span> <span class="fl">3</span><span class="op">)</span><span class="op">{</span>
+    <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"The number of unique pathotypes must qual 3"</span><span class="op">)</span>
+<span class="op">}</span>
 
-<span class="no">groups</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span>(<span class="no">syn_metadata</span>$<span class="no">Pathotype</span>)
-<span class="no">contrasts</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="no">groups</span>[<span class="fl">1</span>], <span class="no">groups</span>[<span class="fl">2</span>], <span class="kw">sep</span><span class="kw">=</span><span class="st">"_"</span>),
-               <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="no">groups</span>[<span class="fl">2</span>], <span class="no">groups</span>[<span class="fl">3</span>], <span class="kw">sep</span><span class="kw">=</span><span class="st">"_"</span>),
-               <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="no">groups</span>[<span class="fl">3</span>], <span class="no">groups</span>[<span class="fl">1</span>], <span class="kw">sep</span><span class="kw">=</span><span class="st">"_"</span>))</pre></body></html></div>
+<span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">syn_metadata</span><span class="op">$</span><span class="va">Pathotype</span><span class="op">)</span>
+<span class="va">contrasts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">groups</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">groups</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, sep<span class="op">=</span><span class="st">"_"</span><span class="op">)</span>, 
+               <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">groups</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">groups</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, sep<span class="op">=</span><span class="st">"_"</span><span class="op">)</span>, 
+               <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">groups</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, <span class="va">groups</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, sep<span class="op">=</span><span class="st">"_"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Our comparisons of interest are set up as:</p>
 <ul>
 <li><code>Fibroid_Lymphoid</code></li>
@@ -192,38 +199,42 @@
 <a href="#deseq" class="anchor"></a>DESeq method</h1>
 <p>The DESeq2 vignette can be found <a href="http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html">here</a>. We will use this to calculate the differential expression between groups/pathotypes.</p>
 <p>The Pathotype, Batch and Gender are used in the DESeq design to determine how the counts for each gene depend on each of these variables. A likelihood ratio test (LRT) is calculated using a reduced design of Batch and Gender to highlight the effects of Pathotype.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">DESeq2</span>)
-<span class="no">dds</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSetFromTximport</a></span>(<span class="kw">txi</span> <span class="kw">=</span> <span class="no">syn_txi</span>,
-                               <span class="kw">colData</span> <span class="kw">=</span> <span class="no">syn_metadata</span>,
-                               <span class="kw">design</span> <span class="kw">=</span> ~<span class="no">Pathotype</span>+<span class="no">Batch</span>+<span class="no">Gender</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mikelove/DESeq2">DESeq2</a></span><span class="op">)</span>
+<span class="va">dds</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSetFromTximport</a></span><span class="op">(</span>txi <span class="op">=</span> <span class="va">syn_txi</span>, 
+                               colData <span class="op">=</span> <span class="va">syn_metadata</span>, 
+                               design <span class="op">=</span> <span class="op">~</span><span class="va">Pathotype</span><span class="op">+</span><span class="va">Batch</span><span class="op">+</span><span class="va">Gender</span><span class="op">)</span>
 
-<span class="no">dds_DE</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq</a></span>(<span class="no">dds</span>)
-<span class="no">dds_LRT</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq</a></span>(<span class="no">dds</span>, <span class="kw">test</span> <span class="kw">=</span> <span class="st">"LRT"</span>, <span class="kw">reduced</span> <span class="kw">=</span> ~<span class="no">Batch</span>+<span class="no">Gender</span>, <span class="kw">parallel</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<span class="va">dds_DE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq</a></span><span class="op">(</span><span class="va">dds</span><span class="op">)</span>
+<span class="va">dds_LRT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq</a></span><span class="op">(</span><span class="va">dds</span>, test <span class="op">=</span> <span class="st">"LRT"</span>, reduced <span class="op">=</span> <span class="op">~</span><span class="va">Batch</span><span class="op">+</span><span class="va">Gender</span>, parallel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </code></pre></div>
 <p>Now we can get the results for each contrast and the LRT:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">Pvals_DESeq_DE</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">contrasts</span>, <span class="kw">function</span>(<span class="no">x</span>){
-    <span class="no">vars</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(<span class="no">x</span>, <span class="kw">split</span><span class="kw">=</span><span class="st">"_"</span>))
-    <span class="no">out</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/results.html">results</a></span>(<span class="no">dds_DE</span>, <span class="kw">contrast</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Pathotype"</span>, <span class="no">vars</span>))
-    <span class="no">out</span> <span class="kw">&lt;-</span> <span class="no">out</span>[<span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">syn_txi</span>$<span class="no">counts</span>), <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">out</span>)), ]
-    <span class="no">out</span> <span class="kw">&lt;-</span> <span class="no">out</span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pvalue"</span>, <span class="st">"padj"</span>, <span class="st">"log2FoldChange"</span>)]
-})
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Pvals_DESeq_DE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">contrasts</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="va">x</span>, split<span class="op">=</span><span class="st">"_"</span><span class="op">)</span><span class="op">)</span>
+    <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/results.html">results</a></span><span class="op">(</span><span class="va">dds_DE</span>, contrast<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Pathotype"</span>, <span class="va">vars</span><span class="op">)</span><span class="op">)</span>
+    <span class="va">out</span> <span class="op">&lt;-</span> <span class="va">out</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">syn_txi</span><span class="op">$</span><span class="va">counts</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span>
+    <span class="va">out</span> <span class="op">&lt;-</span> <span class="va">out</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"pvalue"</span>, <span class="st">"padj"</span>, <span class="st">"log2FoldChange"</span><span class="op">)</span><span class="op">]</span>
+<span class="op">}</span><span class="op">)</span>
 
-<span class="no">LRT</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/results.html">results</a></span>(<span class="no">dds_LRT</span>, <span class="kw">parallel</span><span class="kw">=</span><span class="fl">TRUE</span>)[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pvalue"</span>, <span class="st">"padj"</span>)])
-<span class="no">LRT</span> <span class="kw">&lt;-</span> <span class="no">LRT</span>[<span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">syn_txi</span>$<span class="no">counts</span>), <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">LRT</span>)), ]</pre></body></html></div>
+<span class="va">LRT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/results.html">results</a></span><span class="op">(</span><span class="va">dds_LRT</span>, parallel<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"pvalue"</span>, <span class="st">"padj"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
+<span class="va">LRT</span> <span class="op">&lt;-</span> <span class="va">LRT</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">syn_txi</span><span class="op">$</span><span class="va">counts</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">LRT</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></code></pre></div>
 <p>The results can then be combined into one pvalues data frame:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">Pvals_DESeq</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">Pvals_DESeq_DE</span><span class="kw">[[</span><span class="fl">1</span>]],
-                     <span class="no">Pvals_DESeq_DE</span><span class="kw">[[</span><span class="fl">2</span>]],
-                     <span class="no">Pvals_DESeq_DE</span><span class="kw">[[</span><span class="fl">3</span>]],
-                     <span class="no">LRT</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">Pvals_DESeq</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="no">contrasts</span>, <span class="kw">each</span><span class="kw">=</span><span class="fl">3</span>), <span class="st">"_"</span>,
-                                 <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">Pvals_DESeq_DE</span><span class="kw">[[</span><span class="fl">1</span>]]), <span class="fl">3</span>)),
-                           <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"LRT"</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">LRT</span>)))
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Pvals_DESeq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">Pvals_DESeq_DE</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, 
+                     <span class="va">Pvals_DESeq_DE</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, 
+                     <span class="va">Pvals_DESeq_DE</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>, 
+                     <span class="va">LRT</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">Pvals_DESeq</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">contrasts</span>, each<span class="op">=</span><span class="fl">3</span><span class="op">)</span>, <span class="st">"_"</span>,
+                                 <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">Pvals_DESeq_DE</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>, 
+                           <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"LRT"</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">LRT</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
-<span class="no">Pvals_DESeq</span> <span class="kw">&lt;-</span> <span class="no">Pvals_DESeq</span>[<span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span>(<span class="no">Pvals_DESeq</span>), ]</pre></body></html></div>
+<span class="va">Pvals_DESeq</span> <span class="op">&lt;-</span> <span class="va">Pvals_DESeq</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span><span class="op">(</span><span class="va">Pvals_DESeq</span><span class="op">)</span>, <span class="op">]</span></code></pre></div>
 <p>Now we can inspect:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">Pvals_DESeq</span>)) <span class="kw">%&gt;%</span>
-    <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"\\."</span>, <span class="st">" "</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">Pvals_DESeq</span>))) <span class="kw">%&gt;%</span>
-    <span class="fu">kable</span>() <span class="kw">%&gt;%</span>
-    <span class="fu">kable_styling</span>(<span class="kw">font_size</span><span class="kw">=</span><span class="fl">8.7</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">Pvals_DESeq</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\\."</span>, <span class="st">" "</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">Pvals_DESeq</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">kable</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">kable_styling</span><span class="op">(</span>font_size<span class="op">=</span><span class="fl">8.7</span><span class="op">)</span></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -499,66 +510,70 @@ AACS
 <a href="#limma" class="anchor"></a>Limma method</h1>
 <p>The limma vignette can be found <a href="https://bioconductor.org/packages/release/bioc/vignettes/limma/inst/doc/usersguide.pdf">here</a> and limma-voom tutorial <a href="https://ucdavis-bioinformatics-training.github.io/2018-June-RNA-Seq-Workshop/thursday/DE.html">here</a>. These can both be used to calculate the differential expression between pathotype groups.</p>
 <p>As with DESeq we use pathotype, batch and gender in the model design:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">limma</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">edgeR</span>)
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/limma">limma</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/edgeR">edgeR</a></span><span class="op">)</span>
 
-<span class="no">syn_tpm</span> <span class="kw">=</span> <span class="no">syn_txi</span>$<span class="no">counts</span>
+<span class="va">syn_tpm</span> <span class="op">=</span> <span class="va">syn_txi</span><span class="op">$</span><span class="va">counts</span>
 
 <span class="co"># build the design matrix and contrast matrix</span>
-<span class="no">design</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html">model.matrix</a></span>(~<span class="fl">0</span> + <span class="no">syn_metadata</span>$<span class="no">Pathotype</span> + <span class="no">syn_metadata</span>$<span class="no">Batch</span> +
-                           <span class="no">syn_metadata</span>$<span class="no">Gender</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">design</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"syn_metadata"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">design</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">design</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"\\$Pathotype|\\$Batch|\\$Gender"</span>, <span class="st">""</span>,
-                         <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">design</span>))
+<span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html">model.matrix</a></span><span class="op">(</span><span class="op">~</span><span class="fl">0</span> <span class="op">+</span> <span class="va">syn_metadata</span><span class="op">$</span><span class="va">Pathotype</span> <span class="op">+</span> <span class="va">syn_metadata</span><span class="op">$</span><span class="va">Batch</span> <span class="op">+</span> 
+                           <span class="va">syn_metadata</span><span class="op">$</span><span class="va">Gender</span><span class="op">)</span>  
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"syn_metadata"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\\$Pathotype|\\$Batch|\\$Gender"</span>, <span class="st">""</span>, 
+                         <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span>
 
 
-<span class="no">contrast.matrix</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/makeContrasts.html">makeContrasts</a></span>(
-    <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">design</span>)[<span class="fl">1</span>] , <span class="st">"-"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">design</span>)[<span class="fl">2</span>]),
-    <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">design</span>)[<span class="fl">2</span>] , <span class="st">"-"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">design</span>)[<span class="fl">3</span>]),
-    <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">design</span>)[<span class="fl">3</span>] , <span class="st">"-"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">design</span>)[<span class="fl">1</span>]),
-    <span class="kw">levels</span> <span class="kw">=</span> <span class="no">design</span>)
+<span class="va">contrast.matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/makeContrasts.html">makeContrasts</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> , <span class="st">"-"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> , <span class="st">"-"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> , <span class="st">"-"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>,
+    levels <span class="op">=</span> <span class="va">design</span><span class="op">)</span>
 
 <span class="co"># filter data and normalise</span>
-<span class="no">dge</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/DGEList.html">DGEList</a></span>(<span class="kw">counts</span> <span class="kw">=</span> <span class="no">syn_tpm</span>)
-<span class="no">keep</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/filterByExpr.html">filterByExpr</a></span>(<span class="no">dge</span>, <span class="no">design</span>)
-<span class="no">dge</span> <span class="kw">&lt;-</span> <span class="no">dge</span>[<span class="no">keep</span>, , <span class="kw">keep.lib.sizes</span><span class="kw">=</span><span class="fl">FALSE</span>]
-<span class="no">dge</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/calcNormFactors.html">calcNormFactors</a></span>(<span class="no">dge</span>)
+<span class="va">dge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/DGEList.html">DGEList</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="va">syn_tpm</span><span class="op">)</span>     
+<span class="va">keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/filterByExpr.html">filterByExpr</a></span><span class="op">(</span><span class="va">dge</span>, <span class="va">design</span><span class="op">)</span>
+<span class="va">dge</span> <span class="op">&lt;-</span> <span class="va">dge</span><span class="op">[</span><span class="va">keep</span>, , keep.lib.sizes<span class="op">=</span><span class="cn">FALSE</span><span class="op">]</span>
+<span class="va">dge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/calcNormFactors.html">calcNormFactors</a></span><span class="op">(</span><span class="va">dge</span><span class="op">)</span>
 
 <span class="co"># voom</span>
-<span class="no">v</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/voom.html">voom</a></span>(<span class="no">dge</span>, <span class="no">design</span>, <span class="kw">plot</span><span class="kw">=</span><span class="fl">FALSE</span>)
-<span class="no">fit1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/lmFit.html">lmFit</a></span>(<span class="no">v</span>, <span class="no">design</span>)
-<span class="no">fit</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/contrasts.fit.html">contrasts.fit</a></span>(<span class="no">fit1</span>, <span class="no">contrast.matrix</span>)
-<span class="no">fit</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/ebayes.html">eBayes</a></span>(<span class="no">fit</span>)</pre></body></html></div>
+<span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/voom.html">voom</a></span><span class="op">(</span><span class="va">dge</span>, <span class="va">design</span>, plot<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">fit1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/lmFit.html">lmFit</a></span><span class="op">(</span><span class="va">v</span>, <span class="va">design</span><span class="op">)</span>
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/contrasts.fit.html">contrasts.fit</a></span><span class="op">(</span><span class="va">fit1</span>, <span class="va">contrast.matrix</span><span class="op">)</span> 
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/ebayes.html">eBayes</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <p>Now we can get the model fit results for each contrast, as well as the overall fit.</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">contrasts</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coefficients</a></span>(<span class="no">fit</span>))
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">contrasts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coefficients</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">)</span>
 
-<span class="no">Pvals_limma_DE</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">contrasts</span>, <span class="kw">function</span>(<span class="no">x</span>){
-    <span class="no">id</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coefficients</a></span>(<span class="no">fit</span>)) <span class="kw">==</span> <span class="no">x</span>)
+<span class="va">Pvals_limma_DE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">contrasts</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">id</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coefficients</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="va">x</span><span class="op">)</span>
+    
+    <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/toptable.html">topTable</a></span><span class="op">(</span><span class="va">fit</span>, adjust.method <span class="op">=</span> <span class="st">"fdr"</span>, coef<span class="op">=</span> <span class="va">id</span>, number<span class="op">=</span><span class="cn">Inf</span>, 
+                    sort.by<span class="op">=</span><span class="st">"none"</span><span class="op">)</span>
+    <span class="va">out</span> <span class="op">&lt;-</span> <span class="va">out</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"P.Value"</span>, <span class="st">"adj.P.Val"</span>, <span class="st">"logFC"</span><span class="op">)</span><span class="op">]</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"pvalue"</span>, <span class="st">"padj"</span>, <span class="st">"log2FoldChange"</span><span class="op">)</span>
+    <span class="va">out</span>
+<span class="op">}</span><span class="op">)</span>
 
-    <span class="no">out</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/toptable.html">topTable</a></span>(<span class="no">fit</span>, <span class="kw">adjust.method</span> <span class="kw">=</span> <span class="st">"fdr"</span>, <span class="kw">coef</span><span class="kw">=</span> <span class="no">id</span>, <span class="kw">number</span><span class="kw">=</span><span class="fl">Inf</span>,
-                    <span class="kw">sort.by</span><span class="kw">=</span><span class="st">"none"</span>)
-    <span class="no">out</span> <span class="kw">&lt;-</span> <span class="no">out</span>[,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"P.Value"</span>, <span class="st">"adj.P.Val"</span>, <span class="st">"logFC"</span>)]
-    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">out</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pvalue"</span>, <span class="st">"padj"</span>, <span class="st">"log2FoldChange"</span>)
-    <span class="no">out</span>
-})
-
-<span class="no">Pvals_overall</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/toptable.html">topTable</a></span>(<span class="no">fit</span>, <span class="kw">coef</span><span class="kw">=</span><span class="fl">1</span>:<span class="fl">3</span>, <span class="kw">adjust.method</span><span class="kw">=</span><span class="st">"fdr"</span>, <span class="kw">number</span><span class="kw">=</span><span class="fl">Inf</span>,
-                          <span class="kw">sort.by</span><span class="kw">=</span><span class="st">"none"</span>)[,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"P.Value"</span>, <span class="st">"adj.P.Val"</span>)]
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">Pvals_overall</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pvalue"</span>, <span class="st">"padj"</span>)</pre></body></html></div>
+<span class="va">Pvals_overall</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/toptable.html">topTable</a></span><span class="op">(</span><span class="va">fit</span>, coef<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, adjust.method<span class="op">=</span><span class="st">"fdr"</span>, number<span class="op">=</span><span class="cn">Inf</span>, 
+                          sort.by<span class="op">=</span><span class="st">"none"</span><span class="op">)</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"P.Value"</span>, <span class="st">"adj.P.Val"</span><span class="op">)</span><span class="op">]</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">Pvals_overall</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"pvalue"</span>, <span class="st">"padj"</span><span class="op">)</span></code></pre></div>
 <p>The results can then be combined into one pvalues data frame:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">Pvals_limma</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/cbind.html">cbind</a></span>(<span class="no">Pvals_limma_DE</span><span class="kw">[[</span><span class="fl">1</span>]],
-                     <span class="no">Pvals_limma_DE</span><span class="kw">[[</span><span class="fl">2</span>]],
-                     <span class="no">Pvals_limma_DE</span><span class="kw">[[</span><span class="fl">3</span>]],
-                     <span class="no">Pvals_overall</span>)
-<span class="no">Pvals_limma</span> <span class="kw">&lt;-</span> <span class="no">Pvals_limma</span>[<span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span>(<span class="no">Pvals_limma</span>), ]
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Pvals_limma</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/cbind.html">cbind</a></span><span class="op">(</span><span class="va">Pvals_limma_DE</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, 
+                     <span class="va">Pvals_limma_DE</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, 
+                     <span class="va">Pvals_limma_DE</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>, 
+                     <span class="va">Pvals_overall</span><span class="op">)</span>
+<span class="va">Pvals_limma</span> <span class="op">&lt;-</span> <span class="va">Pvals_limma</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span><span class="op">(</span><span class="va">Pvals_limma</span><span class="op">)</span>, <span class="op">]</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">Pvals_limma</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"-"</span>, <span class="st">"_"</span>, <span class="no">contrasts</span>), <span class="kw">each</span><span class="kw">=</span><span class="fl">3</span>), <span class="st">"_"</span>,
-                                 <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">Pvals_limma_DE</span><span class="kw">[[</span><span class="fl">1</span>]]), <span class="fl">3</span>)),
-                           <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"Overall_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">Pvals_overall</span>)))</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">Pvals_limma</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"-"</span>, <span class="st">"_"</span>, <span class="va">contrasts</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">3</span><span class="op">)</span>, <span class="st">"_"</span>,
+                                 <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">Pvals_limma_DE</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>, 
+                           <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Overall_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">Pvals_overall</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Now we can inspect:</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">Pvals_limma</span>) <span class="kw">%&gt;%</span>
-    <span class="fu">kable</span>() <span class="kw">%&gt;%</span>
-    <span class="fu">kable_styling</span>(<span class="kw">font_size</span><span class="kw">=</span><span class="fl">8.7</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">Pvals_limma</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">kable</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu">kable_styling</span><span class="op">(</span>font_size<span class="op">=</span><span class="fl">8.7</span><span class="op">)</span></code></pre></div>
 <table class="table table">
 <thead><tr>
 <th style="text-align:left;">
@@ -834,68 +849,73 @@ AACS
 <a href="#using-the-pvalues-objects" class="anchor"></a>Using the Pvalues Objects</h1>
 <p>Both the deseq and limma-voom pvalues objects can then be used to create various plots with the volcano3D package as outlined in the <a href="https://katrionagoldmann.github.io/volcano3D/articles/Vignette.html">vignette</a>.</p>
 <p>First lets load in the expression data.</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">volcano3D</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">volcano3Ddata</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"syn_data"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://katrionagoldmann.github.io/volcano3D/index.html">volcano3D</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/KatrionaGoldmann/volcano3D_data">volcano3Ddata</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"syn_data"</span><span class="op">)</span></code></pre></div>
 <div id="with-deseq" class="section level2">
 <h2 class="hasAnchor">
 <a href="#with-deseq" class="anchor"></a>With DESeq</h2>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="co"># Curate the expression data</span>
-<span class="no">syn_exp</span> <span class="kw">=</span> <span class="no">syn_rld</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">syn_exp</span>) <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">syn_exp</span>), <span class="kw">unique</span> <span class="kw">=</span> <span class="no">T</span>)
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Curate the expression data</span>
+<span class="va">syn_exp</span> <span class="op">=</span> <span class="va">syn_rld</span> 
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">syn_exp</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">syn_exp</span><span class="op">)</span>, unique <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 
 <span class="co"># Align the expression and pvalue data</span>
-<span class="no">syn_exp</span> <span class="kw">=</span> <span class="no">syn_exp</span>[<span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">Pvals_DESeq</span>), <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">syn_exp</span>)), ]
-<span class="no">Pvals_DESeq</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="no">Pvals_DESeq</span>[<span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">Pvals_DESeq</span>), <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">syn_exp</span>)), ], <span class="kw">check.names</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="va">syn_exp</span> <span class="op">=</span> <span class="va">syn_exp</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">Pvals_DESeq</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">syn_exp</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span>
+<span class="va">Pvals_DESeq</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">Pvals_DESeq</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">Pvals_DESeq</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">syn_exp</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span>, check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="no">syn_polar_deseq</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/polar_coords.html">polar_coords</a></span>(<span class="kw">sampledata</span> <span class="kw">=</span> <span class="no">syn_metadata</span>,
-                          <span class="kw">contrast</span> <span class="kw">=</span> <span class="st">"Pathotype"</span>,
-                          <span class="kw">pvalues</span> <span class="kw">=</span> <span class="no">Pvals_DESeq</span>,
-                          <span class="kw">expression</span> <span class="kw">=</span> <span class="no">syn_exp</span>,
-                          <span class="kw">p_col_suffix</span> <span class="kw">=</span> <span class="st">"pvalue"</span>,
-                          <span class="kw">padj_col_suffix</span> <span class="kw">=</span> <span class="st">"padj"</span>,
-                          <span class="kw">fc_col_suffix</span> <span class="kw">=</span> <span class="st">"log2FoldChange"</span>,
-                          <span class="kw">multi_group_prefix</span> <span class="kw">=</span> <span class="st">"LRT"</span>,
-                          <span class="kw">non_sig_name</span> <span class="kw">=</span> <span class="st">"Not Significant"</span>,
-                          <span class="kw">significance_cutoff</span> <span class="kw">=</span> <span class="fl">0.01</span>,
-                          <span class="kw">label_column</span> <span class="kw">=</span> <span class="kw">NULL</span>,
-                          <span class="kw">fc_cutoff</span> <span class="kw">=</span> <span class="fl">0.1</span>)</pre></body></html></div>
+<span class="va">syn_polar_deseq</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/polar_coords.html">polar_coords</a></span><span class="op">(</span>sampledata <span class="op">=</span> <span class="va">syn_metadata</span>,
+                          contrast <span class="op">=</span> <span class="st">"Pathotype"</span>,
+                          pvalues <span class="op">=</span> <span class="va">Pvals_DESeq</span>,
+                          expression <span class="op">=</span> <span class="va">syn_exp</span>,
+                          p_col_suffix <span class="op">=</span> <span class="st">"pvalue"</span>,
+                          padj_col_suffix <span class="op">=</span> <span class="st">"padj"</span>,
+                          fc_col_suffix <span class="op">=</span> <span class="st">"log2FoldChange"</span>,
+                          multi_group_prefix <span class="op">=</span> <span class="st">"LRT"</span>,
+                          non_sig_name <span class="op">=</span> <span class="st">"Not Significant"</span>,
+                          significance_cutoff <span class="op">=</span> <span class="fl">0.01</span>,
+                          label_column <span class="op">=</span> <span class="cn">NULL</span>,
+                          fc_cutoff <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></code></pre></div>
 <p>This can be used for plotting with any of the volcano3D functions. For example:</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../reference/radial_ggplot.html">radial_ggplot</a></span>(<span class="kw">polar</span> <span class="kw">=</span> <span class="no">syn_polar_deseq</span>,
-              <span class="kw">label_rows</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"SLAMF6"</span>, <span class="st">"PARP16"</span>, <span class="st">"ITM2C"</span>),
-              <span class="kw">legend_size</span><span class="kw">=</span><span class="fl">10</span>) +
-  <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"right"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/radial_ggplot.html">radial_ggplot</a></span><span class="op">(</span>polar <span class="op">=</span> <span class="va">syn_polar_deseq</span>, 
+              label_rows <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"SLAMF6"</span>, <span class="st">"PARP16"</span>, <span class="st">"ITM2C"</span><span class="op">)</span>, 
+              legend_size<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></code></pre></div>
 <p><img src="pvalues_generator_files/figure-html/unnamed-chunk-18-1.png" width="1344" style="display: block; margin: auto;"></p>
 </div>
 <div id="with-limma" class="section level2">
 <h2 class="hasAnchor">
 <a href="#with-limma" class="anchor"></a>With Limma</h2>
 <p>The only difference here is we change the multi_group_prefix to “Overall” and remove the fold change parameter.</p>
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="co"># Curate the expression data</span>
-<span class="no">syn_exp</span> <span class="kw">=</span> <span class="no">syn_rld</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">syn_exp</span>) <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">syn_exp</span>), <span class="kw">unique</span> <span class="kw">=</span> <span class="no">T</span>)
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Curate the expression data</span>
+<span class="va">syn_exp</span> <span class="op">=</span> <span class="va">syn_rld</span> 
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">syn_exp</span><span class="op">)</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/make.names.html">make.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">syn_exp</span><span class="op">)</span>, unique <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 
 <span class="co"># Align the expression and pvalue data</span>
-<span class="no">syn_exp</span> <span class="kw">=</span> <span class="no">syn_exp</span>[<span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">Pvals_limma</span>), <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">syn_exp</span>)), ]
-<span class="no">Pvals_limma</span> <span class="kw">=</span> <span class="no">Pvals_limma</span>[<span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">Pvals_limma</span>), <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">syn_exp</span>)), ]
+<span class="va">syn_exp</span> <span class="op">=</span> <span class="va">syn_exp</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">Pvals_limma</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">syn_exp</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span>
+<span class="va">Pvals_limma</span> <span class="op">=</span> <span class="va">Pvals_limma</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/sets.html">intersect</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">Pvals_limma</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">syn_exp</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span>
 
-<span class="no">syn_polar_limma</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/polar_coords.html">polar_coords</a></span>(<span class="kw">sampledata</span> <span class="kw">=</span> <span class="no">syn_metadata</span>,
-                          <span class="kw">contrast</span> <span class="kw">=</span> <span class="st">"Pathotype"</span>,
-                          <span class="kw">pvalues</span> <span class="kw">=</span> <span class="no">Pvals_limma</span>,
-                          <span class="kw">expression</span> <span class="kw">=</span> <span class="no">syn_exp</span>,
-                          <span class="kw">p_col_suffix</span> <span class="kw">=</span> <span class="st">"pvalue"</span>,
-                          <span class="kw">padj_col_suffix</span> <span class="kw">=</span> <span class="st">"padj"</span>,
-                          <span class="kw">fc_col_suffix</span> <span class="kw">=</span> <span class="st">"log2FoldChange"</span>,
-                          <span class="kw">multi_group_prefix</span> <span class="kw">=</span> <span class="st">"Overall"</span>,
-                          <span class="kw">non_sig_name</span> <span class="kw">=</span> <span class="st">"Not Significant"</span>,
-                          <span class="kw">significance_cutoff</span> <span class="kw">=</span> <span class="fl">0.01</span>,
-                          <span class="kw">label_column</span> <span class="kw">=</span> <span class="kw">NULL</span>,
-                          <span class="kw">fc_cutoff</span> <span class="kw">=</span> <span class="fl">0.1</span>)</pre></body></html></div>
+<span class="va">syn_polar_limma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/polar_coords.html">polar_coords</a></span><span class="op">(</span>sampledata <span class="op">=</span> <span class="va">syn_metadata</span>,
+                          contrast <span class="op">=</span> <span class="st">"Pathotype"</span>,
+                          pvalues <span class="op">=</span> <span class="va">Pvals_limma</span>,
+                          expression <span class="op">=</span> <span class="va">syn_exp</span>,
+                          p_col_suffix <span class="op">=</span> <span class="st">"pvalue"</span>,
+                          padj_col_suffix <span class="op">=</span> <span class="st">"padj"</span>,
+                          fc_col_suffix <span class="op">=</span> <span class="st">"log2FoldChange"</span>,
+                          multi_group_prefix <span class="op">=</span> <span class="st">"Overall"</span>,
+                          non_sig_name <span class="op">=</span> <span class="st">"Not Significant"</span>,
+                          significance_cutoff <span class="op">=</span> <span class="fl">0.01</span>,
+                          label_column <span class="op">=</span> <span class="cn">NULL</span>,
+                          fc_cutoff <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></code></pre></div>
 <p>This can be used for plotting with any of the volcano3D functions. For example:</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="../reference/radial_ggplot.html">radial_ggplot</a></span>(<span class="kw">polar</span> <span class="kw">=</span> <span class="no">syn_polar_limma</span>,
-              <span class="kw">label_rows</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"SLAMF6"</span>, <span class="st">"PARP16"</span>, <span class="st">"ITM2C"</span>),
-              <span class="kw">legend_size</span><span class="kw">=</span><span class="fl">10</span>) +
-  <span class="kw pkg">ggplot2</span><span class="kw ns">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"right"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/radial_ggplot.html">radial_ggplot</a></span><span class="op">(</span>polar <span class="op">=</span> <span class="va">syn_polar_limma</span>, 
+              label_rows <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"SLAMF6"</span>, <span class="st">"PARP16"</span>, <span class="st">"ITM2C"</span><span class="op">)</span>, 
+              legend_size<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></code></pre></div>
 <p><img src="pvalues_generator_files/figure-html/unnamed-chunk-20-1.png" width="1344" style="display: block; margin: auto;"></p>
 </div>
 </div>

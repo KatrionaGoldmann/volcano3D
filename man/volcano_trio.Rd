@@ -7,6 +7,7 @@
 volcano_trio(
   polar,
   p_cutoff = 0.05,
+  cutoff_criteria = "pvalue",
   fc_cutoff = 1,
   label_rows = NULL,
   label_size = 3,
@@ -31,6 +32,9 @@ Created by \code{\link{polar_coords}}.}
 
 \item{p_cutoff}{The cut-off for adjusted pvalue significance (default = 
 0.05).}
+
+\item{cutoff_criteria}{Whether to use pvalue or padj for the colour coding 
+significance cutoff.}
 
 \item{fc_cutoff}{The cut-off for fold change significance (default = 1).}
 

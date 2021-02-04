@@ -5,7 +5,7 @@ v2](https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg)](https://www
 [![CRAN
 status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange)](https://cran.rstudio.com/package=volcano3D)
-[![2020-07-11](https://img.shields.io/badge/last%20git%20commit-2020--07--11-turquoise.svg)](https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md)
+[![2020-08-20](https://img.shields.io/badge/last%20git%20commit-2020--08--20-turquoise.svg)](https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md)
 [![HitCount](http://hits.dwyl.com/KatrionaGoldmann/volcano3D.svg)](http://hits.dwyl.com/KatrionaGoldmann/volcano3D)
 [![GitHub
 issues](https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/issues/)
@@ -56,9 +56,15 @@ Getting Started
 
 ### Install from CRAN
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
+
     install.packages("volcano3D")
 
 ### Install from Github
+
+[![GitHub
+tag](https://img.shields.io/github/tag/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/tags/)
 
     library(devtools)
     install_github("KatrionaGoldmann/volcano3D")

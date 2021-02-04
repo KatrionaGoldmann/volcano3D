@@ -48,7 +48,7 @@ install.packages("shiny")
 
 #### Install from CRAN 
 
-*Not yet publicly available:*
+[![CRAN status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
 
 ```{r, eval = FALSE}
 install.packages("volcano3D")
@@ -56,6 +56,8 @@ library(volcano3D)
 ```
 
 #### Install from Github
+
+[![GitHub tag](https://img.shields.io/github/tag/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/tags/)
 
 ```{r, eval = FALSE}
 library(devtools)
@@ -68,10 +70,9 @@ library(volcano3D)
 
 The sample data used in this vignette can be loaded from the 
 [volcano3Ddata package](https://github.com/KatrionaGoldmann/volcano3Ddata). 
-This is only possible after volcano3D is imported. 
 
 ```{r, eval = FALSE}
-install.packages("volcano3Ddata")
+devtools::install_github("KatrionaGoldmann/volcano3Ddata")
 ```
 
 ---

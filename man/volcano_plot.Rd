@@ -13,6 +13,7 @@ volcano_plot(
   p_col_suffix = "pvalue",
   padj_col_suffix = "padj",
   fc_col_suffix = "logFC",
+  cutoff_criteria = "pvalue",
   label_col = "label",
   label_size = 3,
   text_size = 10,
@@ -52,6 +53,9 @@ p values (default = 'padj'). If NULL these will be calculated using
 
 \item{fc_col_suffix}{The optional suffix word to define columns containing
 log fold change values (default = 'logFC').}
+
+\item{cutoff_criteria}{Whether to use pvalue or padj for the colour coding 
+significance cutoff.}
 
 \item{label_col}{Optional column name in 'pvalues_df' for labelling markers.
 If NULL the rownames of pvalues are used.}

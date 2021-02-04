@@ -14,6 +14,8 @@
 #' \code{padjust_method}.
 #' @param fc_col_suffix The optional suffix word to define columns containing
 #' log fold change values (default = 'logFC').
+#' @param cutoff_criteria Whether to use pvalue or padj for the colour coding 
+#' significance cutoff. 
 #' @param label_col Optional column name in 'pvalues_df' for labelling markers.
 #' If NULL the rownames of pvalues are used.
 #' @param label_rows Row numbers or names of values to be annotated/labelled
@@ -101,6 +103,7 @@ volcano_plot <- function(pvalues_df,
                          p_col_suffix = "pvalue",
                          padj_col_suffix = "padj",
                          fc_col_suffix = "logFC",
+                         cutoff_criteria = "pvalue",
                          label_col = "label",
                          label_size = 3,
                          text_size = 10,
@@ -139,11 +142,14 @@ volcano_plot <- function(pvalues_df,
   if(is.null(label_col)){
     toptable$label <- rownames(toptable)
   }
+
+  use_cols <- c("pvalue"=p_col_suffix, "padj"=padj_col_suffix, 
+                  "logFC"=fc_col_suffix)
   
   colnames(toptable)[unlist(
-    lapply(c(p_col_suffix, padj_col_suffix, fc_col_suffix), function(x) {
+    lapply(use_cols, function(x) {
       which(grepl(x, colnames(toptable)))
-    }))] <- c("pvalue", "padj", "logFC")
+    }))] <- names(use_cols)
   
   if(! is.null(sig_names)){
     if(length(sig_names) != length(colours)){
@@ -151,47 +157,66 @@ volcano_plot <- function(pvalues_df,
     }
   } else {
     if(length(colours) == 3){
-      sig_names <- c(paste("Padj <=", p_cutoff, "and log(FC) <", -1*fc_cutoff),
-                     paste("Padj <=", p_cutoff, "and log(FC) >=", fc_cutoff), 
+      sig_names <- c(paste(cutoff_criteria, "<=",
+                           p_cutoff, "and log(FC) <", -1*fc_cutoff),
+                     paste(cutoff_criteria, "<=",
+                           p_cutoff, "and log(FC) >=", fc_cutoff), 
                      "Not Significant"
       )
     } else if(length(colours) == 4){
-      sig_names <- c(paste("Padj <=", p_cutoff, "and |log(FC)| >=", fc_cutoff),
-                     paste("Padj <=", p_cutoff, "and |log(FC)| <", fc_cutoff),
-                     paste("Padj >", p_cutoff, "and |log(FC)| >=", fc_cutoff),
-                     paste("Padj >", p_cutoff, "and |log(FC)| <", fc_cutoff)
+      sig_names <- c(paste(cutoff_criteria, "<=",
+                           p_cutoff, "and |log(FC)| >=", fc_cutoff),
+                     paste(cutoff_criteria, "<=",
+                           p_cutoff, "and |log(FC)| <", fc_cutoff),
+                     paste(cutoff_criteria, ">", 
+                           p_cutoff, "and |log(FC)| >=", fc_cutoff),
+                     paste(cutoff_criteria, ">", 
+                           p_cutoff, "and |log(FC)| <", fc_cutoff)
       )
     } else{
       sig_names <- c(
-        paste("Padj <=", p_cutoff, "and log(FC) >=", fc_cutoff), 
-        paste("Padj <=", p_cutoff, "and", -1*fc_cutoff, "< log(FC) <= 0"),
-        paste("Padj <=", p_cutoff, "and 0 < log(FC) <", fc_cutoff), 
-        paste("Padj <=", p_cutoff, "and log(FC) <=", -1*fc_cutoff),
-        paste("Padj >", p_cutoff, "and log(FC) >=", fc_cutoff), 
-        paste("Padj >", p_cutoff, "and", -1*fc_cutoff, "< log(FC) <= 0"),
-        paste("Padj >", p_cutoff, "and 0 < log(FC) <", fc_cutoff), 
-        paste("Padj >", p_cutoff, "and log(FC) <=", -1*fc_cutoff)
+        paste(cutoff_criteria, "<=",
+              p_cutoff, "and log(FC) >=", fc_cutoff), 
+        paste(cutoff_criteria, "<=",
+              p_cutoff, "and", -1*fc_cutoff, "< log(FC) <= 0"),
+        paste(cutoff_criteria, "<=",
+              p_cutoff, "and 0 < log(FC) <", fc_cutoff), 
+        paste(cutoff_criteria, "<=",
+              p_cutoff, "and log(FC) <=", -1*fc_cutoff),
+        paste(cutoff_criteria, ">", 
+              p_cutoff, "and log(FC) >=", fc_cutoff), 
+        paste(cutoff_criteria, ">", 
+              p_cutoff, "and", -1*fc_cutoff, "< log(FC) <= 0"),
+        paste(cutoff_criteria, ">", 
+              p_cutoff, "and 0 < log(FC) <", fc_cutoff), 
+        paste(cutoff_criteria, ">", 
+              p_cutoff, "and log(FC) <=", -1*fc_cutoff)
       )
     }
   }
-  
+
   toptable$cols <- NA
-  toptable$cols[toptable$padj <= p_cutoff & 
+  toptable$cols[toptable[, cutoff_criteria] <= p_cutoff & 
                   toptable$logFC <= -1*fc_cutoff] <- "a" 
-  toptable$cols[toptable$padj <= p_cutoff & toptable$logFC > -1*fc_cutoff & 
+  toptable$cols[toptable[, cutoff_criteria] <= p_cutoff & 
+                  toptable$logFC > -1*fc_cutoff & 
                   toptable$logFC <= 0] <- "b"
-  toptable$cols[toptable$padj <= p_cutoff & toptable$logFC < fc_cutoff & 
+  toptable$cols[toptable[, cutoff_criteria] <= p_cutoff & 
+                  toptable$logFC < fc_cutoff & 
                   toptable$logFC > 0] <- "c"
-  toptable$cols[toptable$padj <= p_cutoff & toptable$logFC >= fc_cutoff] <- "d"
+  toptable$cols[toptable[, cutoff_criteria] <= p_cutoff & 
+                  toptable$logFC >= fc_cutoff] <- "d"
   
-  toptable$cols[toptable$padj > p_cutoff & 
+  toptable$cols[toptable[, cutoff_criteria] > p_cutoff & 
                   toptable$logFC <= -1*fc_cutoff] <- "e" 
-  toptable$cols[toptable$padj > p_cutoff & toptable$logFC > -1*fc_cutoff & 
+  toptable$cols[toptable[, cutoff_criteria] > p_cutoff & 
+                  toptable$logFC > -1*fc_cutoff & 
                   toptable$logFC <= 0] <- "f"
-  toptable$cols[toptable$padj > p_cutoff & toptable$logFC < fc_cutoff & 
+  toptable$cols[toptable[, cutoff_criteria] > p_cutoff & 
+                  toptable$logFC < fc_cutoff & 
                   toptable$logFC > 0] <- "g"
-  toptable$cols[toptable$padj > p_cutoff & toptable$logFC >= fc_cutoff] <- "h"
-  
+  toptable$cols[toptable[, cutoff_criteria] > p_cutoff & 
+                  toptable$logFC >= fc_cutoff] <- "h"
   
   if(length(colours)==3){
     toptable$cols[toptable$cols %in% letters[c(2:3, 5:8)]] <- "c"
@@ -216,10 +241,10 @@ volcano_plot <- function(pvalues_df,
   
   toptable <- toptable[! is.na(toptable$logFC), ]
   toptable <- toptable[! is.na(-log10(toptable$pvalue)), ]
-  toptable <- toptable[! is.na(-log10(toptable$padj)), ]
+  if(cutoff_criteria == "padj") {
+    toptable <- toptable[! is.na(-log10(toptable$padj)), ]
+  }
   toptable$lp <- -log10(toptable$pvalue)
-  
-  
   
   # Create the volcano plot ggplot
   p <- ggplot(toptable, aes_string(x = "logFC", y = "lp")) +
@@ -238,7 +263,6 @@ volcano_plot <- function(pvalues_df,
           plot.background = element_rect(fill="transparent", color=NA),
           panel.background = element_rect(fill="transparent", colour=NA))
   
-  
   if(fc_line){
     p <- p +
       geom_vline(xintercept = fc_cutoff,
@@ -250,27 +274,27 @@ volcano_plot <- function(pvalues_df,
                  color = line_colours[1],
                  size = 0.5)
   }
-  
+
   # Add sig line if any significance
-  if(any(toptable$padj <=  p_cutoff) & p_line ==  TRUE) {
-    top <- max(toptable$pvalue[toptable$padj <=  p_cutoff], na.rm = TRUE)
+  if(any(toptable[, cutoff_criteria] <=  p_cutoff) & p_line ==  TRUE) {
+    top <- max(toptable$pvalue[toptable[, cutoff_criteria] <=  p_cutoff], 
+               na.rm = TRUE)
     p <- p + geom_hline(yintercept = -log10(top),
                         linetype = "dashed",
                         color = line_colours[2],
                         size = 0.5)
   }
-  
+
   # Add labels if any selected
   if(! is.null(label_rows)){
     if(! all(is.numeric(label_rows))) {
       if(! all(label_rows %in% rownames(toptable))){
-        stop("label_rows must be in rownames(polar)")
+        stop("label_rows must be in rownames(pvalues)")
       }}
     if(all(is.numeric(label_rows))) {
       if(! all(label_rows < nrow(toptable))){
-        stop("label_rows not in 1:nrow(polar)")
+        stop("label_rows not in 1:nrow(pvalues)")
       }}
-    
     
     label_df <- toptable[label_rows, ]
     label_df$lp <- -log10(label_df$pvalue)
@@ -283,7 +307,6 @@ volcano_plot <- function(pvalues_df,
                              box.padding = unit(0.35, "lines"),
                              point.padding = unit(0.3, "lines"))
   }
-  
   return(p)
 }
 
@@ -295,6 +318,8 @@ volcano_plot <- function(pvalues_df,
 #' Created by \code{\link{polar_coords}}.
 #' @param p_cutoff The cut-off for adjusted pvalue significance (default = 
 #' 0.05).
+#' @param cutoff_criteria Whether to use pvalue or padj for the colour coding 
+#' significance cutoff. 
 #' @param fc_cutoff The cut-off for fold change significance (default = 1).
 #' @param label_rows Row numbers or names of values to be annotated/labelled
 #' (default = NULL).
@@ -383,6 +408,7 @@ volcano_plot <- function(pvalues_df,
 
 volcano_trio <- function(polar,
                          p_cutoff = 0.05,
+                         cutoff_criteria = "pvalue",
                          fc_cutoff = 1,
                          label_rows = NULL,
                          label_size = 3,
@@ -429,7 +455,9 @@ volcano_trio <- function(polar,
     stop(paste('colours must be of length 3, 4, 7 or 8 according to', 
                'colour-coding. See `?volcano_trio` for more info'))
   }
-  
+  if(! any(grepl(cutoff_criteria, colnames(pvalues)))){
+    stop("There must be cutoff_criteria columns in pvalues")
+  }
   if(any(unlist(lapply(colours, function(x) {
     class(try(col2rgb(x), silent = TRUE)) == "try-error"
   })))) {
@@ -508,9 +536,12 @@ volcano_trio <- function(polar,
     } else{
       colours_use <- colours
     }
+    if(cutoff_criteria == "padj") pa <- "padj" else pa <- NULL
+    
     volcano_plot(pvalues_df = pvalues,
                  comparison = x,
                  p_cutoff = p_cutoff,
+                 padj_col_suffix = pa,
                  fc_cutoff = fc_cutoff,
                  label_rows = label_rows,
                  label_size = label_size,
@@ -525,7 +556,8 @@ volcano_trio <- function(polar,
                  fc_line = fc_line,
                  p_line = p_line,
                  drop_unused_cols = FALSE, 
-                 line_colours = line_colours) 
+                 line_colours = line_colours, 
+                 cutoff_criteria = cutoff_criteria) 
   })
   names(plot_outputs) <- groups
   

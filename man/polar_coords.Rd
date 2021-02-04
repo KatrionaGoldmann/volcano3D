@@ -18,7 +18,8 @@ polar_coords(
   non_sig_name = "Not Significant",
   significance_cutoff = 0.01,
   fc_cutoff = 0.3,
-  label_column = NULL
+  label_column = NULL,
+  cutoff_criteria = "pvalue"
 )
 }
 \arguments{
@@ -62,7 +63,8 @@ log fold change values (default = 'logFC'). These must not contain
 underscores.}
 
 \item{padjust_method}{The method used to calculate adjusted p values if 
-padj_col_suffix is NULL (default = 'BH'). See \code{\link[stats]{p.adjust}}.}
+padj_col_suffix is NULL (default = 'BH'). See \code{\link[stats]{p.adjust}}. 
+If NULL no adjusted pvalue is calculated.}
 
 \item{multi_group_prefix}{Optional column prefix for statistics (p, padj, 
 and fold change) across all three groups (typically ANOVA or likelihood 
@@ -78,6 +80,9 @@ classed as \code{non_sig_name}` (default = 0.3).}
 
 \item{label_column}{Optional column name in pvalues for markers to be 
 labelled with at plotting stage. If NULL the rownames of pvalues are used.}
+
+\item{cutoff_criteria}{Whether to use pvalue or padj for the colour coding 
+significance cutoff.}
 }
 \value{
 Returns an S4 polar object containing:
