@@ -4,6 +4,7 @@ News
 # volcano3D 1.1.0
 ###### 04/02/2021
 * allow colour coding to be based on pvalue or adjusted pvalue according to cutoff_criteria
+* allow subsetting by significance groups with the significance_subset function
 
 # volcano3D 1.0.3
 ###### 15/08/2020

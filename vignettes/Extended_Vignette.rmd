@@ -266,6 +266,24 @@ table(syn_polar@polar$sig) %>%
   kable_styling(full_width = F)
 ```
 
+To subset and view objects of specific significance groups you can use the 
+`significance_subset` function. 
+
+```{r}
+pvalues_subset <- significance_subset(syn_polar, 
+                             significance = c("Lymphoid+", "Myeloid+"), 
+                             output="pvalues")
+
+polar_subset <- significance_subset(syn_polar, 
+                             significance = c("Lymphoid+", "Myeloid+"), 
+                             output="polar")
+
+head(pvalues_subset) %>%
+  kable() %>%
+  kable_styling(full_width = F)
+```
+
+
 ## Volcano Plots
 
 If there is a fold change column previously provided, we can now investigate
