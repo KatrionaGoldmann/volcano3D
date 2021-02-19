@@ -330,7 +330,7 @@
     <span class="co"># Tab 2: 3D volcano plot </span>
     <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/tabPanel.html">tabPanel</a></span><span class="op">(</span><span class="st">"Volcano"</span>, value<span class="op">=</span><span class="st">"v"</span>,
              <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidPage</a></span><span class="op">(</span>
-                 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/column.html">column</a></span><span class="op">(</span><span class="fl">8</span>, <span class="fu"><a href="https://rdrr.io/pkg/shinycssloaders/man/withSpinner.html">withSpinner</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/plotly/man/plotly-shiny.html">plotlyOutput</a></span><span class="op">(</span><span class="st">"volcano"</span>, height<span class="op">=</span><span class="fl">720</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
+                 <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/column.html">column</a></span><span class="op">(</span><span class="fl">8</span>, <span class="fu"><a href="https://rdrr.io/pkg/shinycssloaders/man/withSpinner.html">withSpinner</a></span><span class="op">(</span><span class="fu"><a href="https://docs.ropensci.org/plotly/reference/plotly-shiny.html">plotlyOutput</a></span><span class="op">(</span><span class="st">"volcano"</span>, height<span class="op">=</span><span class="fl">720</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
                  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/column.html">column</a></span><span class="op">(</span><span class="fl">4</span>, 
                         <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html">fluidRow</a></span><span class="op">(</span>
                             <span class="co"># option for data type</span>
@@ -394,7 +394,7 @@
         <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/updateTabsetPanel.html">updateNavbarPage</a></span><span class="op">(</span><span class="va">session</span>, <span class="st">"mainNavbarPage"</span>, <span class="st">"t"</span><span class="op">)</span><span class="op">}</span><span class="op">)</span>
     
     <span class="co"># Volcano tab: Create the 3D volcano plot</span>
-    <span class="va">output</span><span class="op">$</span><span class="va">volcano</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/plotly/man/plotly-shiny.html">renderPlotly</a></span><span class="op">(</span><span class="op">{</span>
+    <span class="va">output</span><span class="op">$</span><span class="va">volcano</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/plotly/reference/plotly-shiny.html">renderPlotly</a></span><span class="op">(</span><span class="op">{</span>
         <span class="va">data_type</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">data_type</span><span class="op">)</span>
         <span class="va">colour_scheme</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">colour_type</span><span class="op">)</span>
         
@@ -407,13 +407,13 @@
                        fc_or_zscore <span class="op">=</span> <span class="kw"><a href="https://rdrr.io/r/base/switch.html">switch</a></span><span class="op">(</span><span class="va">data_type</span>, <span class="st">"zscore"</span>, <span class="st">"fc"</span><span class="op">)</span>,
                        xy_aspectratio <span class="op">=</span> <span class="fl">1</span>,
                        z_aspectratio <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span> <span class="op">%&gt;%</span>
-            <span class="fu"><a href="https://rdrr.io/pkg/plotly/man/layout.html">layout</a></span><span class="op">(</span>showlegend <span class="op">=</span> <span class="kw"><a href="https://rdrr.io/r/base/switch.html">switch</a></span><span class="op">(</span><span class="va">colour_scheme</span>, <span class="cn">T</span>, <span class="cn">F</span><span class="op">)</span><span class="op">)</span> 
+            <span class="fu"><a href="https://docs.ropensci.org/plotly/reference/layout.html">layout</a></span><span class="op">(</span>showlegend <span class="op">=</span> <span class="kw"><a href="https://rdrr.io/r/base/switch.html">switch</a></span><span class="op">(</span><span class="va">colour_scheme</span>, <span class="cn">T</span>, <span class="cn">F</span><span class="op">)</span><span class="op">)</span> 
     <span class="op">}</span><span class="op">)</span>
     
     
     <span class="co"># Volcano tab: Create pathotype boxplots when genes clicked </span>
     <span class="va">output</span><span class="op">$</span><span class="va">boxplots</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html">renderPlot</a></span><span class="op">(</span><span class="op">{</span>
-        <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/plotly/man/event_data.html">event_data</a></span><span class="op">(</span><span class="st">"plotly_click"</span><span class="op">)</span>
+        <span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/plotly/reference/event_data.html">event_data</a></span><span class="op">(</span><span class="st">"plotly_click"</span><span class="op">)</span>
         <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/req.html">req</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>
         <span class="va">gene</span> <span class="op">=</span> <span class="va">s</span><span class="op">$</span><span class="va">key</span>
         <span class="fu"><a href="../reference/boxplot_trio.html">boxplot_trio</a></span><span class="op">(</span><span class="va">syn_polar</span>,

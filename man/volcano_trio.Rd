@@ -60,6 +60,11 @@ If NULL c('Not Significant', \code{paste('Padj <', `p_cutoff`)},
 \code{paste('|FC| >', `fc_cutoff`)},
 \code{paste('Padj <', `p_cutoff`, 'and |FC| >', `fc_cutoff`)}) is used.}
 
+\item{colour_scheme}{How to factor the colour scheme. Colour by "none" for 
+significance group (by p and fold change cut-off), "upregulated" colour-
+coded according to the upregulated groups, or "polar" for the significance 
+group.}
+
 \item{colours}{A character vector of colours to be used. This can be of 
 length 3, 4, 7 or 8 depending on the colour coding desired. 
 \itemize{

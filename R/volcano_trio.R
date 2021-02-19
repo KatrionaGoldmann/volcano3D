@@ -366,6 +366,10 @@ volcano_plot <- function(pvalues_df,
 #'       \item h: padj > p_cutoff & fc >= fc_cutoff
 #'       }
 #'   }
+#' @param colour_scheme How to factor the colour scheme. Colour by "none" for 
+#' significance group (by p and fold change cut-off), "upregulated" colour-
+#' coded according to the upregulated groups, or "polar" for the significance 
+#' group.  
 #' @param fc_line Logical whether to add vertical dashed line at fc_cutoff
 #' (default = TRUE).
 #' @param p_line Logical whether to add horizontal dashed line at p_cutoff
