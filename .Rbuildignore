@@ -10,6 +10,7 @@
 ^vignettes/pvalues_example.rdata$
 ^_pkgdown\.yml$
 ^docs$
+^Outputs$
 ^pkgdown$
 ^cran-comments\.md$
 Logo.png
@@ -17,3 +18,5 @@ Logo.png
 ^doc$
 ^Meta$
 .travis.yml
+^.*\.icloud
+^CRAN-RELEASE$
