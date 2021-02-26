@@ -5,3 +5,8 @@ r:
   - devel
 
 warnings_are_errors: false
+
+os:
+  - linux
+  - osx
+  - windows
