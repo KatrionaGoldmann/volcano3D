@@ -32,12 +32,12 @@ navbar:
           href: articles/pvalues_generator.html
         - text: "Using Volcano3D to create Shiny Apps"
           href: articles/shiny_builder.html
-    - icon: fa-newspaper-o
+    - icon: fas fa-newspaper
       text: "news"
       href: news/index.html
-    - icon: fa-file-code-o
+    - icon: far fa-file-code
       text: "Reference Manual"
       href: reference/index.html
-    - icon: fa-github fa-lg
+    - icon: fab fa-github
       text: "github"
       href: https://github.com/KatrionaGoldmann/volcano3D
