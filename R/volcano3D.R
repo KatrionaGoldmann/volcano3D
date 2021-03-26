@@ -54,6 +54,12 @@
 #' @param xy_aspectratio The aspect ratio for the xy axis compared to z
 #' (default = 1). Decreasing this makes the grid wider in the plot window. 
 #' @param plot_height The plot height in px. Default=700. 
+#' @param camera_eye The (x,y,z) components of the 'eye' camera vector. This 
+#' vector determines the view point about the origin of this scene.
+#' @param source a character string of length 1. Match the value of this string 
+#' with the source argument in \code{\link[plotly]{event_data}} to retrieve the 
+#' event data corresponding to a specific plot (shiny apps can have multiple 
+#' plots).
 #' @param ... Optional parameters to pass to \code{\link{polar_grid}}.
 #' @return Returns a cylindrical 3D plotly plot featuring variables on a 
 #' tri-axis radial graph with the -log10(multi-group test p-value) on the 
@@ -115,6 +121,8 @@ volcano3D <- function(polar,
                       z_aspectratio = 1, 
                       xy_aspectratio = 1,
                       plot_height = 700,
+                      camera_eye = list(x=1.25, y=1.25, z=1.25),
+                      source="volcano3D",
                       ...){
     
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
@@ -286,7 +294,7 @@ volcano3D <- function(polar,
             colors = switch(colour_scale,
                             "discrete" = colours,
                             "continuous" = NULL),
-            type = "scatter3d", mode = "markers") %>%
+            type = "scatter3d", mode = "markers", source = source) %>%
         
         # Add the cylindrical grid
         add_trace(x = polar_grid$x, y = polar_grid$y, z = polar_grid$z, 
@@ -335,14 +343,16 @@ volcano3D <- function(polar,
         plot_bgcolor = 'rgba(0, 0, 0, 0)',
         
         scene = list(
-            aspectratio = list(x = xy_aspectratio, 
-                               y = xy_aspectratio, 
+            camera = list(eye = camera_eye),
+            aspectratio = list(x = xy_aspectratio,
+                               y = xy_aspectratio,
                                z = z_aspectratio),
             dragmode = "turntable",
             xaxis = axis_settings_xy,
             yaxis = axis_settings_xy,
             zaxis = axis_settings,
-            annotations = annot),
+            annotations = annot
+            ),
         xaxis = list(title = "x"),
         yaxis = list(title = "y")
     )

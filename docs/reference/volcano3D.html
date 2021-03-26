@@ -90,7 +90,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
       </span>
     </div>
 
@@ -194,6 +194,8 @@
   z_aspectratio <span class='op'>=</span> <span class='fl'>1</span>,
   xy_aspectratio <span class='op'>=</span> <span class='fl'>1</span>,
   plot_height <span class='op'>=</span> <span class='fl'>700</span>,
+  camera_eye <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>1.25</span>, y <span class='op'>=</span> <span class='fl'>1.25</span>, z <span class='op'>=</span> <span class='fl'>1.25</span><span class='op'>)</span>,
+  source <span class='op'>=</span> <span class='st'>"volcano3D"</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -324,6 +326,18 @@ The stats for all multi-group tests.</p></li>
     <tr>
       <th>plot_height</th>
       <td><p>The plot height in px. Default=700.</p></td>
+    </tr>
+    <tr>
+      <th>camera_eye</th>
+      <td><p>The (x,y,z) components of the 'eye' camera vector. This 
+vector determines the view point about the origin of this scene.</p></td>
+    </tr>
+    <tr>
+      <th>source</th>
+      <td><p>a character string of length 1. Match the value of this string 
+with the source argument in <code><a href='https://docs.ropensci.org/plotly/reference/event_data.html'>event_data</a></code> to retrieve the 
+event data corresponding to a specific plot (shiny apps can have multiple 
+plots).</p></td>
     </tr>
     <tr>
       <th>...</th>

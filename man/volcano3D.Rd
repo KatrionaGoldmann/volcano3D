@@ -29,6 +29,8 @@ volcano3D(
   z_aspectratio = 1,
   xy_aspectratio = 1,
   plot_height = 700,
+  camera_eye = list(x = 1.25, y = 1.25, z = 1.25),
+  source = "volcano3D",
   ...
 )
 }
@@ -109,6 +111,14 @@ The stats for all multi-group tests.
 (default = 1). Decreasing this makes the grid wider in the plot window.}
 
 \item{plot_height}{The plot height in px. Default=700.}
+
+\item{camera_eye}{The (x,y,z) components of the 'eye' camera vector. This 
+vector determines the view point about the origin of this scene.}
+
+\item{source}{a character string of length 1. Match the value of this string 
+with the source argument in \code{\link[plotly]{event_data}} to retrieve the 
+event data corresponding to a specific plot (shiny apps can have multiple 
+plots).}
 
 \item{...}{Optional parameters to pass to \code{\link{polar_grid}}.}
 }
