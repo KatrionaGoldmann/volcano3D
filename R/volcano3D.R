@@ -14,8 +14,14 @@
 #' to offset the continuous colour scale by. This is calculated by converting 
 #' the angle to a hue using \code{\link[grDevices]{hsv}} where 0 corresponds to
 #' the colour scale starting with red and 2 with magenta (default = 2). 
-#' @param axis_title_offset The position scaling between grid and axis titles 
+#' @param z_axis_title_offset The position scaling between grid and z axis title
 #' (default=1.2)
+#' @param radial_axis_title_offset The position scaling between grid and radial 
+#' axis title (default=1)
+#' @param z_axis_title_size The font size for the z axis title (default=15)
+#' @param radial_axis_title_size The font size for the radial (default=15)
+#' @param axis_width The width of axis lines (default=2)
+#' @param grid_width The width of the grid lines (default=2)
 #' @param label_rows A vector of row names or numbers to label.
 #' @param arrow_length The length of label arrows (default = 50).
 #' @param grid An optional grid object. If NULL this will be calculated using 
@@ -102,7 +108,12 @@ volcano3D <- function(polar,
                       non_sig_colour = "grey60",
                       colour_scale = "discrete",
                       continuous_shift = 1.33, 
-                      axis_title_offset = 1.2,
+                      z_axis_title_offset = 1.2,
+                      radial_axis_title_offset = 1,
+                      z_axis_title_size = 15,
+                      radial_axis_title_size = 15, 
+                      axis_width = 2,
+                      grid_width = 2,
                       label_rows = c(),
                       grid = NULL, 
                       fc_or_zscore = "zscore",
@@ -277,8 +288,8 @@ volcano3D <- function(polar,
         })
     } else {annot <- list()}
     
-    axis_settings_xy[['range']] <- c(-1.05*axis_title_offset*(grid@r+1), 
-                                     1.05*axis_title_offset*(grid@r+1))
+    axis_settings_xy[['range']] <- c(-1.05*z_axis_title_offset*(grid@r+1), 
+                                     1.05*z_axis_title_offset*(grid@r+1))
     
     plot_ly(data = volcano_toptable, x = ~x, y = ~y, z = ~logP,
             marker = list(size = marker_size, sizemode = 'diameter', 
@@ -298,41 +309,46 @@ volcano3D <- function(polar,
         
         # Add the cylindrical grid
         add_trace(x = polar_grid$x, y = polar_grid$y, z = polar_grid$z, 
-                  color = I(grid_colour), line = list(width = 2),
+                  color = I(grid_colour), line = list(width = grid_width),
                   showlegend = FALSE, type = "scatter3d", mode = "lines", 
                   hoverinfo = "none",inherit = FALSE) %>%
         
         # Horizontal axes
         add_trace(x = axes$x, y = axes$y, z = 0, color = I(axis_colour),
-                  line = list(width = 2), showlegend = FALSE, 
+                  line = list(width = axis_width), showlegend = FALSE, 
                   type = "scatter3d", mode = "lines", hoverinfo = "none", 
                   inherit = FALSE) %>%
-        add_text(x = axis_labels$x*axis_title_offset, 
-                 y = axis_labels$y*axis_title_offset, 
+        add_text(x = radial_axis_title_offset*axis_labels$x*z_axis_title_offset, 
+                 y = radial_axis_title_offset*axis_labels$y*z_axis_title_offset, 
                  z = 0, text = levels(polar@sampledata[, polar@contrast]),
                  color = I(axis_colour), type = "scatter3d", mode = "text", 
-                 textfont = list(size = 16), textposition = 'middle center', 
+                 textfont = list(size = radial_axis_title_size), 
+                 textposition = 'middle center', 
                  hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
+        
         # label z axis
-        add_text(x = c(rep(1.05*axis_title_offset*R*sinpi(axis_angle), 
+        add_text(x = c(rep(1.05*z_axis_title_offset*R*sinpi(axis_angle), 
                            grid@n_z_breaks), 
                        1.2*R*sinpi(axis_angle)),
-                 y = c(rep(1.05*axis_title_offset*R*cospi(axis_angle), 
+                 y = c(rep(1.05*z_axis_title_offset*R*cospi(axis_angle), 
                            grid@n_z_breaks), 
                        1.2*R*cospi(axis_angle)),
                  z = c(grid@z_breaks, h/2)*0.95,
                  text = c(grid@z_breaks, '-log<sub>10</sub>P'),
-                 textposition = 'middle left', textfont = list(size = 10),  
+                 textposition = 'middle left', 
+                 textfont = list(size = z_axis_title_size),  
                  color = I(axis_colour), hoverinfo = 'none', 
                  showlegend = FALSE, inherit = FALSE) %>%
         
         add_trace(x = R*sinpi(axis_angle), y = R*cospi(axis_angle), 
-                  z = c(0, h), color = I(axis_colour),line = list(width = 2), 
+                  z = c(0, h), color = I(axis_colour),
+                  line = list(width = axis_width), 
                   showlegend = FALSE, type = "scatter3d", mode = "lines",
                   hoverinfo = "none", inherit = FALSE) %>%
         
         # label radial axis
-        add_text(x = grid@text_coords$x, y = grid@text_coords$y, z = 0.05,
+        add_text(x = grid@text_coords$x, 
+                 y = grid@text_coords$y, z = 0.05,
                  text = grid@text_coords$text, textposition = 'top center', 
                  textfont = list(size = 10), color = I(axis_colour), 
                  hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
