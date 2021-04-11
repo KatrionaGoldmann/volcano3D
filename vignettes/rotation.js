@@ -16,6 +16,16 @@ function(el) {
 
   function rotate(id, angle) {
     var eye0 = el.layout[id].camera.eye;
+    console.log(eye0);
+    if(! eye0) {
+      eye0 = {
+        x: 1,
+        y: 1,
+        z: 1
+      };
+    }
+    console.log(eye0);
+    
     var rtz = xyz2rtz(eye0);
     rtz.t += angle;
     var eye1 = rtz2xyz(rtz);
