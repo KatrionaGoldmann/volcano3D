@@ -1,0 +1,117 @@
+---
+title: "volcano4D"
+author: "Katriona Goldmann"
+output: rmarkdown::html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+## volcano4D
+
+This script allows you to rotate the volcano3D plot. The 4th dimension being time. 
+
+First load in the necessary libraries:
+
+```{r}
+library(plotly)
+library(volcano3D)
+# install_github("KatrionaGoldmann/volcano3Ddata")
+library(volcano3Ddata)
+```
+
+Next load in the data and calculate the polar coordinates: 
+
+```{r}
+data(syn_data)
+
+polar <- polar_coords(sampledata = syn_metadata, 
+                      contrast="Pathotype", 
+                      syn_pvalues, 
+                      p_col_suffix="pvalue",
+                      multi_group_prefix = "LRT",
+                      syn_rld)
+```
+
+Set up the start/stop icons (using svg paths):
+
+```{r}
+rotate_icon_path <- "M19.432,7.157c-0.312-1.113-1.624-1.858-3.496-2.17c0.279,0.331,0.532,0.685,0.754,1.06c1.043,0.299,1.748,0.764,1.911,1.344c0.095,0.335,0.014,0.729-0.24,1.169c-0.274,0.476-0.768,1.007-1.455,1.542c0-0.034,0.005-0.067,0.005-0.101c0-3.816-3.094-6.91-6.91-6.91c-3.816,0-6.91,3.094-6.91,6.91c0,1.169,0.293,2.268,0.805,3.232c-1.366-0.277-2.303-0.805-2.495-1.487c-0.094-0.336-0.013-0.729,0.241-1.169c0.138-0.239,0.35-0.496,0.595-0.756c0.011-0.449,0.055-0.89,0.138-1.317c-1.398,1.144-2.112,2.386-1.805,3.476c0.338,1.205,1.845,1.98,3.968,2.24C5.8,15.854,7.774,16.91,10,16.91c3.389,0,6.201-2.44,6.791-5.659C18.735,9.951,19.795,8.448,19.432,7.157 M10,16.047c-1.651,0-3.147-0.664-4.238-1.738c0.147,0.005,0.295,0.008,0.447,0.008c1.502,0,3.195-0.212,4.941-0.658c1.734-0.443,3.297-1.064,4.595-1.776C14.952,14.299,12.682,16.047,10,16.047 M15.998,10.733c-1.27,0.797-2.973,1.554-5.062,2.088c-1.616,0.414-3.251,0.632-4.727,0.632c-0.427,0-0.827-0.025-1.213-0.061C4.338,12.425,3.954,11.258,3.954,10c0-3.339,2.707-6.046,6.046-6.046c3.34,0,6.047,2.708,6.047,6.046C16.047,10.249,16.027,10.492,15.998,10.733"
+
+stop_icon_path <- "M512 512H0V0h512v512z"
+```
+
+In this example we create a [customised modebar button](https://plotly-r.com/control-modebar.html) which can start and stop the rotation. This uses a function with parameters gd (the plotly graph) and ev (the button's click event). We simply toggle the spinning with each click of the button by updating the button's data-val attribute: 
+
+```{r}
+rotate_button <- list(
+  name = "rotate",
+  title = 'Rotate',
+  icon= list(
+    path = rotate_icon_path,
+    transform = 'scale(0.84) translate(-1, 0)'
+  ),
+  val=FALSE, 
+  attr='rotating',
+  click = htmlwidgets::JS(paste0('
+                          function(gd, ev) {
+                          var button = ev.currentTarget;
+                          var val = eval(button.getAttribute("data-val") || true);
+                          
+                          // update whether to rotate
+                          button.setAttribute("data-val", ! val);
+                          
+                          // update the title and logo
+                          var title = button.getAttribute("data-title")
+                          if(title == "Rotate"){
+                            $("[data-title=\'Rotate\'] svg path").css("fill", "tomato");
+                            button.firstElementChild.firstElementChild.setAttribute("d","', stop_icon_path, '");
+                            button.setAttribute("data-title", "Stop");
+                            
+                          } else {
+                            $("[data-title=\'Stop\'] svg path").css("fill", "lightgreen");
+                            button.firstElementChild.firstElementChild.setAttribute("d","', rotate_icon_path, '");
+                            button.setAttribute("data-title", "Rotate");
+                          }
+                          }
+                          ')))
+
+```
+
+Create the volcano3D plot:
+
+```{r}
+p = volcano3D(polar,
+              id = "dummy",
+              axis_title_offset = 1, 
+              marker_outline_width=0.01, 
+              xy_aspectratio = 1.5, 
+              z_aspectratio = 0.8,
+              plot_height = 400,
+              source="volcano", 
+              camera_eye=list(x = 0.18, y = 1.305, z = 0.99)) %>% 
+  config(modeBarButtonsToRemove = list("orbitRotation"),
+         modeBarButtonsToAdd = list(rotate_button))
+```
+
+Lastly we attach an [onRender function](https://plotly-r.com/js-event-handlers.html) to add custom javascript code for the rotation (see [rotation.js](./rotation.js)). 
+
+This rotate script was originally discussed by Étienne Tétreault-Pinard  [here](https://community.plotly.com/t/simple-3d-surface-rotate/5807) and the source code can be found [here](https://codepen.io/etpinard/pen/mBVVyE?editors=0010). The spinning is turned on by the data-val attribute from the rotate_button. 
+
+To check this out hover over the plot and click on the last modebar button:
+
+```{r}
+p %>% htmlwidgets::onRender(readLines("./rotation.js"))
+```
+
+
+For more details you can check out these links: 
+
+- [Customising the modebar](https://plotly-r.com/control-modebar.html)
+- [onRender function](https://plotly-r.com/js-event-handlers.html)
+- [Rotation Script](./rotation.js)
+- [Trigerring modebar Actions from other elemenets](https://community.plotly.com/t/how-to-trigger-a-modebar-action-from-somewhere-else/2663/6)
+- [Creating custom icons](https://stackoverflow.com/questions/59166851/make-a-custom-modebar-button-icon-in-plotly-graphs)
+- [Updating nodes in javascript](https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_node_childnodes2)
+
