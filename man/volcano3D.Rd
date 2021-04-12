@@ -10,7 +10,12 @@ volcano3D(
   non_sig_colour = "grey60",
   colour_scale = "discrete",
   continuous_shift = 1.33,
-  axis_title_offset = 1.2,
+  z_axis_title_offset = 1.2,
+  radial_axis_title_offset = 1,
+  z_axis_title_size = 15,
+  radial_axis_title_size = 15,
+  axis_width = 2,
+  grid_width = 2,
   label_rows = c(),
   grid = NULL,
   fc_or_zscore = "zscore",
@@ -53,8 +58,19 @@ to offset the continuous colour scale by. This is calculated by converting
 the angle to a hue using \code{\link[grDevices]{hsv}} where 0 corresponds to
 the colour scale starting with red and 2 with magenta (default = 2).}
 
-\item{axis_title_offset}{The position scaling between grid and axis titles 
+\item{z_axis_title_offset}{The position scaling between grid and z axis title
 (default=1.2)}
+
+\item{radial_axis_title_offset}{The position scaling between grid and radial 
+axis title (default=1)}
+
+\item{z_axis_title_size}{The font size for the z axis title (default=15)}
+
+\item{radial_axis_title_size}{The font size for the radial (default=15)}
+
+\item{axis_width}{The width of axis lines (default=2)}
+
+\item{grid_width}{The width of the grid lines (default=2)}
 
 \item{label_rows}{A vector of row names or numbers to label.}
 

@@ -1,10 +1,21 @@
 /* Toggles spinning based on action button event
 */
-function(el) {
+function plot_rotate(el) {
+  // Update the colour of the rotate button
   $("[data-title='Rotate'] svg path").css("fill", "#7ac143");
+  
+   // get the last button added (-2 because of plotly button and 0 index)
+  let buttons = document.getElementsByClassName("modebar-btn");
+  let titles = Array();
+  for (let i = 0; i < buttons.length; i++) {
+     titles.push(buttons[i].getAttribute('data-title'));
+  }
+  var useIndex = titles.indexOf('Rotate');
+  
+  //Rotate the plot  
   function run() {
-    var modeBarButtons = document.getElementsByClassName("modebar-btn")[7];
-    var shouldRotate = eval(modeBarButtons.getAttribute("data-val"));
+    var modeBarButtons = document.getElementsByClassName("modebar-btn")[useIndex];
+    var shouldRotate = (modeBarButtons.getAttribute("data-val") == 'true');
 
     if (shouldRotate) {
       rotate("scene", Math.PI / 180);
