@@ -92,6 +92,7 @@ polar_grid <- function(r_vector = NULL,
                        z_axis_ticks = NULL,
                        axis_angle = 5/6,
                        n_spokes = 12,
+                       axes_from_origin = FALSE,
                        ...){
 
   if(is.null(r_axis_ticks)) {
@@ -158,16 +159,28 @@ polar_grid <- function(r_vector = NULL,
   polar_grid <- rbind(polar_grid_top, cylindrical_grid, cylinder)
 
   # Add the three axes
-  axes <- data.frame(
-    x = unlist(lapply(0:2, function(i){
-      c(max(r_breaks)/n_r_breaks*cospi(i*2/3),
-        rep(max(r_breaks)*cospi(i*2/3), 2), NA)
+    if (axes_from_origin){
+    axes <- data.frame(
+      x = unlist(lapply(0:2, function(i) {
+      c(0, rep(max(r_breaks) * cospi(i * 2/3), 2), NA)
     })),
-    y = unlist(lapply(0:2, function(i){
-      c(max(r_breaks)/n_r_breaks*sinpi(i*2/3),
-        rep(max(r_breaks)*sinpi(i*2/3), 2), NA)
+      y = unlist(lapply(0:2, function(i) {
+      c(0, rep(max(r_breaks) * sinpi(i * 2/3), 2), NA)
     })),
-    z = rep(c(0, 0, mz, NA), 3))
+      z = rep(c(0, 0, mz, NA), 3))
+  }
+  else {
+    axes <- data.frame(
+      x = unlist(lapply(0:2, function(i) {
+      c(max(r_breaks)/n_r_breaks * cospi(i * 2/3), rep(max(r_breaks) * 
+                                                         cospi(i * 2/3), 2), NA)
+    })),
+      y = unlist(lapply(0:2, function(i) {
+      c(max(r_breaks)/n_r_breaks * sinpi(i * 2/3), rep(max(r_breaks) * 
+                                                         sinpi(i * 2/3), 2), NA)
+    })),
+      z = rep(c(0, 0, mz, NA), 3))
+  }
   radial_spokes <- data.frame(x = rep(0,3),
                               y = rep(0,3),
                               xend = cospi(0:2 * 2/3),
