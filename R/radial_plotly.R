@@ -102,15 +102,17 @@ radial_plotly <- function(polar,
                           label_colour = NULL,
                           hover_text = "label",
                           grid_colour = "grey80", 
-                          axis_colour = "black",
                           marker_size = 6,
                           marker_alpha = 0.7,
                           marker_outline_colour = "white",
                           marker_outline_width = 0.5,
+                          axis_colour = "black",
                           axis_title_size = 16,
                           axis_label_size = 10,
                           axis_ticks = NULL,
                           axis_angle = 5/6,
+                          axis_thickness = 2, 
+                          axes_on_origin = FALSE,
                           plot_height = 700,
                           plot_width = 700,
                           ...){
@@ -182,6 +184,7 @@ radial_plotly <- function(polar,
         grid <- polar_grid(r_vector = polar_df$r,
                            r_axis_ticks = NULL,
                            axis_angle = axis_angle,
+                           axes_from_origin = axes_on_origin,
                            ...)
     } else{
         if(class(grid) != "grid") stop('grid must be a grid object')
@@ -281,7 +284,7 @@ radial_plotly <- function(polar,
                   mode = "lines", hoverinfo = "none") %>%
         # add the "horizontal" axes
         add_trace(x = axes$x, y = axes$y, color = I(axis_colour),
-                  line = list(width = 2), showlegend = FALSE, type = "scatter",
+                  line = list(width = axis_thickness), showlegend = FALSE, type = "scatter",
                   mode = "lines", hoverinfo = "none", inherit = FALSE) %>%
         # add the label text
         add_text(x = axis_labs$x, y = axis_labs$y, 
