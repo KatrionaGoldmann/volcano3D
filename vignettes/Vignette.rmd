@@ -380,7 +380,8 @@ p
 Again, CRAN does not 
 support WebGL for the interactive 3D plot, however this can be viewed in the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html).
 
-![3D volcano plot](https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/gifs/volcano3d.gif)
+<img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/gifs/volcano3d.gif" align="center" alt="3D volcano plot" width="500" style="border: 0;"/>
+
 ## Volcano4D
 
 It is also possible to spin/rotate the plot (adding a 4th dimension) using the volcano4D function which adds a modeBar button: 
@@ -389,7 +390,7 @@ It is also possible to spin/rotate the plot (adding a 4th dimension) using the v
 volcano4D(p)
 ```
 
-![rotating volcano](https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/gifs/rotate.gif)
+<img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/gifs/rotate.gif" align="center" alt="rotating volcano plot" width="500" style="border: 0;"/>
 
 ## Saving Plotly Plots
 
