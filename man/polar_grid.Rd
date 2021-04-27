@@ -11,6 +11,7 @@ polar_grid(
   z_axis_ticks = NULL,
   axis_angle = 5/6,
   n_spokes = 12,
+  axes_from_origin = TRUE,
   ...
 )
 }
@@ -34,6 +35,9 @@ if z_vector is NULL).}
 (default = 5/6)}
 
 \item{n_spokes}{the number of outward spokes to be plotted (default = 12)}
+
+\item{axes_from_origin}{Whether the axis should start at 0 or the first 
+break (default=F)}
 
 \item{...}{optional parameters for \code{\link[base]{pretty}} on the r axis}
 }
