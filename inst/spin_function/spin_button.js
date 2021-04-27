@@ -1,6 +1,6 @@
 function spin_button(gd, ev) {
   var button = ev.currentTarget;
-  var val = eval(button.getAttribute("data-val") || true);
+  var val = (button.getAttribute("data-val") == 'true');
   
   // update whether to rotate
   button.setAttribute("data-val", ! val);

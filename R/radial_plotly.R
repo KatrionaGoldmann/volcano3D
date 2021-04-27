@@ -23,6 +23,7 @@
 #' @param fc_or_zscore Whether to use the z-score or fold change as magnitude.
 #' Options are 'zscore' (default) or 'fc'.
 #' @param label_size Font size of labels/annotations (default = 14)
+#' @param colour_code_labels Logical whether label annotations should be colour
 #' coded. If FALSE label_colour is used.
 #' @param label_colour HTML colour of annotation labels if not colour coded. 
 #' @param hover_text A character string containing the argument for hover text

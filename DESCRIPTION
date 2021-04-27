@@ -2,7 +2,7 @@ Package: volcano3D
 Type: Package
 Title: Interactive Plotting of Three-Way Differential Expression
         Analysis
-Version: 1.2.0
+Version: 1.3.0
 Authors@R: c(person("Katriona", "Goldmann", role = c("aut", "cre"),
                        email = "k.goldmann@qmul.ac.uk",
                        comment = c(ORCID = "0000-0002-9073-6323")),
@@ -26,10 +26,10 @@ Imports:
     ggplot2,
     ggpubr,
     ggrepel,
+    htmlwidgets,
     methods
 Suggests:
     knitr,
     rmarkdown,
     kableExtra,
-    usethis,
-    htmlwidgets
+    usethis

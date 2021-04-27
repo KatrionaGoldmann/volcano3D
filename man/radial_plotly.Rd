@@ -65,7 +65,9 @@ the default values of \code{\link{polar_grid}}.}
 \item{fc_or_zscore}{Whether to use the z-score or fold change as magnitude.
 Options are 'zscore' (default) or 'fc'.}
 
-\item{label_size}{Font size of labels/annotations (default = 14)
+\item{label_size}{Font size of labels/annotations (default = 14)}
+
+\item{colour_code_labels}{Logical whether label annotations should be colour
 coded. If FALSE label_colour is used.}
 
 \item{label_colour}{HTML colour of annotation labels if not colour coded.}

@@ -18,9 +18,9 @@ radial_ggplot(
   colour_code_labels = TRUE,
   label_colour = NULL,
   grid_colour = "grey80",
-  grid_width = 1,
+  grid_width = 0.7,
   axis_colour = "black",
-  axis_width = 2,
+  axis_width = 1,
   axis_title_size = 5,
   axis_label_size = 3,
   marker_alpha = 0.7,
@@ -71,11 +71,11 @@ coded. If FALSE label_colour is used.}
 
 \item{grid_colour}{The colour of the grid (default="grey80")}
 
-\item{grid_width}{The width of the axis lines (default=1)}
+\item{grid_width}{The width of the axis lines (default=0.6)}
 
 \item{axis_colour}{The colour of the grid axes and labels (default="black")}
 
-\item{axis_width}{The width of the axis lines (default=2)}
+\item{axis_width}{The width of the axis lines (default=1)}
 
 \item{axis_title_size}{Font size for axis titles (default = 5)}
 

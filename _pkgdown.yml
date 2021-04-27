@@ -32,8 +32,6 @@ navbar:
           href: articles/pvalues_generator.html
         - text: "Using Volcano3D to create Shiny Apps"
           href: articles/shiny_builder.html
-        - text: "volcano4D: rotating plots"
-          href: articles/volcano4D.html
     - icon: fas fa-newspaper
       text: "news"
       href: news/index.html

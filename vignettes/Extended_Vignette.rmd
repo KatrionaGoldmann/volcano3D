@@ -24,14 +24,7 @@ library(kableExtra)
 source("https://gist.githubusercontent.com/KatrionaGoldmann/3d6dfd6aa4cc5c3940bb72dc49beae02/raw/26e78c78a7a9d096d695c708e8a45830a1d1121a/render_toc.R")
 ```
 
-<img src="../logo.png" align="right" alt="" width="200" style="border: 0;" />
-
-```{r toc, echo = FALSE}
-render_toc("./Extended_Vignette.rmd")
-```
-
-
----
+<img src="../logo.png" align="right" alt="" width="200" style="border: 0; margin: 5px;" />
 
 # Introduction 
 
@@ -343,7 +336,7 @@ syn_plots$All
 ```
 
 These use the pvalue column to colour-code significance. Alternatively we can use 
-the adjusted pvalues (right) if right: 
+the adjusted pvalues (right): 
 
 ```{r, fig.height=2.8, fig.width=6.6}
 p <- volcano_trio(polar = syn_polar,
@@ -351,30 +344,30 @@ p <- volcano_trio(polar = syn_polar,
                   colours = c('green3', 'cyan',  'blue', 
                               'purple', 'red', 'gold2', 'grey60'),
                   text_size = 9,
-                  marker_size=1.5,
+                  marker_size=2,
                   shared_legend_size = 0.9,
                   label_rows = c("SLAMF6", "PARP16", "ITM2C"),
                   fc_line = FALSE,
                   p_line = TRUE,
                   share_axes = FALSE, 
-                  marker_outline_colour="black")
+                  marker_outline_colour="black") 
 
 padj <- volcano_trio(polar = syn_polar,
                      colour_scheme="upregulated",
                      colours = c('green3', 'cyan',  'blue', 
                                  'purple', 'red', 'gold2', 'grey60'),
                      text_size = 9,
-                     marker_size=1.5,
+                     marker_size=2,
                      shared_legend_size = 0.9,
                      label_rows = c("SLAMF6", "PARP16", "ITM2C"),
                      fc_line = FALSE,
                      p_line = TRUE,
                      share_axes = FALSE, 
                      marker_outline_colour="black", 
-                     cutoff_criteria = "padj")
+                     cutoff_criteria = "padj") 
 
-ggarrange(p$Fibroid_Lymphoid + labs(subtitle="Pvalue cutoff"), 
-          padj$Fibroid_Lymphoid + labs(subtitle="Adjusted pvalue cutoff"), 
+ggarrange(p$Fibroid_Lymphoid + labs(subtitle="Pvalue cutoff") + lims(x=c(-10, 10)), 
+          padj$Fibroid_Lymphoid + labs(subtitle="Adjusted pvalue cutoff") + lims(x=c(-10, 10)), 
           common.legend = T)
 ```
 
@@ -511,33 +504,42 @@ differential gene expression onto cylindrical coordinates.
 p <- volcano3D(syn_polar,
                label_rows = c("SLAMF6", "PARP16", "ITM2C"),
                label_size = 10,
-               axis_title_offset = 1.3,
+               radial_axis_title_offset = 1.1,
+               z_axis_title_offset = 1.2,
                colour_code_labels = F,
                label_colour = "black",
-               xy_aspectratio = 1,
+               xy_aspectratio = 1.2,
                z_aspectratio = 0.9, 
                axes_from_origin=FALSE,  
-               plot_height = 800)
+               plot_height = 500)
 
 p
 ```
+
 
 We can alter the colour code using the colours parameter. These are assigned in 
 order group1+, group1+group2+, group2+, group2+group3+, group3+, group1+group3+.
 
 ```{r, fig.width=7}
-p <- volcano3D(syn_polar,
+volcano3D(syn_polar,
                label_rows = c("SLAMF6", "PARP16", "ITM2C"),
                label_size = 10,
-               xy_aspectratio = 1,
+               xy_aspectratio = 1.2,
                z_aspectratio = 0.9, 
                colours = c("grey60", "grey60", "blue", 
                            "grey60", "grey60", "grey60"), 
                hover_text = "paste0(Name, '\n', sig)",
-               plot_height=800)
-
-p 
+               plot_height=500)
 ```
+
+## Volcano4D: Rotating plots
+
+In order to rotate/spin your 3D volcano plot you can use the `volcano4D` function. This adds a button to the plotly modeBar (hover top right) which allows you to rotate the plot. 
+
+```{r, fig.width=7}
+volcano4D(p)
+```
+
 
 # Saving Plotly Plots
 
@@ -585,13 +587,13 @@ axes as well as the number of radial spokes (n_spokes). The default ticks are ca
 `pretty` function. This can be overwritten by passing tick points in
 r_axis_ticks and z_axis_ticks.
 
-For example, we can decrease the number of radial spokes to 4, while altering
-the z axis ticks:
+For example, we can decrease the number of radial spokes to 4, while altering the z axis ticks:
 
 ```{r}
 four_grid = polar_grid(r_vector=syn_polar@polar$r_zscore,
                        z_vector=NULL,
                        r_axis_ticks = NULL,
+                       axes_from_origin = FALSE, 
                        z_axis_ticks = c(0, 8, 16, 32),
                        n_spokes = 4)
 ```
@@ -607,7 +609,7 @@ p$cylindrical
 
 and pass it into the plotting functions:
 
-```{r, fig.width=7}
+```{r, fig.width=7, eval=FALSE}
 volcano3D(syn_polar,
           grid = four_grid,
           label_rows = c("SLAMF6", "PARP16", "ITM2C"),
@@ -633,7 +635,7 @@ To amend or reposition the plotly labels it is possible to use the editable para
 This allows you to move annotation features (labels), change text including 
 legends and titles. Click on a feature to change it:
 
-```{r, fig.height=4.5, fig.width=7}
+```{r, fig.height=4.5, fig.width=7, eval=FALSE}
 p = radial_plotly(polar = syn_polar, 
                   label_rows = c("SLAMF6", "PARP16", "ITM2C"))
 
@@ -691,7 +693,7 @@ syn_mod_polar <- polar_coords(sampledata = syn_metadata,
 
 ## Volcano Plots
 
-```{r, message = FALSE, fig.height=2.8, fig.width=7}
+```{r, message = FALSE, fig.height=2.8, fig.width=10}
 syn_mod_plots <- volcano_trio(polar = syn_mod_polar,
                               label_rows = c("M156.0", "M37.2"),
                               shared_legend_size = 1,
@@ -708,7 +710,7 @@ syn_mod_plots$All
 ## Radial Plots
 
 
-```{r, out.height="100%", out.width="90%", fig.height=8, fig.width=10}
+```{r, out.height="100%", out.width="90%", fig.height=8, eval=FALSE, fig.width=10}
 radial_plotly(polar = syn_mod_polar,
               axes_from_origin = FALSE, 
               label_rows = c("M156.0", "M37.2"))

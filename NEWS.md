@@ -1,6 +1,13 @@
 News
 =====
 
+# volcano3D 1.3.0
+###### 27/03/2021
+* Add volcano4D function for rotating/spinning volcano plots
+* Add axis and grid width parameters (grid\_width and axis\_width respectively) to radial\_plotly, radial\_ggplot and volcano3D
+* Add option (axes\_from\_origin) to allow axes to start from either the origin (default) or the first radial break in polar\_grid. 
+
+
 # volcano3D 1.2.0
 ###### 25/02/2021
 * Add argument for scene camera in volcano3D

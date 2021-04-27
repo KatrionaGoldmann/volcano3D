@@ -26,9 +26,9 @@
 #' coded. If FALSE label_colour is used.
 #' @param label_colour Colour of annotation labels if not colour coded
 #' @param grid_colour The colour of the grid (default="grey80")
-#' @param grid_width The width of the axis lines (default=1)
+#' @param grid_width The width of the axis lines (default=0.6)
 #' @param axis_colour The colour of the grid axes and labels (default="black")
-#' @param axis_width The width of the axis lines (default=2)
+#' @param axis_width The width of the axis lines (default=1)
 #' @param axis_title_size Font size for axis titles (default = 5)
 #' @param axis_label_size Font size for axis labels (default = 3)
 #' @param marker_alpha The alpha parameter for markers (default = 0.7)
@@ -85,9 +85,9 @@ radial_ggplot <- function(polar,
                           colour_code_labels = TRUE,
                           label_colour = NULL,
                           grid_colour = "grey80", 
-                          grid_width = 1,
+                          grid_width = 0.7,
                           axis_colour = "black",
-                          axis_width = 2,
+                          axis_width = 1,
                           axis_title_size = 5,
                           axis_label_size = 3,
                           marker_alpha = 0.7,

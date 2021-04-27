@@ -8,21 +8,72 @@ volcano4D(
   p,
   rotate_icon_path = NULL,
   stop_icon_path = NULL,
-  rotate_colour = "lightgreen",
-  stop_colour = "tomato"
+  rotate_colour = "#c7c7c7",
+  stop_colour = "#ff6347",
+  scale = "scale(0.4) translate(-4, -4)",
+  speed = 180,
+  shiny_event_names = c()
 )
 }
 \arguments{
 \item{p}{The volcano3D plot}
 
-\item{rotate_icon_path}{The icon path for rotation}
+\item{rotate_icon_path}{The svg icon path for rotation. If NULL a play 
+button is used}
 
-\item{stop_icon_path}{The icon path for stop button}
+\item{stop_icon_path}{The svg icon path for stop button. If NULL a pause 
+button is used}
 
-\item{rotate_colour}{The colour for the rotate button (default='lightgreen')}
+\item{rotate_colour}{The colour for the rotate button (default="#c7c7c7")}
 
-\item{stop_colour}{The colour for the stop button (default='tomato')}
+\item{stop_colour}{The colour for the stop button (default='#ff6347', 
+a.k.a 'tomato')}
+
+\item{scale}{Scaling for rotation button}
+
+\item{speed}{The rotation speed (default=180)}
+
+\item{shiny_event_names}{If using shiny, pass in any shiny event names which
+should stop rotation when triggered (e.g. shiny_event_names = c('replot'))}
+}
+\value{
+Returns a rotating cylindrical 3D plotly plot featuring variables on 
+a tri-axis radial graph with the -log10(multi-group test p-value) on the 
+z-axis
 }
 \description{
 Add mode bar button to rotate the plot
 }
+\examples{
+data(example_data)
+syn_polar <- polar_coords(sampledata = syn_example_meta,
+                          contrast = "Pathotype", 
+                          groups = NULL, 
+                          pvalues = syn_example_p, 
+                          expression = syn_example_rld, 
+                          p_col_suffix = "pvalue", 
+                          padj_col_suffix = "padj", 
+                          non_sig_name = "Not Significant", 
+                          multi_group_prefix = "LRT",
+                          significance_cutoff = 0.01, 
+                          fc_col_suffix='log2FoldChange',
+                          fc_cutoff = 0.3)
+
+p <- volcano3D(syn_polar, 
+    label_rows = c("FMOD", "LAMP5", "TNNT3"), 
+    xy_aspectratio = 1, 
+    label_size = 10, 
+    z_aspectratio = 0.9)
+    
+volcano4D(p)
+}
+\references{
+Lewis, Myles J., et al. (2019).
+\href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
+Molecular portraits of early rheumatoid arthritis identify clinical and 
+treatment response phenotypes.}
+\emph{Cell reports}, \strong{28}:9
+}
+\concept{volcanoplot}
+\keyword{hplot}
+\keyword{iplot}

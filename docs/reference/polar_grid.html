@@ -91,7 +91,7 @@ plot" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -178,6 +178,7 @@ plot</p>
   z_axis_ticks <span class='op'>=</span> <span class='cn'>NULL</span>,
   axis_angle <span class='op'>=</span> <span class='fl'>5</span><span class='op'>/</span><span class='fl'>6</span>,
   n_spokes <span class='op'>=</span> <span class='fl'>12</span>,
+  axes_from_origin <span class='op'>=</span> <span class='cn'>TRUE</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -215,6 +216,11 @@ if z_vector is NULL).</p></td>
     <tr>
       <th>n_spokes</th>
       <td><p>the number of outward spokes to be plotted (default = 12)</p></td>
+    </tr>
+    <tr>
+      <th>axes_from_origin</th>
+      <td><p>Whether the axis should start at 0 or the first 
+break (default = TRUE)</p></td>
     </tr>
     <tr>
       <th>...</th>

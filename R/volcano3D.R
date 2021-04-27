@@ -21,7 +21,7 @@
 #' @param z_axis_title_size The font size for the z axis title (default=15)
 #' @param radial_axis_title_size The font size for the radial (default=15)
 #' @param axis_width The width of axis lines (default=2)
-#' @param grid_width The width of the grid lines (default=1)
+#' @param grid_width The width of the grid lines (default=2)
 #' @param label_rows A vector of row names or numbers to label.
 #' @param arrow_length The length of label arrows (default = 50).
 #' @param grid An optional grid object. If NULL this will be calculated using 
@@ -113,7 +113,7 @@ volcano3D <- function(polar,
                       z_axis_title_size = 15,
                       radial_axis_title_size = 15, 
                       axis_width = 2,
-                      grid_width = 1,
+                      grid_width = 2,
                       label_rows = c(),
                       grid = NULL, 
                       fc_or_zscore = "zscore",
@@ -328,12 +328,12 @@ volcano3D <- function(polar,
             hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
         
         # label z axis
-        add_text(x = c(rep(1.05*z_axis_title_offset*R*sinpi(axis_angle), 
+        add_text(x = c(rep(1.05*R*sinpi(axis_angle), 
                            grid@n_z_breaks), 
-                       1.2*R*sinpi(axis_angle)),
-                 y = c(rep(1.05*z_axis_title_offset*R*cospi(axis_angle), 
+                       1.2*R*z_axis_title_offset*sinpi(axis_angle)),
+                 y = c(rep(1.05*R*cospi(axis_angle), 
                            grid@n_z_breaks), 
-                       1.2*R*cospi(axis_angle)),
+                       1.2*R*z_axis_title_offset*cospi(axis_angle)),
                  z = c(grid@z_breaks, h/2)*0.95,
                  text = c(grid@z_breaks, '-log<sub>10</sub>P'),
                  textposition = 'middle left', 
