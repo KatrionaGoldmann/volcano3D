@@ -15,7 +15,7 @@ volcano3D(
   z_axis_title_size = 15,
   radial_axis_title_size = 15,
   axis_width = 2,
-  grid_width = 2,
+  grid_width = 1,
   label_rows = c(),
   grid = NULL,
   fc_or_zscore = "zscore",
@@ -70,7 +70,7 @@ axis title (default=1)}
 
 \item{axis_width}{The width of axis lines (default=2)}
 
-\item{grid_width}{The width of the grid lines (default=2)}
+\item{grid_width}{The width of the grid lines (default=1)}
 
 \item{label_rows}{A vector of row names or numbers to label.}
 

@@ -21,7 +21,7 @@
 #' @param z_axis_title_size The font size for the z axis title (default=15)
 #' @param radial_axis_title_size The font size for the radial (default=15)
 #' @param axis_width The width of axis lines (default=2)
-#' @param grid_width The width of the grid lines (default=2)
+#' @param grid_width The width of the grid lines (default=1)
 #' @param label_rows A vector of row names or numbers to label.
 #' @param arrow_length The length of label arrows (default = 50).
 #' @param grid An optional grid object. If NULL this will be calculated using 
@@ -113,7 +113,7 @@ volcano3D <- function(polar,
                       z_axis_title_size = 15,
                       radial_axis_title_size = 15, 
                       axis_width = 2,
-                      grid_width = 2,
+                      grid_width = 1,
                       label_rows = c(),
                       grid = NULL, 
                       fc_or_zscore = "zscore",
@@ -318,13 +318,14 @@ volcano3D <- function(polar,
                   line = list(width = axis_width), showlegend = FALSE, 
                   type = "scatter3d", mode = "lines", hoverinfo = "none", 
                   inherit = FALSE) %>%
-        add_text(x = radial_axis_title_offset*axis_labels$x*z_axis_title_offset, 
-                 y = radial_axis_title_offset*axis_labels$y*z_axis_title_offset, 
-                 z = 0, text = levels(polar@sampledata[, polar@contrast]),
-                 color = I(axis_colour), type = "scatter3d", mode = "text", 
-                 textfont = list(size = radial_axis_title_size), 
-                 textposition = 'middle center', 
-                 hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
+        add_text(
+            x = radial_axis_title_offset*axis_labels$x*z_axis_title_offset, 
+            y = radial_axis_title_offset*axis_labels$y*z_axis_title_offset, 
+            z = 0, text = levels(polar@sampledata[, polar@contrast]),
+            color = I(axis_colour), type = "scatter3d", mode = "text", 
+            textfont = list(size = radial_axis_title_size), 
+            textposition = 'middle center', 
+            hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
         
         # label z axis
         add_text(x = c(rep(1.05*z_axis_title_offset*R*sinpi(axis_angle), 
@@ -352,25 +353,25 @@ volcano3D <- function(polar,
                  text = grid@text_coords$text, textposition = 'top center', 
                  textfont = list(size = 10), color = I(axis_colour), 
                  hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
-    
-    layout(
-        margin = list(0, 0, 0, 0),
-        paper_bgcolor = 'rgba(0, 0, 0, 0)',
-        plot_bgcolor = 'rgba(0, 0, 0, 0)',
         
-        scene = list(
-            camera = list(eye = camera_eye),
-            aspectratio = list(x = xy_aspectratio,
-                               y = xy_aspectratio,
-                               z = z_aspectratio),
-            dragmode = "turntable",
-            xaxis = axis_settings_xy,
-            yaxis = axis_settings_xy,
-            zaxis = axis_settings,
-            annotations = annot
+        layout(
+            margin = list(0, 0, 0, 0),
+            paper_bgcolor = 'rgba(0, 0, 0, 0)',
+            plot_bgcolor = 'rgba(0, 0, 0, 0)',
+            
+            scene = list(
+                camera = list(eye = camera_eye),
+                aspectratio = list(x = xy_aspectratio,
+                                   y = xy_aspectratio,
+                                   z = z_aspectratio),
+                dragmode = "turntable",
+                xaxis = axis_settings_xy,
+                yaxis = axis_settings_xy,
+                zaxis = axis_settings,
+                annotations = annot
             ),
-        xaxis = list(title = "x"),
-        yaxis = list(title = "y")
-    )
+            xaxis = list(title = "x"),
+            yaxis = list(title = "y")
+        )
 }
 

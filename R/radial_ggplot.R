@@ -24,13 +24,15 @@
 #' @param label_size Font size of labels/annotations (default = 5).
 #' @param colour_code_labels Logical whether label annotations should be colour
 #' coded. If FALSE label_colour is used.
-#' @param label_colour Colour of annotation labels if not colour coded. 
-#' @param grid_colour The colour of the grid (default="grey80"). 
-#' @param axis_colour The colour of the grid axes and labels (default="black").
+#' @param label_colour Colour of annotation labels if not colour coded
+#' @param grid_colour The colour of the grid (default="grey80")
+#' @param grid_width The width of the axis lines (default=1)
+#' @param axis_colour The colour of the grid axes and labels (default="black")
+#' @param axis_width The width of the axis lines (default=2)
 #' @param axis_title_size Font size for axis titles (default = 5)
 #' @param axis_label_size Font size for axis labels (default = 3)
-#' @param marker_alpha The alpha parameter for markers (default = 0.7).
-#' @param marker_size Size of the markers (default = 3).
+#' @param marker_alpha The alpha parameter for markers (default = 0.7)
+#' @param marker_size Size of the markers (default = 3)
 #' @param marker_outline_colour Colour for marker outline (default = white)
 #' @param marker_outline_width Width for marker outline (default = 0.5)
 #' @param axis_angle Angle for the radial axis labels in pi radians
@@ -83,7 +85,9 @@ radial_ggplot <- function(polar,
                           colour_code_labels = TRUE,
                           label_colour = NULL,
                           grid_colour = "grey80", 
+                          grid_width = 1,
                           axis_colour = "black",
+                          axis_width = 2,
                           axis_title_size = 5,
                           axis_label_size = 3,
                           marker_alpha = 0.7,
@@ -244,6 +248,7 @@ radial_ggplot <- function(polar,
     invisible(lapply(1:(length(rem)-1), function(g){
         p <<- p + geom_path(data = grid@polar_grid[(rem[g]+1):(rem[g+1]-1), ],
                   aes_string(x = "x", y = "y"),
+                  size=grid_width,
                   colour=grid_colour)
         }))
     
@@ -251,7 +256,8 @@ radial_ggplot <- function(polar,
     rem <- c(0, which(is.na(grid@axes$x) ))
     invisible(lapply(1:(length(rem)-1), function(g){
         p <<- p + geom_path(data = grid@axes[(rem[g]+1):(rem[g+1]-1), ],
-                            aes_string(x = "x", y = "y"), color=axis_colour)
+                            aes_string(x = "x", y = "y"), 
+                            size=axis_width, color=axis_colour)
     }))
     
 
@@ -312,7 +318,7 @@ radial_ggplot <- function(polar,
                     xlim = c(-grid@r, grid@r*1.25),
                     ylim = c(-grid@r, grid@r))
 
-    # Add any labelling desired
+    # Add any labeling desired
     if(! is.null(label_rows)){
         annotation_df$xend1 <- 0.9*annotation_df$xend
         annotation_df$yend1 <- 0.9*annotation_df$yend

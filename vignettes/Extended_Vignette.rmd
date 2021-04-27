@@ -9,13 +9,13 @@ vignette: >
   \VignetteEngine{knitr::knitr}
   \usepackage[utf8]{inputenc}
 ---
-  
+
 ```{r setup, include = FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE, 
-warning = FALSE, 
-message = FALSE, 
-fig.align = 'center',
-dev.args=list(bg="transparent")
+                      warning = FALSE, 
+                      message = FALSE, 
+                      fig.align = 'center',
+                      dev.args=list(bg="transparent")
 )
 
 
@@ -271,12 +271,12 @@ To subset and view objects of specific significance groups you can use the
 
 ```{r}
 pvalues_subset <- significance_subset(syn_polar, 
-                             significance = c("Lymphoid+", "Myeloid+"), 
-                             output="pvalues")
+                                      significance = c("Lymphoid+", "Myeloid+"), 
+                                      output="pvalues")
 
 polar_subset <- significance_subset(syn_polar, 
-                             significance = c("Lymphoid+", "Myeloid+"), 
-                             output="polar")
+                                    significance = c("Lymphoid+", "Myeloid+"), 
+                                    output="polar")
 
 head(pvalues_subset) %>%
   kable() %>%
@@ -516,6 +516,7 @@ p <- volcano3D(syn_polar,
                label_colour = "black",
                xy_aspectratio = 1,
                z_aspectratio = 0.9, 
+               axes_from_origin=FALSE,  
                plot_height = 800)
 
 p
@@ -709,6 +710,7 @@ syn_mod_plots$All
 
 ```{r, out.height="100%", out.width="90%", fig.height=8, fig.width=10}
 radial_plotly(polar = syn_mod_polar,
+              axes_from_origin = FALSE, 
               label_rows = c("M156.0", "M37.2"))
 ```
 

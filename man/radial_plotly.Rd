@@ -19,13 +19,15 @@ radial_plotly(
   label_colour = NULL,
   hover_text = "label",
   grid_colour = "grey80",
-  axis_colour = "black",
+  grid_width = 1,
   marker_size = 6,
   marker_alpha = 0.7,
   marker_outline_colour = "white",
   marker_outline_width = 0.5,
   axis_title_size = 16,
   axis_label_size = 10,
+  axis_colour = "black",
+  axis_width = 2,
   axis_ticks = NULL,
   axis_angle = 5/6,
   plot_height = 700,
@@ -63,9 +65,7 @@ the default values of \code{\link{polar_grid}}.}
 \item{fc_or_zscore}{Whether to use the z-score or fold change as magnitude.
 Options are 'zscore' (default) or 'fc'.}
 
-\item{label_size}{Font size of labels/annotations (default = 14)}
-
-\item{colour_code_labels}{Logical whether label annotations should be colour
+\item{label_size}{Font size of labels/annotations (default = 14)
 coded. If FALSE label_colour is used.}
 
 \item{label_colour}{HTML colour of annotation labels if not colour coded.}
@@ -87,13 +87,13 @@ paste0(multi_group_test, "_padj"),  paste0(multi_group_test, "_logFC"):
 The stats for all multi-group tests.
 }}
 
-\item{grid_colour}{The colour of the grid (default="grey80").}
+\item{grid_colour}{The colour of the grid (default="grey80")}
 
-\item{axis_colour}{The colour of the grid axes and labels (default="black").}
+\item{grid_width}{The width of the grid lines (default=1)}
 
-\item{marker_size}{Size of the markers (default = 6).}
+\item{marker_size}{Size of the markers (default = 6)}
 
-\item{marker_alpha}{Opacity for the markers (default = 0.7).}
+\item{marker_alpha}{Opacity for the markers (default = 0.7)}
 
 \item{marker_outline_colour}{Colour for marker outline (default = white)}
 
@@ -102,6 +102,10 @@ The stats for all multi-group tests.
 \item{axis_title_size}{Font size for axis titles (default = 16)}
 
 \item{axis_label_size}{Font size for axis labels (default = 10)}
+
+\item{axis_colour}{The colour of the grid axes and labels (default="black")}
+
+\item{axis_width}{The width of the axis lines (default=2)}
 
 \item{axis_ticks}{A numerical vector of radial axis tick breaks. If
 NULL this will be calculated using \code{\link[base]{pretty}}.}

@@ -23,7 +23,6 @@
 #' @param fc_or_zscore Whether to use the z-score or fold change as magnitude.
 #' Options are 'zscore' (default) or 'fc'.
 #' @param label_size Font size of labels/annotations (default = 14)
-#' @param colour_code_labels Logical whether label annotations should be colour
 #' coded. If FALSE label_colour is used.
 #' @param label_colour HTML colour of annotation labels if not colour coded. 
 #' @param hover_text A character string containing the argument for hover text
@@ -42,14 +41,16 @@
 #' paste0(multi_group_test, "_padj"),  paste0(multi_group_test, "_logFC"): 
 #' The stats for all multi-group tests.
 #' }
-#' @param grid_colour The colour of the grid (default="grey80"). 
-#' @param axis_colour The colour of the grid axes and labels (default="black").
-#' @param marker_size Size of the markers (default = 6).
-#' @param marker_alpha Opacity for the markers (default = 0.7).
+#' @param grid_colour The colour of the grid (default="grey80")
+#' @param grid_width The width of the grid lines (default=1)
+#' @param marker_size Size of the markers (default = 6)
+#' @param marker_alpha Opacity for the markers (default = 0.7)
 #' @param marker_outline_colour Colour for marker outline (default = white)
 #' @param marker_outline_width Width for marker outline (default = 0.5)
 #' @param axis_title_size Font size for axis titles (default = 16)
 #' @param axis_label_size Font size for axis labels (default = 10)
+#' @param axis_colour The colour of the grid axes and labels (default="black")
+#' @param axis_width The width of the axis lines (default=2)
 #' @param axis_ticks A numerical vector of radial axis tick breaks. If
 #' NULL this will be calculated using \code{\link[base]{pretty}}.
 #' @param axis_angle Angle in radians for the radial axis (default = 5/6).
@@ -102,13 +103,15 @@ radial_plotly <- function(polar,
                           label_colour = NULL,
                           hover_text = "label",
                           grid_colour = "grey80", 
-                          axis_colour = "black",
+                          grid_width = 1,
                           marker_size = 6,
                           marker_alpha = 0.7,
                           marker_outline_colour = "white",
                           marker_outline_width = 0.5,
                           axis_title_size = 16,
                           axis_label_size = 10,
+                          axis_colour = "black",
+                          axis_width = 2,
                           axis_ticks = NULL,
                           axis_angle = 5/6,
                           plot_height = 700,
@@ -277,11 +280,12 @@ radial_plotly <- function(polar,
                  source = "BOTH", showlegend = FALSE) %>%
         # add the grid
         add_trace(x = polar_grid$x, y = polar_grid$y, color = I(grid_colour),
-                  line = list(width = 1), showlegend = FALSE, type = "scatter",
-                  mode = "lines", hoverinfo = "none") %>%
+                  line = list(width = grid_width), showlegend = FALSE, 
+                  type = "scatter", mode = "lines", hoverinfo = "none") %>%
         # add the "horizontal" axes
         add_trace(x = axes$x, y = axes$y, color = I(axis_colour),
-                  line = list(width = 2), showlegend = FALSE, type = "scatter",
+                  line = list(width = axis_width), showlegend = FALSE, 
+                  type = "scatter",
                   mode = "lines", hoverinfo = "none", inherit = FALSE) %>%
         # add the label text
         add_text(x = axis_labs$x, y = axis_labs$y, 

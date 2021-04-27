@@ -18,7 +18,9 @@ radial_ggplot(
   colour_code_labels = TRUE,
   label_colour = NULL,
   grid_colour = "grey80",
+  grid_width = 1,
   axis_colour = "black",
+  axis_width = 2,
   axis_title_size = 5,
   axis_label_size = 3,
   marker_alpha = 0.7,
@@ -65,19 +67,23 @@ Options are 'zscore' (default) or 'fc'.}
 \item{colour_code_labels}{Logical whether label annotations should be colour
 coded. If FALSE label_colour is used.}
 
-\item{label_colour}{Colour of annotation labels if not colour coded.}
+\item{label_colour}{Colour of annotation labels if not colour coded}
 
-\item{grid_colour}{The colour of the grid (default="grey80").}
+\item{grid_colour}{The colour of the grid (default="grey80")}
 
-\item{axis_colour}{The colour of the grid axes and labels (default="black").}
+\item{grid_width}{The width of the axis lines (default=1)}
+
+\item{axis_colour}{The colour of the grid axes and labels (default="black")}
+
+\item{axis_width}{The width of the axis lines (default=2)}
 
 \item{axis_title_size}{Font size for axis titles (default = 5)}
 
 \item{axis_label_size}{Font size for axis labels (default = 3)}
 
-\item{marker_alpha}{The alpha parameter for markers (default = 0.7).}
+\item{marker_alpha}{The alpha parameter for markers (default = 0.7)}
 
-\item{marker_size}{Size of the markers (default = 3).}
+\item{marker_size}{Size of the markers (default = 3)}
 
 \item{marker_outline_colour}{Colour for marker outline (default = white)}
 
