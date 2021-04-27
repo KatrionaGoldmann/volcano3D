@@ -25,7 +25,6 @@ library(knitr)
 library(kableExtra)
 ```
 
-
 # volcano3D <img src="https://katrionagoldmann.github.io/volcano3D/logo.png" align="right" alt="" width="200" hspace="50" vspace="50" style="border: 0;"/>
 
 ```{r, echo=FALSE}
@@ -314,10 +313,9 @@ radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "GREM2", "FMOD"))
 
 <img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/radial_plotly.png" align="center" alt="" width="700" style="border: 0;"/>
 
+Unfortunately CRAN does not support interactive plotly in the vignette, but these can be viewed on the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html). When interactive, it is possible to identify genes for future interrogation by hovering over certain markers. Using the full example from the extended vignette gives:
 
-
-Unfortunately CRAN does not support interactive plotly in the vignette, but these can be viewed on the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html). When interactive, it is possible to identify genes for
-future interrogation by hovering over certain markers.
+<img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/gifs/radial.gif" align="center" alt="" width="700" style="border: 0;"/>
 
 Similarly a static ggplot image can be created using radial_ggplot:
 
@@ -364,8 +362,7 @@ ggarrange(plot1, plot2, plot3, ncol=3)
 ## Three Dimensional Volcano Plots
 
 Lastly, the 3D volcano plot can be used to project
-differential gene expression onto cylindrical coordinates. Again, CRAN does not 
-support WebGL for the interactive 3D plot, however this can be viewed in the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html).
+differential gene expression onto cylindrical coordinates. 
 
 ```{r, eval=FALSE, fig.height=5}
 p <- volcano3D(syn_polar,
@@ -379,6 +376,20 @@ p
 ```
 
 <img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/volcano3D.png" align="center" alt="" width="500" style="border: 0;"/>
+
+Again, CRAN does not 
+support WebGL for the interactive 3D plot, however this can be viewed in the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html).
+
+![3D volcano plot](https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/gifs/volcano3d.gif)
+## Volcano4D
+
+It is also possible to spin/rotate the plot (adding a 4th dimension) using the volcano4D function which adds a modeBar button: 
+
+```{r, eval=FALSE}
+volcano4D(p)
+```
+
+![rotating volcano](https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/gifs/rotate.gif)
 
 ## Saving Plotly Plots
 

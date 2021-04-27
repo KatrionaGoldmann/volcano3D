@@ -11,7 +11,8 @@ Outputs
 *.icloud
 cran-comments.md
 CRAN-RELEASE
-vignettes/*
+vignettes/*md
+vignettes/*html
 /doc/
 /Meta/
 *.png
