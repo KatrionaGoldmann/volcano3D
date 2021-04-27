@@ -46,7 +46,7 @@ setClass("grid", slots = list(
 #' (default = 5/6)
 #' @param n_spokes the number of outward spokes to be plotted (default = 12)
 #' @param axes_from_origin Whether the axis should start at 0 or the first 
-#' break (default=F)
+#' break (default = TRUE)
 #' @param ... optional parameters for \code{\link[base]{pretty}} on the r axis
 #' @return Returns an S4 grid object containing:
 #' \itemize{
