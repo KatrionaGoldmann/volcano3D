@@ -1,6 +1,12 @@
 News
 =====
 
+# volcano3D 1.3.1
+###### 20/09/2021
+* Enable cases where one comparison may be a substring of another
+* Allow instances with no significant features
+
+
 # volcano3D 1.3.0
 ###### 27/03/2021
 * Add volcano4D function for rotating/spinning volcano plots
