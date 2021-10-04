@@ -282,7 +282,7 @@ volcano3D <- function(polar,
             if(colour_code_labels) ac <- row$col else ac <- label_colour 
             annot <- list(x = row$x, y = row$y, z = row$logP, text = row$label, 
                           textangle = 0, ax = arrow_length, ay  = 0,
-                          arrowcolor = ac, font = list(color = ac),
+                          arrowcolor = ac, font = list(size = label_size, color = ac),
                           arrowwidth = 1, arrowhead = 6, arrowsize = 1.5, 
                           yanchor = "middle")
         })
