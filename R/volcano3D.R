@@ -327,13 +327,13 @@ volcano3D <- function(polar,
             textposition = 'middle center', 
             hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
         
-        # label z axis
+        # label z axis and draw three vertical axes
         add_text(x = c(rep(1.05*R*sinpi(axis_angle), 
                            grid@n_z_breaks), 
-                       1.2*R*z_axis_title_offset*sinpi(axis_angle)),
+                       1.2*R*sinpi(axis_angle)),
                  y = c(rep(1.05*R*cospi(axis_angle), 
                            grid@n_z_breaks), 
-                       1.2*R*z_axis_title_offset*cospi(axis_angle)),
+                       1.2*R*cospi(axis_angle)),
                  z = c(grid@z_breaks, h/2)*0.95,
                  text = c(grid@z_breaks, '-log<sub>10</sub>P'),
                  textposition = 'middle left', 
@@ -345,6 +345,20 @@ volcano3D <- function(polar,
                   z = c(0, h), color = I(axis_colour),
                   line = list(width = axis_width), 
                   showlegend = FALSE, type = "scatter3d", mode = "lines",
+                  hoverinfo = "none", inherit = FALSE) %>%
+  
+        add_trace(x = R * sin(pi*axis_angle + 2.0944),
+                y = R * cos(pi*axis_angle + 2.0944),
+                z = c(0, h),
+                color = I(axis_colour), line = list(width = axis_width),
+                showlegend = FALSE, type = "scatter3d", mode = "lines", 
+                hoverinfo = "none", inherit = FALSE) %>%
+  
+        add_trace(x = R * sin(pi*axis_angle + 2.0944 + 2.0944),
+                  y = R * cos(pi*axis_angle + 2.0944 + 2.0944),
+                  z = c(0, h), color = I(axis_colour),
+                  line = list(width = axis_width), showlegend = FALSE,
+                  type = "scatter3d", mode = "lines",
                   hoverinfo = "none", inherit = FALSE) %>%
         
         # label radial axis
