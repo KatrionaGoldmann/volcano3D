@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
       </span>
     </div>
 
@@ -111,7 +111,7 @@
 
       
 
-      </header><script src="Vignette_files/header-attrs-2.9/header-attrs.js"></script><script src="Vignette_files/kePrint-0.0.1/kePrint.js"></script><link href="Vignette_files/lightable-0.0.1/lightable.css" rel="stylesheet">
+      </header><script src="Vignette_files/header-attrs-2.11/header-attrs.js"></script><script src="Vignette_files/kePrint-0.0.1/kePrint.js"></script><link href="Vignette_files/lightable-0.0.1/lightable.css" rel="stylesheet">
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -142,7 +142,7 @@
 <li><a href="https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html">setting up the input pvalues data frame</a></li>
 <li><a href="https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html">using the volcano3D package to create and deploy a shiny app</a></li>
 </ul>
-<p> <a href="https://lifecycle.r-lib.org/articles/stages.html"><img src="https://img.shields.io/badge/lifecycle-stable-blue.svg" alt="Lifecycle: Stable"></a> <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html"><img src="https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg" alt="License: GPL v2"></a> <a href="https://cran.r-project.org/package=volcano3D"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a> <a href="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D"><img src="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange" alt="Downloads"></a> <a href="https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md"><img src="https://img.shields.io/badge/last%20commit-2021--09--20-turquoise.svg" alt="2021-09-20"></a> <a href="https://travis-ci.org/KatrionaGoldmann/volcano3D"><img src="https://travis-ci.org/KatrionaGoldmann/volcano3D.svg?branch=master" alt="Build Status"></a> <a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/"><img src="https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg" alt="GitHub issues"></a> <a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/"><img src="https://img.shields.io/travis/KatrionaGoldmann/volcano3D.svg" alt="build"></a></p>
+<p> <a href="https://lifecycle.r-lib.org/articles/stages.html"><img src="https://img.shields.io/badge/lifecycle-stable-blue.svg" alt="Lifecycle: Stable"></a> <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html"><img src="https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg" alt="License: GPL v2"></a> <a href="https://cran.r-project.org/package=volcano3D"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a> <a href="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D"><img src="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange" alt="Downloads"></a> <a href="https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md"><img src="https://img.shields.io/badge/last%20commit-2021--10--28-turquoise.svg" alt="2021-10-28"></a> <a href="https://travis-ci.org/KatrionaGoldmann/volcano3D"><img src="https://travis-ci.org/KatrionaGoldmann/volcano3D.svg?branch=master" alt="Build Status"></a> <a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/"><img src="https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg" alt="GitHub issues"></a> <a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/"><img src="https://img.shields.io/travis/KatrionaGoldmann/volcano3D.svg" alt="build"></a></p>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting Started</h2>
@@ -863,8 +863,7 @@ Lymphoid+Myeloid+
                plot_height <span class="op">=</span> <span class="fl">700</span><span class="op">)</span>
 <span class="va">p</span></code></pre></div>
 <p><img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/volcano3D.png" align="center" alt="" width="500" style="border: 0;"></p>
-<p>Again, CRAN does not support WebGL for the interactive 3D plot, however this can be viewed in the <a href="https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html">extended vignette</a> e.g.:</p>
-<p><img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/gifs/volcano3d.gif" align="center" alt="3D volcano plot" width="500" style="border: 0;"></p>
+<p>Again, CRAN does not support WebGL for the interactive 3D plot, however this can be viewed in the <a href="https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html">extended vignette</a>.</p>
 </div>
 <div id="volcano4d" class="section level2">
 <h2 class="hasAnchor">
@@ -883,7 +882,7 @@ Lymphoid+Myeloid+
 <a href="#static-images" class="anchor"></a>Static Images</h3>
 <p>There are a few ways to save plotly plots as static images. Firstly plotly offers a download button ( <i class="fa fa-camera" aria-hidden="true"></i> ) in the figure mode bar (appears top right). By default this saves images as png, however it is possible to convert to svg, jpeg or webp using:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p</span> <span class="op">%&gt;%</span> <span class="fu">plotly</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/plotly/reference/config.html">config</a></span><span class="op">(</span>toImageButtonOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"svg"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">p</span> <span class="op">%&gt;%</span> <span class="fu">plotly</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plotly/man/config.html">config</a></span><span class="op">(</span>toImageButtonOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"svg"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Alternatively, if orca command-line utility is installed, this can also be used to save plotly images. To install follow the instructions <a href="https://github.com/plotly/orca#installation">here</a>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">orca</span><span class="op">(</span><span class="va">p</span>, <span class="st">"./volcano_3d_synovium.svg"</span>, format <span class="op">=</span> <span class="st">"svg"</span><span class="op">)</span></code></pre></div>

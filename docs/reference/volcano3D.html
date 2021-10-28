@@ -90,7 +90,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
       </span>
     </div>
 
@@ -179,6 +179,7 @@
   radial_axis_title_offset <span class='op'>=</span> <span class='fl'>1</span>,
   z_axis_title_size <span class='op'>=</span> <span class='fl'>15</span>,
   radial_axis_title_size <span class='op'>=</span> <span class='fl'>15</span>,
+  continue_radial_axes <span class='op'>=</span> <span class='cn'>TRUE</span>,
   axis_width <span class='op'>=</span> <span class='fl'>2</span>,
   grid_width <span class='op'>=</span> <span class='fl'>2</span>,
   label_rows <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>)</span>,
@@ -252,6 +253,11 @@ axis title (default=1)</p></td>
     <tr>
       <th>radial_axis_title_size</th>
       <td><p>The font size for the radial (default=15)</p></td>
+    </tr>
+    <tr>
+      <th>continue_radial_axes</th>
+      <td><p>Logical whether to include the three radial 
+spokes on the z-axis.</p></td>
     </tr>
     <tr>
       <th>axis_width</th>
@@ -361,7 +367,7 @@ vector determines the view point about the origin of this scene.</p></td>
     <tr>
       <th>source</th>
       <td><p>a character string of length 1. Match the value of this string 
-with the source argument in <code><a href='https://docs.ropensci.org/plotly/reference/event_data.html'>event_data</a></code> to retrieve the 
+with the source argument in <code><a href='https://rdrr.io/pkg/plotly/man/event_data.html'>event_data</a></code> to retrieve the 
 event data corresponding to a specific plot (shiny apps can have multiple 
 plots).</p></td>
     </tr>

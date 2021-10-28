@@ -5,6 +5,7 @@
 #' @param grid A grid object produced by \code{\link{polar_grid}}.
 #' @param plot_height The plot height in px (default=700),
 #' @param axis_angle The angle in radians at which to add axis (default=0). 
+#' @param z_axis_title_offset Offset for z axis title (default=1.2).
 #' @return Returns a list containing a polar and cylindrical coordinate system.
 #' @importFrom plotly plot_ly add_trace add_text layout %>%
 #' @references
@@ -38,7 +39,10 @@
 #' p$polar
 #' p$cyl
 
-show_grid <- function(grid, plot_height=700, axis_angle=0){
+show_grid <- function(grid, 
+                      plot_height=700, 
+                      axis_angle=0, 
+                      z_axis_title_offset=1.2){
     if(! is.numeric(axis_angle)) {
         stop('axis_angle must be a numeric')
     }
@@ -96,10 +100,10 @@ show_grid <- function(grid, plot_height=700, axis_angle=0){
         # label z axis
         add_text(x = c(rep(1.05*grid_cyl@r*sinpi(axis_angle),
                            grid_cyl@n_z_breaks),
-                       1.2*grid_cyl@r*sinpi(axis_angle)),
+                       z_axis_title_offset*grid_cyl@r*sinpi(axis_angle)),
                  y = c(rep(1.05*grid_cyl@r*cospi(axis_angle),
                            grid_cyl@n_z_breaks),
-                       1.2*grid_cyl@r*cospi(axis_angle)),
+                       z_axis_title_offset*grid_cyl@r*cospi(axis_angle)),
                  z = c(grid_cyl@z_breaks, grid_cyl@z/2)*0.95,
                  text = c(grid_cyl@z_breaks, '-log<sub>10</sub>P'),
                  textposition = 'middle left',

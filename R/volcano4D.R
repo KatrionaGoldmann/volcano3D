@@ -61,6 +61,8 @@ volcano4D <- function(p,
                       speed = 180, 
                       shiny_event_names=c()) {
   
+  . <- NULL # to appease the CRAN note
+  
   if(class(p)[1] != "plotly") stop("p must be a 3D plotly plot")
   
   if(is.null(rotate_icon_path)){

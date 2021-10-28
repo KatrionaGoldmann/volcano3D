@@ -378,9 +378,7 @@ p
 <img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/volcano3D.png" align="center" alt="" width="500" style="border: 0;"/>
 
 Again, CRAN does not 
-support WebGL for the interactive 3D plot, however this can be viewed in the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html) e.g.:
-
-<img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/gifs/volcano3d.gif" align="center" alt="3D volcano plot" width="500" style="border: 0;"/>
+support WebGL for the interactive 3D plot, however this can be viewed in the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html).
 
 ## Volcano4D
 

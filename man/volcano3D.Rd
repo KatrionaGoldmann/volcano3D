@@ -14,6 +14,7 @@ volcano3D(
   radial_axis_title_offset = 1,
   z_axis_title_size = 15,
   radial_axis_title_size = 15,
+  continue_radial_axes = TRUE,
   axis_width = 2,
   grid_width = 2,
   label_rows = c(),
@@ -67,6 +68,9 @@ axis title (default=1)}
 \item{z_axis_title_size}{The font size for the z axis title (default=15)}
 
 \item{radial_axis_title_size}{The font size for the radial (default=15)}
+
+\item{continue_radial_axes}{Logical whether to include the three radial 
+spokes on the z-axis.}
 
 \item{axis_width}{The width of axis lines (default=2)}
 

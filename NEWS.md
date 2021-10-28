@@ -1,6 +1,11 @@
 News
 =====
 
+# volcano3D 1.3.2
+###### 27/10/2021
+* Allow users to extend volcano3D radial axes onto the z-axis
+* add source for radial_plotly
+
 # volcano3D 1.3.1
 ###### 20/09/2021
 * Enable cases where one comparison may be a substring of another

@@ -57,6 +57,10 @@
 #' @param axis_angle Angle in radians for the radial axis (default = 5/6).
 #' @param plot_height Plot height in px (default=700).
 #' @param plot_width Plot width in px (default=700).
+#' @param source a character string of length 1. Match the value of this string 
+#' with the source argument in \code{\link[plotly]{event_data}} to retrieve the 
+#' event data corresponding to a specific plot (shiny apps can have multiple 
+#' plots).
 #' @param ... Optional parameters to pass to
 #' \code{\link[volcano3D]{polar_grid}}.
 #' @return Returns a plotly plot featuring variables on a tri-axis
@@ -117,6 +121,7 @@ radial_plotly <- function(polar,
                           axis_angle = 5/6,
                           plot_height = 700,
                           plot_width = 700,
+                          source = "radial",
                           ...){
 
     if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
@@ -278,7 +283,7 @@ radial_plotly <- function(polar,
                  colors = switch(colour_scale,
                                  "discrete" = colour_levels,
                                  "continuous" = NULL),
-                 source = "BOTH", showlegend = FALSE) %>%
+                 source = source, showlegend = FALSE) %>%
         # add the grid
         add_trace(x = polar_grid$x, y = polar_grid$y, color = I(grid_colour),
                   line = list(width = grid_width), showlegend = FALSE, 

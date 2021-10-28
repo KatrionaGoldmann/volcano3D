@@ -32,6 +32,7 @@ radial_plotly(
   axis_angle = 5/6,
   plot_height = 700,
   plot_width = 700,
+  source = "radial",
   ...
 )
 }
@@ -117,6 +118,11 @@ NULL this will be calculated using \code{\link[base]{pretty}}.}
 \item{plot_height}{Plot height in px (default=700).}
 
 \item{plot_width}{Plot width in px (default=700).}
+
+\item{source}{a character string of length 1. Match the value of this string 
+with the source argument in \code{\link[plotly]{event_data}} to retrieve the 
+event data corresponding to a specific plot (shiny apps can have multiple 
+plots).}
 
 \item{...}{Optional parameters to pass to
 \code{\link[volcano3D]{polar_grid}}.}

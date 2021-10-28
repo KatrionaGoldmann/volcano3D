@@ -20,6 +20,8 @@
 #' axis title (default=1)
 #' @param z_axis_title_size The font size for the z axis title (default=15)
 #' @param radial_axis_title_size The font size for the radial (default=15)
+#' @param continue_radial_axes Logical whether to include the three radial 
+#' spokes on the z-axis. 
 #' @param axis_width The width of axis lines (default=2)
 #' @param grid_width The width of the grid lines (default=2)
 #' @param label_rows A vector of row names or numbers to label.
@@ -112,6 +114,7 @@ volcano3D <- function(polar,
                       radial_axis_title_offset = 1,
                       z_axis_title_size = 15,
                       radial_axis_title_size = 15, 
+                      continue_radial_axes = TRUE,
                       axis_width = 2,
                       grid_width = 2,
                       label_rows = c(),
@@ -291,21 +294,21 @@ volcano3D <- function(polar,
     axis_settings_xy[['range']] <- c(-1.05*z_axis_title_offset*(grid@r+1), 
                                      1.05*z_axis_title_offset*(grid@r+1))
     
-    plot_ly(data = volcano_toptable, x = ~x, y = ~y, z = ~logP,
-            marker = list(size = marker_size, sizemode = 'diameter', 
-                          line = list(color = marker_outline_colour, 
-                                      width = marker_outline_width)),
-            height = plot_height,
-            key=~label,
-            opacity = marker_alpha,
-            color = ~switch(colour_scale,
-                            "discrete" = sig,
-                            "continuous" = I(hue)),
-            hoverinfo = 'text', text = ~hover,
-            colors = switch(colour_scale,
-                            "discrete" = colours,
-                            "continuous" = NULL),
-            type = "scatter3d", mode = "markers", source = source) %>%
+    p <- plot_ly(data = volcano_toptable, x = ~x, y = ~y, z = ~logP,
+                 marker = list(size = marker_size, sizemode = 'diameter', 
+                               line = list(color = marker_outline_colour, 
+                                           width = marker_outline_width)),
+                 height = plot_height,
+                 key=~label,
+                 opacity = marker_alpha,
+                 color = ~switch(colour_scale,
+                                 "discrete" = sig,
+                                 "continuous" = I(hue)),
+                 hoverinfo = 'text', text = ~hover,
+                 colors = switch(colour_scale,
+                                 "discrete" = colours,
+                                 "continuous" = NULL),
+                 type = "scatter3d", mode = "markers", source = source) %>%
         
         # Add the cylindrical grid
         add_trace(x = polar_grid$x, y = polar_grid$y, z = polar_grid$z, 
@@ -373,5 +376,20 @@ volcano3D <- function(polar,
             xaxis = list(title = "x"),
             yaxis = list(title = "y")
         )
+    
+    if(continue_radial_axes){
+        vals <- c(0, 0, NA, 
+                  2*pi/3, 2*pi/3, NA, 
+                  4*pi/3, 4*pi/3, NA)
+        p <-p %>% add_trace(x = R*sin(pi/2 + vals),
+                            y = R*cos(pi/2 + vals),
+                            z = rep(c(0, h, NA), 3),
+                            color = I(axis_colour), 
+                            line = list(width = axis_width),
+                            showlegend = FALSE, 
+                            type = "scatter3d", mode = "lines", 
+                            hoverinfo = "none", inherit = FALSE) 
+    }
+    return(p)
 }
 

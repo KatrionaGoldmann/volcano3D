@@ -4,7 +4,7 @@
 \alias{show_grid}
 \title{Plots grid objects for inspection using plotly}
 \usage{
-show_grid(grid, plot_height = 700, axis_angle = 0)
+show_grid(grid, plot_height = 700, axis_angle = 0, z_axis_title_offset = 1.2)
 }
 \arguments{
 \item{grid}{A grid object produced by \code{\link{polar_grid}}.}
@@ -12,6 +12,8 @@ show_grid(grid, plot_height = 700, axis_angle = 0)
 \item{plot_height}{The plot height in px (default=700),}
 
 \item{axis_angle}{The angle in radians at which to add axis (default=0).}
+
+\item{z_axis_title_offset}{Offset for z axis title (default=1.2).}
 }
 \value{
 Returns a list containing a polar and cylindrical coordinate system.
