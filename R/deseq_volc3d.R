@@ -2,7 +2,8 @@
 #'
 #'
 #'
-#' @importFrom DESeq2 results vst assay
+#' @importFrom DESeq2 results vst
+#' @importFrom SummarizedExperiment assay
 #' @export
 
 DESeqToVolc <- function(object, objectLRT, contrast,
@@ -43,8 +44,8 @@ DESeqToVolc <- function(object, objectLRT, contrast,
   padj <- cbind(LRT[, ptype], pairadj[[1]], pairadj[[2]], pairadj[[3]])
   dimnames(pvals) <- dimnames(padj) <- list(rownames(LRT), c("LRT", "AvB", "AvC", "BvC"))
   if (is.null(data)) {
-    vstdata <- vst(object)
-    data <- assay(vstdata)
+    vstdata <- DESeq2::vst(object)
+    data <- SummarizedExperiment::assay(vstdata)
   }
   polarCoord(object@colData[, contrast], t(data), pvals, padj, pcutoff, ...)
 }

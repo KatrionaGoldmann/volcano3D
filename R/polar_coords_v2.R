@@ -1,11 +1,14 @@
+#' Coordinates for Three Way Polar Plot
 #'
+#' This function creates a 'volc3d' object of S3 class for downstream plots 
+#' containing the p-values from a three-way group comparison, expression data 
+#' sample data and polar coordinates.
 #'
-#'
-#' @outcome Outcome vector with 3 groups, ideally as a factor. If it is not a
-#'   factor, this will be coerced to a factor. This must have exactly 3 levels.
-#'   NOTE: if `pvals` is given, the order of the levels in `outcome` must
-#'   correspond to the order of columns in `pvals`.
-#' @data Dataframe or matrix with variables in columns
+#' @param outcome Outcome vector with 3 groups, ideally as a factor. If it is
+#'   not a factor, this will be coerced to a factor. This must have exactly 3
+#'   levels. NOTE: if `pvals` is given, the order of the levels in `outcome`
+#'   must correspond to the order of columns in `pvals`.
+#' @param data Dataframe or matrix with variables in columns
 #' @param pvals Matrix or dataframe with p-values. The first column represents a
 #'   test across all 3 categories such as one-way ANOVA or likelihood ratio
 #'   test. Columns 2-4 represent pairwise tests comparing groups A vs B, A vs C
@@ -138,7 +141,7 @@ calc_pvals <- function(outcome, data,
 #' methods using methods available via [p.adjust] or [qvalue].
 #' 
 #' @importFrom qvalue qvalue
-#' @importFrom stats p.adjust
+#' @importFrom stats p.adjust p.adjust.methods
 #'
 qval <- function(p, method = "qvalue") {
   if (method %in% p.adjust.methods) return(p.adjust(p, method = method))
