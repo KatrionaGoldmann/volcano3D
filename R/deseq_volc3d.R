@@ -1,15 +1,35 @@
 #' Convert DESeq2 objects to volcano3d
 #'
+#' This function takes 2 DESeqDataSet objects and converts the results to a
+#' 'volc3d' object.
 #'
-#'
-#' @importFrom DESeq2 results vst
-#' @importFrom SummarizedExperiment assay
+#' @param object An object of class 'DESeqDataSet' with the full design formula.
+#'   The function `DESeq` needs to have been run.
+#' @param objectLRT An object of class 'DESeqDataSet' with the reduced design
+#'   formula. The function `DESeq` needs to have been run with argument
+#'   `test="LRT"`.
+#' @param contrast Character value specifying column within the metadata stored
+#'   in the DESeq2 dataset objects is the outcome variable. This column must 
+#'   contain a factor with 3 levels.
+#' @param data Optional matrix containing gene expression data. If not supplied,
+#'   the function will pull the expression data from within the DESeq2 object
+#'   using the DESeq2 function `assay()`. NOTE: for consistency with gene
+#'   expression datasets, genes are in rows.
+#' @param pcutoff Cut-off for p-value significance
+#' @param padj.method Can be any method available in `p.adjust` or `"qvalue"`.
+#'   The option "none" is a pass-through.
+#' @param ... Optional arguments passed to [polarCoord()]
 #' @export
 
 DESeqToVolc <- function(object, objectLRT, contrast,
                         data = NULL,
                         pcutoff = 0.05,
                         padj.method = "BH", ...) {
+  if (!requireNamespace("DESeq2", quietly = TRUE)) {
+    stop("Can't find package DESeq2. Try:
+           BiocManager::install('DESeq2')",
+         call. = FALSE)
+  }
   if (!inherits(object, "DESeqDataSet")) stop("Not a DESeqDataSet object")
   if (!inherits(objectLRT, "DESeqDataSet")) stop("Not a DESeqDataSet object")
   LRT <- DESeq2::results(objectLRT)
@@ -29,7 +49,7 @@ DESeqToVolc <- function(object, objectLRT, contrast,
     groups[2:3]
   )
   pairres <- lapply(contrastlist, function(i) {
-    res <- results(object, contrast = c(contrast, i))
+    res <- DESeq2::results(object, contrast = c(contrast, i))
     as.data.frame(res[, c('pvalue', 'padj')])
   })
   pvals <- cbind(LRT[, "pvalue"], pairres[[1]][, "pvalue"], 
@@ -45,6 +65,11 @@ DESeqToVolc <- function(object, objectLRT, contrast,
   dimnames(pvals) <- dimnames(padj) <- list(rownames(LRT), c("LRT", "AvB", "AvC", "BvC"))
   if (is.null(data)) {
     vstdata <- DESeq2::vst(object)
+    if (!requireNamespace("SummarizedExperiment", quietly = TRUE)) {
+      stop("Can't find package SummarizedExperiment. Try:
+           BiocManager::install('SummarizedExperiment')",
+           call. = FALSE)
+    }
     data <- SummarizedExperiment::assay(vstdata)
   }
   polarCoord(object@colData[, contrast], t(data), pvals, padj, pcutoff, ...)
@@ -58,8 +83,17 @@ deseq_qvalue <- function(df) {
   df
 }
 
-
+#' Plot Quick 3d volcano plot
+#'
+#' Slimline function for quick 3d volcano plot
+#'
+#' @param obj Object of S3 class 'volc3d' following call to either
+#'   `polarCoords()` or `DESeqToVolc()`
+#' @param type Either `1` or `2` specifying type of polar coordinates: `1` =
+#'   Z-scaled, `2` = unscaled (equivalent to log2 fold change for gene
+#'   expression).
 #' @export
+#' 
 quick_volcano3d <- function(obj, type = 1) {
   if (!inherits(obj, "volc3d")) stop("Not a 'volc3d' class object")
   plot_ly(obj[[type]], x = ~x, y = ~y, z = ~z, color = ~lab, colors = obj$scheme,

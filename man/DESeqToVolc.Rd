@@ -14,6 +14,31 @@ DESeqToVolc(
   ...
 )
 }
+\arguments{
+\item{object}{An object of class 'DESeqDataSet' with the full design formula.
+The function `DESeq` needs to have been run.}
+
+\item{objectLRT}{An object of class 'DESeqDataSet' with the reduced design
+formula. The function `DESeq` needs to have been run with argument
+`test="LRT"`.}
+
+\item{contrast}{Character value specifying column within the metadata stored
+in the DESeq2 dataset objects is the outcome variable. This column must 
+contain a factor with 3 levels.}
+
+\item{data}{Optional matrix containing gene expression data. If not supplied,
+the function will pull the expression data from within the DESeq2 object
+using the DESeq2 function `assay()`. NOTE: for consistency with gene
+expression datasets, genes are in rows.}
+
+\item{pcutoff}{Cut-off for p-value significance}
+
+\item{padj.method}{Can be any method available in `p.adjust` or `"qvalue"`.
+The option "none" is a pass-through.}
+
+\item{...}{Optional arguments passed to [polarCoord()]}
+}
 \description{
-Convert DESeq2 objects to volcano3d
+This function takes 2 DESeqDataSet objects and converts the results to a
+'volc3d' object.
 }

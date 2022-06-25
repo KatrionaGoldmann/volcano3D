@@ -16,13 +16,13 @@ Language: en-gb
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
+biocViews:
 Depends: R (>= 3.5)
 VignetteBuilder: knitr
 RoxygenNote: 7.2.0
 NeedsCompilation: no
 Packaged: 2020-02-16 18:03:28 UTC; kgoldmann
 Imports:
-    DESeq2,
     plotly,
     ggplot2,
     ggpubr,
@@ -30,10 +30,11 @@ Imports:
     htmlwidgets,
     methods,
     Rfast,
-    matrixTests,
-    qvalue,
-    SummarizedExperiment
+    matrixTests
 Suggests:
+    DESeq2,
+    qvalue,
+    SummarizedExperiment,
     knitr,
     rmarkdown,
     kableExtra,

@@ -84,6 +84,15 @@ polar_xy <- function(df, angle_offset = 0) {
 #' t-test or Wilcoxon test) on multi-column data against an outcome parameter
 #' with 3 levels.
 #' 
+#' @param outcome Outcome vector with 3 groups, ideally as a factor. If it is
+#'   not a factor, this will be coerced to a factor. This must have exactly 3
+#'   levels.
+#' @param data Dataframe or matrix with variables in columns
+#' @param pcutoff Cut-off for p-value significance
+#' @param padj.method Can be any method available in `p.adjust` or `"qvalue"`.
+#'   The option "none" is a pass-through.
+#' @param pairwise_test Specifies statistical test for pairwise comparisons
+#' @param exact Logical which is only used with `pairwise_test = "wilcoxon"`
 #' @importFrom Rfast ftests ttests
 #' @importFrom matrixTests row_wilcoxon_twosample
 #' @export
@@ -135,16 +144,15 @@ calc_pvals <- function(outcome, data,
 }
 
 
-#' Adjust P-values for Multiple Comparisons
-#' 
-#' Given a set of p-values, returns p-values adjusted using one of several
-#' methods using methods available via [p.adjust] or [qvalue].
-#' 
-#' @importFrom qvalue qvalue
 #' @importFrom stats p.adjust p.adjust.methods
 #'
 qval <- function(p, method = "qvalue") {
   if (method %in% p.adjust.methods) return(p.adjust(p, method = method))
+  if (!requireNamespace("qvalue", quietly = TRUE)) {
+    stop("Can't find package qvalue. Try:
+           BiocManager::install('qvalue')",
+         call. = FALSE)
+  }
   q <- try(qvalue::qvalue(p)$qvalues, silent = TRUE)
   if (inherits(q, 'try-error')) q <- p.adjust(p, method = "BH")
   q

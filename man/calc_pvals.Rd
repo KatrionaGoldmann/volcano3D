@@ -13,6 +13,22 @@ calc_pvals(
   exact = FALSE
 )
 }
+\arguments{
+\item{outcome}{Outcome vector with 3 groups, ideally as a factor. If it is
+not a factor, this will be coerced to a factor. This must have exactly 3
+levels.}
+
+\item{data}{Dataframe or matrix with variables in columns}
+
+\item{pcutoff}{Cut-off for p-value significance}
+
+\item{padj.method}{Can be any method available in `p.adjust` or `"qvalue"`.
+The option "none" is a pass-through.}
+
+\item{pairwise_test}{Specifies statistical test for pairwise comparisons}
+
+\item{exact}{Logical which is only used with `pairwise_test = "wilcoxon"`}
+}
 \description{
 Internal function for calculating one-way test and pairwise tests (either
 t-test or Wilcoxon test) on multi-column data against an outcome parameter
