@@ -96,7 +96,7 @@ boxplot_trio <- function(polar,
   if(is.null(levels_order)) {
     levels_order <- levels(sampledata[, polar@contrast])
   }
-  if(! class(levels_order) %in% c("character")) {
+  if(! inherits(levels_order, "character")) {
     stop("levels_order must be a character vector")
   }
   if(! all(levels_order %in% levels(sampledata[, polar@contrast]))){
@@ -119,13 +119,13 @@ boxplot_trio <- function(polar,
     return(x)
   }))
 
-  if(! class(sampledata) %in% c("data.frame")) {
+  if(! inherits(sampledata, "data.frame")) {
     stop("sampledata must be a data frame")
   }
-  if(! class(expression)[1] %in% c("data.frame", "matrix")) {
+  if(! inherits(expression, c("data.frame", "matrix")) {
     stop("expression must be a data frame or matrix")
   }
-  if(! class(value) %in% c("character", "numeric")) {
+  if(! inherits(value, c("character", "numeric")) {
     stop("value must be a character")
   }
   if(length(value) > 1) stop("value must be of length 1")
