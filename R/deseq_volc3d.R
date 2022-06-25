@@ -22,12 +22,12 @@ DESeqToVolc <- function(object, objectLRT, contrast,
     ptype <- "padj"
   }
   groups <- levels(object@colData[, contrast])
-  contrasts <- list(
+  contrastlist <- list(
     groups[1:2],
     groups[c(3, 1)],
     groups[2:3]
   )
-  pairres <- lapply(contrasts, function(i) {
+  pairres <- lapply(contrastlist, function(i) {
     res <- results(object, contrast = c(contrast, i))
     as.data.frame(res[, c('pvalue', 'padj')])
   })
