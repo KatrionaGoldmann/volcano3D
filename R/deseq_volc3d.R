@@ -1,3 +1,6 @@
+#' Convert DESeq2 objects to volcano3d
+#'
+#'
 #'
 #' @importFrom DESeq2 results vst assay
 #' @export
@@ -43,7 +46,6 @@ DESeqToVolc <- function(object, objectLRT, contrast,
     vstdata <- vst(object)
     data <- assay(vstdata)
   }
-  # return(list(pvals, padj))
   polarCoord(object@colData[, contrast], t(data), pvals, padj, pcutoff, ...)
 }
 
