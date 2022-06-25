@@ -119,7 +119,7 @@ boxplot_trio <- function(polar,
     return(x)
   }))
 
-  if(! inherits(sampledata, "data.frame")) {
+  if(! is.data.frame(sampledata)) {
     stop("sampledata must be a data frame")
   }
   if(! inherits(expression, c("data.frame", "matrix"))) {
@@ -148,7 +148,7 @@ boxplot_trio <- function(polar,
   expression <- expression[, match(as.character(sampledata$ID),
                                    colnames(expression))]
 
-  if(class(value) ==  "character") {
+  if(is.character(value) {
     index <- which(rownames(expression) ==  value)
   }
 
