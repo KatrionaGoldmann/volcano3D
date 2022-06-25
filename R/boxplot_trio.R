@@ -148,7 +148,7 @@ boxplot_trio <- function(polar,
   expression <- expression[, match(as.character(sampledata$ID),
                                    colnames(expression))]
 
-  if(is.character(value) {
+  if(is.character(value)) {
     index <- which(rownames(expression) ==  value)
   }
 
