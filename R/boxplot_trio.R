@@ -122,10 +122,10 @@ boxplot_trio <- function(polar,
   if(! inherits(sampledata, "data.frame")) {
     stop("sampledata must be a data frame")
   }
-  if(! inherits(expression, c("data.frame", "matrix")) {
+  if(! inherits(expression, c("data.frame", "matrix"))) {
     stop("expression must be a data frame or matrix")
   }
-  if(! inherits(value, c("character", "numeric")) {
+  if(! inherits(value, c("character", "numeric"))) {
     stop("value must be a character")
   }
   if(length(value) > 1) stop("value must be of length 1")
