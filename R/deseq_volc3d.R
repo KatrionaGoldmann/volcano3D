@@ -83,24 +83,3 @@ deseq_qvalue <- function(df) {
   df
 }
 
-#' Plot Quick 3d volcano plot
-#'
-#' Slimline function for quick 3d volcano plot
-#'
-#' @param obj Object of S3 class 'volc3d' following call to either
-#'   `polarCoords()` or `DESeqToVolc()`
-#' @param type Either `1` or `2` specifying type of polar coordinates: `1` =
-#'   Z-scaled, `2` = unscaled (equivalent to log2 fold change for gene
-#'   expression).
-#' @export
-#' 
-quick_volcano3d <- function(obj, type = 1) {
-  if (!inherits(obj, "volc3d")) stop("Not a 'volc3d' class object")
-  plot_ly(obj[[type]], x = ~x, y = ~y, z = ~z, color = ~lab, colors = obj$scheme,
-          hoverinfo='text',
-          text = ~paste0(rownames(obj[[type]]), "<br>theta = ", as.integer(angle),
-                         "<br>r = ", formatC(r, digits = 3),
-                         "<br>P = ", format(pvalue, digits = 3, scientific = 3)),
-          marker = list(size = 3),
-          type = "scatter3d", mode = "markers")
-}
