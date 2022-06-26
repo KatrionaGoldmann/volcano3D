@@ -23,18 +23,19 @@
 #' @param marker_outline_width Width for marker outline (default 0 means no
 #'   outline)
 #' @param marker_outline_colour Colour for marker outline (default white)
-#' @param axis_angle Angle in radians for the position of z axis (default 0.5)
+
 #' @param z_axis_title_offset The position scaling between grid and z axis title
 #' (default=1.2)
+#' @param z_axis_title_size The font size for the z axis title (default=12)
+#' @param z_axis_angle Angle in radians for the position of z axis (default
+#'   0.5)
+#' @param radial_axis_title_size The font size for the radial (default=15)
 #' @param radial_axis_title_offset The position scaling between grid and radial 
 #' axis title (default=1.2)
-#' @param z_axis_title_size The font size for the z axis title (default=12)
-#' @param radial_axis_title_size The font size for the radial (default=15)
-#' @param z_aspectratio The aspect ratio for the z axis compared to x and y.
-#'   Decreasing this makes the plot appear more squat. If `NULL` it is set
-#'   automatically.
 #' @param xy_aspectratio The aspect ratio for the xy axis compared to z (default
-#'   0.75). Increasing this makes the grid wider in the plot window.
+#'   1). Increasing this makes the grid wider in the plot window.
+#' @param z_aspectratio The aspect ratio for the z axis compared to x and y
+#'   (default 0.8). Decreasing this makes the plot appear more squat.
 #' @param camera_eye The (x,y,z) components of the start 'eye' camera vector.
 #'   This vector determines the view point about the origin of this scene.
 #' @param ... Optional arguments passed to `plot_ly`
@@ -52,9 +53,9 @@ volcano3dx <- function(obj, type = 1,
                        marker_outline_colour = "white",
                        z_axis_title_offset = 1.2,
                        z_axis_title_size = 12,
+                       z_axis_angle = 0.5,
                        radial_axis_title_size = 14, 
                        radial_axis_title_offset = 1.2,
-                       axis_angle = 0.5,
                        xy_aspectratio = 1,
                        z_aspectratio = 0.8,
                        camera_eye = list(x=0.9, y=0.9, z=0.9),
@@ -111,12 +112,12 @@ volcano3dx <- function(obj, type = 1,
       hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
     
     # label z axis
-    add_text(x = c(rep(R*sinpi(axis_angle), 
+    add_text(x = c(rep(R*sinpi(z_axis_angle), 
                        grid@n_z_breaks), 
-                   R*z_axis_title_offset*sinpi(axis_angle)),
-             y = c(rep(R*cospi(axis_angle), 
+                   R*z_axis_title_offset*sinpi(z_axis_angle)),
+             y = c(rep(R*cospi(z_axis_angle), 
                        grid@n_z_breaks), 
-                   R*z_axis_title_offset*cospi(axis_angle)),
+                   R*z_axis_title_offset*cospi(z_axis_angle)),
              z = c(grid@z_breaks, h/2),
              text = c(grid@z_breaks, '-log<sub>10</sub>P'),
              textposition = 'middle left', 
