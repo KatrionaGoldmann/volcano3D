@@ -30,18 +30,19 @@
 #' @export
 #' 
 volcano3dx <- function(obj, type = 1,
-                            axis_width = 2,
-                            grid_colour = "grey80",
-                            axis_colour = "black",
-                            grid_width = 2,
-                            z_axis_title_offset = 1.2,
-                            z_axis_title_size = 12,
-                            radial_axis_title_size = 14, 
-                            radial_axis_title_offset = 1.2,
-                            axis_angle = 0.5,
-                            xy_aspectratio = 1,
-                            z_aspectratio = NULL,
-                            camera_eye = list(x=0.7, y=0.7, z=0.7)) {
+                       axis_width = 2,
+                       grid_colour = "grey80",
+                       axis_colour = "black",
+                       grid_width = 2,
+                       z_axis_title_offset = 1.2,
+                       z_axis_title_size = 12,
+                       radial_axis_title_size = 14, 
+                       radial_axis_title_offset = 1.2,
+                       axis_angle = 0.5,
+                       xy_aspectratio = 0.75,
+                       z_aspectratio = NULL,
+                       camera_eye = list(x=0.75, y=0.75, z=0.75),
+                       ...) {
   if (!inherits(obj, "volc3d")) stop("Not a 'volc3d' class object")
   grid <- polar_grid(obj[[type]]$r, obj[[type]]$z)
   polar_grid <- grid@polar_grid
@@ -49,15 +50,16 @@ volcano3dx <- function(obj, type = 1,
   axis_labels <- grid@axis_labs
   h <- grid@z
   R <- grid@r
-  if (is.null(z_aspectratio)) z_aspectratio <- 8*R/h
+  if (is.null(z_aspectratio)) z_aspectratio <- 18 / h
+  xyrange <- c(-1.05*z_axis_title_offset*R, 
+               1.05*z_axis_title_offset*R)
   axis_settings <- list(title = "", zeroline = FALSE, showline = FALSE, 
                         showticklabels = FALSE, showgrid = FALSE, 
-                        autotick = FALSE)
+                        autotick = FALSE, spikesides = FALSE)
   axis_settings_xy <- list(title = "", zeroline = FALSE, showline = FALSE, 
                            showticklabels = FALSE, showgrid = FALSE, 
-                           autotick = FALSE, showspikes = FALSE)
-  axis_settings_xy[['range']] <- c(-1.05*z_axis_title_offset*(grid@r+1), 
-                                   1.05*z_axis_title_offset*(grid@r+1))
+                           autotick = FALSE, showspikes = FALSE,
+                           range = xyrange)
   
   plot_ly(obj[[type]], x = ~x, y = ~y, z = ~z, color = ~lab, colors = obj$scheme,
           hoverinfo='text',
@@ -65,7 +67,7 @@ volcano3dx <- function(obj, type = 1,
                          "<br>r = ", formatC(r, digits = 3),
                          "<br>P = ", format(pvalue, digits = 3, scientific = 3)),
           marker = list(size = 3),
-          type = "scatter3d", mode = "markers") %>%
+          type = "scatter3d", mode = "markers", ...) %>%
     
     # Add the cylindrical grid
     add_trace(x = polar_grid$x, y = polar_grid$y, z = polar_grid$z, 
