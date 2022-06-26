@@ -23,7 +23,13 @@
 #' @param marker_outline_width Width for marker outline (default 0 means no
 #'   outline)
 #' @param marker_outline_colour Colour for marker outline (default white)
-#' @param axis_angle Angle in radians for the position of z axis (default 0.5) 
+#' @param axis_angle Angle in radians for the position of z axis (default 0.5)
+#' @param z_axis_title_offset The position scaling between grid and z axis title
+#' (default=1.2)
+#' @param radial_axis_title_offset The position scaling between grid and radial 
+#' axis title (default=1.2)
+#' @param z_axis_title_size The font size for the z axis title (default=12)
+#' @param radial_axis_title_size The font size for the radial (default=15)
 #' @param z_aspectratio The aspect ratio for the z axis compared to x and y.
 #'   Decreasing this makes the plot appear more squat. If `NULL` it is set
 #'   automatically.
@@ -62,8 +68,9 @@ volcano3dx <- function(obj, type = 1,
   axis_labels <- grid@axis_labs
   h <- grid@z
   R <- grid@r
-  xyrange <- c(-1.05*z_axis_title_offset*R, 
-               1.05*z_axis_title_offset*R)
+  max_offset <- max(c(z_axis_title_offset, radial_axis_title_offset))
+  xyrange <- c(-1.05*(max_offset)*R, 
+               1.05*max_offset*R)
   axis_settings <- list(title = "", zeroline = FALSE, showline = FALSE, 
                         showticklabels = FALSE, showgrid = FALSE, 
                         autotick = FALSE, showspikes = FALSE)

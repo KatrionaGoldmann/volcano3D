@@ -52,6 +52,16 @@ outline)}
 
 \item{marker_outline_colour}{Colour for marker outline (default white)}
 
+\item{z_axis_title_offset}{The position scaling between grid and z axis title
+(default=1.2)}
+
+\item{z_axis_title_size}{The font size for the z axis title (default=12)}
+
+\item{radial_axis_title_size}{The font size for the radial (default=15)}
+
+\item{radial_axis_title_offset}{The position scaling between grid and radial 
+axis title (default=1.2)}
+
 \item{axis_angle}{Angle in radians for the position of z axis (default 0.5)}
 
 \item{xy_aspectratio}{The aspect ratio for the xy axis compared to z (default
