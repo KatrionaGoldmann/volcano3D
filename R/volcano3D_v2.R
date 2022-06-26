@@ -16,7 +16,7 @@
 #' @param grid_colour The colour of the cylindrical grid (default "grey80")
 #' @param grid_width The width of the grid lines (default 2)
 #' @param grid_options Optional list of additional arguments to pass to
-#'   `polar_grid()`, eg. `z_axis_ticks`
+#'   `polar_grid()`, eg. `z_axis_ticks` and `r_axis_ticks`
 #' @param axis_colour The colour of the grid axes and labels (default "black")
 #' @param axis_width The width of axis lines (default 2)
 #' @param marker_size Size of the markers (default 3)
