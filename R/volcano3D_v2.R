@@ -13,22 +13,23 @@
 #' @param type Either `1` or `2` specifying type of polar coordinates: `1` =
 #'   Z-scaled, `2` = unscaled (equivalent to log2 fold change for gene
 #'   expression).
-#' @param grid_colour The colour of the cylindrical grid (default="grey80")
-#' @param grid_width The width of the grid lines (default=2)
-#' @param axis_colour The colour of the grid axes and labels (default="black")
-#' @param axis_width The width of axis lines (default=2)
-#' @param marker_size Size of the markers (default = 2.7)
+#' @param grid_colour The colour of the cylindrical grid (default "grey80")
+#' @param grid_width The width of the grid lines (default 2)
+#' @param axis_colour The colour of the grid axes and labels (default "black")
+#' @param axis_width The width of axis lines (default 2)
+#' @param marker_size Size of the markers (default 3)
 #' @param marker_outline_width Width for marker outline (default 0 means no
 #'   outline)
-#' @param marker_outline_colour Colour for marker outline (default = white)
+#' @param marker_outline_colour Colour for marker outline (default white)
 #' @param axis_angle Angle in radians for the position of z axis (default 0.5) 
 #' @param z_aspectratio The aspect ratio for the z axis compared to x and y.
 #'   Decreasing this makes the plot appear more squat. If `NULL` it is set
 #'   automatically.
 #' @param xy_aspectratio The aspect ratio for the xy axis compared to z (default
-#'   = 0.75). Increasing this makes the grid wider in the plot window.
+#'   0.75). Increasing this makes the grid wider in the plot window.
 #' @param camera_eye The (x,y,z) components of the start 'eye' camera vector.
 #'   This vector determines the view point about the origin of this scene.
+#' @param ... Optional arguments passed to `plot_ly`
 #' @importFrom plotly plot_ly add_trace add_text layout %>%
 #' @export
 #' 
