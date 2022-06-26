@@ -49,9 +49,9 @@ volcano3dx <- function(obj, type = 1,
                        radial_axis_title_size = 14, 
                        radial_axis_title_offset = 1.2,
                        axis_angle = 0.5,
-                       xy_aspectratio = 0.75,
-                       z_aspectratio = NULL,
-                       camera_eye = list(x=0.75, y=0.75, z=0.75),
+                       xy_aspectratio = 1,
+                       z_aspectratio = 0.8,
+                       camera_eye = list(x=0.9, y=0.9, z=0.9),
                        ...) {
   if (!inherits(obj, "volc3d")) stop("Not a 'volc3d' class object")
   args <- list(r_vector = obj[[type]]$r, z_vector = obj[[type]]$z)
@@ -62,7 +62,6 @@ volcano3dx <- function(obj, type = 1,
   axis_labels <- grid@axis_labs
   h <- grid@z
   R <- grid@r
-  if (is.null(z_aspectratio)) z_aspectratio <- 18 / h
   xyrange <- c(-1.05*z_axis_title_offset*R, 
                1.05*z_axis_title_offset*R)
   axis_settings <- list(title = "", zeroline = FALSE, showline = FALSE, 
