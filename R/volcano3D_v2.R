@@ -62,7 +62,7 @@ volcano3dx <- function(obj, type = 1,
                1.05*z_axis_title_offset*R)
   axis_settings <- list(title = "", zeroline = FALSE, showline = FALSE, 
                         showticklabels = FALSE, showgrid = FALSE, 
-                        autotick = FALSE, spikesides = FALSE)
+                        autotick = FALSE, showspikes = FALSE)
   axis_settings_xy <- list(title = "", zeroline = FALSE, showline = FALSE, 
                            showticklabels = FALSE, showgrid = FALSE, 
                            autotick = FALSE, showspikes = FALSE,
@@ -71,7 +71,7 @@ volcano3dx <- function(obj, type = 1,
   plot_ly(obj[[type]], x = ~x, y = ~y, z = ~z, color = ~lab, colors = obj$scheme,
           hoverinfo='text',
           text = ~paste0(rownames(obj[[type]]), "<br>theta = ", as.integer(angle),
-                         "<br>r = ", formatC(r, digits = 3),
+                         ", r = ", formatC(r, digits = 3),
                          "<br>P = ", format(pvalue, digits = 3, scientific = 3)),
           marker = list(size = marker_size,
                         line = list(color = marker_outline_colour, 
