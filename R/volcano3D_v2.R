@@ -106,8 +106,8 @@ volcano3dx <- function(obj, type = 1,
     
     # label radial axis
     add_text(x = grid@text_coords$x, 
-             y = grid@text_coords$y, z = 0.05,
-             text = grid@text_coords$text, textposition = 'top center', 
+             y = grid@text_coords$y, z = h * 0.03,
+             text = grid@text_coords$text, textposition = 'middle center', 
              textfont = list(size = 10), color = I(axis_colour), 
              hoverinfo = 'none', showlegend = FALSE, inherit = FALSE) %>%
     
