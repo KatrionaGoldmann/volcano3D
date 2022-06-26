@@ -15,6 +15,8 @@
 #'   expression).
 #' @param grid_colour The colour of the cylindrical grid (default "grey80")
 #' @param grid_width The width of the grid lines (default 2)
+#' @param grid_options Optional list of additional arguments to pass to
+#'   `polar_grid()`, eg. `z_axis_ticks`
 #' @param axis_colour The colour of the grid axes and labels (default "black")
 #' @param axis_width The width of axis lines (default 2)
 #' @param marker_size Size of the markers (default 3)
@@ -36,6 +38,7 @@
 volcano3dx <- function(obj, type = 1,
                        grid_colour = "grey80",
                        grid_width = 2,
+                       grid_options = NULL,
                        axis_colour = "black",
                        axis_width = 2,
                        marker_size = 3,
@@ -51,7 +54,9 @@ volcano3dx <- function(obj, type = 1,
                        camera_eye = list(x=0.75, y=0.75, z=0.75),
                        ...) {
   if (!inherits(obj, "volc3d")) stop("Not a 'volc3d' class object")
-  grid <- polar_grid(obj[[type]]$r, obj[[type]]$z)
+  args <- list(r_vector = obj[[type]]$r, z_vector = obj[[type]]$z)
+  args <- append(args, grid_options)
+  grid <- do.call(polar_grid, args)
   polar_grid <- grid@polar_grid
   axes <- grid@axes
   axis_labels <- grid@axis_labs
