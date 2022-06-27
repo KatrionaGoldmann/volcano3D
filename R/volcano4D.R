@@ -63,7 +63,7 @@ volcano4D <- function(p,
   
   . <- NULL # to appease the CRAN note
   
-  if(class(p)[1] != "plotly") stop("p must be a 3D plotly plot")
+  if(!inherits(p, "plotly")) stop("Not a plotly plot")
   
   if(is.null(rotate_icon_path)){
     rotate_icon_path <- paste0("M20 33l12-9-12-9v18zm4-29C12.95 4 4 12.95 4", 
