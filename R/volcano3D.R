@@ -53,6 +53,10 @@
 #' 
 volcano3D <- function(polar, type = 1,
                       label_rows = c(),
+                      label_size = 14,
+                      arrow_length=100, 
+                      colour_code_labels = FALSE,
+                      label_colour = "black",
                       grid_colour = "grey80",
                       grid_width = 2,
                       grid_options = NULL,
@@ -93,25 +97,26 @@ volcano3D <- function(polar, type = 1,
                            showticklabels = FALSE, showgrid = FALSE, 
                            autotick = FALSE, showspikes = FALSE,
                            range = xyrange)
+  df <- polar@df[[type]]
   
   if(length(label_rows) != 0){
     
     if(! all(is.numeric(label_rows))) {
-      if(! all(label_rows %in% rownames(volcano_toptable))) {
+      if(! all(label_rows %in% rownames(df))) {
         stop("label_rows must be in rownames(polar_df)")
       }}
     if(all(is.numeric(label_rows))) {
-      if(! all(label_rows < nrow(volcano_toptable))) {
+      if(! all(label_rows < nrow(df))) {
         stop("label_rows not in 1:nrow(polar_df)")
       }}
     annot <- lapply(label_rows, function(i) {
-      row <- polar@df[[type]][i, ]
+      row <- df[i, ]
       if(colour_code_labels) ac <- row$col else ac <- label_colour 
       annot <- list(x = row$x, y = row$y, z = row$z, 
-                    text = rownames(polar@df[[type]])[i], 
+                    text = rownames(row), 
                     textangle = 0, ax = arrow_length, ay  = 0,
                     arrowcolor = ac, font = list(color = ac),
-                    arrowwidth = 1, arrowhead = 6, arrowsize = 1.5, 
+                    arrowwidth = 1, arrowhead = 0, arrowsize = 1.5, 
                     yanchor = "middle")
     })
   } else {annot <- list()}
