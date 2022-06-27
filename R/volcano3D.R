@@ -7,7 +7,7 @@
 #' categories. The z axis represents -log10 P value for the one-way test
 #' comparing each variable across the 3 groups.
 #' 
-#' @param obj Object of S4 class 'volc3d' following call to either
+#' @param polar Object of S4 class 'volc3d' following call to either
 #'   `polarCoords()` or `DESeqToVolc()`
 #' @param type Either `1` or `2` specifying type of polar coordinates: `1` =
 #'   Z-scaled, `2` = unscaled (equivalent to log2 fold change for gene
@@ -51,7 +51,7 @@
 #' @importFrom plotly plot_ly add_trace add_text layout %>%
 #' @export
 #' 
-volcano3D <- function(obj, type = 1,
+volcano3D <- function(polar, type = 1,
                        grid_colour = "grey80",
                        grid_width = 2,
                        grid_options = NULL,
@@ -69,13 +69,12 @@ volcano3D <- function(obj, type = 1,
                        z_aspectratio = 0.8,
                        camera_eye = list(x=0.9, y=0.9, z=0.9),
                        ...) {
-  if (is(obj, "polar")) {
-    args <- as.list(match.call())[-c(1,2)]
-    args <- append(args, list(polar = obj))
+  if (is(polar, "polar")) {
+    args <- as.list(match.call())[-1]
     return(do.call(volcano3D_v1, args))  # for back compatibility
   }
-  if (!is(obj, "volc3d")) stop("Not a 'volc3d' class object")
-  args <- list(r_vector = obj@df[[type]]$r, z_vector = obj@df[[type]]$z)
+  if (!is(polar, "volc3d")) stop("Not a 'volc3d' class object")
+  args <- list(r_vector = polar@df[[type]]$r, z_vector = polar@df[[type]]$z)
   args <- append(args, grid_options)
   grid <- do.call(polar_grid, args)
   polar_grid <- grid@polar_grid
@@ -94,9 +93,9 @@ volcano3D <- function(obj, type = 1,
                            autotick = FALSE, showspikes = FALSE,
                            range = xyrange)
   
-  plot_ly(obj@df[[type]], x = ~x, y = ~y, z = ~z, color = ~lab, colors = obj@scheme,
+  plot_ly(polar@df[[type]], x = ~x, y = ~y, z = ~z, color = ~lab, colors = polar@scheme,
           hoverinfo='text',
-          text = ~paste0(rownames(obj@df[[type]]), "<br>theta = ", as.integer(angle),
+          text = ~paste0(rownames(polar@df[[type]]), "<br>theta = ", as.integer(angle),
                          ", r = ", formatC(r, digits = 3),
                          "<br>P = ", format(pvalue, digits = 3, scientific = 3)),
           marker = list(size = marker_size,
@@ -119,7 +118,7 @@ volcano3D <- function(obj, type = 1,
     add_text(
       x = radial_axis_title_offset*axis_labels$x, 
       y = radial_axis_title_offset*axis_labels$y, 
-      z = 0, text = levels(obj@outcome),
+      z = 0, text = levels(polar@outcome),
       color = I(axis_colour), type = "scatter3d", mode = "text", 
       textfont = list(size = radial_axis_title_size), 
       textposition = 'middle center', 

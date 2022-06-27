@@ -72,7 +72,7 @@ DESeqToVolc <- function(object, objectLRT, contrast,
     }
     data <- SummarizedExperiment::assay(vstdata)
   }
-  polarCoord(object@colData[, contrast], t(data), pvals, padj, pcutoff, ...)
+  polar_coords(object@colData[, contrast], t(data), pvals, padj, pcutoff, ...)
 }
 
 
