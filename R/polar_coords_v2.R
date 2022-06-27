@@ -1,3 +1,15 @@
+
+
+setClass("volc3d", slots = list(df = "list",
+                                outcome = "factor",
+                                data = "df_or_matrix",
+                                pvals = "matrix",
+                                padj = "matrix",
+                                pcutoff = "numeric",
+                                scheme = "character",
+                                labs = "character"))
+
+
 #' Coordinates for Three Way Polar Plot
 #'
 #' This function creates a 'volc3d' object of S3 class for downstream plots 
@@ -59,12 +71,16 @@ polarCoord <- function(outcome, data,
   ptab <- polar_p(outcome, df1, pvals, padj, pcutoff, scheme, labs)
   df1 <- cbind(df1, ptab)
   df2 <- cbind(df2, ptab)
-  ret <- list(scaled = df1, unscaled = df2,
-              outcome = outcome, data = data, pvals = pvals, padj = padj,
-              pcutoff = pcutoff, scheme = scheme,
-              labs = levels(ptab$lab))
-  class(ret) <- "volc3d"
-  ret
+  # ret <- list(scaled = df1, unscaled = df2,
+  #             outcome = outcome, data = data, pvals = pvals, padj = padj,
+  #             pcutoff = pcutoff, scheme = scheme,
+  #             labs = levels(ptab$lab))
+  # class(ret) <- "volc3d"
+  methods::new("volc3d",
+               df = list(scaled = df1, unscaled = df2),
+               outcome = outcome, data = data, pvals = pvals, padj = padj,
+               pcutoff = pcutoff, scheme = scheme,
+               labs = levels(ptab$lab))
 }
 
 

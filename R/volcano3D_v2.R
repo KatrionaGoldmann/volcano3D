@@ -60,8 +60,8 @@ volcano3dx <- function(obj, type = 1,
                        z_aspectratio = 0.8,
                        camera_eye = list(x=0.9, y=0.9, z=0.9),
                        ...) {
-  if (!inherits(obj, "volc3d")) stop("Not a 'volc3d' class object")
-  args <- list(r_vector = obj[[type]]$r, z_vector = obj[[type]]$z)
+  if (!is(obj, "volc3d")) stop("Not a 'volc3d' class object")
+  args <- list(r_vector = obj@df[[type]]$r, z_vector = obj@df[[type]]$z)
   args <- append(args, grid_options)
   grid <- do.call(polar_grid, args)
   polar_grid <- grid@polar_grid
@@ -80,9 +80,9 @@ volcano3dx <- function(obj, type = 1,
                            autotick = FALSE, showspikes = FALSE,
                            range = xyrange)
   
-  plot_ly(obj[[type]], x = ~x, y = ~y, z = ~z, color = ~lab, colors = obj$scheme,
+  plot_ly(obj@df[[type]], x = ~x, y = ~y, z = ~z, color = ~lab, colors = obj@scheme,
           hoverinfo='text',
-          text = ~paste0(rownames(obj[[type]]), "<br>theta = ", as.integer(angle),
+          text = ~paste0(rownames(obj@df[[type]]), "<br>theta = ", as.integer(angle),
                          ", r = ", formatC(r, digits = 3),
                          "<br>P = ", format(pvalue, digits = 3, scientific = 3)),
           marker = list(size = marker_size,
@@ -105,7 +105,7 @@ volcano3dx <- function(obj, type = 1,
     add_text(
       x = radial_axis_title_offset*axis_labels$x, 
       y = radial_axis_title_offset*axis_labels$y, 
-      z = 0, text = levels(obj$outcome),
+      z = 0, text = levels(obj@outcome),
       color = I(axis_colour), type = "scatter3d", mode = "text", 
       textfont = list(size = radial_axis_title_size), 
       textposition = 'middle center', 

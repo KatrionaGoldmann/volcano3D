@@ -17,9 +17,9 @@ volcano3dx(
   marker_outline_colour = "white",
   z_axis_title_offset = 1.2,
   z_axis_title_size = 12,
+  z_axis_angle = 0.5,
   radial_axis_title_size = 14,
   radial_axis_title_offset = 1.2,
-  axis_angle = 0.5,
   xy_aspectratio = 1,
   z_aspectratio = 0.8,
   camera_eye = list(x = 0.9, y = 0.9, z = 0.9),
@@ -57,19 +57,19 @@ outline)}
 
 \item{z_axis_title_size}{The font size for the z axis title (default=12)}
 
+\item{z_axis_angle}{Angle in radians for the position of z axis (default
+0.5)}
+
 \item{radial_axis_title_size}{The font size for the radial (default=15)}
 
 \item{radial_axis_title_offset}{The position scaling between grid and radial 
 axis title (default=1.2)}
 
-\item{axis_angle}{Angle in radians for the position of z axis (default 0.5)}
-
 \item{xy_aspectratio}{The aspect ratio for the xy axis compared to z (default
-0.75). Increasing this makes the grid wider in the plot window.}
+1). Increasing this makes the grid wider in the plot window.}
 
-\item{z_aspectratio}{The aspect ratio for the z axis compared to x and y.
-Decreasing this makes the plot appear more squat. If `NULL` it is set
-automatically.}
+\item{z_aspectratio}{The aspect ratio for the z axis compared to x and y
+(default 0.8). Decreasing this makes the plot appear more squat.}
 
 \item{camera_eye}{The (x,y,z) components of the start 'eye' camera vector.
 This vector determines the view point about the origin of this scene.}
