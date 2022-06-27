@@ -14,7 +14,6 @@
 #' @param non_sig_colour The colour for non-significant markers
 #' (default = "grey60").
 #' @param label_rows A vector of row names or numbers to label.
-#' @param label_rows A vector of row names or numbers to label.
 #' @param arrow_length The length of label arrows (default = 50).
 #' @param label_size Font size of labels/annotations (default = 14)
 #' @param colour_code_labels Logical whether label annotations should be colour

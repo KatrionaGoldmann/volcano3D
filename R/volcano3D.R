@@ -12,6 +12,12 @@
 #' @param type Either `1` or `2` specifying type of polar coordinates: `1` =
 #'   Z-scaled, `2` = unscaled (equivalent to log2 fold change for gene
 #'   expression).
+#' @param label_rows A vector of row names or numbers to label
+#' @param arrow_length The length of label arrows (default 100)
+#' @param label_size font size for labels (default 14).
+#' @param colour_code_labels Logical whether label annotations should be colour
+#' coded. If `FALSE` `label_colour` is used.
+#' @param label_colour HTML colour of annotation labels if not colour coded.
 #' @param grid_colour The colour of the cylindrical grid (default "grey80")
 #' @param grid_width The width of the grid lines (default 2)
 #' @param grid_options Optional list of additional arguments to pass to
@@ -54,7 +60,7 @@
 volcano3D <- function(polar, type = 1,
                       label_rows = c(),
                       label_size = 14,
-                      arrow_length=100, 
+                      arrow_length = 100, 
                       colour_code_labels = FALSE,
                       label_colour = "black",
                       grid_colour = "grey80",

@@ -6,22 +6,18 @@
 \usage{
 radial_plotly(
   polar,
-  colours = c("green3", "cyan", "blue", "purple", "red", "gold2"),
-  non_sig_colour = "grey60",
-  colour_scale = "discrete",
-  continuous_shift = 1.33,
+  type = 1,
   label_rows = NULL,
   arrow_length = 50,
   grid = NULL,
-  fc_or_zscore = "zscore",
   label_size = 14,
   colour_code_labels = TRUE,
   label_colour = NULL,
   hover_text = "label",
   grid_colour = "grey80",
   grid_width = 1,
-  marker_size = 6,
-  marker_alpha = 0.7,
+  marker_size = 7,
+  marker_alpha = 0.8,
   marker_outline_colour = "white",
   marker_outline_width = 0.5,
   axis_title_size = 16,
@@ -30,9 +26,6 @@ radial_plotly(
   axis_width = 2,
   axis_ticks = NULL,
   axis_angle = 5/6,
-  plot_height = 700,
-  plot_width = 700,
-  source = "radial",
   ...
 )
 }
@@ -40,31 +33,13 @@ radial_plotly(
 \item{polar}{A polar object with the pvalues between groups of interest and
 polar coordinates. Created by \code{\link{polar_coords}}.}
 
-\item{colours}{A vector of colour names or hex triplets for each of the
-six groups. Default = c("green3", "cyan", "blue",
-"purple", "red", "gold2"). Colours are assigned in order: group1+,
-group1+group2+, group2+, group2+group3+, group3+, group1+group3+.}
-
-\item{non_sig_colour}{The colour for non-significant markers
-(default = "grey60").}
-
-\item{colour_scale}{whether to use a 'discrete' or 'continuous' colour scale
-(default = 'discrete').}
-
-\item{continuous_shift}{The number of radians (between 0 and 6)
-to offset the continuous colour scale by. This is calculated by converting
-the angle to a hue using \code{\link[grDevices]{hsv}} where 0 corresponds to
-the colour scale starting with red and 360 with magenta (default = 2).}
+\item{type}{Numeric value whether to use scaled (z-score) or unscaled (fold
+change) as magnitude. Options are 1 = z-score (default) or 2 =
+unscaled/fold change.}
 
 \item{label_rows}{A vector of row names or numbers to label.}
 
 \item{arrow_length}{The length of label arrows (default = 50).}
-
-\item{grid}{An optional grid object. If NULL this will be calculated using
-the default values of \code{\link{polar_grid}}.}
-
-\item{fc_or_zscore}{Whether to use the z-score or fold change as magnitude.
-Options are 'zscore' (default) or 'fc'.}
 
 \item{label_size}{Font size of labels/annotations (default = 14)}
 
@@ -72,23 +47,6 @@ Options are 'zscore' (default) or 'fc'.}
 coded. If FALSE label_colour is used.}
 
 \item{label_colour}{HTML colour of annotation labels if not colour coded.}
-
-\item{hover_text}{A character string containing the argument for hover text
-(default="label"). Possible columns include: \itemize{
-\item "Name" or "label": name and label column for each marker
-\item paste(group, "_axis") the position for each marker on a given axis
-\item "x_zscore", "y_zscore" or "r_zscore": The position according to z-score
-\item "x_fc", "y_fc" or "r_fc": The position according to fold change
-\item "angle", "angle_degrees": Then marker angle
-\item "max_exp" or "sig": The maximally expressed group or significant group
-\item "col" or "hue": The colour or hue of the marker
-\item paste0(group A, "_", group B, "_pvalue"): The pvalue for comparisons
-\item paste0(group A, "_", group B, "_padj"): The pvalue for comparisons
-\item paste0(group A, "_", group B, "_logFC"): The pvalue for comparisons
-\item paste0(multi_group_test, "_pvalue"), 
-paste0(multi_group_test, "_padj"),  paste0(multi_group_test, "_logFC"): 
-The stats for all multi-group tests.
-}}
 
 \item{grid_colour}{The colour of the grid (default="grey80")}
 
@@ -115,17 +73,16 @@ NULL this will be calculated using \code{\link[base]{pretty}}.}
 
 \item{axis_angle}{Angle in radians for the radial axis (default = 5/6).}
 
-\item{plot_height}{Plot height in px (default=700).}
-
-\item{plot_width}{Plot width in px (default=700).}
-
-\item{source}{a character string of length 1. Match the value of this string 
-with the source argument in \code{\link[plotly]{event_data}} to retrieve the 
-event data corresponding to a specific plot (shiny apps can have multiple 
-plots).}
-
 \item{...}{Optional parameters to pass to
 \code{\link[volcano3D]{polar_grid}}.}
+
+\item{colours}{A vector of colour names or hex triplets for each of the
+six groups. Default = c("green3", "cyan", "blue",
+"purple", "red", "gold2"). Colours are assigned in order: group1+,
+group1+group2+, group2+, group2+group3+, group3+, group1+group3+.}
+
+\item{non_sig_colour}{The colour for non-significant markers
+(default = "grey60").}
 }
 \value{
 Returns a plotly plot featuring variables on a tri-axis

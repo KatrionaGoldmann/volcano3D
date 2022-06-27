@@ -5,8 +5,13 @@
 \title{Three-Dimensional Volcano Plot}
 \usage{
 volcano3D(
-  obj,
+  polar,
   type = 1,
+  label_rows = c(),
+  label_size = 14,
+  arrow_length = 100,
+  colour_code_labels = FALSE,
+  label_colour = "black",
   grid_colour = "grey80",
   grid_width = 2,
   grid_options = NULL,
@@ -27,12 +32,23 @@ volcano3D(
 )
 }
 \arguments{
-\item{obj}{Object of S4 class 'volc3d' following call to either
-`polarCoords()` or `DESeqToVolc()`}
+\item{polar}{Object of S4 class 'volc3d' following call to either
+`polar_coords()` or `DESeqToVolc()`}
 
 \item{type}{Either `1` or `2` specifying type of polar coordinates: `1` =
 Z-scaled, `2` = unscaled (equivalent to log2 fold change for gene
 expression).}
+
+\item{label_rows}{A vector of row names or numbers to label}
+
+\item{label_size}{font size for labels (default 14).}
+
+\item{arrow_length}{The length of label arrows (default 100)}
+
+\item{colour_code_labels}{Logical whether label annotations should be colour
+coded. If `FALSE` `label_colour` is used.}
+
+\item{label_colour}{HTML colour of annotation labels if not colour coded.}
 
 \item{grid_colour}{The colour of the cylindrical grid (default "grey80")}
 
