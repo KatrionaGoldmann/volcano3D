@@ -57,7 +57,7 @@ setClass("volc3d", slots = list(df = "list",
 #' 
 #' @export
 #'
-polar_coord <- function(outcome, data,
+polar_coords <- function(outcome, data,
                        pvals = NULL, padj = pvals, pcutoff = 0.05,
                        scheme = c('grey60', 'red', 'gold2', 'green3', 
                                   'cyan', 'blue', 'purple'),

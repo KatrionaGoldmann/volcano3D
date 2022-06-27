@@ -72,7 +72,7 @@ volcano3D <- function(obj, type = 1,
   if (is(obj, "polar")) {
     args <- as.list(match.call())[-c(1,2)]
     args <- append(args, list(polar = obj))
-    return(do.call(volcano3D_v1, args))
+    return(do.call(volcano3D_v1, args))  # for back compatibility
   }
   if (!is(obj, "volc3d")) stop("Not a 'volc3d' class object")
   args <- list(r_vector = obj@df[[type]]$r, z_vector = obj@df[[type]]$z)
