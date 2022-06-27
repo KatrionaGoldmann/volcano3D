@@ -52,6 +52,7 @@
 #' @export
 #' 
 volcano3D <- function(polar, type = 1,
+                      label_rows = c(),
                       grid_colour = "grey80",
                       grid_width = 2,
                       grid_options = NULL,
@@ -92,6 +93,28 @@ volcano3D <- function(polar, type = 1,
                            showticklabels = FALSE, showgrid = FALSE, 
                            autotick = FALSE, showspikes = FALSE,
                            range = xyrange)
+  
+  if(length(label_rows) != 0){
+    
+    if(! all(is.numeric(label_rows))) {
+      if(! all(label_rows %in% rownames(volcano_toptable))) {
+        stop("label_rows must be in rownames(polar_df)")
+      }}
+    if(all(is.numeric(label_rows))) {
+      if(! all(label_rows < nrow(volcano_toptable))) {
+        stop("label_rows not in 1:nrow(polar_df)")
+      }}
+    annot <- lapply(label_rows, function(i) {
+      row <- polar@df[[type]][i, ]
+      if(colour_code_labels) ac <- row$col else ac <- label_colour 
+      annot <- list(x = row$x, y = row$y, z = row$z, 
+                    text = rownames(polar@df[[type]])[i], 
+                    textangle = 0, ax = arrow_length, ay  = 0,
+                    arrowcolor = ac, font = list(color = ac),
+                    arrowwidth = 1, arrowhead = 6, arrowsize = 1.5, 
+                    yanchor = "middle")
+    })
+  } else {annot <- list()}
   
   plot_ly(polar@df[[type]], x = ~x, y = ~y, z = ~z, color = ~lab, colors = polar@scheme,
           hoverinfo='text',
@@ -158,7 +181,8 @@ volcano3D <- function(polar, type = 1,
         dragmode = "turntable",
         xaxis = axis_settings_xy,
         yaxis = axis_settings_xy,
-        zaxis = axis_settings
+        zaxis = axis_settings,
+        annotations = annot
       ),
       xaxis = list(title = "x"),
       yaxis = list(title = "y")
