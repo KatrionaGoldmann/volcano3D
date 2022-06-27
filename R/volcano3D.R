@@ -8,7 +8,7 @@
 #' comparing each variable across the 3 groups.
 #' 
 #' @param polar Object of S4 class 'volc3d' following call to either
-#'   `polarCoords()` or `DESeqToVolc()`
+#'   `polar_coords()` or `DESeqToVolc()`
 #' @param type Either `1` or `2` specifying type of polar coordinates: `1` =
 #'   Z-scaled, `2` = unscaled (equivalent to log2 fold change for gene
 #'   expression).
@@ -52,23 +52,23 @@
 #' @export
 #' 
 volcano3D <- function(polar, type = 1,
-                       grid_colour = "grey80",
-                       grid_width = 2,
-                       grid_options = NULL,
-                       axis_colour = "black",
-                       axis_width = 2,
-                       marker_size = 3,
-                       marker_outline_width = 0,
-                       marker_outline_colour = "white",
-                       z_axis_title_offset = 1.2,
-                       z_axis_title_size = 12,
-                       z_axis_angle = 0.5,
-                       radial_axis_title_size = 14, 
-                       radial_axis_title_offset = 1.2,
-                       xy_aspectratio = 1,
-                       z_aspectratio = 0.8,
-                       camera_eye = list(x=0.9, y=0.9, z=0.9),
-                       ...) {
+                      grid_colour = "grey80",
+                      grid_width = 2,
+                      grid_options = NULL,
+                      axis_colour = "black",
+                      axis_width = 2,
+                      marker_size = 3,
+                      marker_outline_width = 0,
+                      marker_outline_colour = "white",
+                      z_axis_title_offset = 1.2,
+                      z_axis_title_size = 12,
+                      z_axis_angle = 0.5,
+                      radial_axis_title_size = 14, 
+                      radial_axis_title_offset = 1.2,
+                      xy_aspectratio = 1,
+                      z_aspectratio = 0.8,
+                      camera_eye = list(x=0.9, y=0.9, z=0.9),
+                      ...) {
   if (is(polar, "polar")) {
     args <- as.list(match.call())[-1]
     return(do.call(volcano3D_v1, args))  # for back compatibility
