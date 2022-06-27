@@ -3,7 +3,7 @@
 export(DESeqToVolc)
 export(boxplot_trio)
 export(calc_pvals)
-export(polar_coord)
+export(polar_coords)
 export(polar_grid)
 export(radial_ggplot)
 export(radial_plotly)

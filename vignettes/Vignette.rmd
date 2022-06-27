@@ -222,62 +222,11 @@ This can be applied to the example data as below:
 ```{r}
 data("example_data")
 
-syn_polar <- polar_coords(sampledata = syn_example_meta,
-                          contrast = "Pathotype",
-                          pvalues = syn_example_p,
-                          expression = syn_example_rld,
-                          p_col_suffix = "pvalue",
-                          padj_col_suffix = "padj",
-                          fc_col_suffix = "log2FoldChange",
-                          multi_group_prefix = "LRT",
-                          non_sig_name = "Not Significant",
-                          significance_cutoff = 0.01,
-                          label_column = NULL,
-                          fc_cutoff = 0.1)
+syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+                          data = syn_example_rld)
 ```
 
-This creates an polar class object with slots for: sampledata, contrast, 
-pvalues, multi_group_test, expression, polar and non_sig_name. The pvalues slot should now have at least two statistics for each comparison -
-pvalue and adjusted pvalue - and an optional logarithmic fold change statistic:
-
-```{r, eval=FALSE}
-head(syn_polar@pvalues)
-```
-
-```{r, echo=FALSE}
-head(syn_polar@pvalues) %>%
-  kable(col.names = gsub("_l", " _l", gsub("_p", " _p", colnames(syn_polar@pvalues))) )%>%
-  kable_styling(font_size=6.5, full_width = TRUE)
-```
-
-The `sig` column in `syn_polar@polar` allows us to determine relative
-differences in expression between groups (in this case pathotypes). The '+'
-indicates which pathotypes are significantly 'up' compared to others. For
-example:
-
-* genes labelled 'Lymphoid+' are significantly up in Lymphoid vs
-Myeloid **and** Lymphoid vs Fibroid.
-
-* genes up in two pathotypes such as 'Lymphoid+Myeloid+' are up in both
-Lymphoid **and** Myeloid, therefore Lymphoid vs
-Fibroid and Myeloid vs Fibroid are statistically significant.
-
-* genes which show no significant difference between pathotypes are classed
-according to `non_sig_name`
-
-
-This gives us:
-
-
-```{r, eval=FALSE}
-setNames(data.frame(table(syn_polar@polar$sig)), c("Significance", "Frequency"))
-```
-
-```{r, echo=FALSE}
-table(syn_polar@polar$sig) %>%
-  kable(col.names = c("Significance", "Frequency")) %>%
-  kable_styling(full_width = F)
-```
+This creates a 'volc3d' class object for downstream plotting.
 
 ## Volcano Plots
 
@@ -287,19 +236,19 @@ volcano_trio function. This creates
 [ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) outputs:
 
 ```{r, fig.height=2.8, fig.width=7}
-syn_plots <- volcano_trio(polar = syn_polar,
-                          sig_names = c("significant", "significant",
-                                        "not significant", "not significant"),
-                          colours = rep(c("slateblue1",  "grey60"), each=2),
-                          colour_scheme="none", 
-                          text_size = 9,
-                          marker_size=1.5,
-                          shared_legend_size = 0.9,
-                          label_rows = c("SLAMF6", "BOC", "FMOD"),
-                          fc_line = FALSE, 
-                          share_axes = FALSE)
-
-syn_plots$All
+# syn_plots <- volcano_trio(polar = syn_polar,
+#                           sig_names = c("significant", "significant",
+#                                         "not significant", "not significant"),
+#                           colours = rep(c("slateblue1",  "grey60"), each=2),
+#                           colour_scheme="none", 
+#                           text_size = 9,
+#                           marker_size=1.5,
+#                           shared_legend_size = 0.9,
+#                           label_rows = c("SLAMF6", "BOC", "FMOD"),
+#                           fc_line = FALSE, 
+#                           share_axes = FALSE)
+# 
+# syn_plots$All
 ```
 
 ## Radial Plots
@@ -308,7 +257,7 @@ The differential expression can now be visualised on an interactive radial plot
 using radial_plotly. 
 
 ```{r, eval=FALSE, fig.height=5}
-radial_plotly(polar = syn_polar, label_rows = c("SLAMF6", "GREM2", "FMOD")) 
+radial_plotly(syn_polar) 
 ```
 
 <img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/radial_plotly.png" align="center" alt="" width="700" style="border: 0;"/>
@@ -320,8 +269,7 @@ Unfortunately CRAN does not support interactive plotly in the vignette, but thes
 Similarly a static ggplot image can be created using radial_ggplot:
 
 ```{r, fig.height=4.5, fig.width=7}
-radial_ggplot(polar = syn_polar,
-              label_rows = c("SLAMF6", "FMOD", "GREM2"),
+radial_ggplot(syn_polar,
               marker_size = 2.3,
               legend_size = 10) +
   theme(legend.position = "right")
@@ -365,13 +313,7 @@ Lastly, the 3D volcano plot can be used to project
 differential gene expression onto cylindrical coordinates. 
 
 ```{r, eval=FALSE, fig.height=5}
-p <- volcano3D(syn_polar,
-               label_rows = c("SLAMF6", "GREM2", "FMOD"),
-               label_size = 10,
-               xy_aspectratio = 1,
-               title_offset = 1.5,
-               z_aspectratio = 0.9, 
-               plot_height = 700)
+p <- volcano3D(syn_polar)
 p
 ```
 
