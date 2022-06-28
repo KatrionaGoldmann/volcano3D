@@ -39,6 +39,10 @@ unscaled/fold change.}
 \item{colours}{A vector of colours for the non-significant points and each of
 the six groups.}
 
+\item{label_rows}{A vector of row names or indices to label}
+
+\item{arrow_length}{The length of label arrows}
+
 \item{label_size}{Font size of labels/annotations (default = 5).}
 
 \item{colour_code_labels}{Logical whether label annotations should be colour

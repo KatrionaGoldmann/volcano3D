@@ -8,6 +8,8 @@
 #'   unscaled/fold change.
 #' @param colours A vector of colours for the non-significant points and each of
 #'   the six groups.
+#' @param label_rows A vector of row names or indices to label
+#' @param arrow_length The length of label arrows
 #' @param label_size Font size of labels/annotations (default = 5).
 #' @param colour_code_labels Logical whether label annotations should be colour
 #' coded. If FALSE `label_colour` is used.
