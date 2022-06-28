@@ -6,9 +6,9 @@
 #' 'limma voom' to analyse the data. The results are converted to a 'volc3d'
 #' object ready for plotting a 3d volcano plot or polar plot.
 #'
-#' @param formula Design formula of the form `~ 0 + outcome + ...`. The 3-way
-#'   outcome variable must be the first variable after the '0', and this
-#'   variable must be a factor with exactly 3 levels.
+#' @param formula Design formula which must be of the form `~ 0 + outcome + ...`.
+#'   The 3-way outcome variable must be the first variable after the '0', and
+#'   this variable must be a factor with exactly 3 levels.
 #' @param metadata Matrix or dataframe containing metadata as referenced by
 #'   `formula`
 #' @param counts Matrix containing raw gene expression count data

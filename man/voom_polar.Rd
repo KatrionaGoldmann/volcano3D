@@ -7,9 +7,9 @@
 voom_polar(formula, metadata, counts, pcutoff = 0.05, padj.method = "BH", ...)
 }
 \arguments{
-\item{formula}{Design formula of the form `~ 0 + outcome + ...`. The 3-way
-outcome variable must be the first variable after the '0', and this
-variable must be a factor with exactly 3 levels.}
+\item{formula}{Design formula which must be of the form `~ 0 + outcome + ...`.
+The 3-way outcome variable must be the first variable after the '0', and
+this variable must be a factor with exactly 3 levels.}
 
 \item{metadata}{Matrix or dataframe containing metadata as referenced by
 `formula`}
