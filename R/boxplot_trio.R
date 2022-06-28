@@ -149,13 +149,14 @@ boxplot_trio <- function(polar,
                            method = test,
                            step.increase = step_increase,
                            size=stat_size)
-
-    pvals$x.position <- map_pos[pvals$group1] +
-      (map_pos[pvals$group2] - map_pos[pvals$group1])/2
-    pvals$y.position <- max(df$row, na.rm=TRUE)*
-      (1.01 + step_increase*c(seq_len(nrow(pvals))-1))
-    pvals$new_p_label <- pvals$p.format
-
+    if (test %in% c("t.test", "wilcox.test")) {
+      pvals$x.position <- map_pos[pvals$group1] +
+        (map_pos[pvals$group2] - map_pos[pvals$group1])/2
+      pvals$y.position <- max(df$row, na.rm=TRUE)*
+        (1.01 + step_increase*c(seq_len(nrow(pvals))-1))
+      pvals$new_p_label <- pvals$p.format
+    } else pvals <- pvals$p
+    
     # groups comparisons
   } else if (! grepl("multi", test)){
     
@@ -206,7 +207,7 @@ boxplot_trio <- function(polar,
             legend.background = element_rect(fill="transparent", colour=NA))
 
 
-    if(! grepl("multi", test)){
+    if(! grepl("multi", test) & !(test %in% c("anova", "kruskal.test"))){
 
       p <- p + stat_pvalue_manual(
         data = pvals, label = "p.format",
@@ -215,7 +216,7 @@ boxplot_trio <- function(polar,
         y.position = "y.position", color = stat_colour,
         size=stat_size, ...)
     } else{
-      # muti group comparison
+      # multi group comparison
       p <- p + annotate("text", x = 0.5 + length(unique(df$group))/2,
                         y = Inf, vjust = 2, hjust = 0.5, color = stat_colour,
                         label = paste("p =", format(pvals, digits = 2)))
