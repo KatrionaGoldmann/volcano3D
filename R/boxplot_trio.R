@@ -131,7 +131,7 @@ boxplot_trio <- function(polar,
 
   df <- data.frame(
                    "group" = outcome,
-                   "row" = as.numeric(as.character(expression[value, ])))
+                   "row" = expression[value, ])
   df <- df[! is.na(df$row), ]
   df <- df[df$group %in% levels_order, ]
 
@@ -178,14 +178,13 @@ boxplot_trio <- function(polar,
       }))
     pvals <- pvals[pvals$comp %in% comp_use, ]
 
-    # muti group comparisons
+    # multi group comparisons
   } else{
     # polar_multi_test
     pvals <- switch(test,
                     "polar_multi_pvalue" = pvalues[value, 1],
                     "polar_multi_padj" = padj[value, 1])
   }
-  print(pvals)
 
   if(plot_method == 'ggplot'){
     p <- ggboxplot(data = df,
