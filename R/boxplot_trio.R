@@ -237,17 +237,17 @@ boxplot_trio <- function(polar,
       add_markers(x = ~jitter(as.numeric(group)), y = ~row,
                   marker = list(size = 6, color=~col),
                   hoverinfo = "text",
-                  text = ~paste0(ID,
-                                 "<br>Group: ", group,
-                                 "<br>Expression: ", row),
+                  text = paste0(rownames(df),
+                    "<br>Group: ", df$group,
+                                 "<br>Expression: ", format(df$row, digits = 3)),
                   showlegend = FALSE) %>%
       layout(legend = list(orientation = "h",
                            x =0.5, xanchor = "center",
                            y = 1, yanchor = "bottom"
       ),
-      xaxis = list(title = polar@contrast, tickvals = 1:3,
+      xaxis = list(title = "", tickvals = 1:3,
                    ticktext = levels(df$group)),
-      yaxis = list(title = paste(value, "Expression")))
+      yaxis = list(title = value))
 
 
     lines <- list()
