@@ -1,12 +1,26 @@
 
 
+#' Convert RNA-Seq count data to a volcano3d object using 'limma voom'
 #'
+#' This function takes a design formula, metadata and raw count data and uses
+#' 'limma voom' to analyse the data. The results are converted to a 'volc3d'
+#' object ready for plotting a 3d volcano plot or polar plot.
 #'
+#' @param formula Design formula of the form `~ 0 + outcome + ...`. The 3-way
+#'   outcome variable must be the first variable after the '0', and this
+#'   variable must be a factor with exactly 3 levels.
+#' @param metadata Matrix or dataframe containing metadata as referenced by
+#'   `formula`
+#' @param counts Matrix containing raw gene expression count data
+#' @param pcutoff Cut-off for p-value significance
+#' @param padj.method Can be any method available in `p.adjust` or `"qvalue"`.
+#'   The option "none" is a pass-through.
+#' @param ... Optional arguments passed to [polar_coords()]
 #' @export
 
 voom_polar <- function(formula, metadata, counts,
-                        padj.method = "BH",
-                        pcutoff = 0.05, ...) {
+                       pcutoff = 0.05,
+                       padj.method = "BH", ...) {
   if (!requireNamespace("edgeR", quietly = TRUE)) {
     stop("Can't find package edgeR. Try:
            BiocManager::install('edgeR')", call. = FALSE)
@@ -57,5 +71,4 @@ voom_polar <- function(formula, metadata, counts,
   
   polar_coords(metadata[, outcome_col], t(log2(counts[keep, ] + 1)), pvals, padj, pcutoff, ...)
 }
-
 

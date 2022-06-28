@@ -1,6 +1,6 @@
-#' Convert DESeq2 objects to volcano3d
+#' Convert DESeq2 objects to a volcano3d object
 #'
-#' This function takes 2 DESeqDataSet objects and converts the results to a
+#' This function takes 2 `DESeqDataSet` objects and converts the results to a
 #' 'volc3d' object.
 #'
 #' @param object An object of class 'DESeqDataSet' with the full design formula.
@@ -18,7 +18,7 @@
 #' @param pcutoff Cut-off for p-value significance
 #' @param padj.method Can be any method available in `p.adjust` or `"qvalue"`.
 #'   The option "none" is a pass-through.
-#' @param ... Optional arguments passed to [polarCoord()]
+#' @param ... Optional arguments passed to [polar_coords()]
 #' @export
 
 deseq2_polar <- function(object, objectLRT, contrast,

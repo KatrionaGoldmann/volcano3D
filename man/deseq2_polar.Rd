@@ -2,7 +2,7 @@
 % Please edit documentation in R/deseq_volc3d.R
 \name{deseq2_polar}
 \alias{deseq2_polar}
-\title{Convert DESeq2 objects to volcano3d}
+\title{Convert DESeq2 objects to a volcano3d object}
 \usage{
 deseq2_polar(
   object,
@@ -36,9 +36,9 @@ expression datasets, genes are in rows.}
 \item{padj.method}{Can be any method available in `p.adjust` or `"qvalue"`.
 The option "none" is a pass-through.}
 
-\item{...}{Optional arguments passed to [polarCoord()]}
+\item{...}{Optional arguments passed to [polar_coords()]}
 }
 \description{
-This function takes 2 DESeqDataSet objects and converts the results to a
+This function takes 2 `DESeqDataSet` objects and converts the results to a
 'volc3d' object.
 }
