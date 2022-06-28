@@ -34,6 +34,7 @@ voom_polar <- function(formula, metadata, counts,
   outcome_col <- modterms[1]
   if (nlevels(metadata[, outcome_col]) != 3) stop("Outcome does not have 3 levels")
   
+  design <- NULL
   design <<- model.matrix(formula, data = metadata)  # needed for limma
   contrast.matrix <- limma::makeContrasts(
     paste0(colnames(design)[1] , "-", colnames(design)[2]),
