@@ -28,6 +28,7 @@ Imports:
     ggpubr,
     ggrepel,
     htmlwidgets,
+    magrittr,
     methods,
     Rfast,
     matrixTests

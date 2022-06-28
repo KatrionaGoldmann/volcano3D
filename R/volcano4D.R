@@ -23,7 +23,8 @@
 #' Molecular portraits of early rheumatoid arthritis identify clinical and 
 #' treatment response phenotypes.}
 #' \emph{Cell reports}, \strong{28}:9
-#' @importFrom plotly plot_ly add_trace add_text layout %>%
+#' @importFrom plotly plot_ly add_trace add_text layout
+#' @importFrom magrittr %>%
 #' @importFrom grDevices hsv rgb
 #' @keywords hplot iplot
 #' @concept volcanoplot 
