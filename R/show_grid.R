@@ -18,21 +18,11 @@
 #' @export
 #' @examples
 #' data(example_data)
-#' syn_polar <- polar_coords(sampledata = syn_example_meta,
-#'                        contrast = "Pathotype",
-#'                        groups = NULL,
-#'                        pvalues = syn_example_p,
-#'                        expression = syn_example_rld,
-#'                        p_col_suffix = "pvalue",
-#'                        padj_col_suffix = "padj",
-#'                        non_sig_name = "Not Significant",
-#'                        multi_group_prefix = "LRT",
-#'                        significance_cutoff = 0.01,
-#'                        fc_col_suffix='log2FoldChange',
-#'                        fc_cutoff = 0.3)
+#' syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+#'                           data = t(syn_example_rld))
 #'
-#' grid <- polar_grid(r_vector=syn_polar@polar$r_zscore,
-#'         z_vector=-log(syn_polar@pvalues$LRT_pvalue),
+#' grid <- polar_grid(r_vector=syn_polar@df[[1]]$r,
+#'         z_vector=-log(syn_polar@df[[1]]$z,
 #'         r_axis_ticks = NULL,
 #'         z_axis_ticks = NULL)
 #' p <- show_grid(grid)
