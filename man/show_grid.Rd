@@ -28,7 +28,7 @@ syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
                           data = t(syn_example_rld))
 
 grid <- polar_grid(r_vector=syn_polar@df[[1]]$r,
-        z_vector=-log(syn_polar@df[[1]]$z,
+        z_vector=syn_polar@df[[1]]$z,
         r_axis_ticks = NULL,
         z_axis_ticks = NULL)
 p <- show_grid(grid)
