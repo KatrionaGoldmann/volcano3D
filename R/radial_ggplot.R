@@ -51,7 +51,7 @@
 
 radial_ggplot <- function(polar,
                           type = 1,
-                          colours = polar@scheme,
+                          colours = NULL,
                           label_rows = NULL,
                           arrow_length = 1.2,
                           label_size = 5,
@@ -85,7 +85,10 @@ radial_ggplot <- function(polar,
     
     old_levels <- levels(polar_df$lab)
     polar_df$lab <- droplevels(polar_df$lab)
-    colours <- colours[old_levels %in% levels(polar_df$lab)]
+    if (is.null(colours)) {
+      colours <- polar@scheme
+      colours <- colours[old_levels %in% levels(polar_df$lab)]
+    }
 
     # alignment for text
     hadj <- -1*sign(grid@axis_labs$x)
