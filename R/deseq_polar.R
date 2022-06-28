@@ -21,7 +21,7 @@
 #' @param ... Optional arguments passed to [polar_coords()]
 #' @export
 
-deseq2_polar <- function(object, objectLRT, contrast,
+deseq_polar <- function(object, objectLRT, contrast,
                         data = NULL,
                         pcutoff = 0.05,
                         padj.method = "BH", ...) {

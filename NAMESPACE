@@ -2,7 +2,7 @@
 
 export(boxplot_trio)
 export(calc_pvals)
-export(deseq2_polar)
+export(deseq_polar)
 export(polar_coords)
 export(polar_grid)
 export(radial_ggplot)
