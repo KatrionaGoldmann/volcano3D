@@ -7,12 +7,8 @@
 #' @param type Numeric value whether to use scaled (z-score) or unscaled (fold
 #'   change) as magnitude. Options are 1 = z-score (default) or 2 =
 #'   unscaled/fold change.
-#' @param colours A vector of colour names or hex triplets for each of the
-#' six groups. Default = c("green3", "cyan", "blue",
-#' "purple", "red", "gold2"). Colours are assigned in order: group1+,
-#' group1+group2+, group2+, group2+group3+, group3+, group1+group3+.
-#' @param non_sig_colour The colour for non-significant markers
-#' (default = "grey60").
+#' @param colours A vector of colour names or hex triplets for the
+#'   non-significant points and each of the six groups.
 #' @param label_rows A vector of row names or numbers to label.
 #' @param arrow_length The length of label arrows (default = 50).
 #' @param label_size Font size of labels/annotations (default = 14)
@@ -49,29 +45,21 @@
 #' @export
 #' @examples
 #' data(example_data)
-#' syn_polar <- polar_coords(sampledata = syn_example_meta,
-#'                           contrast = "Pathotype",
-#'                           groups = NULL,
-#'                           pvalues = syn_example_p,
-#'                           expression = syn_example_rld,
-#'                           p_col_suffix = "pvalue",
-#'                           padj_col_suffix = "padj",
-#'                           non_sig_name = "Not Significant",
-#'                           multi_group_prefix = "LRT",
-#'                           significance_cutoff = 0.01,
-#'                           fc_cutoff = 0.3)
+#' syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+#'                           data = t(syn_example_rld))
 #'
 #' radial_plotly(polar = syn_polar, label_rows = c("SLAMF6"))
 
 
 radial_plotly <- function(polar,
                           type = 1,
+                          colours = polar@scheme,
                           label_rows = NULL,
                           arrow_length = 50,
                           grid = NULL,
                           label_size = 14,
-                          colour_code_labels = TRUE,
-                          label_colour = NULL,
+                          colour_code_labels = FALSE,
+                          label_colour = "black",
                           hover_text = "label",
                           grid_colour = "grey80", 
                           grid_width = 1,
@@ -103,20 +91,20 @@ radial_plotly <- function(polar,
   # Annotate gene labels
   if (length(label_rows) != 0) {
     if(! all(is.numeric(label_rows))) {
-      if(! all(label_rows %in% rownames(polar_df))) {
-        stop("label_rows must be in rownames(polar_df)")
+      if(! all(label_rows %in% rownames(df))) {
+        stop("label_rows must be in rownames(df)")
       }}
     if(all(is.numeric(label_rows))) {
-      if(! all(label_rows < nrow(polar_df))) {
-        stop("label_rows not in 1:nrow(polar_df)")
+      if(! all(label_rows < nrow(df))) {
+        stop("label_rows not in 1:nrow(df)")
       }}
     annot <- lapply(label_rows, function(i) {
-      row  <- polar_df[i, ]
+      row  <- df[i, ]
       theta <- atan(row$y/row$x)
       if(colour_code_labels) ac <- row$col else ac <- label_colour 
       list(x = row$x,
            y = row$y,
-           text = as.character(row$label),
+           text = rownames(row),
            textangle = 0,
            ax = sign(row$x)*arrow_length*grid@r*cos(theta),
            ay  = -1*sign(row$x)*arrow_length*grid@r*sin(theta),
@@ -133,7 +121,7 @@ radial_plotly <- function(polar,
   # plotly plot
   # add the grid
   p <- plot_ly(data = df, x = ~x, mode = "none", type = "scatter",
-               colors = polar@scheme, showlegend = FALSE) %>%
+               colors = colours, showlegend = FALSE) %>%
     add_trace(x = polar_grid$x, y = polar_grid$y, color = I(grid_colour),
               line = list(width = grid_width), showlegend = FALSE, 
               type = "scatter", mode = "lines", hoverinfo = "none") %>%
@@ -168,7 +156,8 @@ radial_plotly <- function(polar,
                         showgrid = FALSE),
            plot_bgcolor = "rgba(0,0,0,0)",
            paper_bgcolor = 'rgba(0,0,0,0)',
-           autosize = TRUE, uirevision=list(editable=TRUE)) %>%
+           autosize = TRUE, uirevision=list(editable=TRUE),
+           annotations = annot) %>%
     # add the markers
     add_markers(data = df, x = ~x, y = ~y,
                 text = rownames(df),
