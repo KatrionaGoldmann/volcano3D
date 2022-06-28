@@ -1,5 +1,5 @@
 
-#' @export
+#' @importFrom grDevices col2rgb
 
 boxplot_trio_v1 <- function(polar,
                          value,

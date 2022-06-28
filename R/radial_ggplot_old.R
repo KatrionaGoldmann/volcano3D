@@ -1,5 +1,5 @@
 
-#' @export
+#' @importFrom grDevices col2rgb
 
 radial_ggplot_v1 <- function(polar,
                           colours = c("green3", "cyan", "blue",

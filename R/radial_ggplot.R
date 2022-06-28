@@ -34,6 +34,7 @@
 #' arrow unit element_rect aes_string scale_fill_manual
 #' @importFrom graphics text
 #' @importFrom grDevices hsv
+#' @importFrom methods is
 #' @keywords hplot
 #' @references
 #' Lewis, Myles J., et al. (2019).

@@ -55,6 +55,7 @@ setClass("volc3d", slots = list(df = "list",
 #'   \item{'padj'} A dataframe containing p-values adjusted for multiple testing
 #' }
 #' 
+#' @importFrom methods is
 #' @export
 #'
 polar_coords <- function(outcome, data,

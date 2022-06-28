@@ -16,6 +16,7 @@
 #' @param padj.method Can be any method available in `p.adjust` or `"qvalue"`.
 #'   The option "none" is a pass-through.
 #' @param ... Optional arguments passed to [polar_coords()]
+#' @importFrom stats coefficients model.matrix terms
 #' @export
 
 voom_polar <- function(formula, metadata, counts,

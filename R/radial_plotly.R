@@ -35,6 +35,7 @@
 #' @importFrom plotly plot_ly add_trace add_text add_markers layout
 #' @importFrom stats p.adjust setNames
 #' @importFrom grDevices hsv
+#' @importFrom methods is
 #' @references
 #' Lewis, Myles J., et al. (2019).
 #' \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{

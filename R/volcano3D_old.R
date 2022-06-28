@@ -9,7 +9,6 @@ setClass("polar", slots = list(sampledata = "data.frame",
                                polar = "df_or_matrix",
                                non_sig_name = "character"))
 
-#' @export
 
 volcano3D_v1 <- function(polar,
                       colours=c("green3", "cyan", "blue", 

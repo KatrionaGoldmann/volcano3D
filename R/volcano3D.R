@@ -55,6 +55,7 @@
 #' \emph{Cell reports}, \strong{28}:9
 #' 
 #' @importFrom plotly plot_ly add_trace add_text layout %>%
+#' @importFrom methods is
 #' @export
 #' 
 volcano3D <- function(polar, type = 1,

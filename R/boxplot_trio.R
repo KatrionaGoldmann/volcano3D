@@ -40,9 +40,10 @@
 #' stat_compare_means
 #' @importFrom plotly layout plot_ly add_trace add_markers
 #' @importFrom utils combn
-#' @importFrom grDevices hsv
+#' @importFrom grDevices hsv col2rgb
 #' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate
 #' geom_point scale_color_manual aes geom_jitter element_rect aes_string
+#' @importFrom methods is
 #' @keywords hplot
 #' @references
 #' Lewis, Myles J., et al. (2019).
