@@ -21,7 +21,7 @@
 #' @param ... Optional arguments passed to [polarCoord()]
 #' @export
 
-DESeqToVolc <- function(object, objectLRT, contrast,
+deseq2_polar <- function(object, objectLRT, contrast,
                         data = NULL,
                         pcutoff = 0.05,
                         padj.method = "BH", ...) {
