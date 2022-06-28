@@ -70,7 +70,10 @@ radial_ggplot <- function(polar,
                           axis_angle = 1/6,
                           legend_size = 20,
                           ...){
-
+    if (is(polar, "polar")) {
+      args <- as.list(match.call())[-1]
+      return(do.call(radial_ggplot_v1, args))  # for back compatibility
+    }
     if(! is(polar, "volc3d")) stop("polar must be a 'volc3d' object")
     polar_df <- polar@df[[type]]
 

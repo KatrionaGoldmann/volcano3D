@@ -7,12 +7,13 @@
 radial_plotly(
   polar,
   type = 1,
+  colours = polar@scheme,
   label_rows = NULL,
   arrow_length = 50,
   grid = NULL,
   label_size = 14,
-  colour_code_labels = TRUE,
-  label_colour = NULL,
+  colour_code_labels = FALSE,
+  label_colour = "black",
   hover_text = "label",
   grid_colour = "grey80",
   grid_width = 1,
@@ -36,6 +37,9 @@ polar coordinates. Created by \code{\link{polar_coords}}.}
 \item{type}{Numeric value whether to use scaled (z-score) or unscaled (fold
 change) as magnitude. Options are 1 = z-score (default) or 2 =
 unscaled/fold change.}
+
+\item{colours}{A vector of colour names or hex triplets for the
+non-significant points and each of the six groups.}
 
 \item{label_rows}{A vector of row names or numbers to label.}
 
@@ -75,14 +79,6 @@ NULL this will be calculated using \code{\link[base]{pretty}}.}
 
 \item{...}{Optional parameters to pass to
 \code{\link[volcano3D]{polar_grid}}.}
-
-\item{colours}{A vector of colour names or hex triplets for each of the
-six groups. Default = c("green3", "cyan", "blue",
-"purple", "red", "gold2"). Colours are assigned in order: group1+,
-group1+group2+, group2+, group2+group3+, group3+, group1+group3+.}
-
-\item{non_sig_colour}{The colour for non-significant markers
-(default = "grey60").}
 }
 \value{
 Returns a plotly plot featuring variables on a tri-axis
@@ -94,17 +90,8 @@ expression onto a polar coordinates.
 }
 \examples{
 data(example_data)
-syn_polar <- polar_coords(sampledata = syn_example_meta,
-                          contrast = "Pathotype",
-                          groups = NULL,
-                          pvalues = syn_example_p,
-                          expression = syn_example_rld,
-                          p_col_suffix = "pvalue",
-                          padj_col_suffix = "padj",
-                          non_sig_name = "Not Significant",
-                          multi_group_prefix = "LRT",
-                          significance_cutoff = 0.01,
-                          fc_cutoff = 0.3)
+syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+                          data = t(syn_example_rld))
 
 radial_plotly(polar = syn_polar, label_rows = c("SLAMF6"))
 }

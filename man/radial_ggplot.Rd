@@ -6,17 +6,13 @@
 \usage{
 radial_ggplot(
   polar,
-  colours = c("green3", "cyan", "blue", "purple", "red", "gold2"),
-  non_sig_colour = "grey60",
-  colour_scale = "discrete",
-  continuous_shift = 1.33,
+  type = 1,
+  colours = NULL,
   label_rows = NULL,
-  arrow_length = 1,
-  grid = NULL,
-  fc_or_zscore = "zscore",
+  arrow_length = 1.2,
   label_size = 5,
-  colour_code_labels = TRUE,
-  label_colour = NULL,
+  colour_code_labels = FALSE,
+  label_colour = "black",
   grid_colour = "grey80",
   grid_width = 0.7,
   axis_colour = "black",
@@ -33,39 +29,20 @@ radial_ggplot(
 )
 }
 \arguments{
-\item{polar}{A polar object with the pvalues between groups of interest and
+\item{polar}{A 'volc3d' object with the p-values between groups of interest and
 polar coordinates. Created by \code{\link{polar_coords}}.}
 
-\item{colours}{A vector of colour names or hex triplets for each of the
-six groups. Default = c("green3", "cyan", "blue",
-"purple", "red", "gold2"). Colours are assigned in order: group1+,
-group1+group2+, group2+, group2+group3+, group3+, group1+group3+.}
+\item{type}{Numeric value whether to use scaled (z-score) or unscaled (fold
+change) as magnitude. Options are 1 = z-score (default) or 2 =
+unscaled/fold change.}
 
-\item{non_sig_colour}{The colour for non-significant markers 
-(default = "grey60").}
-
-\item{colour_scale}{whether to use a "discrete" or "continuous" colour scale
-(default = "discrete").}
-
-\item{continuous_shift}{the number of radians (between 0 and 2)
-corresponding to the angle to offset the continuous colour scale by. The
-continuous colour scale is calculated by converting the angle to hue where 0
-corresponds to red and 2 to magenta (default = 1.33).}
-
-\item{label_rows}{A vector of row names or numbers to label.}
-
-\item{arrow_length}{length of label arrow (default = 1).}
-
-\item{grid}{An optional grid object. If NULL this will be calculated using
-default values of  \code{\link{polar_grid}}.}
-
-\item{fc_or_zscore}{Whether to use the z-score or fold change as magnitude.
-Options are 'zscore' (default) or 'fc'.}
+\item{colours}{A vector of colours for the non-significant points and each of
+the six groups.}
 
 \item{label_size}{Font size of labels/annotations (default = 5).}
 
 \item{colour_code_labels}{Logical whether label annotations should be colour
-coded. If FALSE label_colour is used.}
+coded. If FALSE `label_colour` is used.}
 
 \item{label_colour}{Colour of annotation labels if not colour coded}
 
@@ -106,17 +83,8 @@ This function creates a radar plot using 'ggplot' for a three-way comparison
 }
 \examples{
 data(example_data)
-syn_polar <- polar_coords(sampledata = syn_example_meta,
-                          contrast = "Pathotype",
-                          groups = NULL,
-                          pvalues = syn_example_p,
-                          expression = syn_example_rld,
-                          p_col_suffix = "pvalue",
-                          padj_col_suffix = "padj",
-                          non_sig_name = "Not Significant",
-                          multi_group_prefix = "LRT",
-                          significance_cutoff = 0.01,
-                          fc_cutoff = 0.3)
+syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+                          data = t(syn_example_rld))
 
 radial_ggplot(polar = syn_polar, label_rows = c("SLAMF6"))
 }
