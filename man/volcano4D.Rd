@@ -46,26 +46,12 @@ Add mode bar button to rotate the plot
 }
 \examples{
 data(example_data)
-syn_polar <- polar_coords(sampledata = syn_example_meta,
-                          contrast = "Pathotype", 
-                          groups = NULL, 
-                          pvalues = syn_example_p, 
-                          expression = syn_example_rld, 
-                          p_col_suffix = "pvalue", 
-                          padj_col_suffix = "padj", 
-                          non_sig_name = "Not Significant", 
-                          multi_group_prefix = "LRT",
-                          significance_cutoff = 0.01, 
-                          fc_col_suffix='log2FoldChange',
-                          fc_cutoff = 0.3)
+syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+                          data = t(syn_example_rld))
 
-p <- volcano3D(syn_polar, 
-    label_rows = c("FMOD", "LAMP5", "TNNT3"), 
-    xy_aspectratio = 1, 
-    label_size = 10, 
-    z_aspectratio = 0.9)
+volcano3D(syn_polar, 
+    label_rows = c("FMOD", "LAMP5", "TNNT3")) \%>\% volcano4D
     
-volcano4D(p)
 }
 \references{
 Lewis, Myles J., et al. (2019).
