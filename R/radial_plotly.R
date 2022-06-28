@@ -33,6 +33,7 @@
 #' @return Returns a plotly plot featuring variables on a tri-axis
 #' radial graph
 #' @importFrom plotly plot_ly add_trace add_text add_markers layout
+#' @importFrom magrittr %>%
 #' @importFrom stats p.adjust setNames
 #' @importFrom grDevices hsv
 #' @importFrom methods is

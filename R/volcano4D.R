@@ -34,9 +34,10 @@
 #' syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
 #'                           data = t(syn_example_rld))
 #' 
-#' volcano3D(syn_polar, 
-#'     label_rows = c("FMOD", "LAMP5", "TNNT3")) %>% volcano4D
-#'     
+#' p <- volcano3D(syn_polar, 
+#'     label_rows = c("FMOD", "LAMP5", "TNNT3"))
+#' volcano4D(p)
+#' 
 #' @export
 
 volcano4D <- function(p, 
