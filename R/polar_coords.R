@@ -4,7 +4,7 @@ setClass("volc3d", slots = list(df = "list",
                                 outcome = "factor",
                                 data = "df_or_matrix",
                                 pvals = "matrix",
-                                padj = "matrix",
+                                padj = "df_or_matrix",
                                 pcutoff = "numeric",
                                 scheme = "character",
                                 labs = "character"))

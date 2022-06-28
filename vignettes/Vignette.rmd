@@ -223,7 +223,7 @@ This can be applied to the example data as below:
 data("example_data")
 
 syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
-                          data = syn_example_rld)
+                          data = t(syn_example_rld))
 ```
 
 This creates a 'volc3d' class object for downstream plotting.
