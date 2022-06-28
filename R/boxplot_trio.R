@@ -71,7 +71,11 @@ boxplot_trio <- function(polar,
                          step_increase = 0.05,
                          plot_method="ggplot",
                          ...){
-
+  if (is(polar, "polar")) {
+    args <- as.list(match.call())[-1]
+    return(do.call(boxplot_trio_v1, args))  # for back compatibility
+  }
+  if(! is(polar, "volc3d")) stop("Not a 'volc3d' class object")
   outcome <- polar@outcome
   expression <- t(polar@data)
   pvalues <- polar@pvals
