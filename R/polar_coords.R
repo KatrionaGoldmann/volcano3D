@@ -166,6 +166,7 @@ calc_pvals <- function(outcome, data,
     padj$p2[index] <- qval(p2[index], method = padj.method)
     padj$p3[index] <- qval(p3[index], method = padj.method)
   }
+  padj <- as.matrix(padj)
   
   list(pvals = pvals, padj = padj)
 }
