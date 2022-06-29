@@ -259,14 +259,14 @@ differences between groups:
 
 ```{r, fig.height = 3.2, fig.width = 7}
 plot1 <- boxplot_trio(syn_polar,
-                      value = "SLAMF6",
+                      value = "COBL",
                       text_size = 7,
                       test = "polar_padj",
                       my_comparisons=list(c("Lymphoid", "Myeloid"),
                                           c("Lymphoid", "Fibroid")))
 
 plot2 <- boxplot_trio(syn_polar,
-                      value = "SLAMF6",
+                      value = "COBL",
                       box_colours = c("violet", "gold2"),
                       levels_order = c("Lymphoid", "Fibroid"),
                       text_size = 7,
@@ -274,7 +274,7 @@ plot2 <- boxplot_trio(syn_polar,
                       )
 
 plot3 <- boxplot_trio(syn_polar,
-                      value = "FMOD",
+                      value = "TREX2",
                       text_size = 7,
                       stat_size=2.5,
                       test = "polar_multi_padj",
