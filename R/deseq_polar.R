@@ -6,8 +6,8 @@
 #' @param object An object of class 'DESeqDataSet' with the full design formula.
 #'   The function `DESeq` needs to have been run.
 #' @param objectLRT An object of class 'DESeqDataSet' with the reduced design
-#'   formula. The function `DESeq` needs to have been run with argument
-#'   `test="LRT"`.
+#'   formula. The function `DESeq` needs to have been run on this object with
+#'   argument `test="LRT"`.
 #' @param contrast Character value specifying column within the metadata stored
 #'   in the DESeq2 dataset objects is the outcome variable. This column must 
 #'   contain a factor with 3 levels.
@@ -83,3 +83,7 @@ deseq_qvalue <- function(df) {
   df
 }
 
+
+deseq_LRT <- function(object, formula, ...) {
+  
+}

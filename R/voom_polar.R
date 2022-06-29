@@ -15,13 +15,17 @@
 #' @param pcutoff Cut-off for p-value significance
 #' @param padj.method Can be any method available in `p.adjust` or `"qvalue"`.
 #'   The option "none" is a pass-through.
+#' @param filter_pairwise Logical whether adjusted p-value pairwise statistical
+#'   tests are only conducted on genes which reach significant adjusted p-value
+#'   cut-off on the group likelihood ratio test
 #' @param ... Optional arguments passed to [polar_coords()]
 #' @importFrom stats coefficients model.matrix terms
 #' @export
 
 voom_polar <- function(formula, metadata, counts,
                        pcutoff = 0.05,
-                       padj.method = "BH", ...) {
+                       padj.method = "BH",
+                       filter_pairwise = TRUE, ...) {
   if (!requireNamespace("edgeR", quietly = TRUE)) {
     stop("Can't find package edgeR. Try:
            BiocManager::install('edgeR')", call. = FALSE)
@@ -34,21 +38,21 @@ voom_polar <- function(formula, metadata, counts,
   outcome_col <- modterms[1]
   if (nlevels(metadata[, outcome_col]) != 3) stop("Outcome does not have 3 levels")
   
-  design <- NULL
-  design <<- model.matrix(formula, data = metadata)  # needed for limma
-  contrast.matrix <- limma::makeContrasts(
-    paste0(colnames(design)[1] , "-", colnames(design)[2]),
-    paste0(colnames(design)[1] , "-", colnames(design)[3]),
-    paste0(colnames(design)[2] , "-", colnames(design)[3]),
-    levels = design)
+  .vdesign <- NULL
+  .vdesign <<- model.matrix(formula, data = metadata)  # needed for limma
+  .vcontrast.matrix <- limma::makeContrasts(
+    paste0(colnames(.vdesign)[1] , "-", colnames(.vdesign)[2]),
+    paste0(colnames(.vdesign)[1] , "-", colnames(.vdesign)[3]),
+    paste0(colnames(.vdesign)[2] , "-", colnames(.vdesign)[3]),
+    levels = .vdesign)
   dge <- edgeR::DGEList(counts = counts)
   keep <- edgeR::filterByExpr(dge, design)
   dge <- dge[keep, , keep.lib.sizes = FALSE]
   dge <- edgeR::calcNormFactors(dge)
   # voom
-  v <- limma::voom(dge, design, plot = FALSE)
-  fit1 <- limma::lmFit(v, design)
-  fit <- limma::contrasts.fit(fit1, contrast.matrix) 
+  v <- limma::voom(dge, .vdesign, plot = FALSE)
+  fit1 <- limma::lmFit(v, .vdesign)
+  fit <- limma::contrasts.fit(fit1, .vcontrast.matrix) 
   fit <- limma::eBayes(fit)
   contrasts <- colnames(coefficients(fit))
   Pvals_limma_DE <- lapply(contrasts, function(x){
@@ -63,7 +67,7 @@ voom_polar <- function(formula, metadata, counts,
                  Pvals_limma_DE[[2]]$P.Value, 
                  Pvals_limma_DE[[3]]$P.Value)
   LRTpadj <- qval(Pvals_overall, method = padj.method)
-  ind <- LRTpadj < pcutoff
+  ind <- if (filter_pairwise) LRTpadj < pcutoff else rep_len(TRUE, length(LRTpadj))
   pairadj <- apply(pvals[, 2:4], 2, function(res) {
     out <- rep_len(NA, length(LRTpadj))
     out[ind] <- qval(res[ind], method = padj.method)
