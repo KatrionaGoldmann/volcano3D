@@ -35,11 +35,13 @@ library(usethis)
 ```
 
 
-The volcano3D package enables exploration of probes differentially 
-expressed between three groups. Its main purpose is for the
-visualisation of differentially expressed genes in a three-dimensional
-volcano plot. These plots can be converted to interactive visualisations using
-plotly. 
+The volcano3D package enables exploration of genes differentially expressed
+between three groups. Its main purpose is for the visualisation of
+differentially expressed genes in a three-dimensional volcano plot. These plots
+can be converted to interactive visualisations using plotly. The 3-way polar
+plots and 3d volcano plots can be applied to any data in which multiple
+variables have been measured and their relative levels are being compared across
+three groups.
 
 This vignette covers the basic features of the package using a small example 
 data set. To explore more extensive examples and view the interactive radial 
