@@ -5,10 +5,9 @@
 \alias{syn_example_meta}
 \title{PEAC synovial sample data}
 \format{
-A data frame with 81 rows and 4 variables:
+A data frame with 81 rows and 1 variables:
 \describe{
-  \item{ID}{IDs which match column names in `syn_example_rld``}
-  \item{Pathotype}{The sample pathotype}
+  \item{Pathotype}{The synovial biopsy histological pathotype}
 }
 }
 \source{

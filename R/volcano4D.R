@@ -35,7 +35,7 @@
 #'                           data = t(syn_example_rld))
 #' 
 #' p <- volcano3D(syn_polar, 
-#'     label_rows = c("FMOD", "LAMP5", "TNNT3"))
+#'     label_rows = c("COBL", "TREX2"))
 #' volcano4D(p)
 #' 
 #' @export

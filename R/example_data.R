@@ -3,10 +3,9 @@
 #' A dataset containing sample data for 81 synovial biopsies from the PEAC 
 #' cohort
 #'
-#' @format A data frame with 81 rows and 4 variables:
+#' @format A data frame with 81 rows and 1 variables:
 #' \describe{
-#'   \item{ID}{IDs which match column names in `syn_example_rld``}
-#'   \item{Pathotype}{The sample pathotype}
+#'   \item{Pathotype}{The synovial biopsy histological pathotype}
 #' }
 #' @source \url{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1
 #' }
@@ -17,7 +16,7 @@
 #' A dataset containing the gene expression data for 81 synovial biopsies from 
 #' the PEAC cohort
 #'
-#' @format A data frame with 100 rows representing the most significant 
+#' @format A data frame with 500 rows representing the most significant 
 #' genes/probes and 81 columns representing samples. 
 #' @source \url{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1
 #' }
