@@ -31,8 +31,7 @@ deseq_polar <- function(object, objectLRT, contrast,
                         filter_pairwise = TRUE, ...) {
   if (!requireNamespace("DESeq2", quietly = TRUE)) {
     stop("Can't find package DESeq2. Try:
-           BiocManager::install('DESeq2')",
-         call. = FALSE)
+           BiocManager::install('DESeq2')", call. = FALSE)
   }
   if (!inherits(object, "DESeqDataSet")) stop("Not a DESeqDataSet object")
   if (!inherits(objectLRT, "DESeqDataSet")) stop("Not a DESeqDataSet object")
@@ -91,7 +90,3 @@ deseq_qvalue <- function(df) {
   df
 }
 
-
-deseq_LRT <- function(object, formula, ...) {
-  
-}
