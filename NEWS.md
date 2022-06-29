@@ -4,13 +4,14 @@ News
 # volcano3D 2.0.0
 ###### 29/06/2022
 * Major update including:
+* Significantly simplified pipeline
 * Streamlined `polar_coords()` function no longer requires a complex p-value
 table object
 * Conduit functions to make it much easier to make 3d volcano plots and 3-way
 polar plots from gene expression analysis using 'DESeq2' and 'limma voom'
 * Inbuilt statistical tests for group comparison (one-way ANOVA) and pairwise
-comparisons with easy calculation of p-values and adjustment for multiple
-testing
+comparisons with easy calculation of p-values and optional adjustment for
+multiple testing
 * `polar_coords()` is thus able to accept more general data
 * Back compatibility has been maintained for old 'polar' class objects
 * `volcano_plot` and `volcano_trio` functions have been deprecated and removed
