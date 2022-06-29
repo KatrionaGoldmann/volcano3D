@@ -18,13 +18,17 @@
 #' @param pcutoff Cut-off for p-value significance
 #' @param padj.method Can be any method available in `p.adjust` or `"qvalue"`.
 #'   The option "none" is a pass-through.
+#' @param filter_pairwise Logical whether adjusted p-value pairwise statistical
+#'   tests are only conducted on genes which reach significant adjusted p-value
+#'   cut-off on the group likelihood ratio test
 #' @param ... Optional arguments passed to [polar_coords()]
 #' @export
 
 deseq_polar <- function(object, objectLRT, contrast,
                         data = NULL,
                         pcutoff = 0.05,
-                        padj.method = "BH", ...) {
+                        padj.method = "BH",
+                        filter_pairwise = TRUE, ...) {
   if (!requireNamespace("DESeq2", quietly = TRUE)) {
     stop("Can't find package DESeq2. Try:
            BiocManager::install('DESeq2')",
@@ -36,10 +40,14 @@ deseq_polar <- function(object, objectLRT, contrast,
   LRT <- as.data.frame(LRT[, c('pvalue', 'padj')])
   if (padj.method == "qvalue") {
     LRT <- deseq_qvalue(LRT)
-    index <- LRT$qvalue < pcutoff & !is.na(LRT$qvalue)
+    index <- if (filter_pairwise) {
+     LRT$qvalue < pcutoff & !is.na(LRT$qvalue)
+    } else !is.na(LRT$qvalue)
     ptype <- "qvalue"
   } else {
-    index <- LRT$padj < pcutoff & !is.na(LRT$padj)
+    index <- if (filter_pairwise) {
+      LRT$padj < pcutoff & !is.na(LRT$padj)
+    } else !is.na(LRT$padj)
     ptype <- "padj"
   }
   groups <- levels(object@colData[, contrast])
