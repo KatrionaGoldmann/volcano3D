@@ -33,7 +33,7 @@
 #' radial graph
 #' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate
 #' geom_point scale_color_manual aes element_blank coord_fixed geom_segment
-#' arrow unit element_rect aes_string scale_fill_manual
+#' arrow unit element_rect aes_string scale_fill_manual element_text
 #' @importFrom graphics text
 #' @importFrom grDevices hsv
 #' @importFrom methods is

@@ -43,6 +43,7 @@
 #' @importFrom grDevices hsv col2rgb
 #' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate
 #' geom_point scale_color_manual aes geom_jitter element_rect aes_string
+#' element_text
 #' @importFrom methods is
 #' @keywords hplot
 #' @references

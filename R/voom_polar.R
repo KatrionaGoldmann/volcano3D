@@ -19,7 +19,7 @@
 #'   tests are only conducted on genes which reach significant adjusted p-value
 #'   cut-off on the group likelihood ratio test
 #' @param ... Optional arguments passed to [polar_coords()]
-#' @importFrom stats coefficients model.matrix terms
+#' @importFrom stats coefficients model.matrix terms update
 #' @export
 
 voom_polar <- function(formula, metadata, counts,
