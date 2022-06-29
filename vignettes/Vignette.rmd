@@ -228,29 +228,6 @@ syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
 
 This creates a 'volc3d' class object for downstream plotting.
 
-## Volcano Plots
-
-If a fold change column was previously provided, 
-the comparisons between pathotypes can be investigated using the
-volcano_trio function. This creates
-[ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) outputs:
-
-```{r, fig.height=2.8, fig.width=7}
-# syn_plots <- volcano_trio(polar = syn_polar,
-#                           sig_names = c("significant", "significant",
-#                                         "not significant", "not significant"),
-#                           colours = rep(c("slateblue1",  "grey60"), each=2),
-#                           colour_scheme="none", 
-#                           text_size = 9,
-#                           marker_size=1.5,
-#                           shared_legend_size = 0.9,
-#                           label_rows = c("SLAMF6", "BOC", "FMOD"),
-#                           fc_line = FALSE, 
-#                           share_axes = FALSE)
-# 
-# syn_plots$All
-```
-
 ## Radial Plots
 
 The differential expression can now be visualised on an interactive radial plot

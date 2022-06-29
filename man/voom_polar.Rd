@@ -4,7 +4,15 @@
 \alias{voom_polar}
 \title{Convert RNA-Seq count data to a volcano3d object using 'limma voom'}
 \usage{
-voom_polar(formula, metadata, counts, pcutoff = 0.05, padj.method = "BH", ...)
+voom_polar(
+  formula,
+  metadata,
+  counts,
+  pcutoff = 0.05,
+  padj.method = "BH",
+  filter_pairwise = TRUE,
+  ...
+)
 }
 \arguments{
 \item{formula}{Design formula which must be of the form `~ 0 + outcome + ...`.
@@ -20,6 +28,10 @@ this variable must be a factor with exactly 3 levels.}
 
 \item{padj.method}{Can be any method available in `p.adjust` or `"qvalue"`.
 The option "none" is a pass-through.}
+
+\item{filter_pairwise}{Logical whether adjusted p-value pairwise statistical
+tests are only conducted on genes which reach significant adjusted p-value
+cut-off on the group likelihood ratio test}
 
 \item{...}{Optional arguments passed to [polar_coords()]}
 }
