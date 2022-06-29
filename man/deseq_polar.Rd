@@ -11,6 +11,7 @@ deseq_polar(
   data = NULL,
   pcutoff = 0.05,
   padj.method = "BH",
+  filter_pairwise = TRUE,
   ...
 )
 }
@@ -35,6 +36,10 @@ expression datasets, genes are in rows.}
 
 \item{padj.method}{Can be any method available in `p.adjust` or `"qvalue"`.
 The option "none" is a pass-through.}
+
+\item{filter_pairwise}{Logical whether adjusted p-value pairwise statistical
+tests are only conducted on genes which reach significant adjusted p-value
+cut-off on the group likelihood ratio test}
 
 \item{...}{Optional arguments passed to [polar_coords()]}
 }
