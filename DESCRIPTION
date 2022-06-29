@@ -26,7 +26,6 @@ Imports:
     plotly,
     ggplot2,
     ggpubr,
-    ggrepel,
     htmlwidgets,
     magrittr,
     methods,
