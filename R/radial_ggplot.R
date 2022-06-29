@@ -50,13 +50,13 @@
 #' syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
 #'                           data = t(syn_example_rld))
 #'
-#' radial_ggplot(polar = syn_polar, label_rows = c("SLAMF6"))
+#' radial_ggplot(polar = syn_polar, label_rows = c("COBL"))
 
 radial_ggplot <- function(polar,
                           type = 1,
                           colours = NULL,
                           label_rows = NULL,
-                          arrow_length = 1.2,
+                          arrow_length = 1,
                           label_size = 5,
                           colour_code_labels = FALSE,
                           label_colour = "black",

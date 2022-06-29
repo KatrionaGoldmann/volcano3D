@@ -91,7 +91,7 @@ data(example_data)
 syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
                           data = t(syn_example_rld))
 
-radial_plotly(polar = syn_polar, label_rows = c("SLAMF6"))
+radial_plotly(polar = syn_polar, label_rows = c("COBL"))
 }
 \references{
 Lewis, Myles J., et al. (2019).

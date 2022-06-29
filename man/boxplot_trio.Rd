@@ -77,8 +77,8 @@ data(example_data)
 syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
                           data = t(syn_example_rld))
 
-boxplot_trio(syn_polar, value = "SLAMF6", plot_method="plotly")
-boxplot_trio(syn_polar, value = "SLAMF6")
+boxplot_trio(syn_polar, value = "COBL", plot_method="plotly")
+boxplot_trio(syn_polar, value = "COBL")
 }
 \references{
 Lewis, Myles J., et al. (2019).
