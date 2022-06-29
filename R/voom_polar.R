@@ -34,11 +34,13 @@ voom_polar <- function(formula, metadata, counts,
     stop("Can't find package limma. Try:
            BiocManager::install('limma')", call. = FALSE)
   }
+  # force formula to have no intercept
+  if (attr(terms(formula), "intercept") != 0) formula <- update(formula, ~ . -1)
   modterms <- attr(terms(formula), "term.labels")
   outcome_col <- modterms[1]
   if (nlevels(metadata[, outcome_col]) != 3) stop("Outcome does not have 3 levels")
   
-  vdesign <- model.matrix(formula, data = metadata)  # needed for limma
+  vdesign <- model.matrix(formula, data = metadata)
   contrast_set <- list(paste0(colnames(vdesign)[1] , "-", colnames(vdesign)[2]),
                        paste0(colnames(vdesign)[1] , "-", colnames(vdesign)[3]),
                        paste0(colnames(vdesign)[2] , "-", colnames(vdesign)[3]))
