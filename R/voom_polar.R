@@ -6,7 +6,7 @@
 #' 'limma voom' to analyse the data. The results are converted to a 'volc3d'
 #' object ready for plotting a 3d volcano plot or polar plot.
 #'
-#' @param formula Design formula which must be of the form `~ 0 + outcome + ...`.
+#' @param formula design formula which must be of the form `~ 0 + outcome + ...`.
 #'   The 3-way outcome variable must be the first variable after the '0', and
 #'   this variable must be a factor with exactly 3 levels.
 #' @param metadata Matrix or dataframe containing metadata as referenced by
@@ -38,21 +38,22 @@ voom_polar <- function(formula, metadata, counts,
   outcome_col <- modterms[1]
   if (nlevels(metadata[, outcome_col]) != 3) stop("Outcome does not have 3 levels")
   
-  .vdesign <- NULL
-  .vdesign <<- model.matrix(formula, data = metadata)  # needed for limma
-  .vcontrast.matrix <- limma::makeContrasts(
-    paste0(colnames(.vdesign)[1] , "-", colnames(.vdesign)[2]),
-    paste0(colnames(.vdesign)[1] , "-", colnames(.vdesign)[3]),
-    paste0(colnames(.vdesign)[2] , "-", colnames(.vdesign)[3]),
-    levels = .vdesign)
+  vdesign <- model.matrix(formula, data = metadata)  # needed for limma
+  contrast_set <- list(paste0(colnames(vdesign)[1] , "-", colnames(vdesign)[2]),
+                       paste0(colnames(vdesign)[1] , "-", colnames(vdesign)[3]),
+                       paste0(colnames(vdesign)[2] , "-", colnames(vdesign)[3]))
+  if(!exists("makeContrasts")) stop("limma package not loaded")
+  contrast.matrix <- eval(as.call(c(as.symbol("makeContrasts"),
+                                    contrast_set, levels=list(vdesign))))
+  
   dge <- edgeR::DGEList(counts = counts)
-  keep <- edgeR::filterByExpr(dge, design)
+  keep <- edgeR::filterByExpr(dge, vdesign)
   dge <- dge[keep, , keep.lib.sizes = FALSE]
   dge <- edgeR::calcNormFactors(dge)
   # voom
-  v <- limma::voom(dge, .vdesign, plot = FALSE)
-  fit1 <- limma::lmFit(v, .vdesign)
-  fit <- limma::contrasts.fit(fit1, .vcontrast.matrix) 
+  v <- limma::voom(dge, vdesign, plot = FALSE)
+  fit1 <- limma::lmFit(v, vdesign)
+  fit <- limma::contrasts.fit(fit1, contrast.matrix) 
   fit <- limma::eBayes(fit)
   contrasts <- colnames(coefficients(fit))
   Pvals_limma_DE <- lapply(contrasts, function(x){
