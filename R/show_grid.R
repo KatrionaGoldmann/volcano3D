@@ -49,7 +49,7 @@ show_grid <- function(grid,
     axis_settings_xy <- list(title = "", zeroline = FALSE, showline = FALSE,
                              showticklabels = FALSE, showgrid = FALSE,
                              autotick = FALSE, showspikes = FALSE)
-    axis_settings_xy[['range']] <- c(-1*(grid@r+1), grid@r+1)
+    axis_settings_xy[['range']] <- c(-grid@r, grid@r) * 1.05 * z_axis_title_offset
 
     grid_cyl <- grid
     cyl <- plot_ly(height = plot_height) %>%
@@ -75,8 +75,8 @@ show_grid <- function(grid,
                   hoverinfo = "none",
                   inherit = FALSE) %>%
         # Axis labels
-        add_text(x = grid_cyl@axis_labs$x,
-                 y = grid_cyl@axis_labs$y,
+        add_text(x = grid_cyl@axis_labs$x *1.1,
+                 y = grid_cyl@axis_labs$y *1.1,
                  z = 0,
                  text = c("A", "B", "C"),
                  color = I("black"),
@@ -115,9 +115,9 @@ show_grid <- function(grid,
                   inherit = FALSE) %>%
         # label radial axis
         add_text(x = grid_cyl@text_coords$x,
-                 y = grid_cyl@text_coords$y, z = 0.05,
+                 y = grid_cyl@text_coords$y, z = grid_cyl@z * 0.03,
                  text = grid_cyl@text_coords$text,
-                 textposition = 'top center',
+                 textposition = 'middle center',
                  textfont = list(size = 10),
                  color = I("black"),
                  hoverinfo = 'none',
@@ -134,7 +134,7 @@ show_grid <- function(grid,
                             zaxis = axis_settings,
                             aspectratio = list(x = 1,
                                                y = 1,
-                                               z = 1)))
+                                               z = 0.8)))
 
     grid_polar <- grid
     grid_polar@polar_grid <- grid_polar@polar_grid[grid_polar@polar_grid$area
