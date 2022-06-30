@@ -9,8 +9,10 @@ calc_pvals(
   data,
   pcutoff = 0.05,
   padj.method = "BH",
+  group_test = c("anova", "kruskal.test"),
   pairwise_test = c("t.test", "wilcoxon"),
-  exact = FALSE
+  exact = FALSE,
+  filter_pairwise = TRUE
 )
 }
 \arguments{
@@ -25,9 +27,17 @@ levels.}
 \item{padj.method}{Can be any method available in `p.adjust` or `"qvalue"`.
 The option "none" is a pass-through.}
 
+\item{group_test}{Specifies statistical test for 3-way class comparison.
+"anova" means one-way ANOVA, "kruskal.test" means Kruskal-Wallis test.}
+
 \item{pairwise_test}{Specifies statistical test for pairwise comparisons}
 
 \item{exact}{Logical which is only used with `pairwise_test = "wilcoxon"`}
+
+\item{filter_pairwise}{Logical. If `TRUE` (the default) p-value adjustment on
+pairwise statistical tests is only conducted on attributes which reached
+the threshold for significance after p-value adjustment on the group
+statistical test.}
 }
 \description{
 Internal function for calculating one-way test and pairwise tests (either

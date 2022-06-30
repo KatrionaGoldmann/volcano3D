@@ -124,24 +124,35 @@ polar_xy <- function(df, angle_offset = 0) {
 #' @param pcutoff Cut-off for p-value significance
 #' @param padj.method Can be any method available in `p.adjust` or `"qvalue"`.
 #'   The option "none" is a pass-through.
+#' @param group_test Specifies statistical test for 3-way class comparison.
+#'   "anova" means one-way ANOVA, "kruskal.test" means Kruskal-Wallis test.
 #' @param pairwise_test Specifies statistical test for pairwise comparisons
 #' @param exact Logical which is only used with `pairwise_test = "wilcoxon"`
-#' @importFrom Rfast ftests ttests
+#' @param filter_pairwise Logical. If `TRUE` (the default) p-value adjustment on
+#'   pairwise statistical tests is only conducted on attributes which reached
+#'   the threshold for significance after p-value adjustment on the group
+#'   statistical test.
+#' @importFrom Rfast ftests ttests kruskaltests
 #' @importFrom matrixTests row_wilcoxon_twosample
 #' @export
 #'
 calc_pvals <- function(outcome, data,
                        pcutoff = 0.05,
                        padj.method = "BH",
+                       group_test = c("anova", "kruskal.test"),
                        pairwise_test = c("t.test", "wilcoxon"),
-                       exact = FALSE) {
+                       exact = FALSE,
+                       filter_pairwise = TRUE) {
+  group_test <- match.arg(group_test)
   pairwise_test <- match.arg(pairwise_test)
   outcome <- as.factor(outcome)
   if (nlevels(outcome) != 3) stop("`outcome` must have 3 levels")
   data <- as.matrix(data)
-  res <- Rfast::ftests(data, outcome)
+  res <- switch(group_test,
+                "anova" = Rfast::ftests(data, outcome),
+                "kruskal.test" = Rfast::kruskaltests(data, outcome))
   rownames(res) <- colnames(data)
-  onewayp <- res[, "pval"]
+  onewayp <- res[, 2]
   indx <- lapply(levels(outcome), function(i) outcome == i)
   if (pairwise_test == "wilcoxon") {
     res1 <- suppressWarnings(
@@ -166,7 +177,9 @@ calc_pvals <- function(outcome, data,
     padj <- pvals
   } else {
     onewaypadj <- qval(onewayp, method = padj.method)
-    index <- onewaypadj < pcutoff & !is.na(onewaypadj)
+    index <- if (filter_pairwise) {
+      onewaypadj < pcutoff & !is.na(onewaypadj)
+    } else !is.na(onewaypadj)
     padj <- data.frame(onewaypadj, p1 = NA, p2 = NA, p3 = NA)
     padj$p1[index] <- qval(p1[index], method = padj.method)
     padj$p2[index] <- qval(p2[index], method = padj.method)
