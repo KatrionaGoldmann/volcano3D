@@ -27,7 +27,7 @@ levels.}
 \item{padj.method}{Can be any method available in `p.adjust` or `"qvalue"`.
 The option "none" is a pass-through.}
 
-\item{group_test}{Specifies statistical test for 3-way class comparison.
+\item{group_test}{Specifies statistical test for 3-class group comparison.
 "anova" means one-way ANOVA, "kruskal.test" means Kruskal-Wallis test.}
 
 \item{pairwise_test}{Specifies statistical test for pairwise comparisons}
@@ -40,7 +40,7 @@ the threshold for significance after p-value adjustment on the group
 statistical test.}
 }
 \description{
-Internal function for calculating one-way test and pairwise tests (either
-t-test or Wilcoxon test) on multi-column data against an outcome parameter
-with 3 levels.
+Internal function for calculating 3-class group test (either one-way ANOVA or
+Kruskal-Wallis test) and pairwise tests (either t-test or Wilcoxon test) on
+multi-column data against an outcome parameter with 3 levels.
 }

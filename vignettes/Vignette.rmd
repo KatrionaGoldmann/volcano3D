@@ -35,13 +35,14 @@ library(usethis)
 ```
 
 
-The volcano3D package enables exploration of genes differentially expressed
+The volcano3D package provides a tool for analysis of three-class high
+dimensional data. It enables exploration of genes differentially expressed
 between three groups. Its main purpose is for the visualisation of
-differentially expressed genes in a three-dimensional volcano plot. These plots
-can be converted to interactive visualisations using plotly. The 3-way polar
-plots and 3d volcano plots can be applied to any data in which multiple
-variables have been measured and their relative levels are being compared across
-three classes.
+differentially expressed genes in a three-dimensional volcano plot or three-way
+polar plot. These plots can be converted to interactive visualisations using
+plotly. The 3-way polar plots and 3d volcano plots can be applied to any data in
+which multiple attributes have been measured and their relative levels are being
+compared across three classes.
 
 This vignette covers the basic features of the package using a small example 
 data set. To explore more extensive examples and view the interactive radial 
@@ -147,7 +148,7 @@ mytable = data.frame(
   pvals = c("pvals\ 
               \n\n(optional)", 
               "the pvals matrix which contains the statistical\
-                significance of probes or variables between classes. This contains: \
+                significance of probes or attributes between classes. This contains: \
               \n * the first column is a group test such as one-way ANOVA or Kruskal-Wallis test.
               \n * columns 2-4 contain p-values one for each comparison in the sequence A vs B, A vs C, B vs C, where A, B, C are the three levels in sequence in the outcome factor.
               For gene expression RNA-Seq count data, conduit functions
@@ -160,7 +161,7 @@ mytable = data.frame(
               "Matrix containing the adjusted p-values matching the pvals matrix."),
   
   pcutoff = c("pcutoff", "Cut-off for p-value significance"),
-  scheme = c("scheme", "Vector of colours starting with non-significant variables"),
+  scheme = c("scheme", "Vector of colours starting with non-significant attributes"),
   labs = c("labs", 'Optional character vector for labelling classes. Default `NULL`
    leads to abbreviated labels based on levels in `outcome` using
    `abbreviate()`. A vector of length 3 with custom abbreviated names for the
@@ -189,10 +190,11 @@ This creates a 'volc3d' class object for downstream plotting.
 ## Pipeline for gene expression count data
 
 RNA-Sequencing gene expression count data can be compared for differentially
-expressed genes between 3 classes using 2 pipeline functions to allow statistical
-analysis by Bioconductor packages 'DESeq2' and 'limma voom' to quickly generate
-a polar plotting object of class 'volc3d' which can be plotted either as a 2d
-polar plot with 3 axes or as a 3d cylindrical plot with a 3d volcano plot.
+expressed genes between 3 classes using 2 pipeline functions to allow
+statistical analysis by Bioconductor packages 'DESeq2' and 'limma voom' to
+quickly generate a polar plotting object of class 'volc3d' which can be plotted
+either as a 2d polar plot with 3 axes or as a 3d cylindrical plot with a 3d
+volcano plot.
 
 ### Method using DESeq2 objects
 
@@ -203,7 +205,8 @@ have been previously run on this object. `objectLRT` is an object of class
 'DESeqDataSet' with the reduced design formula. The function `DESeq` needs to
 have been run on this object with `DESeq` argument `test="LRT"`.
 
-Note that in the design formula, the variable of interest should be first.
+Note that in the DESeq2 design formula, the 3-class variable of interest should
+be first.
 
 ```{r eval=FALSE}
 library(DESeq2)
@@ -231,9 +234,9 @@ count data. The Bioconductor packages 'limma' and 'edgeR' are used to analyse
 the data using the 'voom' method. The results are converted to a 'volc3d' object
 ready for plotting a 3d volcano plot or 3-way polar plot.
 
-Note the design formula must be of the form `~ 0 + outcome + ...`. The 3-way outcome
-variable must be the first variable after the '0', and this variable must be a
-factor with exactly 3 levels.
+Note the design formula must be of the form `~ 0 + outcome + ...`. The 3-class
+outcome variable must be the first variable after the '0', and this variable
+must be a factor with exactly 3 levels.
 
 ```{r eval=FALSE}
 library(limma)
@@ -318,14 +321,14 @@ support WebGL for the interactive 3D plot, however this can be viewed in the [ex
 
 ## Spinning Animation
 
-It is also possible to spin/rotate the plot (adding a 4th dimension) using the
-volcano4D function which adds a modeBar button:
+It is also possible to animate spinning/rotation of the plot in 3d using the
+`add_animation` function which adds a custom plotly modeBar button:
 
 ```{r, eval=FALSE}
-volcano4D(p)
+add_animation(p)
 ```
 
-<img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/gifs/rotate.gif" align="center" alt="rotating volcano plot" width="500" style="border: 0;"/>
+A working demonstration of this function can be viewed at: https://peac.hpc.qmul.ac.uk/
 
 ## Saving Plotly Plots
 

@@ -20,3 +20,4 @@ Logo.png
 .travis.yml
 ^.*\.icloud
 ^CRAN-RELEASE$
+gif$
