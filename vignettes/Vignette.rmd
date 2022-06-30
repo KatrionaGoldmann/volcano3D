@@ -116,9 +116,9 @@ data("example_data")
 
 Which contains: 
 
-* syn_example_rld - the log transformed expression data
+* `syn_example_rld` - the log transformed expression data
 
-* syn_example_meta which contains sample information and divides the samples
+* `syn_example_meta` which contains sample information and divides the samples
 into 3 classes.
 
 Samples in this cohort fall into three histological 'pathotype' groups: 
@@ -258,9 +258,10 @@ using `radial_plotly`.
 radial_plotly(syn_polar) 
 ```
 
-Unfortunately CRAN does not support interactive plotly in the vignette, but these can be viewed on the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html). When interactive, it is possible to identify genes for future interrogation by hovering over certain markers. Using the full example from the extended vignette gives:
-
-<img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/gifs/radial.gif" align="center" alt="" width="700" style="border: 0;"/>
+Unfortunately CRAN does not support interactive plotly in the vignette, but
+these can be viewed on the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html).
+When interactive, it is possible to identify genes for future interrogation by
+hovering over certain markers.
 
 A very similar looking static ggplot image can be created using `radial_ggplot`:
 
@@ -314,10 +315,12 @@ p <- volcano3D(syn_polar)
 p
 ```
 
-<img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/volcano3D.png" align="center" alt="" width="500" style="border: 0;"/>
+```{r volcano3D, echo = FALSE, message=FALSE, fig.align='center', out.width='80%', out.extra='style="border: 0;"'}
+knitr::include_graphics("volcano3D.png")
+```
 
-Again, CRAN does not 
-support WebGL for the interactive 3D plot, however this can be viewed in the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html).
+A fully interactive demonstration of this plot can be viewed at:
+https://peac.hpc.qmul.ac.uk/
 
 ## Spinning Animation
 
@@ -328,7 +331,8 @@ It is also possible to animate spinning/rotation of the plot in 3d using the
 add_animation(p)
 ```
 
-A working demonstration of this function can be viewed at: https://peac.hpc.qmul.ac.uk/
+A working demo of this function can be viewed at https://peac.hpc.qmul.ac.uk/ by
+clicking on the 'play' button in the plotly modeBar to spin the plot.
 
 ## Saving Plotly Plots
 
