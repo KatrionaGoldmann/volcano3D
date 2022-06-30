@@ -54,6 +54,12 @@
 #' treatment response phenotypes.}
 #' \emph{Cell reports}, \strong{28}:9
 #' 
+#' @examples
+#' data(example_data)
+#' syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+#'                           data = t(syn_example_rld))
+#' volcano3D(syn_polar)
+#' 
 #' @importFrom plotly plot_ly add_trace add_text layout
 #' @importFrom magrittr %>%
 #' @importFrom methods is

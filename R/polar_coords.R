@@ -55,6 +55,11 @@ setClass("volc3d", slots = list(df = "list",
 #'   \item{'padj'} A dataframe containing p-values adjusted for multiple testing
 #' }
 #' 
+#' @examples
+#' data(example_data)
+#' syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+#'                           data = t(syn_example_rld))
+#' 
 #' @importFrom methods is
 #' @export
 #'
