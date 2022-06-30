@@ -113,9 +113,9 @@ polar_xy <- function(df, angle_offset = 0) {
 
 #' Calculate one-way test and pairwise tests
 #' 
-#' Internal function for calculating one-way test and pairwise tests (either
-#' t-test or Wilcoxon test) on multi-column data against an outcome parameter
-#' with 3 levels.
+#' Internal function for calculating 3-class group test (either one-way ANOVA or
+#' Kruskal-Wallis test) and pairwise tests (either t-test or Wilcoxon test) on
+#' multi-column data against an outcome parameter with 3 levels.
 #' 
 #' @param outcome Outcome vector with 3 groups, ideally as a factor. If it is
 #'   not a factor, this will be coerced to a factor. This must have exactly 3
@@ -124,7 +124,7 @@ polar_xy <- function(df, angle_offset = 0) {
 #' @param pcutoff Cut-off for p-value significance
 #' @param padj.method Can be any method available in `p.adjust` or `"qvalue"`.
 #'   The option "none" is a pass-through.
-#' @param group_test Specifies statistical test for 3-way class comparison.
+#' @param group_test Specifies statistical test for 3-class group comparison.
 #'   "anova" means one-way ANOVA, "kruskal.test" means Kruskal-Wallis test.
 #' @param pairwise_test Specifies statistical test for pairwise comparisons
 #' @param exact Logical which is only used with `pairwise_test = "wilcoxon"`
