@@ -68,3 +68,9 @@ This function creates a 'volc3d' object of S3 class for downstream plots
 containing the p-values from a three-way group comparison, expression data 
 sample data and polar coordinates.
 }
+\examples{
+data(example_data)
+syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+                          data = t(syn_example_rld))
+
+}

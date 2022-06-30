@@ -104,6 +104,13 @@ representing the amount each variable or gene tends to each of the 3
 categories. The z axis represents -log10 P value for the one-way test
 comparing each variable across the 3 groups.
 }
+\examples{
+data(example_data)
+syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+                          data = t(syn_example_rld))
+volcano3D(syn_polar)
+
+}
 \references{
 Lewis, Myles J., et al. (2019).
 \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
