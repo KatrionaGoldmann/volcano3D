@@ -12,7 +12,6 @@ Outputs
 cran-comments.md
 CRAN-RELEASE
 vignettes/*md
-vignettes/*html
 /doc/
 /Meta/
 *.png
