@@ -1,7 +1,13 @@
 ---
 title: "volcano3D"
 author: "Katriona Goldmann, Myles Lewis"
-output: rmarkdown::html_vignette
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+    toc_depth: 3
+    number_sections: false
 vignette: >
   %\VignetteIndexEntry{volcano3D}
   %\VignetteEngine{knitr::rmarkdown}
@@ -25,7 +31,9 @@ library(knitr)
 library(kableExtra)
 ```
 
-# volcano3D <img src="https://katrionagoldmann.github.io/volcano3D/logo.png" align="right" alt="" width="200" hspace="50" vspace="50" style="border: 0;"/>
+# volcano3D
+
+<img src="https://katrionagoldmann.github.io/volcano3D/logo.png" align="right" alt="" width="200" hspace="50" vspace="50" style="border: 0;"/>
 
 ```{r, echo=FALSE}
 library(ggplot2)
@@ -187,7 +195,7 @@ syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
 
 This creates a 'volc3d' class object for downstream plotting.
 
-## Pipeline for gene expression count data
+## Gene expression pipeline
 
 RNA-Sequencing gene expression count data can be compared for differentially
 expressed genes between 3 classes using 2 pipeline functions to allow
@@ -196,7 +204,7 @@ quickly generate a polar plotting object of class 'volc3d' which can be plotted
 either as a 2d polar plot with 3 axes or as a 3d cylindrical plot with a 3d
 volcano plot.
 
-### Method using DESeq2 objects
+### Method using DESeq2
 
 This requires takes 2 `DESeqDataSet` objects and converts the results to a
 'volc3d' class object for plotting. `object` is an object of class
@@ -304,7 +312,7 @@ plot3 <- boxplot_trio(syn_polar,
 ggarrange(plot1, plot2, plot3, ncol=3)
 ```
 
-## Three Dimensional Volcano Plots
+## 3D Volcano Plot
 
 Lastly, the 3D volcano plot can be used to project 3-way differential
 comparisons such as differential gene expression between 3 classes onto
