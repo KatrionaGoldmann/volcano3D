@@ -41,7 +41,7 @@ differentially expressed genes in a three-dimensional volcano plot. These plots
 can be converted to interactive visualisations using plotly. The 3-way polar
 plots and 3d volcano plots can be applied to any data in which multiple
 variables have been measured and their relative levels are being compared across
-three groups.
+three classes.
 
 This vignette covers the basic features of the package using a small example 
 data set. To explore more extensive examples and view the interactive radial 
@@ -118,7 +118,7 @@ Which contains:
 * syn_example_rld - the log transformed expression data
 
 * syn_example_meta which contains sample information and divides the samples
-into 3 groups.
+into 3 classes.
 
 Samples in this cohort fall into three histological 'pathotype' groups: 
 
@@ -126,7 +126,7 @@ Samples in this cohort fall into three histological 'pathotype' groups:
 kable(table(syn_example_meta$Pathotype), col.names = c("Pathotype", "Count"))
 ```
 
-These will be used as the differential expression groups for the three-way
+These will be used as the differential expression classes for the three-way
 analysis.
 
 ## Creating Polar Coordinates
@@ -138,16 +138,16 @@ polar_coords function, which has inputs:
 mytable = data.frame(
   outcome = c("outcome\ 
   \n\n(required)", 
-  "Vector containing three-level factor indicating which of the three groups each sample belongs to."), 
+  "Vector containing three-level factor indicating which of the three classes each sample belongs to."), 
   data = c("data\ 
               \n\n(required)", 
-          "A dataframe or matrix containing data to be compared between the three groups (e.g. gene expression data). Note that variables are in columns, so gene expression data will need to be transposed. This \
+          "A dataframe or matrix containing data to be compared between the three classes (e.g. gene expression data). Note that variables are in columns, so gene expression data will need to be transposed. This \
            is used to calculate z-score and fold change, so for gene expression count data it should be \
            normalised such as log transformed or variance stabilised count transformation."),
   pvals = c("pvals\ 
               \n\n(optional)", 
               "the pvals matrix which contains the statistical\
-                significance of probes or variables between groups. This contains: \
+                significance of probes or variables between classes. This contains: \
               \n * the first column is a group test such as one-way ANOVA or Kruskal-Wallis test.
               \n * columns 2-4 contain p-values one for each comparison in the sequence A vs B, A vs C, B vs C, where A, B, C are the three levels in sequence in the outcome factor.
               For gene expression RNA-Seq count data, conduit functions
@@ -161,7 +161,7 @@ mytable = data.frame(
   
   pcutoff = c("pcutoff", "Cut-off for p-value significance"),
   scheme = c("scheme", "Vector of colours starting with non-significant variables"),
-  labs = c("labs", 'Optional character vector for labelling groups. Default `NULL`
+  labs = c("labs", 'Optional character vector for labelling classes. Default `NULL`
    leads to abbreviated labels based on levels in `outcome` using
    `abbreviate()`. A vector of length 3 with custom abbreviated names for the
    outcome levels can be supplied. Otherwise a vector length 7 is expected, of
@@ -189,7 +189,7 @@ This creates a 'volc3d' class object for downstream plotting.
 ## Pipeline for gene expression count data
 
 RNA-Sequencing gene expression count data can be compared for differentially
-expressed genes between 3 groups using 2 pipeline functions to allow statistical
+expressed genes between 3 classes using 2 pipeline functions to allow statistical
 analysis by Bioconductor packages 'DESeq2' and 'limma voom' to quickly generate
 a polar plotting object of class 'volc3d' which can be plotted either as a 2d
 polar plot with 3 axes or as a 3d cylindrical plot with a 3d volcano plot.
@@ -249,19 +249,17 @@ volcano3D(resl)
 ## Radial Plots
 
 The differential expression can now be visualised on an interactive radial plot
-using radial_plotly. 
+using `radial_plotly`. 
 
 ```{r, eval=FALSE, fig.height=5}
 radial_plotly(syn_polar) 
 ```
 
-<img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/radial_plotly.png" align="center" alt="" width="700" style="border: 0;"/>
-
 Unfortunately CRAN does not support interactive plotly in the vignette, but these can be viewed on the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html). When interactive, it is possible to identify genes for future interrogation by hovering over certain markers. Using the full example from the extended vignette gives:
 
 <img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/gifs/radial.gif" align="center" alt="" width="700" style="border: 0;"/>
 
-Similarly a static ggplot image can be created using radial_ggplot:
+A very similar looking static ggplot image can be created using `radial_ggplot`:
 
 ```{r, fig.height=4.5, fig.width=7}
 radial_ggplot(syn_polar,
@@ -305,7 +303,7 @@ ggarrange(plot1, plot2, plot3, ncol=3)
 ## Three Dimensional Volcano Plots
 
 Lastly, the 3D volcano plot can be used to project 3-way differential
-comparisons such as differential gene expression between 3 groups onto
+comparisons such as differential gene expression between 3 classes onto
 cylindrical polar coordinates.
 
 ```{r, eval=FALSE, fig.height=5}
@@ -318,9 +316,10 @@ p
 Again, CRAN does not 
 support WebGL for the interactive 3D plot, however this can be viewed in the [extended vignette](https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html).
 
-## Volcano4D
+## Spinning Animation
 
-It is also possible to spin/rotate the plot (adding a 4th dimension) using the volcano4D function which adds a modeBar button: 
+It is also possible to spin/rotate the plot (adding a 4th dimension) using the
+volcano4D function which adds a modeBar button:
 
 ```{r, eval=FALSE}
 volcano4D(p)
@@ -332,12 +331,12 @@ volcano4D(p)
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
 ### Static Images
 
-There are a few ways to save plotly plots as static images. Firstly plotly 
-offers a download button ( <i class="fa fa-camera" aria-hidden="true"></i> ) in the figure mode bar (appears top right). 
-By default this saves images as png, however it is possible to convert to svg, jpeg or webp using:
+There are a few ways to save plotly plots as static images. Firstly plotly
+offers a download button ( <i class="fa fa-camera" aria-hidden="true"></i> ) in
+the figure mode bar (appears top right). By default this saves images as png,
+however it is possible to convert to svg, jpeg or webp using:
 
 ```{r, eval=FALSE}
 p %>% plotly::config(toImageButtonOptions = list(format = "svg"))
