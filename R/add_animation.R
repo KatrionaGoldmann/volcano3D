@@ -9,7 +9,7 @@
 #' @param stop_colour The colour for the stop button (default='#ff6347', 
 #' a.k.a 'tomato')
 #' @param scale Scaling for rotation button
-#' @param speed The rotation speed (default=180) 
+#' @param speed The rotation speed 
 #' @param shiny_event_names If using shiny, pass in any shiny event names which
 #' should stop rotation when triggered (e.g. shiny_event_names = c('replot'))
 #' @importFrom htmlwidgets JS onRender
@@ -46,7 +46,7 @@ add_animation <- function(p,
                           rotate_colour="#c7c7c7", 
                           stop_colour='#ff6347', 
                           scale='scale(0.4) translate(-4, -4)', 
-                          speed = 90, 
+                          speed = 320, 
                           shiny_event_names=c()) {
   
   . <- NULL # to appease the CRAN note
