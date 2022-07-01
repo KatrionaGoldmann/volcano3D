@@ -2,6 +2,7 @@
 title: "Building a Shiny App"
 author: "Katriona Goldmann"
 output: rmarkdown::html_document
+runtime: shiny
 ---
 
 ```{r setup, include = FALSE, echo = FALSE}
@@ -156,23 +157,15 @@ library(volcano3D)
 library(volcano3Ddata)
 
 data(syn_data)
+syn_metadata$Pathotype <- factor(syn_metadata$Pathotype, 
+                                 levels = c("Lymphoid", "Myeloid", "Fibroid"))
 ```
 
 Then we can create the polar volcano3D object:
 
 ```{r}
-syn_polar <- polar_coords(sampledata = syn_metadata,
-                          contrast = "Pathotype",
-                          pvalues = syn_pvalues,
-                          expression = syn_rld,
-                          p_col_suffix = "pvalue",
-                          padj_col_suffix = "padj",
-                          fc_col_suffix = "log2FoldChange",
-                          multi_group_prefix = "LRT",
-                          non_sig_name = "Not Significant",
-                          significance_cutoff = 0.01,
-                          label_column = NULL,
-                          fc_cutoff = 0.1)
+syn_polar <- polar_coords(outcome = syn_metadata$Pathotype,
+                          data = t(syn_rld))
 ```
 
 
@@ -252,12 +245,6 @@ ui <- navbarPage(
                                                    choices=
                                                        list("Z score"=1, 
                                                             "Fold change"=2),
-                                                   selected=1)),
-                            # option for colour scheme (discrete or continuous)
-                            column(4, radioButtons("colour_type", 
-                                                   label=h5("Colour scheme"),
-                                                   choices=list("Discrete"=1, 
-                                                                "Continuous"=2),
                                                    selected=1))),
                         fluidRow(plotOutput("boxplots", height=400))
                  ))
@@ -269,7 +256,7 @@ ui <- navbarPage(
                  column(3,
                         selectizeInput(
                             "gene", label=h5("Select a Gene"),
-                            choices=syn_polar@polar$label,
+                            choices=rownames(syn_polar@df[[1]]),
                             options=list(
                                 onInitialize=I(
                                     'function() { this.setValue(""); }')))),
@@ -284,11 +271,11 @@ ui <- navbarPage(
                      checkboxGroupInput(
                          'group',
                          'Select upregulated groups',
-                         levels(syn_polar@polar$sig)[-1],
+                         syn_polar@labs[-1],
                          # by default select all significant
-                         selected=levels(syn_polar@polar$sig)[
-                             levels(syn_polar@polar$sig) != 
-                                 "Not Significant"])),
+                         selected=syn_polar@labs[
+                             syn_polar@labs != 
+                                 "ns"])),
                  column(10, DT::dataTableOutput("full_table"))
              ))
     
@@ -313,18 +300,11 @@ server <- function(input, output, session) {
     # Volcano tab: Create the 3D volcano plot
     output$volcano <- renderPlotly({
         data_type <- as.numeric(input$data_type)
-        colour_scheme <- as.numeric(input$colour_type)
         
         if (length(data_type) == 0) data_type <- 1
-        if (length(colour_scheme) == 0) colour_scheme <- 1
         
         p <- volcano3D(syn_polar,
-                       colour_scale = switch(colour_scheme, 
-                                             "discrete", "continuous"),
-                       fc_or_zscore = switch(data_type, "zscore", "fc"),
-                       xy_aspectratio = 1,
-                       z_aspectratio = 0.9) %>%
-            layout(showlegend = switch(colour_scheme, T, F)) 
+                       type = data_type)
     })
     
     
@@ -335,9 +315,7 @@ server <- function(input, output, session) {
         gene = s$key
         boxplot_trio(syn_polar,
                      value = gene,
-                     test = "polar_padj",
-                     levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                     box_colours = c("blue", "red", "green3"),
+                     test = "polar_pvalue",
                      step_increase = 0.1)
         
     })
@@ -351,9 +329,7 @@ server <- function(input, output, session) {
         gene <- input$gene
         path_plot <- boxplot_trio(syn_polar,
                                   value = gene,
-                                  test = "polar_padj",
-                                  levels_order = c("Lymphoid", "Myeloid", "Fibroid"),
-                                  box_colours = c("blue", "red", "green3"),
+                                  test = "polar_pvalue",
                                   step_increase = 0.1)
         
         
@@ -379,10 +355,14 @@ server <- function(input, output, session) {
     
     # Table Tab: create a data table of stats for upregulated genes. 
     output$full_table <- DT::renderDataTable({
-        tab = cbind(syn_polar@polar, syn_polar@pvalues)
-        tab = tab[, c(colnames(syn_polar@pvalues), "sig")]
-        groups = input$group
-        tab = tab[tab$sig %in% groups, colnames(tab) != "label"]
+        pvals <- syn_polar@pvals
+        padj <- syn_polar@padj
+        colnames(pvals) <- c("P_LRT", "P_LvM", "P_LvF", "P_MvF")
+        colnames(padj) <- c("P_adj_LRT", "P_adj_LvM", "P_adj_LvF", "P_adj_MvF")
+        tab <- cbind(pvals, padj)
+        tab <- tab[order(tab[, 'P_LRT']), ]
+        groups <- input$group
+        tab <- tab[syn_polar@df[[1]]$lab %in% groups, ]
         datatable(tab, options = list(
             rowCallback = JS(
                 "function(row, data) {",
