@@ -19,6 +19,23 @@
 #'   tests are only conducted on genes which reach significant adjusted p-value
 #'   cut-off on the group likelihood ratio test
 #' @param ... Optional arguments passed to [polar_coords()]
+#' 
+#' @examples
+#' if (requireNamespace("limma", quietly = TRUE) & 
+#'     requireNamespace("edgeR", quietly = TRUE)) {
+#'   library(limma)
+#'   library(edgeR)
+#'   
+#'   counts <- matrix(rnbinom(n=1500, mu=100, size=1/0.5), ncol=15)
+#'   cond <- factor(rep(1:3, each=5), labels = c('A', 'B', 'C'))
+#'   cond <- data.frame(cond)
+#'   
+#'   polar <- voom_polar(~0 + cond, cond, counts)
+#'   
+#'   volcano3D(polar)
+#'   radial_ggplot(polar)
+#' }
+#' 
 #' @importFrom stats coefficients model.matrix terms update
 #' @export
 

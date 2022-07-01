@@ -40,3 +40,20 @@ This function takes a design formula, metadata and raw count data and uses
 'limma voom' to analyse the data. The results are converted to a 'volc3d'
 object ready for plotting a 3d volcano plot or polar plot.
 }
+\examples{
+if (requireNamespace("limma", quietly = TRUE) & 
+    requireNamespace("edgeR", quietly = TRUE)) {
+  library(limma)
+  library(edgeR)
+  
+  counts <- matrix(rnbinom(n=1500, mu=100, size=1/0.5), ncol=15)
+  cond <- factor(rep(1:3, each=5), labels = c('A', 'B', 'C'))
+  cond <- data.frame(cond)
+  
+  polar <- voom_polar(~0 + cond, cond, counts)
+  
+  volcano3D(polar)
+  radial_ggplot(polar)
+}
+
+}
