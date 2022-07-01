@@ -47,3 +47,26 @@ cut-off on the group likelihood ratio test}
 This function takes 2 `DESeqDataSet` objects and converts the results to a
 'volc3d' object.
 }
+\examples{
+
+if (requireNamespace("DESeq2", quietly = TRUE)) {
+  library(DESeq2)
+
+  counts <- matrix(rnbinom(n=1500, mu=100, size=1/0.5), ncol=15)
+  cond <- factor(rep(1:3, each=5), labels = c('A', 'B', 'C'))
+
+  # object construction
+  dds <- DESeqDataSetFromMatrix(counts, DataFrame(cond), ~ cond)
+
+  # standard analysis
+  dds <- DESeq(dds)
+
+  # LRT
+  ddsLRT <- DESeq(dds, test="LRT", reduced= ~ 1)
+
+  polar <- deseq_polar(dds, ddsLRT, "cond")
+  volcano3D(polar)
+  radial_ggplot(polar)
+}
+
+}

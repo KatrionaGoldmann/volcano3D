@@ -22,6 +22,29 @@
 #'   tests are only conducted on genes which reach significant adjusted p-value
 #'   cut-off on the group likelihood ratio test
 #' @param ... Optional arguments passed to [polar_coords()]
+#' 
+#' @examples
+#' 
+#' if (requireNamespace("DESeq2", quietly = TRUE)) {
+#'   library(DESeq2)
+#' 
+#'   counts <- matrix(rnbinom(n=1500, mu=100, size=1/0.5), ncol=15)
+#'   cond <- factor(rep(1:3, each=5), labels = c('A', 'B', 'C'))
+#' 
+#'   # object construction
+#'   dds <- DESeqDataSetFromMatrix(counts, DataFrame(cond), ~ cond)
+#' 
+#'   # standard analysis
+#'   dds <- DESeq(dds)
+#' 
+#'   # LRT
+#'   ddsLRT <- DESeq(dds, test="LRT", reduced= ~ 1)
+#' 
+#'   polar <- deseq_polar(dds, ddsLRT, "cond")
+#'   volcano3D(polar)
+#'   radial_ggplot(polar)
+#' }
+#' 
 #' @export
 
 deseq_polar <- function(object, objectLRT, contrast,
@@ -71,7 +94,9 @@ deseq_polar <- function(object, objectLRT, contrast,
   padj <- cbind(LRT[, ptype], pairadj[[1]], pairadj[[2]], pairadj[[3]])
   dimnames(pvals) <- dimnames(padj) <- list(rownames(LRT), c("LRT", "AvB", "AvC", "BvC"))
   if (is.null(data)) {
-    vstdata <- DESeq2::vst(object)
+    vstdata <- if (nrow(object) < 1000) {
+      DESeq2::varianceStabilizingTransformation(object)
+    } else DESeq2::vst(object)
     if (!requireNamespace("SummarizedExperiment", quietly = TRUE)) {
       stop("Can't find package SummarizedExperiment. Try:
            BiocManager::install('SummarizedExperiment')",
