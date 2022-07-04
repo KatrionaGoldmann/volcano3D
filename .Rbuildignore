@@ -18,3 +18,4 @@ Logo.png
 .travis.yml
 ^.*\.icloud
 ^CRAN-RELEASE$
+^CRAN-SUBMISSION$
