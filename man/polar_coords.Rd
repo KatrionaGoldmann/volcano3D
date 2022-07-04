@@ -5,142 +5,72 @@
 \title{Coordinates for Three Way Polar Plot}
 \usage{
 polar_coords(
-  sampledata,
-  contrast,
-  pvalues,
-  expression,
-  groups = NULL,
-  p_col_suffix = "pvalues",
-  padj_col_suffix = "padj",
-  fc_col_suffix = NULL,
-  padjust_method = "BH",
-  multi_group_prefix = NULL,
-  non_sig_name = "Not Significant",
-  significance_cutoff = 0.01,
-  fc_cutoff = 0.3,
-  label_column = NULL,
-  cutoff_criteria = "pvalue"
+  outcome,
+  data,
+  pvals = NULL,
+  padj = pvals,
+  pcutoff = 0.05,
+  scheme = c("grey60", "red", "gold2", "green3", "cyan", "blue", "purple"),
+  labs = NULL,
+  ...
 )
 }
 \arguments{
-\item{sampledata}{A data frame containing the sample information.
-This must contain: an ID column containing the sample IDs which can be 
-matched to the `expression` data and a 
-contrast column containing the three-level factor used for contrasts.}
+\item{outcome}{Outcome vector with 3 groups, ideally as a factor. If it is
+not a factor, this will be coerced to a factor. This must have exactly 3
+levels. NOTE: if `pvals` is given, the order of the levels in `outcome`
+must correspond to the order of columns in `pvals`.}
 
-\item{contrast}{The column name in `sampledata` which contains the 
-three-level factor used for contrast.}
+\item{data}{Dataframe or matrix with variables in columns}
 
-\item{pvalues}{A data frame containing: \itemize{
-\item three `p_col_suffix` columns: one for 
-the pvalue for each comparison between groups;
-\item three optional `fc_col_suffix` columns for the fold change between 
-each comparison (if NULL, no Fold Change columns are included); 
-\item three optional `padj_col_suffix` columns (if NULL 
-adjusted p values are calculated using `padjust_method`); 
-\item and optional 'p', 
-'padj and 'fc' columns for a three-way test, such as ANOVA or likelihood 
-ratio test, defined by `multi_group_prefix`. 
-}}
+\item{pvals}{Matrix or dataframe with p-values. The first column represents a
+test across all 3 categories such as one-way ANOVA or likelihood ratio
+test. Columns 2-4 represent pairwise tests comparing groups A vs B, A vs C
+and B vs C, where A, B, C represent levels 1, 2, 3 in `outcome`. Columns
+2-4 must be provided in the correct order. If `pvals` is not given, it is
+calculated using the function [calc_pvals].}
 
-\item{expression}{An optional data frame containing expression data for
-downstream analysis and visualisation. The rows must contain probes which
-match the rows in pvalues and the columns must contain samples which match
-\code{sampledata$ID}.}
+\item{padj}{Matrix or dataframe with adjusted p-values. If not supplied,
+defaults to use nominal p-values from `pvals`.}
 
-\item{groups}{The groups to be compared (if NULL this defaults
-to \code{levels(sampledata[, 'contrasts'])}).}
+\item{pcutoff}{Cut-off for p-value significance}
 
-\item{p_col_suffix}{The suffix word to define columns containing p values
-(default = 'pvalues'). These must not contain underscores;}
+\item{scheme}{Vector of colours starting with non-significant variables}
 
-\item{padj_col_suffix}{The suffix word to define columns containing adjusted
-p values (default = 'padj').  These must not contain underscores. 
-If NULL these will be calculated using \code{padjust_method}}
+\item{labs}{Optional character vector for labelling groups. Default `NULL`
+leads to abbreviated labels based on levels in `outcome` using
+[abbreviate]. A vector of length 3 with custom abbreviated names for the
+outcome levels can be supplied. Otherwise a vector length 7 is expected, of
+the form "ns", "B+", "B+C+", "C+", "A+C+", "A+", "A+B+", where "ns" means
+non-significant and A, B, C refer to levels 1, 2, 3 in `outcome`, and must
+be in the correct order.}
 
-\item{fc_col_suffix}{The optional suffix word to define columns containing 
-log fold change values (default = 'logFC'). These must not contain 
-underscores.}
-
-\item{padjust_method}{The method used to calculate adjusted p values if 
-padj_col_suffix is NULL (default = 'BH'). See \code{\link[stats]{p.adjust}}. 
-If NULL no adjusted pvalue is calculated.}
-
-\item{multi_group_prefix}{Optional column prefix for statistics (p, padj, 
-and fold change) across all three groups (typically ANOVA or likelihood 
-ratio tests). default = NULL. These must not contain underscores}
-
-\item{non_sig_name}{Category name to assign to non-significant points}
-
-\item{significance_cutoff}{Value defining the significance cut-off (points 
-with pvalues below this point will be classed as \code{non_sig_name})}
-
-\item{fc_cutoff}{The cut-off for fold change, below which markers will be
-classed as \code{non_sig_name}` (default = 0.3).}
-
-\item{label_column}{Optional column name in pvalues for markers to be 
-labelled with at plotting stage. If NULL the rownames of pvalues are used.}
-
-\item{cutoff_criteria}{Whether to use pvalue or padj for the colour coding 
-significance cutoff.}
+\item{...}{Optional arguments passed to [calc_pvals]}
 }
 \value{
-Returns an S4 polar object containing:
+Returns an S4 'volc3d' object containing:
 \itemize{
-  \item{'polar'} A data.frame containing:
-  \itemize{
-      \item{The mean expression for each of the three groups in comparison}
-      \item{The z-score polar coordinates: 'y_zscore', 'x_zscore' and 
-      'r_zscore'}
-      \item{The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'}
-      \item{'angle': The angle in radians for polar coordinates}
-      \item{'angle_degrees': The angle in degrees}
-      \item{'max_exp': The maximally expressed group}
-      \item{'sig': The significance group}
-  }
-  \item{'pvalues'} A data frame containing the p-values, adjusted p-values,
-  and optional log(fold changes) for all three comparisons between groups in 
-  the contrast factor, as well as optional multi-group tests.
-  \item{'sampledata'} Sample data with column ID and contrast
-  \item{'contrast'} The column name in `sampledata`` which contains the
-  three-group contrast factor used for comparisons.
-  \item{'multi_group_test'} Column name prefix for statistical tests between
-  all three groups
-  \item{'expression'} An optional data frame or matrix containing the
-  expression data
-  \item{'non_sig_name'} The category name for variables which are classed as 
-  not significant
+  \item{'df'} A list of 2 dataframes. Each dataframe contains both x,y,z
+  coordinates as well as polar coordinates r, angle. The first dataframe has
+  coordinates on scaled data. The 2nd dataframe has unscaled data (e.g. log2
+  fold change for gene expression).
+  \item{'outcome'} The three-group contrast factor used for comparisons
+  \item{'data'} Dataframe or matrix containing the expression data
+  \item{'pvals'} A dataframe containing p-values. First column is the 3-way
+  comparison (LRT or ANOVA). Columns 2-4 are pairwise comparisons between
+  groups A vs B, A vs C and B vs C, where A, B, C are the 3 levels in the
+  outcome factor.
+  \item{'padj'} A dataframe containing p-values adjusted for multiple testing
 }
 }
 \description{
-This function creates a polar object of S4 class for downstream plots 
+This function creates a 'volc3d' object of S3 class for downstream plots 
 containing the p-values from a three-way group comparison, expression data 
 sample data and polar coordinates.
 }
 \examples{
 data(example_data)
-syn_polar <- polar_coords(sampledata=syn_example_meta,
-                    contrast="Pathotype",
-                    groups = NULL,
-                    pvalues = syn_example_p,
-                    expression = syn_example_rld,
-                    p_col_suffix = "pvalue",
-                    padj_col_suffix = "padj",
-                    fc_col_suffix = NULL,
-                    padjust_method = "BH",
-                    multi_group_prefix = NULL,
-                    non_sig_name = "Not Significant",
-                    significance_cutoff = 0.01, 
-                    fc_cutoff=0.3, 
-                    label_column = NULL)
-table(syn_polar@polar$sig) 
+syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+                          data = t(syn_example_rld))
+
 }
-\references{
-Lewis, Myles J., et al. (2019).
-\href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
-Molecular portraits of early rheumatoid arthritis identify clinical and
-treatment response phenotypes.}
-\emph{Cell reports}, \strong{28}:9
-}
-\keyword{dplot}
-\keyword{spatial}

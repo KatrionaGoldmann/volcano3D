@@ -6,141 +6,91 @@
 \usage{
 volcano3D(
   polar,
-  colours = c("green3", "cyan", "blue", "purple", "red", "gold2"),
-  non_sig_colour = "grey60",
-  colour_scale = "discrete",
-  continuous_shift = 1.33,
-  z_axis_title_offset = 1.2,
-  radial_axis_title_offset = 1,
-  z_axis_title_size = 15,
-  radial_axis_title_size = 15,
-  continue_radial_axes = TRUE,
-  axis_width = 2,
-  grid_width = 2,
+  type = 1,
   label_rows = c(),
-  grid = NULL,
-  fc_or_zscore = "zscore",
   label_size = 14,
-  arrow_length = 50,
-  colour_code_labels = TRUE,
-  label_colour = NULL,
-  hover_text = "label",
+  arrow_length = 100,
+  colour_code_labels = FALSE,
+  label_colour = "black",
   grid_colour = "grey80",
+  grid_width = 2,
+  grid_options = NULL,
   axis_colour = "black",
-  marker_size = 2.7,
-  marker_alpha = 1,
-  marker_outline_colour = "white",
+  axis_width = 2,
+  marker_size = 3,
   marker_outline_width = 0,
-  axis_angle = 0.5,
-  z_aspectratio = 1,
+  marker_outline_colour = "white",
+  z_axis_title_offset = 1.2,
+  z_axis_title_size = 12,
+  z_axis_angle = 0.5,
+  radial_axis_title_size = 14,
+  radial_axis_title_offset = 1.2,
   xy_aspectratio = 1,
-  plot_height = 700,
-  camera_eye = list(x = 1.25, y = 1.25, z = 1.25),
-  source = "volcano3D",
+  z_aspectratio = 0.8,
+  camera_eye = list(x = 0.9, y = 0.9, z = 0.9),
   ...
 )
 }
 \arguments{
-\item{polar}{A polar object with created by \code{\link{polar_coords}}.}
+\item{polar}{Object of S4 class 'volc3d' following call to either
+`polar_coords()` or `DESeqToVolc()`}
 
-\item{colours}{A vector of colour names or hex triplets for each of the 
-six groups. Default = c("green3", "cyan", "blue", 
-"purple", "red", "gold2"). Colours are assigned in order: group1+, 
-group1+group2+, group2+, group2+group3+, group3+, group1+group3+.}
+\item{type}{Either `1` or `2` specifying type of polar coordinates: `1` =
+Z-scaled, `2` = unscaled (equivalent to log2 fold change for gene
+expression).}
 
-\item{non_sig_colour}{The colour for non-significant markers 
-(default='grey60').}
+\item{label_rows}{A vector of row names or numbers to label}
 
-\item{colour_scale}{whether to use a 'discrete' or 'continuous' colour scale 
-(default = 'discrete').}
+\item{label_size}{font size for labels (default 14).}
 
-\item{continuous_shift}{The number of radians 
-to offset the continuous colour scale by. This is calculated by converting 
-the angle to a hue using \code{\link[grDevices]{hsv}} where 0 corresponds to
-the colour scale starting with red and 2 with magenta (default = 2).}
+\item{arrow_length}{The length of label arrows (default 100)}
+
+\item{colour_code_labels}{Logical whether label annotations should be colour
+coded. If `FALSE` `label_colour` is used.}
+
+\item{label_colour}{HTML colour of annotation labels if not colour coded.}
+
+\item{grid_colour}{The colour of the cylindrical grid (default "grey80")}
+
+\item{grid_width}{The width of the grid lines (default 2)}
+
+\item{grid_options}{Optional list of additional arguments to pass to
+`polar_grid()`, eg. `z_axis_ticks` and `r_axis_ticks`}
+
+\item{axis_colour}{The colour of the grid axes and labels (default "black")}
+
+\item{axis_width}{The width of axis lines (default 2)}
+
+\item{marker_size}{Size of the markers (default 3)}
+
+\item{marker_outline_width}{Width for marker outline (default 0 means no
+outline)}
+
+\item{marker_outline_colour}{Colour for marker outline (default white)}
 
 \item{z_axis_title_offset}{The position scaling between grid and z axis title
 (default=1.2)}
 
-\item{radial_axis_title_offset}{The position scaling between grid and radial 
-axis title (default=1)}
+\item{z_axis_title_size}{The font size for the z axis title (default=12)}
 
-\item{z_axis_title_size}{The font size for the z axis title (default=15)}
+\item{z_axis_angle}{Angle in radians for the position of z axis (default
+0.5)}
 
 \item{radial_axis_title_size}{The font size for the radial (default=15)}
 
-\item{continue_radial_axes}{Logical whether to include the three radial 
-spokes on the z-axis.}
+\item{radial_axis_title_offset}{The position scaling between grid and radial 
+axis title (default=1.2)}
 
-\item{axis_width}{The width of axis lines (default=2)}
+\item{xy_aspectratio}{The aspect ratio for the xy axis compared to z (default
+1). Increasing this makes the grid wider in the plot window.}
 
-\item{grid_width}{The width of the grid lines (default=2)}
+\item{z_aspectratio}{The aspect ratio for the z axis compared to x and y
+(default 0.8). Decreasing this makes the plot appear more squat.}
 
-\item{label_rows}{A vector of row names or numbers to label.}
+\item{camera_eye}{The (x,y,z) components of the start 'eye' camera vector.
+This vector determines the view point about the origin of this scene.}
 
-\item{grid}{An optional grid object. If NULL this will be calculated using 
-default values of  \code{\link{polar_grid}}.}
-
-\item{fc_or_zscore}{whether to use fold change or z-score for the p-values. 
-Options are 'zscore' (default) or 'fc').}
-
-\item{label_size}{font size for labels (default = 14).}
-
-\item{arrow_length}{The length of label arrows (default = 50).}
-
-\item{colour_code_labels}{Logical whether label annotations should be colour
-coded. If FALSE label_colour is used.}
-
-\item{label_colour}{HTML colour of annotation labels if not colour coded.}
-
-\item{hover_text}{A character string containing the argument for hover text
-(default="label"). Possible columns include: \itemize{
-\item "Name" or "label": name and label column for each marker
-\item paste(group, "_axis") the position for each marker on a given axis
-\item "x_zscore", "y_zscore" or "r_zscore": The position according to z-score
-\item "x_fc", "y_fc" or "r_fc": The position according to fold change
-\item "angle", "angle_degrees": Then marker angle
-\item "max_exp" or "sig": The maximally expressed group or significant group
-\item "col" or "hue": The colour or hue of the marker
-\item paste0(group 1, "_", group 2, "_pvalue"): The pvalue for comparisons
-\item paste0(group 1, "_", group 2, "_padj"): The pvalue for comparisons
-\item paste0(group 1, "_", group 2, "_logFC"): The pvalue for comparisons
-\item paste0(multi_group_test, "_pvalue"), 
-paste0(multi_group_test, "_padj"), paste0(multi_group_test, "_logFC"): 
-The stats for all multi-group tests.
-}}
-
-\item{grid_colour}{The colour of the cylindrical grid (default="grey80").}
-
-\item{axis_colour}{The colour of the grid axes and labels (default="black").}
-
-\item{marker_size}{Size of the markers (default = 2.7).}
-
-\item{marker_alpha}{Opacity for the markers (default = 1).}
-
-\item{marker_outline_colour}{Colour for marker outline (default = white)}
-
-\item{marker_outline_width}{Width for marker outline (default = 0)}
-
-\item{axis_angle}{Angle in radians for the z axis (default = 0.5).}
-
-\item{z_aspectratio}{The aspect ratio for the z axis compared to x and y 
-(default = 1). Decreasing this makes the plot appear more squat.}
-
-\item{xy_aspectratio}{The aspect ratio for the xy axis compared to z
-(default = 1). Decreasing this makes the grid wider in the plot window.}
-
-\item{plot_height}{The plot height in px. Default=700.}
-
-\item{camera_eye}{The (x,y,z) components of the 'eye' camera vector. This 
-vector determines the view point about the origin of this scene.}
-
-\item{source}{a character string of length 1. Match the value of this string 
-with the source argument in \code{\link[plotly]{event_data}} to retrieve the 
-event data corresponding to a specific plot (shiny apps can have multiple 
-plots).}
-
-\item{...}{Optional parameters to pass to \code{\link{polar_grid}}.}
+\item{...}{Optional arguments passed to `plot_ly`}
 }
 \value{
 Returns a cylindrical 3D plotly plot featuring variables on a 
@@ -148,28 +98,18 @@ tri-axis radial graph with the -log10(multi-group test p-value) on the
 z-axis
 }
 \description{
-Plots the pvalues from three-way comparisons in 3D space using plotly.
+Plots the three-way comparisons of variables such as gene expression data in
+3D space using plotly. x, y position represents polar position on 3 axes
+representing the amount each variable or gene tends to each of the 3
+categories. The z axis represents -log10 P value for the one-way test
+comparing each variable across the 3 groups.
 }
 \examples{
 data(example_data)
-syn_polar <- polar_coords(sampledata = syn_example_meta,
-                          contrast = "Pathotype", 
-                          groups = NULL, 
-                          pvalues = syn_example_p, 
-                          expression = syn_example_rld, 
-                          p_col_suffix = "pvalue", 
-                          padj_col_suffix = "padj", 
-                          non_sig_name = "Not Significant", 
-                          multi_group_prefix = "LRT",
-                          significance_cutoff = 0.01, 
-                          fc_col_suffix='log2FoldChange',
-                          fc_cutoff = 0.3)
+syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+                          data = t(syn_example_rld))
+volcano3D(syn_polar)
 
-volcano3D(syn_polar, 
-    label_rows = c("FMOD", "LAMP5", "TNNT3"), 
-    xy_aspectratio = 1, 
-    label_size = 10, 
-    z_aspectratio = 0.9)
 }
 \references{
 Lewis, Myles J., et al. (2019).
@@ -178,6 +118,3 @@ Molecular portraits of early rheumatoid arthritis identify clinical and
 treatment response phenotypes.}
 \emph{Cell reports}, \strong{28}:9
 }
-\concept{volcanoplot}
-\keyword{hplot}
-\keyword{iplot}

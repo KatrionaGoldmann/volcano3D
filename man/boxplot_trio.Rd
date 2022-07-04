@@ -20,10 +20,10 @@ boxplot_trio(
 )
 }
 \arguments{
-\item{polar}{A polar object including expression data from groups of
+\item{polar}{A 'volc3d' object including expression data from groups of
 interest. Created by \code{\link{polar_coords}}.}
 
-\item{value}{The row name or number in \code{polar@expression} to be
+\item{value}{The column name or number in \code{polar@data} to be
 analysed}
 
 \item{box_colours}{The fill colours for each box assigned in order of
@@ -44,11 +44,11 @@ Allowed values include: \itemize{
  test comparing multiple groups. }}
 
 \item{levels_order}{A character vector stating the contrast groups to be
-plotted, in order. If NULL this defaults to the levels in
-polar@sampledata[, polar@contrast].}
+plotted, in order. If `NULL` this defaults to the levels in
+`polar@outcome`.}
 
 \item{my_comparisons}{A list of contrasts to pass to
-\code{\link[ggpubr]{stat_compare_means}}. If NULL (default) all contrast
+\code{\link[ggpubr]{stat_compare_means}}. If `NULL` (default) all contrast
 pvalues are calculated and plotted.}
 
 \item{text_size}{The font size of text (default = 10)}
@@ -74,21 +74,11 @@ groups in a boxplot using either ggplot or plotly.
 }
 \examples{
 data(example_data)
-syn_polar <- polar_coords(sampledata = syn_example_meta,
-                          contrast = "Pathotype",
-                          groups = NULL,
-                          pvalues = syn_example_p,
-                          expression = syn_example_rld,
-                          p_col_suffix = "pvalue",
-                          padj_col_suffix = "padj",
-                          non_sig_name = "Not Significant",
-                          multi_group_prefix = "LRT",
-                          significance_cutoff = 0.01,
-                          fc_col_suffix='log2FoldChange',
-                          fc_cutoff = 0.3)
+syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+                          data = t(syn_example_rld))
 
-boxplot_trio(syn_polar, value = "SLAMF6", plot_method="plotly")
-boxplot_trio(syn_polar, value = "SLAMF6")
+boxplot_trio(syn_polar, value = "COBL", plot_method="plotly")
+boxplot_trio(syn_polar, value = "COBL")
 }
 \references{
 Lewis, Myles J., et al. (2019).

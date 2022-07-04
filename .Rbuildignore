@@ -4,10 +4,8 @@
 ^README.rmd$
 ^tests*
 ^docs*
-^vignettes/pvalues_generator*
 ^vignettes/Extended*
 ^vignettes/shiny_builder*
-^vignettes/pvalues_example.rdata$
 ^_pkgdown\.yml$
 ^docs$
 ^Outputs$

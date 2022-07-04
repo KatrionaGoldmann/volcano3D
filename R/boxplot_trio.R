@@ -2,9 +2,9 @@
 #'
 #' Plots the expression of a specific row in expression to compare the three
 #' groups in a boxplot using either ggplot or plotly.
-#' @param polar A polar object including expression data from groups of
+#' @param polar A 'volc3d' object including expression data from groups of
 #' interest. Created by \code{\link{polar_coords}}.
-#' @param value The row name or number in \code{polar@expression} to be
+#' @param value The column name or number in \code{polar@data} to be
 #' analysed
 #' @param box_colours The fill colours for each box assigned in order of
 #' levels_order. Default = c('green3', 'blue', 'red') ).
@@ -22,10 +22,10 @@
 #'  \code{\link[stats]{kruskal.test}} (non-parametric). Perform one-way ANOVA
 #'  test comparing multiple groups. }
 #' @param levels_order A character vector stating the contrast groups to be
-#' plotted, in order. If NULL this defaults to the levels in
-#' polar@sampledata[, polar@contrast].
+#' plotted, in order. If `NULL` this defaults to the levels in
+#' `polar@outcome`.
 #' @param my_comparisons A list of contrasts to pass to
-#' \code{\link[ggpubr]{stat_compare_means}}. If NULL (default) all contrast
+#' \code{\link[ggpubr]{stat_compare_means}}. If `NULL` (default) all contrast
 #' pvalues are calculated and plotted.
 #' @param text_size The font size of text (default = 10)
 #' @param stat_colour Colour to print statistics (default="black").
@@ -40,9 +40,11 @@
 #' stat_compare_means
 #' @importFrom plotly layout plot_ly add_trace add_markers
 #' @importFrom utils combn
-#' @importFrom grDevices hsv
+#' @importFrom grDevices hsv col2rgb
 #' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate
 #' geom_point scale_color_manual aes geom_jitter element_rect aes_string
+#' element_text
+#' @importFrom methods is
 #' @keywords hplot
 #' @references
 #' Lewis, Myles J., et al. (2019).
@@ -53,21 +55,11 @@
 #' @export
 #' @examples
 #' data(example_data)
-#' syn_polar <- polar_coords(sampledata = syn_example_meta,
-#'                           contrast = "Pathotype",
-#'                           groups = NULL,
-#'                           pvalues = syn_example_p,
-#'                           expression = syn_example_rld,
-#'                           p_col_suffix = "pvalue",
-#'                           padj_col_suffix = "padj",
-#'                           non_sig_name = "Not Significant",
-#'                           multi_group_prefix = "LRT",
-#'                           significance_cutoff = 0.01,
-#'                           fc_col_suffix='log2FoldChange',
-#'                           fc_cutoff = 0.3)
+#' syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+#'                           data = t(syn_example_rld))
 #'
-#' boxplot_trio(syn_polar, value = "SLAMF6", plot_method="plotly")
-#' boxplot_trio(syn_polar, value = "SLAMF6")
+#' boxplot_trio(syn_polar, value = "COBL", plot_method="plotly")
+#' boxplot_trio(syn_polar, value = "COBL")
 
 boxplot_trio <- function(polar,
                          value,
@@ -81,10 +73,15 @@ boxplot_trio <- function(polar,
                          step_increase = 0.05,
                          plot_method="ggplot",
                          ...){
-
-  sampledata <- polar@sampledata
-  expression <- polar@expression
-  pvalues <- polar@pvalues
+  if (is(polar, "polar")) {
+    args <- as.list(match.call())[-1]
+    return(do.call(boxplot_trio_v1, args))  # for back compatibility
+  }
+  if(! is(polar, "volc3d")) stop("Not a 'volc3d' class object")
+  outcome <- polar@outcome
+  expression <- t(polar@data)
+  pvalues <- polar@pvals
+  padj <- polar@padj
 
   if(! test %in% c("polar_pvalue", "polar_padj", "polar_multi_pvalue",
                    "polar_multi_padj", "t.test", "wilcox.test", "anova",
@@ -94,14 +91,11 @@ boxplot_trio <- function(polar,
                "'t.test', 'wilcox.test', 'anova', 'kruskal.test')"))
   }
   if(is.null(levels_order)) {
-    levels_order <- levels(sampledata[, polar@contrast])
+    levels_order <- levels(outcome)
   }
-  if(! class(levels_order) %in% c("character")) {
-    stop("levels_order must be a character vector")
-  }
-  if(! all(levels_order %in% levels(sampledata[, polar@contrast]))){
+  if(! all(levels_order %in% levels(outcome))){
     stop(paste('levels_order must be a character vector defining the order',
-               'of levels in sampledata[, contrast]'))
+               "of levels in 'outcome'"))
   }
   if(length(box_colours) != length(levels_order)){
     stop(paste0('The length of box_colours must match teh length of',
@@ -119,36 +113,18 @@ boxplot_trio <- function(polar,
     return(x)
   }))
 
-  if(! class(sampledata) %in% c("data.frame")) {
-    stop("sampledata must be a data frame")
-  }
-  if(! class(expression)[1] %in% c("data.frame", "matrix")) {
-    stop("expression must be a data frame or matrix")
-  }
-  if(! class(value) %in% c("character", "numeric")) {
-    stop("value must be a character")
-  }
   if(length(value) > 1) stop("value must be of length 1")
   if(! value %in% rownames(expression)) {
     stop("value/gene is not in rownames(expression)")
   }
-  if(! identical(colnames(expression), as.character(sampledata$ID))) {
-    stop("expression and sampledata misalligned")
-  }
-  if(grepl("multi", test) & is.null(polar@multi_group_test)){
-    stop(paste("A multi-group test parameter is required in pvalues to use",
-               test))
-  }
+
   if(! plot_method %in% c('plotly', 'ggplot')){
     stop("plot_method must be either plotly or ggplot")
   }
 
   colour_map <- setNames(box_colours, levels_order)
-  sampledata$comp <- sampledata[, polar@contrast]
-  expression <- expression[, match(as.character(sampledata$ID),
-                                   colnames(expression))]
 
-  if(class(value) ==  "character") {
+  if(is.character(value)) {
     index <- which(rownames(expression) ==  value)
   }
 
@@ -159,9 +135,9 @@ boxplot_trio <- function(polar,
     })
   }
 
-  df <- data.frame("ID" = sampledata$ID,
-                   "group" = sampledata$comp,
-                   "row" = as.numeric(as.character(expression[value, ])))
+  df <- data.frame(
+                   "group" = outcome,
+                   "row" = expression[value, ])
   df <- df[! is.na(df$row), ]
   df <- df[df$group %in% levels_order, ]
 
@@ -179,30 +155,23 @@ boxplot_trio <- function(polar,
                            method = test,
                            step.increase = step_increase,
                            size=stat_size)
-
-    pvals$x.position <- map_pos[pvals$group1] +
-      (map_pos[pvals$group2] - map_pos[pvals$group1])/2
-    pvals$y.position <- max(df$row, na.rm=TRUE)*
-      (1.01 + step_increase*c(seq_len(nrow(pvals))-1))
-    pvals$new_p_label <- pvals$p.format
-
+    if (test %in% c("t.test", "wilcox.test")) {
+      pvals$x.position <- map_pos[pvals$group1] +
+        (map_pos[pvals$group2] - map_pos[pvals$group1])/2
+      pvals$y.position <- max(df$row, na.rm=TRUE)*
+        (1.01 + step_increase*c(seq_len(nrow(pvals))-1))
+      pvals$new_p_label <- pvals$p.format
+    } else pvals <- pvals$p
+    
     # groups comparisons
   } else if (! grepl("multi", test)){
-    if(! any(grepl(gsub("polar_", "", test), colnames(pvalues)))){
-      stop(paste(test, "tests must have", gsub(".*_", "", test), 
-                 "columns in polar@pvalues"))
-    }
-    pvals <- pvalues[value, ]
-    pvals <- pvals[, grepl(gsub("polar_", "", test), colnames(pvals))]
-    if(! is.null(polar@multi_group_test)){
-      pvals <- pvals[, ! grepl(polar@multi_group_test, colnames(pvals))]
-    }
-    colnames(pvals) <- gsub(paste0("_", gsub("polar_", "", test)), "",
-                                 colnames(pvals))
-    rownames(pvals) <- "p"
-    pvals <- data.frame(t(pvals))
-    pvals$group1 <- gsub("_.*", "", rownames(pvals))
-    pvals$group2 <- gsub(".*_", "", rownames(pvals))
+    
+    pvals <- switch(test,
+                    "polar_pvalue" = pvalues[value, 2:4],
+                    "polar_padj" = padj[value, 2:4])
+    pvals <- data.frame(p = pvals)
+    pvals$group1 <- levels(outcome)[c(1,1,2)]
+    pvals$group2 <- levels(outcome)[c(2,3,3)]
     pvals$p.format <- format(pvals$p, digits=2)
     pvals$method <- test
     pvals$y.position <- max(df$row, na.rm=TRUE)
@@ -216,15 +185,12 @@ boxplot_trio <- function(polar,
       }))
     pvals <- pvals[pvals$comp %in% comp_use, ]
 
-    # muti group comparisons
+    # multi group comparisons
   } else{
-    if(! any(grepl(gsub("polar_multi_", "", test), colnames(pvalues)))){
-      stop(paste(test, "tests must have", gsub(".*_", "", test), 
-                 "columns in polar@pvalues"))
-    }
-    pvals <- pvalues[value, ]
-    pvals <- pvals[, grepl(gsub("polar_multi_", "", test), colnames(pvals))]
-    pvals <- pvals[, grepl(polar@multi_group_test, colnames(pvals))]
+    # polar_multi_test
+    pvals <- switch(test,
+                    "polar_multi_pvalue" = pvalues[value, 1],
+                    "polar_multi_padj" = padj[value, 1])
   }
 
   if(plot_method == 'ggplot'){
@@ -232,7 +198,7 @@ boxplot_trio <- function(polar,
                    x = "group",
                    y = "row",
                    xlab = "",
-                   ylab = paste(polar@pvalues$label[index], "Expression"),
+                   ylab = rownames(polar@pvals)[index],
                    fill = "group",
                    color = "group",
                    palette = box_colours,
@@ -247,7 +213,7 @@ boxplot_trio <- function(polar,
             legend.background = element_rect(fill="transparent", colour=NA))
 
 
-    if(! grepl("multi", test)){
+    if(! grepl("multi", test) & !(test %in% c("anova", "kruskal.test"))){
 
       p <- p + stat_pvalue_manual(
         data = pvals, label = "p.format",
@@ -256,7 +222,7 @@ boxplot_trio <- function(polar,
         y.position = "y.position", color = stat_colour,
         size=stat_size, ...)
     } else{
-      # muti group comparison
+      # multi group comparison
       p <- p + annotate("text", x = 0.5 + length(unique(df$group))/2,
                         y = Inf, vjust = 2, hjust = 0.5, color = stat_colour,
                         label = paste("p =", format(pvals, digits = 2)))
@@ -272,17 +238,17 @@ boxplot_trio <- function(polar,
       add_markers(x = ~jitter(as.numeric(group)), y = ~row,
                   marker = list(size = 6, color=~col),
                   hoverinfo = "text",
-                  text = ~paste0(ID,
-                                 "<br>Group: ", group,
-                                 "<br>Expression: ", row),
+                  text = paste0(rownames(df),
+                    "<br>Group: ", df$group,
+                                 "<br>Expression: ", format(df$row, digits = 3)),
                   showlegend = FALSE) %>%
       layout(legend = list(orientation = "h",
                            x =0.5, xanchor = "center",
                            y = 1, yanchor = "bottom"
       ),
-      xaxis = list(title = polar@contrast, tickvals = 1:3,
+      xaxis = list(title = "", tickvals = 1:3,
                    ticktext = levels(df$group)),
-      yaxis = list(title = paste(value, "Expression")))
+      yaxis = list(title = value))
 
 
     lines <- list()

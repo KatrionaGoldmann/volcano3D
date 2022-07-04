@@ -5,8 +5,9 @@
 #' interest. Created by \code{\link{polar_coords}}.
 #' @param significance Which significance factors to subset to. If NULL 
 #' levels(syn_polar@polar$sig)[1] is selected. 
-#' @param output What object to return. Options are "pvalues", "expression", 
-#' "polar_df" for subset data frames or "polar" for subset polar class object. 
+#' @param output What object to return. Options are "pvals", "padj", "data",
+#'   "df" for subset dataframes, or "polar" to subset the entire 'volc3d' class
+#'   object.
 #' @references
 #' Lewis, Myles J., et al. (2019).
 #' \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
@@ -17,43 +18,35 @@
 #' @export
 #' @examples
 #' data(example_data)
-#' syn_polar <- polar_coords(sampledata = syn_example_meta,
-#'                           contrast = "Pathotype",
-#'                           groups = NULL,
-#'                           pvalues = syn_example_p,
-#'                           expression = syn_example_rld,
-#'                           p_col_suffix = "pvalue",
-#'                           padj_col_suffix = "padj",
-#'                           non_sig_name = "Not Significant",
-#'                           multi_group_prefix = "LRT",
-#'                           significance_cutoff = 0.01,
-#'                           fc_col_suffix='log2FoldChange',
-#'                           fc_cutoff = 0.3)
+#' syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+#'                           data = t(syn_example_rld))
 #'
-#' subset <- significance_subset(syn_polar, "Lymphoid+", "polar_df")
+#' subset <- significance_subset(syn_polar, "L+", "df")
 
 significance_subset <- function(polar,
                                 significance = NULL, 
                                 output = "pvalues"){
   
-  if(is.null(significance)) significance <- levels(polar@polar$sig)[1]
-  if(! all(significance %in% levels(polar@polar$sig))){
-    stop("Significance must be in levels(polar@polar$sig)")
+  if(is.null(significance)) significance <- levels(polar@df[[1]]$lab)[1]
+  if(! all(significance %in% levels(polar@df[[1]]$lab))){
+    stop("`significance` must be in levels(polar@df[[1]]$lab)")
   }
-  if(class(polar) != "polar") stop("polar must be a polar class object")
-  if(! output %in% c("pvalues", "expression", "polar_df", "polar")){
-    stop("return must be one of 'pvalues', 'expression', 'polar_df', 'polar'")
+  if(!is(polar, "volc3d")) stop("polar must be a 'volc3d' class object")
+  if(! output %in% c("pvals", "padj", "data", "df", "polar")){
+    stop("`output` must be one of 'pvals', 'padj', 'data', 'df', 'polar'")
   }
   
-  rows <- polar@polar$Name[polar@polar$sig %in% significance]
-  polar@pvalues <- polar@pvalues[rows, ]
-  polar@expression <- polar@expression[rows, ]
-  polar@polar <- polar@polar[rows, ]
+  rows <- polar@df[[1]]$lab %in% significance
+  polar@pvals <- polar@pvals[rows, ]
+  polar@padj <- polar@padj[rows, ]
+  polar@data <- polar@data[, rows]
+  polar@df[[1]] <- polar@df[[1]][rows, ]
+  polar@df[[2]] <- polar@df[[2]][rows, ]
   
   if(output == "polar"){
     return(polar)
   } else {
-    return(slot(polar, gsub("_df", "", output)))
+    return(slot(polar, output))
   }
 }
 

@@ -1,526 +1,244 @@
-setClassUnion("character_or_NULL", c("character", "NULL"))
 setClassUnion("df_or_matrix", c("data.frame", "matrix"))
 
-#' An S4 class to define the polar coordinates and pvalues for polar
-#' differential expression plots
-#' 
-#' @slot sampledata Sample data with ID and contrast column.
-#' @slot contrast The column name in `sampledata`` which contains the
-#'   three-group contrast factor used for comparisons.
-#' @slot pvalues A data frame containing the p-values, and adjusted p-values,
-#'   for all three comparisons between groups in the 
-#'   contrast factor, as well as optional fold changes and multi-group tests.
-#' @slot multi_group_test Column name prefix for statistical tests between
-#'   all three groups
-#' @slot expression A data frame or matrix containing the expression data. This 
-#' is used to calculate z-score and fold change, therefore it should be a 
-#' normalised expression object such as log transformed or variance stabilised. 
-#' @slot polar A data frame containing:
-#'   \itemize{
-#'       \item The axis score or mean expression for each of the three groups 
-#'       in comparison
-#'       \item The z-score polar coordinates: 'y_zscore', 'x_zscore' and 
-#'       'r_zscore'
-#'       \item The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'
-#'       \item 'angle': The angle in radians for polar coordinates
-#'       \item 'angle_degrees': The angle in degrees
-#'       \item 'max_exp': The group with the highest expression
-#'       \item 'sig': The significance category
-#'   }
-#' @slot non_sig_name The category name for variables which are not significant
-
-setClass("polar", slots = list(sampledata = "data.frame",
-                               contrast = "character",
-                               pvalues = "data.frame",
-                               multi_group_test = "character_or_NULL",
-                               expression = "df_or_matrix",
-                               polar = "df_or_matrix",
-                               non_sig_name = "character"))
+setClass("volc3d", slots = list(df = "list",
+                                outcome = "factor",
+                                data = "df_or_matrix",
+                                pvals = "matrix",
+                                padj = "df_or_matrix",
+                                pcutoff = "numeric",
+                                scheme = "character",
+                                labs = "character"))
 
 
 #' Coordinates for Three Way Polar Plot
 #'
-#' This function creates a polar object of S4 class for downstream plots 
+#' This function creates a 'volc3d' object of S3 class for downstream plots 
 #' containing the p-values from a three-way group comparison, expression data 
 #' sample data and polar coordinates.
-#' @param sampledata A data frame containing the sample information.
-#' This must contain: an ID column containing the sample IDs which can be 
-#' matched to the `expression` data and a 
-#' contrast column containing the three-level factor used for contrasts.
-#' @param contrast The column name in `sampledata` which contains the 
-#' three-level factor used for contrast.
-#' @param pvalues A data frame containing: \itemize{
-#' \item three `p_col_suffix` columns: one for 
-#' the pvalue for each comparison between groups;
-#' \item three optional `fc_col_suffix` columns for the fold change between 
-#' each comparison (if NULL, no Fold Change columns are included); 
-#' \item three optional `padj_col_suffix` columns (if NULL 
-#' adjusted p values are calculated using `padjust_method`); 
-#' \item and optional 'p', 
-#' 'padj and 'fc' columns for a three-way test, such as ANOVA or likelihood 
-#' ratio test, defined by `multi_group_prefix`. 
-#' }
-#' @param expression An optional data frame containing expression data for
-#' downstream analysis and visualisation. The rows must contain probes which
-#' match the rows in pvalues and the columns must contain samples which match
-#' \code{sampledata$ID}.
-#' @param groups The groups to be compared (if NULL this defaults
-#' to \code{levels(sampledata[, 'contrasts'])}).
-#' @param p_col_suffix The suffix word to define columns containing p values
-#' (default = 'pvalues'). These must not contain underscores; 
-#' @param padj_col_suffix The suffix word to define columns containing adjusted
-#' p values (default = 'padj').  These must not contain underscores. 
-#' If NULL these will be calculated using \code{padjust_method} 
-#' @param fc_col_suffix The optional suffix word to define columns containing 
-#' log fold change values (default = 'logFC'). These must not contain 
-#' underscores.
-#' @param padjust_method The method used to calculate adjusted p values if 
-#' padj_col_suffix is NULL (default = 'BH'). See \code{\link[stats]{p.adjust}}. 
-#' If NULL no adjusted pvalue is calculated. 
-#' @param multi_group_prefix Optional column prefix for statistics (p, padj, 
-#' and fold change) across all three groups (typically ANOVA or likelihood 
-#' ratio tests). default = NULL. These must not contain underscores
-#' @param non_sig_name Category name to assign to non-significant points
-#' @param significance_cutoff Value defining the significance cut-off (points 
-#' with pvalues below this point will be classed as \code{non_sig_name})
-#' @param fc_cutoff The cut-off for fold change, below which markers will be
-#' classed as \code{non_sig_name}` (default = 0.3).
-#' @param label_column Optional column name in pvalues for markers to be 
-#' labelled with at plotting stage. If NULL the rownames of pvalues are used. 
-#' @param cutoff_criteria Whether to use pvalue or padj for the colour coding 
-#' significance cutoff. 
-#' @return Returns an S4 polar object containing:
+#'
+#' @param outcome Outcome vector with 3 groups, ideally as a factor. If it is
+#'   not a factor, this will be coerced to a factor. This must have exactly 3
+#'   levels. NOTE: if `pvals` is given, the order of the levels in `outcome`
+#'   must correspond to the order of columns in `pvals`.
+#' @param data Dataframe or matrix with variables in columns
+#' @param pvals Matrix or dataframe with p-values. The first column represents a
+#'   test across all 3 categories such as one-way ANOVA or likelihood ratio
+#'   test. Columns 2-4 represent pairwise tests comparing groups A vs B, A vs C
+#'   and B vs C, where A, B, C represent levels 1, 2, 3 in `outcome`. Columns
+#'   2-4 must be provided in the correct order. If `pvals` is not given, it is
+#'   calculated using the function [calc_pvals].
+#' @param padj Matrix or dataframe with adjusted p-values. If not supplied,
+#'   defaults to use nominal p-values from `pvals`.
+#' @param pcutoff Cut-off for p-value significance
+#' @param scheme Vector of colours starting with non-significant variables
+#' @param labs Optional character vector for labelling groups. Default `NULL`
+#'   leads to abbreviated labels based on levels in `outcome` using
+#'   [abbreviate]. A vector of length 3 with custom abbreviated names for the
+#'   outcome levels can be supplied. Otherwise a vector length 7 is expected, of
+#'   the form "ns", "B+", "B+C+", "C+", "A+C+", "A+", "A+B+", where "ns" means
+#'   non-significant and A, B, C refer to levels 1, 2, 3 in `outcome`, and must
+#'   be in the correct order.
+#' @param ... Optional arguments passed to [calc_pvals]
+#' 
+#' @return Returns an S4 'volc3d' object containing:
 #' \itemize{
-#'   \item{'polar'} A data.frame containing:
-#'   \itemize{
-#'       \item{The mean expression for each of the three groups in comparison}
-#'       \item{The z-score polar coordinates: 'y_zscore', 'x_zscore' and 
-#'       'r_zscore'}
-#'       \item{The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'}
-#'       \item{'angle': The angle in radians for polar coordinates}
-#'       \item{'angle_degrees': The angle in degrees}
-#'       \item{'max_exp': The maximally expressed group}
-#'       \item{'sig': The significance group}
-#'   }
-#'   \item{'pvalues'} A data frame containing the p-values, adjusted p-values,
-#'   and optional log(fold changes) for all three comparisons between groups in 
-#'   the contrast factor, as well as optional multi-group tests.
-#'   \item{'sampledata'} Sample data with column ID and contrast
-#'   \item{'contrast'} The column name in `sampledata`` which contains the
-#'   three-group contrast factor used for comparisons.
-#'   \item{'multi_group_test'} Column name prefix for statistical tests between
-#'   all three groups
-#'   \item{'expression'} An optional data frame or matrix containing the
-#'   expression data
-#'   \item{'non_sig_name'} The category name for variables which are classed as 
-#'   not significant
+#'   \item{'df'} A list of 2 dataframes. Each dataframe contains both x,y,z
+#'   coordinates as well as polar coordinates r, angle. The first dataframe has
+#'   coordinates on scaled data. The 2nd dataframe has unscaled data (e.g. log2
+#'   fold change for gene expression).
+#'   \item{'outcome'} The three-group contrast factor used for comparisons
+#'   \item{'data'} Dataframe or matrix containing the expression data
+#'   \item{'pvals'} A dataframe containing p-values. First column is the 3-way
+#'   comparison (LRT or ANOVA). Columns 2-4 are pairwise comparisons between
+#'   groups A vs B, A vs C and B vs C, where A, B, C are the 3 levels in the
+#'   outcome factor.
+#'   \item{'padj'} A dataframe containing p-values adjusted for multiple testing
 #' }
-#' @keywords dplot spatial
-#' @importFrom grDevices col2rgb hsv
-#' @references
-#' Lewis, Myles J., et al. (2019).
-#' \href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
-#' Molecular portraits of early rheumatoid arthritis identify clinical and
-#' treatment response phenotypes.}
-#' \emph{Cell reports}, \strong{28}:9
-#' @export
+#' 
 #' @examples
 #' data(example_data)
-#' syn_polar <- polar_coords(sampledata=syn_example_meta,
-#'                     contrast="Pathotype",
-#'                     groups = NULL,
-#'                     pvalues = syn_example_p,
-#'                     expression = syn_example_rld,
-#'                     p_col_suffix = "pvalue",
-#'                     padj_col_suffix = "padj",
-#'                     fc_col_suffix = NULL,
-#'                     padjust_method = "BH",
-#'                     multi_group_prefix = NULL,
-#'                     non_sig_name = "Not Significant",
-#'                     significance_cutoff = 0.01, 
-#'                     fc_cutoff=0.3, 
-#'                     label_column = NULL)
-#' table(syn_polar@polar$sig) 
+#' syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
+#'                           data = t(syn_example_rld))
+#' 
+#' @importFrom methods is
+#' @export
+#'
+polar_coords <- function(outcome, data,
+                       pvals = NULL, padj = pvals, pcutoff = 0.05,
+                       scheme = c('grey60', 'red', 'gold2', 'green3', 
+                                  'cyan', 'blue', 'purple'),
+                       labs = NULL, ...) {
+  if (any(is.na(outcome))) {
+    ok <- !is.na(outcome)
+    data <- data[ok,]
+    outcome <- outcome[ok]
+    message("Removing NA from `outcome`")
+  }
+  outcome <- as.factor(outcome)
+  outcome <- droplevels(outcome)
+  if (nlevels(outcome) != 3) stop("`outcome` must have 3 levels")
+  data <- as.matrix(data)
+  data_sc <- scale(data)
+  df1 <- vapply(levels(outcome), function(i) colMeans(data_sc[outcome == i, ]),
+                numeric(ncol(data)))
+  df2 <- vapply(levels(outcome), function(i) colMeans(data[outcome == i, ]),
+                numeric(ncol(data)))
+  df1 <- polar_xy(df1)
+  df2 <- polar_xy(df2)
+  if (is.null(pvals)) {
+    pv <- calc_pvals(outcome, data, pcutoff, ...)
+    pvals <- pv$pvals
+    padj <- pv$padj
+  }
+  ptab <- polar_p(outcome, df1, pvals, padj, pcutoff, scheme, labs)
+  df1 <- cbind(df1, ptab)
+  df2 <- cbind(df2, ptab)
+  methods::new("volc3d",
+               df = list(scaled = df1, unscaled = df2),
+               outcome = outcome, data = data, pvals = pvals, padj = padj,
+               pcutoff = pcutoff, scheme = scheme,
+               labs = levels(ptab$lab))
+}
 
 
-polar_coords <- function(sampledata,
-                         contrast,
-                         pvalues,
-                         expression,
-                         groups = NULL,
-                         p_col_suffix = "pvalues",
-                         padj_col_suffix = "padj",
-                         fc_col_suffix = NULL,
-                         padjust_method = "BH",
-                         multi_group_prefix = NULL,
-                         non_sig_name = "Not Significant",
-                         significance_cutoff = 0.01, 
-                         fc_cutoff=0.3, 
-                         label_column = NULL, 
-                         cutoff_criteria = "pvalue"){
-  
-  # Check for errors
-  if(! cutoff_criteria %in% c("pvalue", "padj")){
-    stop("cutoff_criteria must be either 'pvalue', or 'padj' where available")
-  }
-  if(! class(sampledata) %in% c("data.frame")) {
-    stop("sampledata must be a data frame")
-  }
-  if(! class(expression)[1] %in% c("data.frame", "matrix")) {
-    stop("expression must be a data.frame or matrix")
-  }
-  if(! contrast %in% colnames(sampledata)) {
-    stop("contrast is not a column in sampledata")
-  }
-  if( ! is.null(label_column)){
-    if( ! label_column %in% colnames(pvalues)) {
-      stop("label_column is not a column in pvalues")
-    }
-  }
-  if(! "ID" %in% colnames(sampledata)) {
-    stop("There is no ID column in metadata")
-  }
-  if(! identical(rownames(expression), rownames(pvalues))){
-    stop(paste('The expression row names must be identical to the pvalues', 
-               'row names'))
-  }
-  if(! identical(colnames(expression), as.character(sampledata$ID))) {
-    stop(paste('The expression column names must be identical to the', 
-               'sampledata$ID'))
-  }
-  if(is.null(label_column)){
-    pvalues$label <- rownames(pvalues)
-  } else {pvalues$label <- pvalues[, label_column]}
-  
-  # Ensure groups and contrast column are compatible
-  sampledata[, contrast] <- droplevels(factor(sampledata[, contrast]))
-  if(length(levels(sampledata[, contrast])) != 3) {
-    stop(paste("There number of factors in the comparison column does not",
-               "equal 3"))
-  }
-  if(any(is.na(sampledata[, contrast]))) {
-    stop("There are NAs present in the contrast, please remove these")
-  }
-  if(is.null(groups)) {groups <- levels(sampledata[, contrast])}
-  if(length(groups) != 3) stop("There number of groups does not equal 3")
-  if(! all(groups %in% levels(sampledata[, contrast]))) {
-    stop('Make sure all groups are in sampledata[, contrast]')
-  }
-  if(any(grepl("_", groups))) {
-    stop("groups must not contain underscores")
-  }
-  if(any(grepl("_", c(p_col_suffix, fc_col_suffix, padj_col_suffix)))) {
-    id <- which(grepl("_", c(p_col_suffix, fc_col_suffix, padj_col_suffix)))
-    p <- c("p_col_suffix", "fc_col_suffix", "padj_col_suffix")[id]
-    stop(paste(paste(p, collapse=", "), "must not contain underscores"))
-  }
-  
-  comparisons <- c(paste(groups[1], groups[2], sep="_"),
-                   paste(groups[2], groups[3], sep="_"),
-                   paste(groups[3], groups[1], sep="_"))
-  
-  # Check column names of correct format exist in pvalues data frame
-  found <- num_con <- c()
-  invisible(
-    lapply(c(p_col_suffix, fc_col_suffix, padj_col_suffix), 
-           function(col_suffix){
-             comp_columns <- paste(c(comparisons, multi_group_prefix), 
-                                   col_suffix, sep="_")
-             notFinding <- c()
-             if(! all(comp_columns %in% colnames(pvalues))) {
-               notFinding <- comp_columns[!comp_columns %in% 
-                                            colnames(pvalues)]
-               notFinding <- notFinding[!is.na(notFinding)]
-               
-               # check if groups in colnames are reversed
-               check <- strsplit(gsub(paste0("_", col_suffix), "", 
-                                      notFinding), "_")
-               
-               for(order_check in check) {
-                 og <- paste(order_check[1], order_check[2], 
-                             col_suffix, sep="_")
-                 reverse <- paste(order_check[2], order_check[1], 
-                                  col_suffix, sep="_")
-                 if(reverse %in% colnames(pvalues)){
-                   colnames(pvalues)[colnames(pvalues)==
-                                       reverse] <<- og
-                   
-                   # Need to reverse order for fold change
-                   if(! is.null(fc_col_suffix)){
-                     if(col_suffix == fc_col_suffix) {
-                       if(! is.numeric(pvalues[, og])) {
-                         num_con <<- c(num_con, unlist(og))
-                         pvalues[, og] <- 
-                           as.numeric(as.character(
-                             pvalues[, og]))
-                       }
-                       pvalues[, og] <- -1*pvalues[, og]
-                     }
-                   }
-                   found <<- c(found, setNames(og, reverse))
-                   notFinding <- notFinding[notFinding != og]
-                 }
-               }
-             }
-             
-             if(length(notFinding) > 0){  
-               if(length(paste(multi_group_prefix, fc_col_suffix)) > 0 &
-                  paste0(multi_group_prefix, "_", fc_col_suffix) %in% 
-                  notFinding){
-                 notFinding <- 
-                   notFinding[notFinding != 
-                                paste0(multi_group_prefix, "_",
-                                       fc_col_suffix)]
-               }
-               if(length(notFinding) > 1) {
-                 notFinding <- paste0(
-                   "'", paste0(notFinding[1:(length(notFinding)-1)],
-                               collapse="', '"),
-                   "' or '", 
-                   notFinding[length(notFinding)], "'")
-               }
-               if(length(notFinding) > 0){
-                 stop(paste('Cannot find', 
-                            paste0(notFinding, collapse=", "),
-                            'in colnames(pvalues)'))
-               }
-             }
-           }))
-  
-  # Report columns reversed
-  if(length(found) > 0){
-    found <- unlist(unique(lapply(found, function(x) {
-      setNames(paste(unlist(strsplit(x, split="_"))[1:2], collapse="_"),
-               paste(unlist(strsplit(x, split="_"))[2:1], collapse="_"))
-    })))
-    message(
-      paste0("\u2022 ", 
-             paste(sub(",\\s+([^,]+)$", " and \\1", toString(found)), 
-                   collapse=", "),
-             ' columns were not found in colnames(pvalues) but ',
-             paste(sub(",\\s+([^,]+)$", " or \\1", 
-                       toString(names(found))), collapse=", "),
-             " were. These have been reversed. "))
-  }
-  
-  # extract the statistical parameters
-  possible_cols <- paste(
-    rep(c(comparisons, multi_group_prefix), 
-        each=length(c(p_col_suffix, fc_col_suffix, padj_col_suffix))),
-    rep(c(p_col_suffix, fc_col_suffix, padj_col_suffix),
-        times = length(c(comparisons, multi_group_prefix))), sep="_")
-  possible_cols <- possible_cols[possible_cols %in% colnames(pvalues)]
-  
-  # If not numeric, convert.
-  not_numeric <- names(which(lapply(pvalues[, possible_cols], class) != 
-                               "numeric"))
-  if(length(not_numeric) > 0){
-    message(paste("\u2022 Some", paste(unique(
-      gsub(".*_", "", c(not_numeric, num_con))), collapse=", "), 
-      'columns were not originally numeric. These have been converted.'))
-  }
-  pvalues[, not_numeric] <- vapply(not_numeric, function(x) {
-    as.numeric(as.character(pvalues[, x]))
-  }, FUN.VALUE=rep(0, nrow(pvalues)))
-  if(length(which(colSums(is.na(pvalues)) == nrow(pvalues)))){
-    stop(paste(paste(names(which(
-      colSums(is.na(pvalues)) == nrow(pvalues))), collapse=", "), 
-      'contains only NA or could not be converted to a numeric.'))
-  }
-  
-  pvalues <- pvalues[, c(possible_cols, "label")]
-  colnames(pvalues) <- gsub(p_col_suffix, "pvalue", colnames(pvalues))
-  
-  
-  # If adjusted p is not available, calculate
-  if(is.null(padj_col_suffix) & ! is.null(padjust_method)) {
-    for(comp in c(comparisons, multi_group_prefix)){
-      pvalues$new <- p.adjust(pvalues[, paste(comp, p_col_suffix, 
-                                              sep="_")],
-                              method = padjust_method)
-      colnames(pvalues)[colnames(pvalues) == "new"] <- 
-        paste0(comp, "_padj")
-      possible_cols <- c(possible_cols, paste0(comp, "_padj"))
-    }
-    padj_col_suffix <- "padj"
-  } else if(! is.null(padj_col_suffix)){
-    colnames(pvalues) <- gsub(padj_col_suffix, "padj", colnames(pvalues))
-  }
-  
-  
-  if(! is.null(fc_col_suffix)) {
-    colnames(pvalues) <- gsub(fc_col_suffix, "logFC", colnames(pvalues))
-  }
-  
-  if(! is.numeric(significance_cutoff)) {
-    stop('significance_cutoff must be a numeric')
-  }
-  if(! (significance_cutoff >= 0 & significance_cutoff <= 1)) {
-    stop('significance_cutoff must be between 0 and 1')
-  }
-  if(! is.numeric(fc_cutoff)) stop('fc_cutoff must be a numeric')
-  
-  # Check alignement
-  if(identical(as.character(sampledata$ID), colnames(expression)) == FALSE) {
-    stop("sampledata and expression data not properly aligned")
-  }
-  
-  # Capture the expression score for each group (fc and z-score)
-  expression_scaled <- t(scale(t(expression)))
-  polar_colours <- as.data.frame(
-    vapply(levels(sampledata[, contrast]), function(x) {
-      rowMeans(expression_scaled[, droplevels(sampledata[, contrast])==x])
-    }, FUN.VALUE=rep(0, nrow(expression))))
-  polar_coloursFC <- as.data.frame(
-    vapply(levels(sampledata[, contrast]), function(x) {
-      rowMeans(expression[, droplevels(sampledata[, contrast])==x])
-    }, FUN.VALUE=rep(0, nrow(expression))))
-  
-  
-  if(! identical(rownames(expression), rownames(pvalues))) {
-    stop('expression and pvalues not aligned (rownames are not identical)')
-  }
-  
-  polar_colours$Name <- rownames(polar_colours)
-  sampledata$contrast <- droplevels(sampledata[, contrast])
-  contrast_groups <- levels(sampledata$contrast)
-  
-  # Calculate the polar coordinates (uses radians)
-  polar_colours$y_zscore <- sinpi(1/3)*(
-    polar_colours[, contrast_groups[2]] -
-      polar_colours[, contrast_groups[3]])
-  polar_colours$x_zscore <- polar_colours[, contrast_groups[1]] -
-    (cospi(1/3)*(polar_colours[, contrast_groups[3]] +
-                   polar_colours[, contrast_groups[2]]))
-  polar_colours$y_fc <- sinpi(1/3)*(polar_coloursFC[,contrast_groups[2]] -
-                                      polar_coloursFC[,contrast_groups[3]])
-  polar_colours$x_fc <- polar_coloursFC[,contrast_groups[1]] -
-    (cospi(1/3)*(polar_coloursFC[,contrast_groups[3]] +
-                   polar_coloursFC[,contrast_groups[2]]))
-  
-  # angle runs from -0.5 to +0.5
-  polar_colours$angle <- atan2(polar_colours$y_zscore,
-                               polar_colours$x_zscore)/(2*pi)
-  polar_colours$angle_degrees <- (polar_colours$angle %% 1)*360
-  
-  # rotate and modulus
-  polar_colours$angle <- (polar_colours$angle + 2/3) %% 1
-  polar_colours$r_zscore <- with(polar_colours, sqrt(x_zscore^2 + y_zscore^2))
-  polar_colours$r_fc <- with(polar_colours, sqrt(x_fc^2 + y_fc^2))
-  
-  # pick the most highly expressed group
-  if(! length(which(grepl(cutoff_criteria, colnames(pvalues)))) %in% c(3, 4)){
-    stop("cutoff_criteria must have corresponding columns in the pvalues 
-           data frame (either pvalue or padj if available) for each comparison")
-  }
-  groups <- as.character(max.col(polar_colours[, 1:3]))
-  if(! is.null(multi_group_prefix)){
-    groups[pvalues[, paste(multi_group_prefix, cutoff_criteria, sep="_")] 
-           >= significance_cutoff] <- 'grey60'
-  }
-  polar_colours$max_exp <- colnames(polar_colours)[max.col(
-    polar_colours[, 1:3])]
-  comp_map <- colnames(polar_colours)[1:3]
-  comp_cols <- colnames(pvalues)[grepl(cutoff_criteria, 
-                                       colnames(pvalues)) & 
-                                   colnames(pvalues) != 
-                                   paste(multi_group_prefix, "pvalue")]
-  
-  groups[pvalues[,comp_cols[1]] >= significance_cutoff &
-           pvalues[,comp_cols[2]] >= significance_cutoff &
-           pvalues[,comp_cols[3]] >= significance_cutoff] <-
-    'grey60'
-  polar_colours$max_exp[pvalues[,comp_cols[1]] >= significance_cutoff &
-                          pvalues[,comp_cols[2]] >= significance_cutoff &
-                          pvalues[,comp_cols[3]] >= significance_cutoff] <-
-    non_sig_name
-  
-  # Calculate which significance group each gene belongs to
-  index <- groups != 'grey60' 
-  polar_colours$sig <- NA
-  if (any(index != FALSE)){
-    pairwise_comp <- data.frame(pvalues[index, comp_cols],
-                                row.names = rownames(pvalues)[index])
-    
-    # Determine which groups are significant
-    pairwise <- data.frame(ifelse(pairwise_comp <= significance_cutoff, 
-                                  "1", "0"))
-    pairwise$min <- as.numeric(
-      apply(polar_colours[index, 1:3], 1, function(x) {
-        as.numeric(which.min(x))
-      }))
-    pairwise$min2 <- comp_map[match(colnames(polar_colours)[1:3],
-                                    comp_map)][pairwise$min]
-    
-    # create a string determiing: min (of ABC),  sig AvB,  sig BvC, sig CvA
-    pairwiseSig <- paste0(pairwise$min2, pairwise[,1],
-                          pairwise[,2], pairwise[,3])
-    sig_res <- c(paste0("^", comp_map[2], "1..|", "^", comp_map[3], "..1"),
-                 paste0("^", comp_map[1], "1..|", "^", comp_map[3], ".1."),
-                 paste0("^", comp_map[1], "..1|", "^", comp_map[2], ".1."))
-    max_res <- c(paste0("^", comp_map[3], ".11"),
-                 paste0("^", comp_map[1], "1.1"),
-                 paste0("^", comp_map[2], "11."))
-    pairwise$max_exp <- non_sig_name
-    
-    # Fill in colours - for up in one group
-    for(iter in 1:3){
-      pairwise$max_exp[grep(sig_res[iter], pairwiseSig)] <-
-        colnames(polar_colours)[iter]
-    }
-    
-    # Fill colours if up in two groups
-    for(iter in 1:3){
-      iterIDs <- sort(c(iter, iter%%3 + 1))
-      pairwise$max_exp[grep(max_res[iter], pairwiseSig)] <-
-        paste(colnames(polar_colours)[iterIDs[1]], "+",
-              colnames(polar_colours)[iterIDs[2]], "+", sep = "")
-    }
-    
-    pairwise$Name <- rownames(pairwise)
-    polar_colours$sig <- pairwise$max_exp[match(rownames(polar_colours),
-                                                rownames(pairwise))]
-  }
-  polar_colours$sig[is.na(polar_colours$sig)] <- non_sig_name
-  polar_colours$sig[polar_colours$r_fc < fc_cutoff] <- non_sig_name
-  if(! is.null(multi_group_prefix)){
-    polar_colours$sig[pvalues[, paste0(multi_group_prefix, "_", 
-                                       cutoff_criteria)] >= 
-                        significance_cutoff] <- non_sig_name
-  } 
-  polar_colours$sig <- as.character(polar_colours$sig)
-  polar_colours$sig[polar_colours$sig != non_sig_name & 
-                      (! grepl('\\+', polar_colours$sig)) ] <- 
-    paste0(polar_colours$sig[polar_colours$sig != non_sig_name & 
-                               (! grepl('\\+', polar_colours$sig)) ], '+')
-  polar_colours$sig <- factor(polar_colours$sig)
-  polar_colours <- polar_colours[, c("Name",
-                                     comp_map,
-                                     "y_zscore", "x_zscore", "r_zscore",
-                                     "x_fc", "y_fc", "r_fc",
-                                     "angle",
-                                     "angle_degrees",
-                                     "max_exp",
-                                     "sig")]
-  
-  if(! identical(rownames(polar_colours), rownames(pvalues))) {
-    stop('Misalignment of rows in polar and pvalues')
-  }
-  
-  colnames(polar_colours)[colnames(polar_colours) %in% contrast_groups] <- 
-    paste0(colnames(polar_colours)[colnames(polar_colours) %in% 
-                                     contrast_groups], "_axis")
-  polar_colours$label <- pvalues$label
-  
-  methods::new("polar",
-               polar = polar_colours,
-               pvalues = pvalues,
-               sampledata = sampledata,
-               contrast = contrast,
-               multi_group_test = multi_group_prefix,
-               expression  = expression,
-               non_sig_name = non_sig_name)
-} 
+polar_xy <- function(df, angle_offset = 0) {
+  y <- sinpi(1/3) * (df[,2] - df[,3])
+  x <- df[,1] - (cospi(1/3) * (df[,3] + df[,2]))
+  r <- sqrt(x^2 + y^2)
+  angle <- atan2(y, x)/(2*pi)
+  angle <- ((angle + angle_offset) %% 1) * 360
+  cbind(df, x, y, r, angle)
+}
 
 
+#' Calculate one-way test and pairwise tests
+#' 
+#' Internal function for calculating 3-class group test (either one-way ANOVA or
+#' Kruskal-Wallis test) and pairwise tests (either t-test or Wilcoxon test) on
+#' multi-column data against an outcome parameter with 3 levels.
+#' 
+#' @param outcome Outcome vector with 3 groups, ideally as a factor. If it is
+#'   not a factor, this will be coerced to a factor. This must have exactly 3
+#'   levels.
+#' @param data Dataframe or matrix with variables in columns
+#' @param pcutoff Cut-off for p-value significance
+#' @param padj.method Can be any method available in `p.adjust` or `"qvalue"`.
+#'   The option "none" is a pass-through.
+#' @param group_test Specifies statistical test for 3-class group comparison.
+#'   "anova" means one-way ANOVA, "kruskal.test" means Kruskal-Wallis test.
+#' @param pairwise_test Specifies statistical test for pairwise comparisons
+#' @param exact Logical which is only used with `pairwise_test = "wilcoxon"`
+#' @param filter_pairwise Logical. If `TRUE` (the default) p-value adjustment on
+#'   pairwise statistical tests is only conducted on attributes which reached
+#'   the threshold for significance after p-value adjustment on the group
+#'   statistical test.
+#' @importFrom Rfast ftests ttests kruskaltests
+#' @importFrom matrixTests row_wilcoxon_twosample
+#' @export
+#'
+calc_pvals <- function(outcome, data,
+                       pcutoff = 0.05,
+                       padj.method = "BH",
+                       group_test = c("anova", "kruskal.test"),
+                       pairwise_test = c("t.test", "wilcoxon"),
+                       exact = FALSE,
+                       filter_pairwise = TRUE) {
+  group_test <- match.arg(group_test)
+  pairwise_test <- match.arg(pairwise_test)
+  outcome <- as.factor(outcome)
+  if (nlevels(outcome) != 3) stop("`outcome` must have 3 levels")
+  data <- as.matrix(data)
+  res <- switch(group_test,
+                "anova" = Rfast::ftests(data, outcome),
+                "kruskal.test" = Rfast::kruskaltests(data, outcome))
+  rownames(res) <- colnames(data)
+  onewayp <- res[, 2]
+  indx <- lapply(levels(outcome), function(i) outcome == i)
+  if (pairwise_test == "wilcoxon") {
+    res1 <- suppressWarnings(
+      matrixTests::row_wilcoxon_twosample(t(data[indx[[1]], ]), t(data[indx[[2]], ]),
+                                          exact = exact))
+    res2 <- suppressWarnings(
+      matrixTests::row_wilcoxon_twosample(t(data[indx[[1]], ]), t(data[indx[[3]], ]),
+                                          exact = exact))
+    res3 <- suppressWarnings(
+      matrixTests::row_wilcoxon_twosample(t(data[indx[[2]], ]), t(data[indx[[3]], ]),
+                                          exact = exact))
+  } else {
+    res1 <- Rfast::ttests(data[indx[[1]], ], data[indx[[2]], ])
+    res2 <- Rfast::ttests(data[indx[[1]], ], data[indx[[3]], ])
+    res3 <- Rfast::ttests(data[indx[[2]], ], data[indx[[3]], ])
+  }
+  p1 <- res1[, "pvalue"]
+  p2 <- res2[, "pvalue"]
+  p3 <- res3[, "pvalue"]
+  pvals <- cbind(onewayp, p1, p2, p3)
+  if (padj.method == "none") {
+    padj <- pvals
+  } else {
+    onewaypadj <- qval(onewayp, method = padj.method)
+    index <- if (filter_pairwise) {
+      onewaypadj < pcutoff & !is.na(onewaypadj)
+    } else !is.na(onewaypadj)
+    padj <- data.frame(onewaypadj, p1 = NA, p2 = NA, p3 = NA)
+    padj$p1[index] <- qval(p1[index], method = padj.method)
+    padj$p2[index] <- qval(p2[index], method = padj.method)
+    padj$p3[index] <- qval(p3[index], method = padj.method)
+  }
+  padj <- as.matrix(padj)
+  
+  list(pvals = pvals, padj = padj)
+}
 
+
+#' @importFrom stats p.adjust p.adjust.methods
+#'
+qval <- function(p, method = "qvalue") {
+  if (method %in% p.adjust.methods) return(p.adjust(p, method = method))
+  if (!requireNamespace("qvalue", quietly = TRUE)) {
+    stop("Can't find package qvalue. Try:
+           BiocManager::install('qvalue')",
+         call. = FALSE)
+  }
+  q <- try(qvalue::qvalue(p)$qvalues, silent = TRUE)
+  if (inherits(q, 'try-error')) q <- p.adjust(p, method = "BH")
+  q
+}
+
+
+#' @importFrom Rfast rowMins
+#'
+polar_p <- function(outcome, df1, pvals, padj = pvals, pcutoff = 0.05,
+                    scheme = c('grey60', 'red', 'gold2', 'green3', 
+                               'cyan', 'blue', 'purple'),
+                    labs = NULL) {
+  pvalue <- pvals[,1]
+  z <- -log10(pvals[,1])
+  paircut <- padj[, 2:4] < pcutoff
+  paircut <- paircut *1  # convert matrix to numeric
+  mincol <- Rfast::rowMins(as.matrix(df1[, 1:3]))
+  mincol2 <- c("A", "B", "C")[mincol]
+  pairmerge <- paste0(mincol2, paircut[,1], paircut[,2], paircut[,3])
+  pgroup <- rep_len(1, nrow(df1))
+  # sequence AB, AC, BC
+  pgroup[grep("A10.|C.01", pairmerge)] <- 2  # red
+  pgroup[grep("A01.|B0.1", pairmerge)] <- 4  # green
+  pgroup[grep("B1.0|C.10", pairmerge)] <- 6  # blue
+  pgroup[grep("A11.", pairmerge)] <- 3  # yellow
+  pgroup[grep("B1.1", pairmerge)] <- 5  # cyan
+  pgroup[grep("C.11", pairmerge)] <- 7  # purple
+  pgroup[pvals[,1] > pcutoff] <- 1  # ns for all p_lrt < cutoff
+  col <- scheme[pgroup]
+  if (is.null(labs) | length(labs) == 3) {
+    abbrev <- if (length(labs) == 3) labs else abbreviate(levels(outcome), 1)
+    labs <- c("ns",
+              paste0(abbrev[2], "+"),
+              paste0(abbrev[2], "+", abbrev[3], "+"),
+              paste0(abbrev[3], "+"),
+              paste0(abbrev[1], "+", abbrev[3], "+"),
+              paste0(abbrev[1], "+"),
+              paste0(abbrev[1], "+", abbrev[2], "+"))
+  }
+  lab <- factor(pgroup, levels = 1:7, labels = labs)
+  data.frame(z, pvalue, col, lab)
+}

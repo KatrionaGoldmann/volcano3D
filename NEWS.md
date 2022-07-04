@@ -1,6 +1,22 @@
 News
 =====
 
+# volcano3D 2.0.0
+###### 29/06/2022
+* Major update including:
+* Significantly simplified pipeline
+* Streamlined `polar_coords()` function no longer requires a complex p-value
+table object
+* Conduit functions to make it much easier to make 3d volcano plots and 3-way
+polar plots from gene expression analysis using 'DESeq2' and 'limma voom'
+* Inbuilt statistical tests for group comparison (one-way ANOVA) and pairwise
+comparisons with easy calculation of p-values and optional adjustment for
+multiple testing
+* `polar_coords()` is thus able to accept more general data
+* Back compatibility has been maintained for old 'polar' class objects
+* `volcano_plot` and `volcano_trio` functions have been deprecated and removed
+* Bug fixes
+
 # volcano3D 1.3.2
 ###### 27/10/2021
 * Allow users to extend volcano3D radial axes onto the z-axis
@@ -11,13 +27,13 @@ News
 * Enable cases where one comparison may be a substring of another
 * Allow instances with no significant features
 
-
 # volcano3D 1.3.0
 ###### 27/03/2021
 * Add volcano4D function for rotating/spinning volcano plots
-* Add axis and grid width parameters (grid\_width and axis\_width respectively) to radial\_plotly, radial\_ggplot and volcano3D
-* Add option (axes\_from\_origin) to allow axes to start from either the origin (default) or the first radial break in polar\_grid. 
-
+* Add axis and grid width parameters (grid\_width and axis\_width respectively)
+to radial\_plotly, radial\_ggplot and volcano3D
+* Add option (axes\_from\_origin) to allow axes to start from either the origin
+(default) or the first radial break in polar\_grid.
 
 # volcano3D 1.2.0
 ###### 25/02/2021
@@ -40,7 +56,6 @@ News
 * add offset for 3D axis titles
 * Allow changes to the hover text 
 
-
 # volcano3D 1.0.1
 ###### 26/06/2020
 
@@ -50,7 +65,6 @@ News
 * remove ggplot warnings of NA in geom_path 
 * Allow colour of grids and axes to be changed
 * Convert 3D labels to annotations 
-
 
 # volcano3D 1.0.0
 ###### 29/05/2020
