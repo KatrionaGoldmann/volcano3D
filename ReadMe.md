@@ -40,8 +40,6 @@ app](https://shiny.rstudio.com) and deployed to the web using a server.
 
 There are also supplementary vignettes for further information on:
 
--   [setting up the input pvalues data
-    frame](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html)
 -   [using the volcano3D package to create and deploy a shiny
     app](https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html)
 
@@ -52,7 +50,6 @@ Getting Started
 
 -   [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)
 -   [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
--   [ggrepel](https://cran.r-project.org/web/packages/ggrepel/index.html)
 -   [plotly](https://cran.r-project.org/web/packages/plotly/index.html)
 
 ### Install from CRAN
