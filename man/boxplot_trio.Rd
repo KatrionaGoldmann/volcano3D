@@ -82,7 +82,7 @@ boxplot_trio(syn_polar, value = "COBL")
 }
 \references{
 Lewis, Myles J., et al. (2019).
-\href{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1}{
+\href{https://pubmed.ncbi.nlm.nih.gov/31461658/}{
 Molecular portraits of early rheumatoid arthritis identify clinical and
 treatment response phenotypes.}
 \emph{Cell reports}, \strong{28}:9
