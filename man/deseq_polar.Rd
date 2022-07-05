@@ -49,7 +49,7 @@ This function takes 2 `DESeqDataSet` objects and converts the results to a
 }
 \examples{
 
-if (requireNamespace("DESeq2", quietly = TRUE)) {
+\dontrun{
   library(DESeq2)
 
   counts <- matrix(rnbinom(n=1500, mu=100, size=1/0.5), ncol=15)
@@ -61,7 +61,7 @@ if (requireNamespace("DESeq2", quietly = TRUE)) {
   # standard analysis
   dds <- DESeq(dds)
 
-  # LRT
+  # Likelihood ratio test
   ddsLRT <- DESeq(dds, test="LRT", reduced= ~ 1)
 
   polar <- deseq_polar(dds, ddsLRT, "cond")
