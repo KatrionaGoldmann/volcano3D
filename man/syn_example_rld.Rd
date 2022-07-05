@@ -9,7 +9,7 @@ A data frame with 500 rows representing the most significant
 genes/probes and 81 columns representing samples.
 }
 \source{
-\url{https://doi.org/10.1016/j.celrep.2019.07.091
+\url{https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1
 }
 }
 \usage{
