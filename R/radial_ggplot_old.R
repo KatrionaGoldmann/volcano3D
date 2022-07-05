@@ -28,7 +28,7 @@ radial_ggplot_v1 <- function(polar,
                           legend_size = 20,
                           ...){
 
-    if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
+    if(! inherits(polar, "polar")) stop("polar must be a polar object")
     polar_df <- polar@polar
 
     if(! is.null(colours) & length(colours) != 6){
@@ -66,7 +66,7 @@ radial_ggplot_v1 <- function(polar,
     # check if hex or can be converted to hex
     colours <- unlist(lapply(c(colours, non_sig_colour), function(x) {
         if(! grepl("#", x) &
-           class(try(col2rgb(x), silent = TRUE))[1] == "try-error") {
+           inherits(try(col2rgb(x), silent = TRUE), "try-error")) {
             stop(paste(x, 'is not a valid colour'))
         } else if (! grepl("#", x) ) {
             y <- col2rgb(x)[, 1]
@@ -76,10 +76,10 @@ radial_ggplot_v1 <- function(polar,
     }))
     colours <- setNames(colours, c(sig_groups, polar@non_sig_name))
 
-    if(! class(polar_df) %in% c("data.frame")) {
+    if(! inherits(polar_df, "data.frame")) {
         stop("polar_df must be a data frame")
     }
-    if(! class(polar) %in% c("polar")) stop("polar must be a polar object")
+    
     if(! fc_or_zscore %in% c("zscore", "fc")) {
         stop("fc_or_zscore must be either 'zscore' or 'fc'")
     }
@@ -135,7 +135,7 @@ radial_ggplot_v1 <- function(polar,
                            r_axis_ticks = NULL,
                            axis_angle = axis_angle,
                            ...)
-    } else {  if(class(grid) != "grid") stop('grid must be a grid object')}
+    } else {  if(inherits(grid, "grid")) stop('grid must be a grid object')}
 
     grid@polar_grid <- grid@polar_grid[grid@polar_grid$area != "cylinder", ]
 
