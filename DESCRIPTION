@@ -1,7 +1,6 @@
 Package: volcano3D
 Type: Package
-Title: Interactive Plotting of Three-Way Differential Expression
-        Analysis
+Title: Polar Plots and 3D Volcano Plots for Three-Class Data
 Version: 2.0.0
 Authors@R: c(person("Katriona", "Goldmann", role = c("aut", "cre"),
                        email = "k.goldmann@qmul.ac.uk",
@@ -11,14 +10,14 @@ Authors@R: c(person("Katriona", "Goldmann", role = c("aut", "cre"),
 Maintainer: Katriona Goldmann <k.goldmann@qmul.ac.uk>
 URL: https://katrionagoldmann.github.io/volcano3D/index.html, https://github.com/KatrionaGoldmann/volcano3D
 BugReports: https://github.com/KatrionaGoldmann/volcano3D/issues
-Description: This package provides a tool for analysis and visualisation of 
+Description: Generates interactive plots for analysing and visualising 
     three-class high dimensional data. It is particularly suited to visualising 
-    differences in continuous attributes such as gene/protein/biomarker expression 
-    levels between three groups. Differential gene/biomarker expression analysis 
-    between two classes is typically shown as a volcano plot. However, with three 
-    groups this type of visualisation is particularly difficult to interpret. This 
-    package generates 3d volcano plots and 3-way polar plots for easier 
-    interpretation of three-class data.
+    differences in continuous attributes such as gene/protein/biomarker 
+    expression levels between three groups. Differential gene/biomarker 
+    expression analysis between two classes is typically shown as a volcano 
+    plot. However, with three groups this type of visualisation is particularly 
+    difficult to interpret. This package generates 3D volcano plots and 3-way 
+    polar plots for easier interpretation of three-class data.
 Language: en-gb
 License: GPL-2
 Encoding: UTF-8
