@@ -82,7 +82,7 @@ volcano3D_v1 <- function(polar,
     # check if hex or can be converted to hex
     colours <- unlist(lapply(c(non_sig_colour, colours), function(x) {
         if(! grepl("#", x) & 
-           class(try(col2rgb(x), silent = TRUE))[1] == "try-error") {
+           inherits(try(col2rgb(x), silent = TRUE), "try-error")) {
             stop(paste(x, 'is not a valid colour'))
         } else if (! grepl("#", x) ) {
             y <- col2rgb(x)[, 1]
@@ -92,7 +92,7 @@ volcano3D_v1 <- function(polar,
     }))
     colours <- setNames(colours, c(polar@non_sig_name, sig_groups))
     
-    if(! class(polar_df) %in% c("data.frame")) {
+    if(! inherits(polar_df, "data.frame")) {
         stop("polar_df must be a data frame")
     }
     if(! fc_or_zscore %in% c("zscore", "fc")) {
@@ -133,7 +133,7 @@ volcano3D_v1 <- function(polar,
                            r_axis_ticks = NULL, 
                            z_axis_ticks = NULL, 
                            ...)
-    } else { if(class(grid) != "grid") stop('grid must be a grid object')}
+    } else { if(inherits(grid, "grid")) stop('grid must be a grid object')}
     
     polar_grid <- grid@polar_grid
     axes <- grid@axes
