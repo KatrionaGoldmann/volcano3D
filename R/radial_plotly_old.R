@@ -69,7 +69,7 @@ radial_plotly_v1 <- function(polar,
     # check if hex or can be converted to hex
     colours <- unlist(lapply(c(non_sig_colour, colours), function(x) {
         if(! grepl("#", x) &
-           class(try(col2rgb(x), silent = TRUE))[1] == "try-error") {
+           inherits(try(col2rgb(x), silent = TRUE), "try-error")) {
             stop(paste(x, 'is not a valid colour'))
         } else if (! grepl("#", x) ) {
             y <- col2rgb(x)[, 1]
@@ -79,7 +79,7 @@ radial_plotly_v1 <- function(polar,
     }))
     colours <- setNames(colours, c(polar@non_sig_name, sig_groups))
 
-    if(! class(polar_df) %in% c("data.frame")) {
+    if(! inherits(polar_df, "data.frame")) {
         stop("polar_df must be a data frame")
     }
     if(! fc_or_zscore %in% c("zscore", "fc")) {
@@ -101,7 +101,7 @@ radial_plotly_v1 <- function(polar,
                            axis_angle = axis_angle,
                            ...)
     } else{
-        if(class(grid) != "grid") stop('grid must be a grid object')
+        if(inherits(grid, "grid")) stop('grid must be a grid object')
     }
     if(! is.numeric(continuous_shift)) {
         stop('continuous_shift must be numeric')
