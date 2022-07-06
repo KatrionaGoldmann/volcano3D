@@ -46,7 +46,6 @@ with an interactive web tool available at
 
 There are also supplementary vignettes with further information on:
 
-- [creating the input pvalues data frame](https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html)
 - [using the volcano3D package to create and deploy a shiny app](https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html)
 
 ## Getting Started
@@ -55,7 +54,6 @@ There are also supplementary vignettes with further information on:
 
 * [ggplot2](https://CRAN.R-project.org/package=ggplot2)
 * [ggpubr](https://CRAN.R-project.org/package=ggpubr)
-* [ggrepel](https://CRAN.R-project.org/package=ggrepel)
 * [plotly](https://CRAN.R-project.org/package=plotly)
 
 ### Install from CRAN
@@ -102,9 +100,7 @@ Variables used in this vignette:
 | <b>p</b> | p value |
 | <b>FC</b> | fold change |
 | <b>padj</b> | adjusted p value |
-| <b>suffix</b> | the tail word in a column name. In this package it states the statistical parameter (e.g. _logFC is the log FC variable).  |
-| <b>prefix</b> | the leading word in a column name. In this package it states the statistical test (e.g. LRT is the likelihood ratio test). |
-| <b>polar</b> | A polar coordinates object, of S4 class, containing the expression data, sample data, pvalues and polar coordinates. |
+| <b>volc3d</b> | A polar coordinates object, of S4 class, containing the expression data, sample outcome data, pvalues and polar coordinates. |
 
 
 
@@ -139,7 +135,7 @@ kable(table(syn_metadata$Pathotype), col.names = c("Pathotype", "Count"))
 In this example we are interested in genes that are differentially expressed 
 between each of these groups. 
 
-First we will set up a polar object, using the polar_coords function, which
+First we will set up a 'volc3d' object, using the polar_coords function, which
 uses:
 
 ```{r, echo=FALSE}
@@ -274,101 +270,6 @@ polar_subset <- significance_subset(syn_polar,
 head(pvalues_subset) %>%
   kable() %>%
   kable_styling(full_width = F)
-```
-
-
-## Volcano Plots
-
-If there is a fold change column previously provided, we can now investigate
-the comparisons between pathotypes using the
-volcano_trio function. This creates three
-[ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html) outputs.
-
-```{r, fig.height=2.8, fig.width=10}
-syn_plots <- volcano_trio(polar = syn_polar,
-                          sig_names = rep(c("not significant","significant"), each=2),
-                          colours = rep(c( "slateblue1", "grey60"), each=2),
-                          colour_scheme="none",
-                          text_size = 9,
-                          marker_size=1.5,
-                          shared_legend_size = 0.9,
-                          label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-                          fc_line = FALSE,
-                          share_axes = FALSE)
-
-syn_plots$All
-```
-
-Alternatively using the polar significance levels
-
-```{r, fig.height=2.8, fig.width=10}
-syn_plots <- volcano_trio(polar = syn_polar,
-                          colour_scheme="polar",
-                          colours = c('green3', 'cyan',  'blue', 
-                                      'purple', 'red', 'gold2', 'grey60'),
-                          text_size = 9,
-                          marker_size=1.5,
-                          shared_legend_size = 0.9,
-                          label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-                          fc_line = FALSE,
-                          p_line = FALSE,
-                          share_axes = FALSE)
-
-syn_plots$All
-```
-
-or the upregulated group within the standard volcano plot: 
-
-```{r, fig.height=2.8, fig.width=10}
-syn_plots <- volcano_trio(polar = syn_polar,
-                          colour_scheme="upregulated",
-                          colours = c('green3', 'cyan',  'blue', 
-                                      'purple', 'red', 'gold2', 'grey60'),
-                          text_size = 9,
-                          marker_size=1.5,
-                          shared_legend_size = 0.9,
-                          label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-                          fc_line = FALSE,
-                          p_line = FALSE,
-                          share_axes = FALSE)
-
-syn_plots$All
-```
-
-These use the pvalue column to colour-code significance. Alternatively we can use 
-the adjusted pvalues (right): 
-
-```{r, fig.height=2.8, fig.width=6.6}
-p <- volcano_trio(polar = syn_polar,
-                  colour_scheme="upregulated",
-                  colours = c('green3', 'cyan',  'blue', 
-                              'purple', 'red', 'gold2', 'grey60'),
-                  text_size = 9,
-                  marker_size=2,
-                  shared_legend_size = 0.9,
-                  label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-                  fc_line = FALSE,
-                  p_line = TRUE,
-                  share_axes = FALSE, 
-                  marker_outline_colour="black") 
-
-padj <- volcano_trio(polar = syn_polar,
-                     colour_scheme="upregulated",
-                     colours = c('green3', 'cyan',  'blue', 
-                                 'purple', 'red', 'gold2', 'grey60'),
-                     text_size = 9,
-                     marker_size=2,
-                     shared_legend_size = 0.9,
-                     label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-                     fc_line = FALSE,
-                     p_line = TRUE,
-                     share_axes = FALSE, 
-                     marker_outline_colour="black", 
-                     cutoff_criteria = "padj") 
-
-ggarrange(p$Fibroid_Lymphoid + labs(subtitle="Pvalue cutoff") + lims(x=c(-10, 10)), 
-          padj$Fibroid_Lymphoid + labs(subtitle="Adjusted pvalue cutoff") + lims(x=c(-10, 10)), 
-          common.legend = T)
 ```
 
 
@@ -508,10 +409,7 @@ p <- volcano3D(syn_polar,
                z_axis_title_offset = 1.2,
                colour_code_labels = F,
                label_colour = "black",
-               xy_aspectratio = 1.2,
-               z_aspectratio = 0.9, 
-               axes_from_origin=FALSE,  
-               plot_height = 500)
+               height = 500)
 
 p
 ```
@@ -524,20 +422,17 @@ order group1+, group1+group2+, group2+, group2+group3+, group3+, group1+group3+.
 volcano3D(syn_polar,
                label_rows = c("SLAMF6", "PARP16", "ITM2C"),
                label_size = 10,
-               xy_aspectratio = 1.2,
-               z_aspectratio = 0.9, 
                colours = c("grey60", "grey60", "blue", 
                            "grey60", "grey60", "grey60"), 
-               hover_text = "paste0(Name, '\n', sig)",
-               plot_height=500)
+               height=500)
 ```
 
-## Volcano4D: Rotating plots
+## Rotating plots
 
-In order to rotate/spin your 3D volcano plot you can use the `volcano4D` function. This adds a button to the plotly modeBar (hover top right) which allows you to rotate the plot. 
+In order to rotate/spin your 3D volcano plot you can use the `add_animation` function. This adds a button to the plotly modeBar (hover top right) which allows you to rotate the plot. 
 
 ```{r, fig.width=7}
-volcano4D(p)
+add_animation(p)
 ```
 
 
@@ -554,14 +449,6 @@ By default this saves images as png, however it is possible to convert to svg, j
 
 ```{r, eval=FALSE}
 p %>% plotly::config(toImageButtonOptions = list(format = "svg"))
-```
-
-Alternatively, if orca command-line utility is installed, this can also be used to
-save plotly images. To install follow the instructions
-[here](https://github.com/plotly/orca#installation).
-
-```{r, eval = FALSE}
-orca(p, "./volcano_3d_synovium.svg", format = "svg")
 ```
 
 ## Interactive HTML
@@ -613,9 +500,7 @@ and pass it into the plotting functions:
 volcano3D(syn_polar,
           grid = four_grid,
           label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-          label_size = 10,
-          xy_aspectratio = 1,
-          z_aspectratio = 0.9)
+          label_size = 10)
 ```
 
 For example to extend the radial axis and increase the number of spokes in 2D
