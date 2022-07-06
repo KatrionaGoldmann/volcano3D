@@ -87,7 +87,7 @@ radial_ggplot <- function(polar,
     grid@polar_grid <- grid@polar_grid[grid@polar_grid$area != "cylinder", ]
 
     # markers are plotted in order of rows so push ns to the bottom of plot
-    polar_df <- polar_df[order(polar_df$r), ]
+    polar_df <- polar_df[order(polar_df$lab), ]
     
     old_levels <- levels(polar_df$lab)
     polar_df$lab <- droplevels(polar_df$lab)
