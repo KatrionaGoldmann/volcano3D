@@ -303,6 +303,7 @@ Similarly we can create a static ggplot image using `radial_ggplot`:
 radial_ggplot(polar = syn_polar,
               label_rows = c("SLAMF6", "FMOD"),
               marker_size = 2.3,
+              marker_outline_width = 0,
               legend_size = 10) +
   theme(legend.position = "right")
 ```
