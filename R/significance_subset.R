@@ -3,8 +3,8 @@
 #' Subsets data according to the significance groups. 
 #' @param polar A polar object including expression data from groups of
 #' interest. Created by \code{\link{polar_coords}}.
-#' @param significance Which significance factors to subset to. If NULL 
-#' levels(syn_polar@polar$sig)[1] is selected. 
+#' @param significance Which significance factors to subset to. If `NULL` 
+#' all levels except 'ns' (non-significant) are selected. 
 #' @param output What object to return. Options are "pvals", "padj", "data",
 #'   "df" for subset dataframes, or "polar" to subset the entire 'volc3d' class
 #'   object.
@@ -25,9 +25,9 @@
 
 significance_subset <- function(polar,
                                 significance = NULL, 
-                                output = "pvalues"){
+                                output = "pvals"){
   
-  if(is.null(significance)) significance <- levels(polar@df[[1]]$lab)[1]
+  if(is.null(significance)) significance <- levels(polar@df[[1]]$lab)[-1]
   if(! all(significance %in% levels(polar@df[[1]]$lab))){
     stop("`significance` must be in levels(polar@df[[1]]$lab)")
   }

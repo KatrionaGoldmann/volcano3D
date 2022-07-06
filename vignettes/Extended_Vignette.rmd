@@ -197,62 +197,69 @@ res <- deseq_polar(dds_DE, dds_LRT, "Pathotype")
 volcano3D(res)
 ```
 
+An alternative method is to use the `voom_polar()` function which uses the
+'limma voom' RNA-Seq analysis pipeline.
+
+```{r eval = FALSE}
+library(limma)
+library(edgeR)
+
+data("syn_txi")
+syn_tpm <- syn_txi$counts
+syn_tpm <- syn_tpm[!duplicated(rownames(syn_tpm)), ]
+
+# create 'volc3d' class object for plotting
+resl <- voom_polar(~0 + Pathotype + Batch + Gender, syn_metadata, syn_tpm)
+
+# plot 3d volcano plot
+volcano3D(resl)
+```
+
+Finally we show how you can manually provide data (ideally normally distributed)
+to generate a 'volc3d' object for plotting using the `polar_coords()` function.
+If the argument `pvals` is not supplied, then `polar_coords` will calculate
+p-values for the group test (either one-way ANOVA or Kruskal-Wallis test) and
+pairwise tests (t-test or Wilcoxon test). Alternatively the user can provide a
+matrix of p-values using their own statistical method.
 
 ```{r}
-syn_polar <- polar_coords(sampledata = syn_metadata,
-                          contrast = "Pathotype",
-                          pvalues = syn_pvalues,
-                          expression = syn_rld,
-                          p_col_suffix = "pvalue",
-                          padj_col_suffix = "padj",
-                          fc_col_suffix = "log2FoldChange",
-                          multi_group_prefix = "LRT",
-                          non_sig_name = "Not Significant",
-                          significance_cutoff = 0.01,
-                          label_column = NULL,
-                          fc_cutoff = 0.1, 
-                          cutoff_criteria="pvalue")
+# Place Pathotype levels in correct sequence
+syn_metadata$Pathotype <- factor(syn_metadata$Pathotype, 
+                                 levels = c('Lymphoid', 'Myeloid', 'Fibroid'))
+
+syn_polar <- polar_coords(outcome = syn_metadata$Pathotype,
+                          data = t(syn_rld))
 ```
 
-This creates a polar class object with slots for: sampledata, contrast, pvalues, 
-multi_group_test, expression, polar and non_sig_name. The pvalues slot which 
-should have a data frame with statistics for each comparison - pvalue and 
-optional logarithmic fold change and adjusted pvalue statistics. In this case 
-we are including fold change for downstream visualisations: 
+This creates a 'volc3d' S4 class object with slots for: `df`, `outcome`, `data`,
+`pvals` and `padj`. The `df` slot is a list of 2 dataframes. The first dataframe
+contains polar coordinates for scaled data, while the 2nd dataframe has polar
+coordinates for unscaled data. In gene expression data which is log2
+transformed, the polar scale for the 2nd dataframe equates to log2 fold change.
 
-```{r, eval=FALSE}
-head(syn_polar@pvalues)
-```
-
-```{r, echo=FALSE}
-head(syn_polar@pvalues) %>%
-  kable(col.names = gsub("_l", " _l", gsub("_p", " _p", colnames(syn_polar@pvalues))) )%>%
-  kable_styling(font_size=6)
-```
-
-The `sig` column in `syn_polar@polar` allows us to determine relative
+The `lab` column in `syn_polar@df[[1]]` allows us to determine relative
 differences in expression between groups (in this case pathotypes). The '+'
 indicates which pathotypes are significantly 'up' compared to others. For
 example:
 
-* genes labelled 'Lymphoid+' are significantly up in Lymphoid vs
-Myeloid **and** Lymphoid vs Fibroid.
+* genes labelled 'L+' are significantly up in Lymphoid vs
+other groups
 
-* genes up in two pathotypes such as 'Lymphoid+Myeloid+' are up in both
+* genes up in two pathotypes such as 'L+M+' are up in both
 Lymphoid **and** Myeloid, therefore Lymphoid vs
 Fibroid and Myeloid vs Fibroid are statistically significant.
 
 * genes which show no significant difference between pathotypes are classed
-according to `non_sig_name`
+as `ns`
 
 This gives us:
 
 ```{r, eval=FALSE}
-setNames(data.frame(table(syn_polar@polar$sig)), c("Significance", "Frequency"))
+setNames(data.frame(table(syn_polar@df[[1]]$lab)), c("Significance", "Frequency"))
 ```
 
 ```{r, echo=FALSE}
-table(syn_polar@polar$sig) %>%
+table(syn_polar@df[[1]]$lab) %>%
   kable(col.names = c("Significance", "Frequency")) %>%
   kable_styling(full_width = F)
 ```
@@ -261,15 +268,15 @@ To subset and view objects of specific significance groups you can use the
 `significance_subset` function. 
 
 ```{r}
-pvalues_subset <- significance_subset(syn_polar, 
-                                      significance = c("Lymphoid+", "Myeloid+"), 
-                                      output="pvalues")
+pvals_subset <- significance_subset(syn_polar, 
+                                    significance = c("L+", "M+"), 
+                                    output="pvals")
 
 polar_subset <- significance_subset(syn_polar, 
-                                    significance = c("Lymphoid+", "Myeloid+"), 
+                                    significance = c("L+", "M+"), 
                                     output="polar")
 
-head(pvalues_subset) %>%
+head(pvals_subset) %>%
   kable() %>%
   kable_styling(full_width = F)
 ```
@@ -277,28 +284,9 @@ head(pvalues_subset) %>%
 
 ## Radial Plots
 
-The differential expression can now be visualised on an interactive radar plot 
-using radial_plotly. 
-
-Using the `hover` parameter (implemented v1.0.2) the plotly hover information 
-can be altered by referencing the columns available in polar@polar and 
-polar@pvlaues i.e.: 
-
-```{r}
-unique(c(colnames(syn_polar@polar), colnames(syn_polar@pvalues)))
-```
-
-For example to show all pvalues on hover we can use: 
-
-```{r}
-hovertext = "paste(label, 
-              '\nL vs M pvalue:', format(Lymphoid_Myeloid_pvalue, digits=3), 
-              '\nM vs F pvalue:', format(Myeloid_Fibroid_pvalue, digits=3), 
-              '\nL vs F pvalue:', format(Fibroid_Lymphoid_pvalue, digits=3))"
-```
-
-Similarly the `labelRows` variable allows any markers of interest to be 
-labelled:
+The differential expression can now be visualised on an interactive radar plot
+using radial_plotly. The `labelRows` argument allows genes/ attributes of
+interest to be labelled:
 
 ```{r, out.height="100%", out.width="100%"}
 radial_plotly(polar = syn_polar, 
@@ -306,10 +294,10 @@ radial_plotly(polar = syn_polar,
               hover=hovertext)
 ```
 
-By hovering over certain points you can also determine genes for
-future interrogation.
+By hovering over certain points you can also determine genes for future
+interrogation.
 
-Similarly we can create a static ggplot image using radial_ggplot:
+Similarly we can create a static ggplot image using `radial_ggplot`:
 
 ```{r, fig.height=4.5, fig.width=7}
 radial_ggplot(polar = syn_polar,
@@ -318,20 +306,6 @@ radial_ggplot(polar = syn_polar,
               legend_size = 10) +
   theme(legend.position = "right")
 ```
-
-Alternatively a continuous colour scale can be produced by converting the angle
-to a hsv variable. This angle can be offset by `continuous_shift`.
-
-```{r, fig.height=4.5, fig.width=7}
-radial_ggplot(polar = syn_polar,
-              label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-              marker_size = 2.3,
-              marker_alpha=0.7,
-              colour_scale = "continuous",
-              continuous_shift=1.33,
-              legend_size = 10) 
-```
-
 
 ## Boxplots
 
@@ -407,27 +381,11 @@ differential gene expression onto cylindrical coordinates.
 p <- volcano3D(syn_polar,
                label_rows = c("SLAMF6", "PARP16", "ITM2C"),
                label_size = 10,
-               radial_axis_title_offset = 1.1,
-               z_axis_title_offset = 1.2,
-               colour_code_labels = F,
-               label_colour = "black",
                height = 500)
 
 p
 ```
 
-
-We can alter the colour code using the colours parameter. These are assigned in 
-order group1+, group1+group2+, group2+, group2+group3+, group3+, group1+group3+.
-
-```{r, fig.width=7}
-volcano3D(syn_polar,
-               label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-               label_size = 10,
-               colours = c("grey60", "grey60", "blue", 
-                           "grey60", "grey60", "grey60"), 
-               height=500)
-```
 
 ## Rotating plots
 
@@ -479,8 +437,8 @@ r_axis_ticks and z_axis_ticks.
 For example, we can decrease the number of radial spokes to 4, while altering the z axis ticks:
 
 ```{r}
-four_grid = polar_grid(r_vector=syn_polar@polar$r_zscore,
-                       z_vector=NULL,
+four_grid = polar_grid(r_vector=syn_polar@df[[1]]$r,
+                       z_vector=syn_polar@df[[1]]$z,
                        r_axis_ticks = NULL,
                        axes_from_origin = FALSE, 
                        z_axis_ticks = c(0, 8, 16, 32),
@@ -510,7 +468,7 @@ we can apply:
 
 ```{r, fig.height=5, fig.widht=5}
 new_grid = polar_grid(r_vector=NULL,
-                      z_vector=-log10(syn_polar@pvalues$LRT_pvalue),
+                      z_vector=syn_polar@df[[1]]$z,
                       r_axis_ticks = c(1, 2, 3),
                       z_axis_ticks = NULL,
                       n_spokes = 24)
@@ -527,22 +485,6 @@ p = radial_plotly(polar = syn_polar,
                   label_rows = c("SLAMF6", "PARP16", "ITM2C"))
 
 p %>% config(editable = TRUE)
-```
-
-## Altering the Labels
-
-By default the rownames of the pvalues object is used to label markers of
-interest. This can be altered by amending the label column in the polar object:
-
-```{r, fig.height=4.5, fig.width=7}
-syn_polar@polar$label <- paste0(syn_polar@polar$label, "!")
-
-radial_ggplot(polar = syn_polar,
-              label_rows = c("SLAMF6", "PARP16", "ITM2C"),
-              grid = new_grid,
-              marker_size = 2.3,
-              legend_size = 10) +
-  theme(legend.position = "right")
 ```
 
 # Example 2. Synovial Modular Data
@@ -563,35 +505,8 @@ The modular analysis can be loaded through Li_pvalues:
 ```{r}
 data(Li_pvalues)
 
-syn_mod_polar <- polar_coords(sampledata = syn_metadata,
-                              contrast = "Pathotype",
-                              pvalues = syn_mod_pvalues,
-                              p_col_suffix = "p.value",
-                              padj_col_suffix = "q.value",
-                              fc_col_suffix = "logFC",
-                              multi_group_prefix = NULL,
-                              expression = syn_mod,
-                              significance_cutoff = 0.01,
-                              fc_cutoff = 0.1,
-                              cutoff_criteria = "pvalue"
-)
-```
-
-
-## Volcano Plots
-
-```{r, message = FALSE, fig.height=2.8, fig.width=10}
-syn_mod_plots <- volcano_trio(polar = syn_mod_polar,
-                              label_rows = c("M156.0", "M37.2"),
-                              shared_legend_size = 1,
-                              sig_names = c("Not Sig",
-                                            paste("Padj <", 0.05),
-                                            paste("|FC| >", 1),
-                                            paste("Padj <", 0.05,
-                                                  "&\n|FC| >", 1)),
-                              share_axes = FALSE)
-
-syn_mod_plots$All
+syn_mod_polar <- polar_coords(outcome = syn_metadata$Pathotype,
+                              data = t(syn_mod))
 ```
 
 ## Radial Plots
