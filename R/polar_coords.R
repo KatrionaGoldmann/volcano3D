@@ -69,7 +69,7 @@ polar_coords <- function(outcome, data,
                                   'cyan', 'blue', 'purple'),
                        labs = NULL, ...) {
   if (length(outcome) != nrow(data)) {
-    stop("Number of rows in `data` is not equal to length of `outcome`")}
+    stop("Number of rows in `data` differs from `outcome`")}
   if (any(is.na(outcome))) {
     ok <- !is.na(outcome)
     data <- data[ok,]
