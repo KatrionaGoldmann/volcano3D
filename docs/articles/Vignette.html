@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -72,9 +72,6 @@
     </li>
     <li class="divider">
     <li class="dropdown-header">Additional Tutorials</li>
-    <li>
-      <a href="../articles/pvalues_generator.html">Generating Pvalues Objects</a>
-    </li>
     <li>
       <a href="../articles/shiny_builder.html">Using Volcano3D to create Shiny Apps</a>
     </li>
@@ -116,7 +113,7 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>volcano3D</h1>
-                        <h4 class="author">Katriona Goldmann</h4>
+                        <h4 class="author">Katriona Goldmann, Myles Lewis</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/KatrionaGoldmann/volcano3D/blob/master/vignettes/Vignette.rmd"><code>vignettes/Vignette.rmd</code></a></small>
@@ -133,16 +130,15 @@
 </style>
 <div id="volcano3d" class="section level1">
 <h1 class="hasAnchor">
-<a href="#volcano3d" class="anchor"></a>volcano3D <img src="https://katrionagoldmann.github.io/volcano3D/logo.png" align="right" alt="" width="200" hspace="50" vspace="50" style="border: 0;">
-</h1>
-<p>The volcano3D package enables exploration of probes differentially expressed between three groups. Its main purpose is for the visualisation of differentially expressed genes in a three-dimensional volcano plot. These plots can be converted to interactive visualisations using plotly.</p>
+<a href="#volcano3d" class="anchor"></a>volcano3D</h1>
+<p><img src="https://katrionagoldmann.github.io/volcano3D/logo.png" align="right" alt="" width="200" hspace="50" vspace="50" style="border: 0;"></p>
+<p>The volcano3D package provides a tool for analysis of three-class high dimensional data. It enables exploration of genes differentially expressed between three groups. Its main purpose is for the visualisation of differentially expressed genes in a three-dimensional volcano plot or three-way polar plot. These plots can be converted to interactive visualisations using plotly. The 3-way polar plots and 3d volcano plots can be applied to any data in which multiple attributes have been measured and their relative levels are being compared across three classes.</p>
 <p>This vignette covers the basic features of the package using a small example data set. To explore more extensive examples and view the interactive radial and volcano plots, see the <a href="https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html">extended vignette</a> which explores a case study from the PEAC rheumatoid arthritis trial (Pathobiology of Early Arthritis Cohort). The methodology has been published in <a href="https://doi.org/10.1016/j.celrep.2019.07.091">Lewis, Myles J., et al. <em>Molecular portraits of early rheumatoid arthritis identify clinical and treatment response phenotypes</em>. Cell reports 28.9 (2019): 2455-2470. (DOI: 10.1016/j.celrep.2019.07.091)</a> with an interactive, searchable web tool available at <a href="https://peac.hpc.qmul.ac.uk">https://peac.hpc.qmul.ac.uk</a>. This was creating as an <a href="https://shiny.rstudio.com">R Shiny app</a> and deployed to the web using a server.</p>
 <p>There are also supplementary vignettes with further information on:</p>
 <ul>
-<li><a href="https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html">setting up the input pvalues data frame</a></li>
 <li><a href="https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html">using the volcano3D package to create and deploy a shiny app</a></li>
 </ul>
-<p> <a href="https://lifecycle.r-lib.org/articles/stages.html"><img src="https://img.shields.io/badge/lifecycle-stable-blue.svg" alt="Lifecycle: Stable"></a> <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html"><img src="https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg" alt="License: GPL v2"></a> <a href="https://cran.r-project.org/package=volcano3D"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a> <a href="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D"><img src="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange" alt="Downloads"></a> <a href="https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md"><img src="https://img.shields.io/badge/last%20commit-2021--10--28-turquoise.svg" alt="2021-10-28"></a> <a href="https://travis-ci.org/KatrionaGoldmann/volcano3D"><img src="https://travis-ci.org/KatrionaGoldmann/volcano3D.svg?branch=master" alt="Build Status"></a> <a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/"><img src="https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg" alt="GitHub issues"></a> <a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/"><img src="https://img.shields.io/travis/KatrionaGoldmann/volcano3D.svg" alt="build"></a></p>
+<p> <a href="https://lifecycle.r-lib.org/articles/stages.html"><img src="https://img.shields.io/badge/lifecycle-stable-blue.svg" alt="Lifecycle: Stable"></a> <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html"><img src="https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg" alt="License: GPL v2"></a> <a href="https://cran.r-project.org/package=volcano3D"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a> <a href="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D"><img src="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange" alt="Downloads"></a> <a href="https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md"><img src="https://img.shields.io/badge/last%20commit-2022--07--07-turquoise.svg" alt="2022-07-07"></a> <a href="https://travis-ci.org/KatrionaGoldmann/volcano3D"><img src="https://travis-ci.org/KatrionaGoldmann/volcano3D.svg?branch=master" alt="Build Status"></a> <a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/"><img src="https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg" alt="GitHub issues"></a> <a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/"><img src="https://img.shields.io/travis/KatrionaGoldmann/volcano3D.svg" alt="build"></a></p>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting Started</h2>
@@ -152,7 +148,6 @@
 <ul>
 <li><a href="https://CRAN.R-project.org/package=ggplot2">ggplot2</a></li>
 <li><a href="https://CRAN.R-project.org/package=ggpubr">ggpubr</a></li>
-<li><a href="https://CRAN.R-project.org/package=ggrepel">ggrepel</a></li>
 <li><a href="https://CRAN.R-project.org/package=plotly">plotly</a></li>
 </ul>
 </div>
@@ -169,86 +164,30 @@
 <p><a href="https://GitHub.com/KatrionaGoldmann/volcano3D/tags/"><img src="https://img.shields.io/github/tag/KatrionaGoldmann/volcano3D.svg" alt="GitHub tag"></a></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/">devtools</a></span><span class="op">)</span>
-<span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"KatrionaGoldmann/volcano3D"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"KatrionaGoldmann/volcano3D"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="load-the-package" class="section level3">
 <h3 class="hasAnchor">
 <a href="#load-the-package" class="anchor"></a>Load the package</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://katrionagoldmann.github.io/volcano3D/index.html">volcano3D</a></span><span class="op">)</span></code></pre></div>
-<hr>
 </div>
 </div>
-</div>
-<div id="dictionary" class="section level1">
-<h1 class="hasAnchor">
-<a href="#dictionary" class="anchor"></a>Dictionary</h1>
-<p>Variables used in this vignette:</p>
-<table class="table">
-<colgroup>
-<col width="6%">
-<col width="93%">
-</colgroup>
-<thead><tr class="header">
-<th><span style="color:maroon">Variable</span></th>
-<th><span style="color:maroon">Definition </span></th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>contrast</td>
-<td>the variable by which samples can be split into three groups.</td>
-</tr>
-<tr class="even">
-<td>groups</td>
-<td>the three levels/categories of the contrast variable. These should not contain underscores.</td>
-</tr>
-<tr class="odd">
-<td>comparison</td>
-<td>two groups between which a statistical test can be performed. There should be three comparisons total. For the examples outlined in this vignette we look at comparisons: ‘lymphoid-myeloid’, ‘lymphoid-fibroid’ and ‘myeloid-fibroid’.</td>
-</tr>
-<tr class="even">
-<td>p</td>
-<td>p value</td>
-</tr>
-<tr class="odd">
-<td>FC</td>
-<td>fold change</td>
-</tr>
-<tr class="even">
-<td>padj</td>
-<td>adjusted p value</td>
-</tr>
-<tr class="odd">
-<td>suffix</td>
-<td>the tail word in a column name. In this package it states the statistical parameter (e.g. logFC is the log FC variable).</td>
-</tr>
-<tr class="even">
-<td>prefix</td>
-<td>the leading word in a column name. In this package it states the statistical test (e.g. LRT is the likelihood ratio test).</td>
-</tr>
-<tr class="odd">
-<td>polar</td>
-<td>A polar coordinates object, of S4 class, containing the expression data, sample data, pvalues and polar coordinates.</td>
-</tr>
-</tbody>
-</table>
 </div>
 <div id="examples" class="section level1">
 <h1 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h1>
-<p>This vignette uses a subset of the 500 most highly differentially expressed genes from the PEAC data to explore the package functions. This can be loaded using:</p>
+<p>This vignette uses a subset of the 500 genes from the PEAC dataset to explore the package functions. This can be loaded using:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"example_data"</span><span class="op">)</span></code></pre></div>
 <p>Which contains:</p>
 <ul>
-<li><p>syn_example_rld - the log transformed expression data</p></li>
-<li><p>syn_example_p - the pvalues data frame containing differential expression statistics about each gene</p></li>
-<li><p>syn_example_meta which contains information about each sample.</p></li>
+<li><p><code>syn_example_rld</code> - the log transformed expression data</p></li>
+<li><p><code>syn_example_meta</code> which contains sample information and divides the samples into 3 classes.</p></li>
 </ul>
-<p>For more information on how to create such objects see <a href="https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html">here</a>.</p>
-<p>Samples in this cohort fall into three pathotype groups:</p>
+<p>Samples in this cohort fall into three histological ‘pathotype’ groups:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">kable</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">syn_example_meta</span><span class="op">$</span><span class="va">Pathotype</span><span class="op">)</span>, col.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Pathotype"</span>, <span class="st">"Count"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">kable</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">syn_example_meta</span><span class="op">$</span><span class="va">Pathotype</span><span class="op">)</span>, col.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="st">"Pathotype"</span>, <span class="st">"Count"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr>
 <th style="text-align:left;">
@@ -259,14 +198,6 @@ Count
 </th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-Fibroid
-</td>
-<td style="text-align:right;">
-16
-</td>
-</tr>
 <tr>
 <td style="text-align:left;">
 Lymphoid
@@ -283,9 +214,17 @@ Myeloid
 20
 </td>
 </tr>
+<tr>
+<td style="text-align:left;">
+Fibroid
+</td>
+<td style="text-align:right;">
+16
+</td>
+</tr>
 </tbody>
 </table>
-<p>These will be used as the differential expression groups for the three-way analysis.</p>
+<p>These will be used as the differential expression classes for the three-way analysis.</p>
 <div id="creating-polar-coordinates" class="section level2">
 <h2 class="hasAnchor">
 <a href="#creating-polar-coordinates" class="anchor"></a>Creating Polar Coordinates</h2>
@@ -302,109 +241,69 @@ Details
 <tbody>
 <tr>
 <td style="text-align:left;">
-<p>sampledata</p>
+<p>outcome</p>
 (required)
 </td>
 <td style="text-align:left;">
-<p>This shows information for each sample in rows and must contain:</p>
+Vector containing three-level factor indicating which of the three classes each sample belongs to.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<p>data</p>
+(required)
+</td>
+<td style="text-align:left;">
+A dataframe or matrix containing data to be compared between the three classes (e.g. gene expression data). Note that variables are in columns, so gene expression data will need to be transposed. This is used to calculate z-score and fold change, so for gene expression count data it should be normalised such as log transformed or variance stabilised count transformation.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<p>pvals</p>
+(optional)
+</td>
+<td style="text-align:left;">
+<p>the pvals matrix which contains the statistical significance of probes or attributes between classes. This contains:</p>
 <ul>
-<li><p>an ID column: Containing the sample IDs. This must be titled ‘ID’.</p></li>
+<li><p>the first column is a group test such as one-way ANOVA or Kruskal-Wallis test.</p></li>
 <li>
-<p>a contrast column: Indicates which of the three groups each sample belongs to.</p>
+<p>columns 2-4 contain p-values one for each comparison in the sequence A vs B, A vs C, B vs C, where A, B, C are the three levels in sequence in the outcome factor. For gene expression RNA-Seq count data, conduit functions using ‘limma voom’ or ‘DESeq’ pipelines to extract p-values for analysis are provided in functions <code><a href="../reference/deseq_polar.html">deseq_polar()</a></code> and <code><a href="../reference/voom_polar.html">voom_polar()</a></code>. If p-values are not provided by the user, they can be calculated via the <code><a href="../reference/polar_coords.html">polar_coords()</a></code> function.</p>
 </li>
 </ul>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-<p>contrast</p>
+<p>padj</p>
 
-(required)
+(optional)
 </td>
 <td style="text-align:left;">
-The column name in sampledata which contains the three-level factor to be used for contrast
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-<p>pvalues</p>
-(required)
-</td>
-<td style="text-align:left;">
-<p>the pvalues data frame which contains the statistical significance of probes between groups. This contains:</p>
-<ul>
-<li><p>three pvalue columns: one for each comparison with column names of format <code><a href="https://rdrr.io/r/base/paste.html">paste(groups[i], groups[j], p_col_suffix, sep='_')</a></code>. We recommend using ‘limma’ or ‘DESeq’ pipelines to calculate these pvalues for gene expression.</p></li>
-<li><p><em>optional</em> fold change columns: one for each comparison with column names of format <code><a href="https://rdrr.io/r/base/paste.html">paste0(groups[i], groups[j], fc_col_suffix, sep='_')</a></code></p></li>
-<li><p><em>optional</em> adjusted pvalue columns: one for each comparison with column names of format <code><a href="https://rdrr.io/r/base/paste.html">paste0(groups[i], groups[j], padj_col_suffix, sep='_')</a></code></p></li>
-<li><p>an <em>optional</em> multi-group pvalue column: from a multi-group test with column name of the form <code><a href="https://rdrr.io/r/base/paste.html">paste0(multi_group_prefix, '_', p_col_suffix)</a></code>.This is typically generated using ANOVA or likelihood ratio tests between all three groups.</p></li>
-<li><p>an <em>optional</em> multi-group adjusted pvalue column: from a multi-group test (column names of form <code><a href="https://rdrr.io/r/base/paste.html">paste0(multiGroupPrefix, '_', padjColSuffix)</a></code>).</p></li>
-</ul>
-For more information on how to create pvalues data frames see the <a href="https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html">pvalue generator vignette</a>.
+Matrix containing the adjusted p-values matching the pvals matrix.
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-<p>expression</p>
-(required)
+pcutoff
 </td>
 <td style="text-align:left;">
-A data frame or matrix containing the expression data. This is used to calculate z-score and fold change, therefore it should be a normalised expression object such as log transformed or variance stabilised counts.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-groups
-</td>
-<td style="text-align:left;">
-The groups to be compared (in order). If NULL this defaults to <code><a href="https://rdrr.io/r/base/levels.html">levels(sampledata[, 'contrasts'])</a></code>. These must not contain underscores.
+Cut-off for p-value significance
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-p_col_suffix
+scheme
 </td>
 <td style="text-align:left;">
-The suffix of column names with pvalues (default is ‘pvalue’). This must not contain underscores.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-padj_col_suffix
-</td>
-<td style="text-align:left;">
-The suffix of column names with adjusted pvalues (default is ‘padj’). This must not contain underscores. If NULL the adjusted pvalue is calculated using <code>p_col_suffix</code> and <code>pvalue_method</code>.
+Vector of colours starting with non-significant attributes
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-padjust_method
+labs
 </td>
 <td style="text-align:left;">
-The method to calculate adjusted pvalues if not already provided. Must be one of c(‘holm’, ‘hochberg’, ‘hommel’, ‘bonferroni’, ‘BH’, ‘BY’, ‘fdr’, ‘none’). Default is ‘BH’.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-fc_col_suffix
-</td>
-<td style="text-align:left;">
-The suffix of column names with log(fold change) values (default is ‘logFC’). This must not contain underscores.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-multi_group_prefix
-</td>
-<td style="text-align:left;">
-The prefix for columns containing statistics for a multi-group test (this is typically a likelihood ratio test or ANOVA). Default is NULL. This must not contain underscores.
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-label_column
-</td>
-<td style="text-align:left;">
-A column name in pvalues which is to be used to label markers of interest at plotting stage. If NULL the rownames will be used.
+Optional character vector for labelling classes. Default <code>NULL</code> leads to abbreviated labels based on levels in <code>outcome</code> using <code><a href="https://rdrr.io/r/base/abbreviate.html">abbreviate()</a></code>. A vector of length 3 with custom abbreviated names for the outcome levels can be supplied. Otherwise a vector length 7 is expected, of the form “ns”, “B+”, “B+C+”, “C+”, “A+C+”, “A+”, “A+B+”, where “ns” means non-significant and A, B, C refer to levels 1, 2, 3 in <code>outcome</code>, and must be in the correct order.
 </td>
 </tr>
 </tbody>
@@ -413,465 +312,116 @@ A column name in pvalues which is to be used to label markers of interest at plo
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"example_data"</span><span class="op">)</span>
 
-<span class="va">syn_polar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/polar_coords.html">polar_coords</a></span><span class="op">(</span>sampledata <span class="op">=</span> <span class="va">syn_example_meta</span>,
-                          contrast <span class="op">=</span> <span class="st">"Pathotype"</span>,
-                          pvalues <span class="op">=</span> <span class="va">syn_example_p</span>,
-                          expression <span class="op">=</span> <span class="va">syn_example_rld</span>,
-                          p_col_suffix <span class="op">=</span> <span class="st">"pvalue"</span>,
-                          padj_col_suffix <span class="op">=</span> <span class="st">"padj"</span>,
-                          fc_col_suffix <span class="op">=</span> <span class="st">"log2FoldChange"</span>,
-                          multi_group_prefix <span class="op">=</span> <span class="st">"LRT"</span>,
-                          non_sig_name <span class="op">=</span> <span class="st">"Not Significant"</span>,
-                          significance_cutoff <span class="op">=</span> <span class="fl">0.01</span>,
-                          label_column <span class="op">=</span> <span class="cn">NULL</span>,
-                          fc_cutoff <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></code></pre></div>
-<p>This creates an polar class object with slots for: sampledata, contrast, pvalues, multi_group_test, expression, polar and non_sig_name. The pvalues slot should now have at least two statistics for each comparison - pvalue and adjusted pvalue - and an optional logarithmic fold change statistic:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">syn_polar</span><span class="op">@</span><span class="va">pvalues</span><span class="op">)</span></code></pre></div>
-<table class="table table">
-<thead><tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:right;">
-Fibroid_Lymphoid _pvalue
-</th>
-<th style="text-align:right;">
-Fibroid_Lymphoid _logFC
-</th>
-<th style="text-align:right;">
-Fibroid_Lymphoid _padj
-</th>
-<th style="text-align:right;">
-Lymphoid_Myeloid _pvalue
-</th>
-<th style="text-align:right;">
-Lymphoid_Myeloid _logFC
-</th>
-<th style="text-align:right;">
-Lymphoid_Myeloid _padj
-</th>
-<th style="text-align:right;">
-Myeloid_Fibroid _pvalue
-</th>
-<th style="text-align:right;">
-Myeloid_Fibroid _logFC
-</th>
-<th style="text-align:right;">
-Myeloid_Fibroid _padj
-</th>
-<th style="text-align:right;">
-LRT _pvalue
-</th>
-<th style="text-align:right;">
-LRT _padj
-</th>
-<th style="text-align:left;">
-label
-</th>
-</tr></thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-FMOD
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2.377676
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-3.0e-07
-</td>
-<td style="text-align:right;">
--1.096532
-</td>
-<td style="text-align:right;">
-0.0052783
-</td>
-<td style="text-align:right;">
-0.0000021
-</td>
-<td style="text-align:right;">
--1.2811444
-</td>
-<td style="text-align:right;">
-0.0332583
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-FMOD
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-KCNIP3
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2.575418
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
--1.538422
-</td>
-<td style="text-align:right;">
-0.0000013
-</td>
-<td style="text-align:right;">
-0.0004665
-</td>
-<td style="text-align:right;">
--1.0369961
-</td>
-<td style="text-align:right;">
-1.0000000
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-KCNIP3
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-TRIM29
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-4.301344
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
--3.515507
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-0.1083911
-</td>
-<td style="text-align:right;">
--0.7858377
-</td>
-<td style="text-align:right;">
-1.0000000
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-TRIM29
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-CILP
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-4.159372
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0.0e+00
-</td>
-<td style="text-align:right;">
--2.388539
-</td>
-<td style="text-align:right;">
-0.0000083
-</td>
-<td style="text-align:right;">
-0.0002431
-</td>
-<td style="text-align:right;">
--1.7708331
-</td>
-<td style="text-align:right;">
-1.0000000
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-CILP
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-CAB39L
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2.176451
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-4.0e-07
-</td>
-<td style="text-align:right;">
--1.022201
-</td>
-<td style="text-align:right;">
-0.0055897
-</td>
-<td style="text-align:right;">
-0.0000046
-</td>
-<td style="text-align:right;">
--1.1542502
-</td>
-<td style="text-align:right;">
-0.0740328
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-CAB39L
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-PAMR1
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-2.666598
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-7.3e-06
-</td>
-<td style="text-align:right;">
--1.144613
-</td>
-<td style="text-align:right;">
-0.1126032
-</td>
-<td style="text-align:right;">
-0.0000020
-</td>
-<td style="text-align:right;">
--1.5219853
-</td>
-<td style="text-align:right;">
-0.0321042
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:left;">
-PAMR1
-</td>
-</tr>
-</tbody>
-</table>
-<p>The <code>sig</code> column in <code>syn_polar@polar</code> allows us to determine relative differences in expression between groups (in this case pathotypes). The ‘+’ indicates which pathotypes are significantly ‘up’ compared to others. For example:</p>
-<ul>
-<li><p>genes labelled ‘Lymphoid+’ are significantly up in Lymphoid vs Myeloid <strong>and</strong> Lymphoid vs Fibroid.</p></li>
-<li><p>genes up in two pathotypes such as ‘Lymphoid+Myeloid+’ are up in both Lymphoid <strong>and</strong> Myeloid, therefore Lymphoid vs Fibroid and Myeloid vs Fibroid are statistically significant.</p></li>
-<li><p>genes which show no significant difference between pathotypes are classed according to <code>non_sig_name</code></p></li>
-</ul>
-<p>This gives us:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">syn_polar</span><span class="op">@</span><span class="va">polar</span><span class="op">$</span><span class="va">sig</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Significance"</span>, <span class="st">"Frequency"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<table class="table table">
-<thead><tr>
-<th style="text-align:left;">
-Significance
-</th>
-<th style="text-align:right;">
-Frequency
-</th>
-</tr></thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Fibroid+
-</td>
-<td style="text-align:right;">
-9
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Fibroid+Lymphoid+
-</td>
-<td style="text-align:right;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Fibroid+Myeloid+
-</td>
-<td style="text-align:right;">
-310
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Lymphoid+
-</td>
-<td style="text-align:right;">
-124
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Lymphoid+Myeloid+
-</td>
-<td style="text-align:right;">
-56
-</td>
-</tr>
-</tbody>
-</table>
+<span class="va">syn_polar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/polar_coords.html">polar_coords</a></span><span class="op">(</span>outcome <span class="op">=</span> <span class="va">syn_example_meta</span><span class="op">$</span><span class="va">Pathotype</span>,
+                          data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">syn_example_rld</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>This creates a ‘volc3d’ class object for downstream plotting.</p>
 </div>
-<div id="volcano-plots" class="section level2">
+<div id="gene-expression-pipeline" class="section level2">
 <h2 class="hasAnchor">
-<a href="#volcano-plots" class="anchor"></a>Volcano Plots</h2>
-<p>If a fold change column was previously provided, the comparisons between pathotypes can be investigated using the volcano_trio function. This creates <a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a> outputs:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">syn_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/volcano_trio.html">volcano_trio</a></span><span class="op">(</span>polar <span class="op">=</span> <span class="va">syn_polar</span>,
-                          sig_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"significant"</span>, <span class="st">"significant"</span>,
-                                        <span class="st">"not significant"</span>, <span class="st">"not significant"</span><span class="op">)</span>,
-                          colours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"slateblue1"</span>,  <span class="st">"grey60"</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">2</span><span class="op">)</span>,
-                          colour_scheme<span class="op">=</span><span class="st">"none"</span>, 
-                          text_size <span class="op">=</span> <span class="fl">9</span>,
-                          marker_size<span class="op">=</span><span class="fl">1.5</span>,
-                          shared_legend_size <span class="op">=</span> <span class="fl">0.9</span>,
-                          label_rows <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"SLAMF6"</span>, <span class="st">"BOC"</span>, <span class="st">"FMOD"</span><span class="op">)</span>,
-                          fc_line <span class="op">=</span> <span class="cn">FALSE</span>, 
-                          share_axes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<a href="#gene-expression-pipeline" class="anchor"></a>Gene expression pipeline</h2>
+<p>RNA-Sequencing gene expression count data can be compared for differentially expressed genes between 3 classes using 2 pipeline functions to allow statistical analysis by Bioconductor packages ‘DESeq2’ and ‘limma voom’ to quickly generate a polar plotting object of class ‘volc3d’ which can be plotted either as a 2d polar plot with 3 axes or as a 3d cylindrical plot with a 3d volcano plot.</p>
+<div id="method-using-deseq2" class="section level3">
+<h3 class="hasAnchor">
+<a href="#method-using-deseq2" class="anchor"></a>Method using DESeq2</h3>
+<p>This requires takes 2 <code>DESeqDataSet</code> objects and converts the results to a ‘volc3d’ class object for plotting. <code>object</code> is an object of class ‘DESeqDataSet’ with the full design formula. Note the function <code>DESeq</code> needs to have been previously run on this object. <code>objectLRT</code> is an object of class ‘DESeqDataSet’ with the reduced design formula. The function <code>DESeq</code> needs to have been run on this object with <code>DESeq</code> argument <code>test="LRT"</code>.</p>
+<p>Note that in the DESeq2 design formula, the 3-class variable of interest should be first.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mikelove/DESeq2">DESeq2</a></span><span class="op">)</span>
 
-<span class="va">syn_plots</span><span class="op">$</span><span class="va">All</span></code></pre></div>
-<p><img src="Vignette_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;"></p>
+<span class="co"># setup initial dataset from Tximport</span>
+<span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSetFromTximport</a></span><span class="op">(</span>txi <span class="op">=</span> <span class="va">syn_txi</span>, 
+                               colData <span class="op">=</span> <span class="va">syn_metadata</span>, 
+                               design <span class="op">=</span> <span class="op">~</span> <span class="va">Pathotype</span> <span class="op">+</span> <span class="va">Batch</span> <span class="op">+</span> <span class="va">Gender</span><span class="op">)</span>
+<span class="co"># initial analysis run</span>
+<span class="va">dds_DE</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq</a></span><span class="op">(</span><span class="va">dds</span><span class="op">)</span>
+<span class="co"># likelihood ratio test on 'Pathotype'</span>
+<span class="va">dds_LRT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeq.html">DESeq</a></span><span class="op">(</span><span class="va">dds</span>, test <span class="op">=</span> <span class="st">"LRT"</span>, reduced <span class="op">=</span> <span class="op">~</span> <span class="va">Batch</span> <span class="op">+</span> <span class="va">Gender</span>, parallel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> 
+
+<span class="co"># create 'volc3d' class object for plotting</span>
+<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deseq_polar.html">deseq_polar</a></span><span class="op">(</span><span class="va">dds_DE</span>, <span class="va">dds_LRT</span>, <span class="st">"Pathotype"</span><span class="op">)</span>
+
+<span class="co"># plot 3d volcano plot</span>
+<span class="fu"><a href="../reference/volcano3D.html">volcano3D</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="method-using-limma-voom" class="section level3">
+<h3 class="hasAnchor">
+<a href="#method-using-limma-voom" class="anchor"></a>Method using limma voom</h3>
+<p>The method for limma voom is faster and takes a design formula, metadata and raw count data. The Bioconductor packages ‘limma’ and ‘edgeR’ are used to analyse the data using the ‘voom’ method. The results are converted to a ‘volc3d’ object ready for plotting a 3d volcano plot or 3-way polar plot.</p>
+<p>Note the design formula must be of the form <code>~ 0 + outcome + ...</code>. The 3-class outcome variable must be the first variable after the ‘0’, and this variable must be a factor with exactly 3 levels.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/limma">limma</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/edgeR">edgeR</a></span><span class="op">)</span>
+
+<span class="va">syn_tpm</span> <span class="op">&lt;-</span> <span class="va">syn_txi</span><span class="op">$</span><span class="va">counts</span>  <span class="co"># raw counts</span>
+
+<span class="va">resl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/voom_polar.html">voom_polar</a></span><span class="op">(</span><span class="op">~</span> <span class="fl">0</span> <span class="op">+</span> <span class="va">Pathotype</span> <span class="op">+</span> <span class="va">Batch</span> <span class="op">+</span> <span class="va">Gender</span>, <span class="va">syn_metadata</span>, <span class="va">syn_tpm</span><span class="op">)</span>
+
+<span class="fu"><a href="../reference/volcano3D.html">volcano3D</a></span><span class="op">(</span><span class="va">resl</span><span class="op">)</span></code></pre></div>
+</div>
 </div>
 <div id="radial-plots" class="section level2">
 <h2 class="hasAnchor">
 <a href="#radial-plots" class="anchor"></a>Radial Plots</h2>
-<p>The differential expression can now be visualised on an interactive radial plot using radial_plotly.</p>
+<p>The differential expression can now be visualised on an interactive radial plot using <code>radial_plotly</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/radial_plotly.html">radial_plotly</a></span><span class="op">(</span><span class="va">syn_polar</span><span class="op">)</span> </code></pre></div>
+<p>Unfortunately CRAN does not support interactive plotly in the vignette, but these can be viewed on the <a href="https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html">extended vignette</a>. When interactive, it is possible to identify genes for future interrogation by hovering over certain markers.</p>
+<p>A very similar looking static ggplot image can be created using <code>radial_ggplot</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/radial_plotly.html">radial_plotly</a></span><span class="op">(</span>polar <span class="op">=</span> <span class="va">syn_polar</span>, label_rows <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"SLAMF6"</span>, <span class="st">"GREM2"</span>, <span class="st">"FMOD"</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
-<p><img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/radial_plotly.png" align="center" alt="" width="700" style="border: 0;"></p>
-<p>Unfortunately CRAN does not support interactive plotly in the vignette, but these can be viewed on the <a href="https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html">extended vignette</a>. When interactive, it is possible to identify genes for future interrogation by hovering over certain markers. Using the full example from the extended vignette gives:</p>
-<p><img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/gifs/radial.gif" align="center" alt="" width="700" style="border: 0;"></p>
-<p>Similarly a static ggplot image can be created using radial_ggplot:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/radial_ggplot.html">radial_ggplot</a></span><span class="op">(</span>polar <span class="op">=</span> <span class="va">syn_polar</span>,
-              label_rows <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"SLAMF6"</span>, <span class="st">"FMOD"</span>, <span class="st">"GREM2"</span><span class="op">)</span>,
+<code class="sourceCode R"><span class="fu"><a href="../reference/radial_ggplot.html">radial_ggplot</a></span><span class="op">(</span><span class="va">syn_polar</span>,
               marker_size <span class="op">=</span> <span class="fl">2.3</span>,
               legend_size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></code></pre></div>
-<p><img src="Vignette_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="Vignette_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="boxplots" class="section level2">
 <h2 class="hasAnchor">
 <a href="#boxplots" class="anchor"></a>Boxplots</h2>
-<p>Any one specific probe can be interrogated using a boxplot to investigate differences between groups:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<p>Any one specific variable (such as a gene) can be interrogated using a boxplot to investigate differences between groups:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">plot1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/boxplot_trio.html">boxplot_trio</a></span><span class="op">(</span><span class="va">syn_polar</span>,
-                      value <span class="op">=</span> <span class="st">"SLAMF6"</span>,
+                      value <span class="op">=</span> <span class="st">"COBL"</span>,
                       text_size <span class="op">=</span> <span class="fl">7</span>,
                       test <span class="op">=</span> <span class="st">"polar_padj"</span>,
-                      my_comparisons<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Lymphoid"</span>, <span class="st">"Myeloid"</span><span class="op">)</span>,
-                                          <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Lymphoid"</span>, <span class="st">"Fibroid"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+                      my_comparisons<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="st">"Lymphoid"</span>, <span class="st">"Myeloid"</span><span class="op">)</span>,
+                                          <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="st">"Lymphoid"</span>, <span class="st">"Fibroid"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">plot2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/boxplot_trio.html">boxplot_trio</a></span><span class="op">(</span><span class="va">syn_polar</span>,
-                      value <span class="op">=</span> <span class="st">"SLAMF6"</span>,
-                      box_colours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"violet"</span>, <span class="st">"gold2"</span><span class="op">)</span>,
-                      levels_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Lymphoid"</span>, <span class="st">"Fibroid"</span><span class="op">)</span>,
+                      value <span class="op">=</span> <span class="st">"COBL"</span>,
+                      box_colours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="st">"violet"</span>, <span class="st">"gold2"</span><span class="op">)</span>,
+                      levels_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="st">"Lymphoid"</span>, <span class="st">"Fibroid"</span><span class="op">)</span>,
                       text_size <span class="op">=</span> <span class="fl">7</span>,
                       test <span class="op">=</span> <span class="st">"polar_padj"</span>
                       <span class="op">)</span>
 
 <span class="va">plot3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/boxplot_trio.html">boxplot_trio</a></span><span class="op">(</span><span class="va">syn_polar</span>,
-                      value <span class="op">=</span> <span class="st">"FMOD"</span>,
+                      value <span class="op">=</span> <span class="st">"TREX2"</span>,
                       text_size <span class="op">=</span> <span class="fl">7</span>,
                       stat_size<span class="op">=</span><span class="fl">2.5</span>,
                       test <span class="op">=</span> <span class="st">"polar_multi_padj"</span>,
-                      levels_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Lymphoid"</span>, <span class="st">"Myeloid"</span>, <span class="st">"Fibroid"</span><span class="op">)</span>,
-                      box_colours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"red"</span>, <span class="st">"green3"</span><span class="op">)</span><span class="op">)</span>
+                      levels_order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="st">"Lymphoid"</span>, <span class="st">"Myeloid"</span>, <span class="st">"Fibroid"</span><span class="op">)</span>,
+                      box_colours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"red"</span>, <span class="st">"green3"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">ggarrange</span><span class="op">(</span><span class="va">plot1</span>, <span class="va">plot2</span>, <span class="va">plot3</span>, ncol<span class="op">=</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
-<p><img src="Vignette_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="Vignette_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
-<div id="three-dimensional-volcano-plots" class="section level2">
+<div id="d-volcano-plot" class="section level2">
 <h2 class="hasAnchor">
-<a href="#three-dimensional-volcano-plots" class="anchor"></a>Three Dimensional Volcano Plots</h2>
-<p>Lastly, the 3D volcano plot can be used to project differential gene expression onto cylindrical coordinates.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/volcano3D.html">volcano3D</a></span><span class="op">(</span><span class="va">syn_polar</span>,
-               label_rows <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"SLAMF6"</span>, <span class="st">"GREM2"</span>, <span class="st">"FMOD"</span><span class="op">)</span>,
-               label_size <span class="op">=</span> <span class="fl">10</span>,
-               xy_aspectratio <span class="op">=</span> <span class="fl">1</span>,
-               title_offset <span class="op">=</span> <span class="fl">1.5</span>,
-               z_aspectratio <span class="op">=</span> <span class="fl">0.9</span>, 
-               plot_height <span class="op">=</span> <span class="fl">700</span><span class="op">)</span>
+<a href="#d-volcano-plot" class="anchor"></a>3D Volcano Plot</h2>
+<p>Lastly, the 3D volcano plot can be used to project 3-way differential comparisons such as differential gene expression between 3 classes onto cylindrical polar coordinates.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/volcano3D.html">volcano3D</a></span><span class="op">(</span><span class="va">syn_polar</span><span class="op">)</span>
 <span class="va">p</span></code></pre></div>
-<p><img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/volcano3D.png" align="center" alt="" width="500" style="border: 0;"></p>
-<p>Again, CRAN does not support WebGL for the interactive 3D plot, however this can be viewed in the <a href="https://katrionagoldmann.github.io/volcano3D/articles/Extended_Vignette.html">extended vignette</a>.</p>
+<p><img src="volcano3D.png" width="80%" style="border: 0;"></p>
+<p>A fully interactive demonstration of this plot can be viewed at: <a href="https://peac.hpc.qmul.ac.uk/" class="uri">https://peac.hpc.qmul.ac.uk/</a></p>
 </div>
-<div id="volcano4d" class="section level2">
+<div id="spinning-animation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#volcano4d" class="anchor"></a>Volcano4D</h2>
-<p>It is also possible to spin/rotate the plot (adding a 4th dimension) using the volcano4D function which adds a modeBar button:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/volcano4D.html">volcano4D</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></code></pre></div>
-<p><img src="https://github.com/KatrionaGoldmann/volcano3D/raw/master/vignettes/gifs/rotate.gif" align="center" alt="rotating volcano plot" width="500" style="border: 0;"></p>
+<a href="#spinning-animation" class="anchor"></a>Spinning Animation</h2>
+<p>It is also possible to animate spinning/rotation of the plot in 3d using the <code>add_animation</code> function which adds a custom plotly modeBar button:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/add_animation.html">add_animation</a></span><span class="op">(</span><span class="va">p</span><span class="op">)</span></code></pre></div>
+<p>A working demo of this function can be viewed at <a href="https://peac.hpc.qmul.ac.uk/" class="uri">https://peac.hpc.qmul.ac.uk/</a> by clicking on the ‘play’ button in the plotly modeBar to spin the plot.</p>
 </div>
 <div id="saving-plotly-plots" class="section level2">
 <h2 class="hasAnchor">
@@ -881,17 +431,14 @@ Lymphoid+Myeloid+
 <h3 class="hasAnchor">
 <a href="#static-images" class="anchor"></a>Static Images</h3>
 <p>There are a few ways to save plotly plots as static images. Firstly plotly offers a download button ( <i class="fa fa-camera" aria-hidden="true"></i> ) in the figure mode bar (appears top right). By default this saves images as png, however it is possible to convert to svg, jpeg or webp using:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">%&gt;%</span> <span class="fu">plotly</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plotly/man/config.html">config</a></span><span class="op">(</span>toImageButtonOptions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"svg"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>Alternatively, if orca command-line utility is installed, this can also be used to save plotly images. To install follow the instructions <a href="https://github.com/plotly/orca#installation">here</a>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">orca</span><span class="op">(</span><span class="va">p</span>, <span class="st">"./volcano_3d_synovium.svg"</span>, format <span class="op">=</span> <span class="st">"svg"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="interactive-html" class="section level3">
 <h3 class="hasAnchor">
 <a href="#interactive-html" class="anchor"></a>Interactive HTML</h3>
 <p>The full plotly objects can be saved to HTML by converting them to widgets and saving with the htmlwidgets package:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">htmlwidgets</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html">saveWidget</a></span><span class="op">(</span><span class="fu">as_widget</span><span class="op">(</span><span class="va">p</span><span class="op">)</span>, <span class="st">"volcano3D.html"</span><span class="op">)</span></code></pre></div>
 <hr>
 </div>
@@ -902,21 +449,20 @@ Lymphoid+Myeloid+
 <a href="#citation" class="anchor"></a>Citation</h1>
 <p>volcano3D was developed by the bioinformatics team at the <a href="https://www.qmul.ac.uk/whri/emr/">Experimental Medicine &amp; Rheumatology department</a> and <a href="https://www.qmul.ac.uk/c4tb/">Centre for Translational Bioinformatics</a> at Queen Mary University London.</p>
 <p>If you use this package please cite as:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">"volcano3D"</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## To cite package 'volcano3D' in publications use:
 ## 
-##   Katriona Goldmann and Myles Lewis (2020). volcano3D: Interactive
-##   Plotting of Three-Way Differential Expression Analysis.
+##   Katriona Goldmann and Myles Lewis (2020). volcano3D: 3D Volcano Plots
+##   and Polar Plots for Three-Class Data.
 ##   https://katrionagoldmann.github.io/volcano3D/index.html,
 ##   https://github.com/KatrionaGoldmann/volcano3D.
 ## 
 ## A BibTeX entry for LaTeX users is
 ## 
 ##   @Manual{,
-##     title = {volcano3D: Interactive Plotting of Three-Way Differential Expression
-## Analysis},
+##     title = {volcano3D: 3D Volcano Plots and Polar Plots for Three-Class Data},
 ##     author = {Katriona Goldmann and Myles Lewis},
 ##     year = {2020},
 ##     note = {https://katrionagoldmann.github.io/volcano3D/index.html, https://github.com/KatrionaGoldmann/volcano3D},

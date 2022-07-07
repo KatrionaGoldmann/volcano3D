@@ -89,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -117,9 +117,6 @@
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Additional Tutorials</li>
-    <li>
-      <a href="../articles/pvalues_generator.html">Generating Pvalues Objects</a>
-    </li>
     <li>
       <a href="../articles/shiny_builder.html">Using Volcano3D to create Shiny Apps</a>
     </li>
@@ -185,22 +182,33 @@
       <tr>
         
         <td>
+          <p><code><a href="add_animation.html">add_animation()</a></code> </p>
+        </td>
+        <td><p>Add mode bar button to rotate the plot</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="boxplot_trio.html">boxplot_trio()</a></code> </p>
         </td>
         <td><p>Boxplot to compare groups</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="grid-class.html">grid-class</a></code> </p>
+          <p><code><a href="calc_pvals.html">calc_pvals()</a></code> </p>
         </td>
-        <td><p>An S4 class to define the polar grid coordinates system.</p></td>
+        <td><p>Calculate one-way test and pairwise tests</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="polar-class.html">polar-class</a></code> </p>
+          <p><code><a href="deseq_polar.html">deseq_polar()</a></code> </p>
         </td>
-        <td><p>An S4 class to define the polar coordinates and pvalues for polar
-differential expression plots</p></td>
+        <td><p>Convert DESeq2 objects to a volcano3d object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="grid-class.html">grid-class</a></code> </p>
+        </td>
+        <td><p>An S4 class to define the polar grid coordinates system.</p></td>
       </tr><tr>
         
         <td>
@@ -246,12 +254,6 @@ differential expression plots</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="syn_example_p.html">syn_example_p</a></code> </p>
-        </td>
-        <td><p>Synovial differential expression of genes across pathotypes in PEAC cohort</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="syn_example_rld.html">syn_example_rld</a></code> </p>
         </td>
         <td><p>PEAC synovial gene expression data</p></td>
@@ -264,21 +266,9 @@ differential expression plots</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="volcano4D.html">volcano4D()</a></code> </p>
+          <p><code><a href="voom_polar.html">voom_polar()</a></code> </p>
         </td>
-        <td><p>Add mode bar button to rotate the plot</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="volcano_plot.html">volcano_plot()</a></code> </p>
-        </td>
-        <td><p>Creates a single volcano plot</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="volcano_trio.html">volcano_trio()</a></code> </p>
-        </td>
-        <td><p>Volcano Plots for a three-way comparison</p></td>
+        <td><p>Convert RNA-Seq count data to a volcano3d object using 'limma voom'</p></td>
       </tr>
     </tbody>
     </table>

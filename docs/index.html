@@ -5,8 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Interactive Plotting of Three-Way Differential Expression
-        Analysis • volcano3D</title>
+<title>3D Volcano Plots and Polar Plots for Three-Class Data • volcano3D</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -18,9 +17,15 @@
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Interactive Plotting of Three-Way Differential Expression
-        Analysis">
-<meta property="og:description" content="Differential expression (DE) analysis can be used to discover quantitative changes in expression levels between experimental groups. Such results are typically visualised using volcano plots, however in cases where more than two experimental groups are involved, visualising results can become convoluted and it quickly becomes difficult to see the wood for the trees. This package provides easy-to-use functions to extract and visualise outputs from DE between three groups (primarily aimed at limma and DESeq2 outputs). We present novel methods to map DE results into polar coordinates to enable users to combine and simultaneously view three sets of results. These graphics also possess optional plotly outputs for interactive and three-dimensional functionality, as seen in Lewis et. al. (2019) &lt;doi:10.1016/j.celrep.2019.07.091&gt;.">
+<script src="pkgdown.js"></script><meta property="og:title" content="3D Volcano Plots and Polar Plots for Three-Class Data">
+<meta property="og:description" content="Generates interactive plots for analysing and visualising 
+    three-class high dimensional data. It is particularly suited to visualising 
+    differences in continuous attributes such as gene/protein/biomarker 
+    expression levels between three groups. Differential gene/biomarker 
+    expression analysis between two classes is typically shown as a volcano 
+    plot. However, with three groups this type of visualisation is particularly 
+    difficult to interpret. This package generates 3D volcano plots and 3-way 
+    polar plots for easier interpretation of three-class data.">
 <meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -46,7 +51,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -74,9 +79,6 @@
     </li>
     <li class="divider">
     <li class="dropdown-header">Additional Tutorials</li>
-    <li>
-      <a href="articles/pvalues_generator.html">Generating Pvalues Objects</a>
-    </li>
     <li>
       <a href="articles/shiny_builder.html">Using Volcano3D to create Shiny Apps</a>
     </li>
@@ -126,7 +128,6 @@
 <p>This tool acts as a searchable interface to examine relationships between individual synovial and blood gene transcript levels and histological, clinical, and radiographic parameters, and clinical response at 6 months. An interactive interface allows the gene module analysis to be explored for relationships between modules and clinical parameters. The PEAC interactive web tool was creating as an <a href="https://shiny.rstudio.com">R Shiny app</a> and deployed to the web using a server.</p>
 <p>There are also supplementary vignettes for further information on:</p>
 <ul>
-<li><a href="https://katrionagoldmann.github.io/volcano3D/articles/pvalues_generator.html">setting up the input pvalues data frame</a></li>
 <li><a href="https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html">using the volcano3D package to create and deploy a shiny app</a></li>
 </ul>
 <div id="getting-started" class="section level2">
@@ -138,7 +139,6 @@
 <ul>
 <li><a href="https://cran.r-project.org/web/packages/ggplot2/index.html">ggplot2</a></li>
 <li><a href="https://cran.r-project.org/web/packages/ggpubr/index.html">ggpubr</a></li>
-<li><a href="https://cran.r-project.org/web/packages/ggrepel/index.html">ggrepel</a></li>
 <li><a href="https://cran.r-project.org/web/packages/plotly/index.html">plotly</a></li>
 </ul>
 </div>

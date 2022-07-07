@@ -4,7 +4,6 @@ pkgdown_sha: ~
 articles:
   Extended_Vignette: Extended_Vignette.html
   Vignette: Vignette.html
-  pvalues_generator: pvalues_generator.html
   shiny_builder: shiny_builder.html
-last_built: 2021-10-28T08:14Z
+last_built: 2022-07-07T10:06Z
 

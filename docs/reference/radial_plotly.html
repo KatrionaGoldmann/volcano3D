@@ -91,7 +91,7 @@ expression onto a polar coordinates." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -119,9 +119,6 @@ expression onto a polar coordinates." />
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Additional Tutorials</li>
-    <li>
-      <a href="../articles/pvalues_generator.html">Generating Pvalues Objects</a>
-    </li>
     <li>
       <a href="../articles/shiny_builder.html">Using Volcano3D to create Shiny Apps</a>
     </li>
@@ -173,22 +170,17 @@ expression onto a polar coordinates.</p>
 
     <pre class="usage"><span class='fu'>radial_plotly</span><span class='op'>(</span>
   <span class='va'>polar</span>,
-  colours <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"green3"</span>, <span class='st'>"cyan"</span>, <span class='st'>"blue"</span>, <span class='st'>"purple"</span>, <span class='st'>"red"</span>, <span class='st'>"gold2"</span><span class='op'>)</span>,
-  non_sig_colour <span class='op'>=</span> <span class='st'>"grey60"</span>,
-  colour_scale <span class='op'>=</span> <span class='st'>"discrete"</span>,
-  continuous_shift <span class='op'>=</span> <span class='fl'>1.33</span>,
+  type <span class='op'>=</span> <span class='fl'>1</span>,
+  colours <span class='op'>=</span> <span class='va'>polar</span><span class='op'>@</span><span class='va'>scheme</span>,
   label_rows <span class='op'>=</span> <span class='cn'>NULL</span>,
   arrow_length <span class='op'>=</span> <span class='fl'>50</span>,
-  grid <span class='op'>=</span> <span class='cn'>NULL</span>,
-  fc_or_zscore <span class='op'>=</span> <span class='st'>"zscore"</span>,
   label_size <span class='op'>=</span> <span class='fl'>14</span>,
-  colour_code_labels <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  label_colour <span class='op'>=</span> <span class='cn'>NULL</span>,
-  hover_text <span class='op'>=</span> <span class='st'>"label"</span>,
+  colour_code_labels <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  label_colour <span class='op'>=</span> <span class='st'>"black"</span>,
   grid_colour <span class='op'>=</span> <span class='st'>"grey80"</span>,
   grid_width <span class='op'>=</span> <span class='fl'>1</span>,
-  marker_size <span class='op'>=</span> <span class='fl'>6</span>,
-  marker_alpha <span class='op'>=</span> <span class='fl'>0.7</span>,
+  marker_size <span class='op'>=</span> <span class='fl'>7</span>,
+  marker_alpha <span class='op'>=</span> <span class='fl'>0.8</span>,
   marker_outline_colour <span class='op'>=</span> <span class='st'>"white"</span>,
   marker_outline_width <span class='op'>=</span> <span class='fl'>0.5</span>,
   axis_title_size <span class='op'>=</span> <span class='fl'>16</span>,
@@ -197,9 +189,6 @@ expression onto a polar coordinates.</p>
   axis_width <span class='op'>=</span> <span class='fl'>2</span>,
   axis_ticks <span class='op'>=</span> <span class='cn'>NULL</span>,
   axis_angle <span class='op'>=</span> <span class='fl'>5</span><span class='op'>/</span><span class='fl'>6</span>,
-  plot_height <span class='op'>=</span> <span class='fl'>700</span>,
-  plot_width <span class='op'>=</span> <span class='fl'>700</span>,
-  source <span class='op'>=</span> <span class='st'>"radial"</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -212,28 +201,15 @@ expression onto a polar coordinates.</p>
 polar coordinates. Created by <code><a href='polar_coords.html'>polar_coords</a></code>.</p></td>
     </tr>
     <tr>
+      <th>type</th>
+      <td><p>Numeric value whether to use scaled (z-score) or unscaled (fold
+change) as magnitude. Options are 1 = z-score (default) or 2 =
+unscaled/fold change.</p></td>
+    </tr>
+    <tr>
       <th>colours</th>
-      <td><p>A vector of colour names or hex triplets for each of the
-six groups. Default = c("green3", "cyan", "blue",
-"purple", "red", "gold2"). Colours are assigned in order: group1+,
-group1+group2+, group2+, group2+group3+, group3+, group1+group3+.</p></td>
-    </tr>
-    <tr>
-      <th>non_sig_colour</th>
-      <td><p>The colour for non-significant markers
-(default = "grey60").</p></td>
-    </tr>
-    <tr>
-      <th>colour_scale</th>
-      <td><p>whether to use a 'discrete' or 'continuous' colour scale
-(default = 'discrete').</p></td>
-    </tr>
-    <tr>
-      <th>continuous_shift</th>
-      <td><p>The number of radians (between 0 and 6)
-to offset the continuous colour scale by. This is calculated by converting
-the angle to a hue using <code><a href='https://rdrr.io/r/grDevices/hsv.html'>hsv</a></code> where 0 corresponds to
-the colour scale starting with red and 360 with magenta (default = 2).</p></td>
+      <td><p>A vector of colour names or hex triplets for the
+non-significant points and each of the six groups.</p></td>
     </tr>
     <tr>
       <th>label_rows</th>
@@ -242,16 +218,6 @@ the colour scale starting with red and 360 with magenta (default = 2).</p></td>
     <tr>
       <th>arrow_length</th>
       <td><p>The length of label arrows (default = 50).</p></td>
-    </tr>
-    <tr>
-      <th>grid</th>
-      <td><p>An optional grid object. If NULL this will be calculated using
-the default values of <code><a href='polar_grid.html'>polar_grid</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>fc_or_zscore</th>
-      <td><p>Whether to use the z-score or fold change as magnitude.
-Options are 'zscore' (default) or 'fc'.</p></td>
     </tr>
     <tr>
       <th>label_size</th>
@@ -265,25 +231,6 @@ coded. If FALSE label_colour is used.</p></td>
     <tr>
       <th>label_colour</th>
       <td><p>HTML colour of annotation labels if not colour coded.</p></td>
-    </tr>
-    <tr>
-      <th>hover_text</th>
-      <td><p>A character string containing the argument for hover text
-(default="label"). Possible columns include:</p><ul>
-<li><p>"Name" or "label": name and label column for each marker</p></li>
-<li><p>paste(group, "_axis") the position for each marker on a given axis</p></li>
-<li><p>"x_zscore", "y_zscore" or "r_zscore": The position according to z-score</p></li>
-<li><p>"x_fc", "y_fc" or "r_fc": The position according to fold change</p></li>
-<li><p>"angle", "angle_degrees": Then marker angle</p></li>
-<li><p>"max_exp" or "sig": The maximally expressed group or significant group</p></li>
-<li><p>"col" or "hue": The colour or hue of the marker</p></li>
-<li><p>paste0(group A, "_", group B, "_pvalue"): The pvalue for comparisons</p></li>
-<li><p>paste0(group A, "_", group B, "_padj"): The pvalue for comparisons</p></li>
-<li><p>paste0(group A, "_", group B, "_logFC"): The pvalue for comparisons</p></li>
-<li><p>paste0(multi_group_test, "_pvalue"), 
-paste0(multi_group_test, "_padj"),  paste0(multi_group_test, "_logFC"): 
-The stats for all multi-group tests.</p></li>
-</ul></td>
     </tr>
     <tr>
       <th>grid_colour</th>
@@ -335,21 +282,6 @@ NULL this will be calculated using <code><a href='https://rdrr.io/r/base/pretty.
       <td><p>Angle in radians for the radial axis (default = 5/6).</p></td>
     </tr>
     <tr>
-      <th>plot_height</th>
-      <td><p>Plot height in px (default=700).</p></td>
-    </tr>
-    <tr>
-      <th>plot_width</th>
-      <td><p>Plot width in px (default=700).</p></td>
-    </tr>
-    <tr>
-      <th>source</th>
-      <td><p>a character string of length 1. Match the value of this string 
-with the source argument in <code><a href='https://rdrr.io/pkg/plotly/man/event_data.html'>event_data</a></code> to retrieve the 
-event data corresponding to a specific plot (shiny apps can have multiple 
-plots).</p></td>
-    </tr>
-    <tr>
       <th>...</th>
       <td><p>Optional parameters to pass to
 <code><a href='polar_grid.html'>polar_grid</a></code>.</p></td>
@@ -363,27 +295,18 @@ radial graph</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Lewis, Myles J., et al. (2019).
-<a href='https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1'>
+<a href='https://pubmed.ncbi.nlm.nih.gov/31461658/'>
 Molecular portraits of early rheumatoid arthritis identify clinical and
 treatment response phenotypes.</a>
 <em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span>
-<span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span><span class='op'>(</span>sampledata <span class='op'>=</span> <span class='va'>syn_example_meta</span>,
-                          contrast <span class='op'>=</span> <span class='st'>"Pathotype"</span>,
-                          groups <span class='op'>=</span> <span class='cn'>NULL</span>,
-                          pvalues <span class='op'>=</span> <span class='va'>syn_example_p</span>,
-                          expression <span class='op'>=</span> <span class='va'>syn_example_rld</span>,
-                          p_col_suffix <span class='op'>=</span> <span class='st'>"pvalue"</span>,
-                          padj_col_suffix <span class='op'>=</span> <span class='st'>"padj"</span>,
-                          non_sig_name <span class='op'>=</span> <span class='st'>"Not Significant"</span>,
-                          multi_group_prefix <span class='op'>=</span> <span class='st'>"LRT"</span>,
-                          significance_cutoff <span class='op'>=</span> <span class='fl'>0.01</span>,
-                          fc_cutoff <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span>
-
-<span class='fu'>radial_plotly</span><span class='op'>(</span>polar <span class='op'>=</span> <span class='va'>syn_polar</span>, label_rows <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"SLAMF6"</span><span class='op'>)</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>syn_example_meta</span><span class='op'>$</span><span class='va'>Pathotype</span>,</span>
+<span class='r-in'>                          data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>syn_example_rld</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>radial_plotly</span><span class='op'>(</span>polar <span class='op'>=</span> <span class='va'>syn_polar</span>, label_rows <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='st'>"COBL"</span><span class='op'>)</span><span class='op'>)</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="Coordinates for Three Way Polar Plot — polar_coords" />
-<meta property="og:description" content="This function creates a polar object of S4 class for downstream plots 
+<meta property="og:description" content="This function creates a 'volc3d' object of S3 class for downstream plots 
 containing the p-values from a three-way group comparison, expression data 
 sample data and polar coordinates." />
 <meta property="og:image" content="/logo.png" />
@@ -92,7 +92,7 @@ sample data and polar coordinates." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -120,9 +120,6 @@ sample data and polar coordinates." />
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Additional Tutorials</li>
-    <li>
-      <a href="../articles/pvalues_generator.html">Generating Pvalues Objects</a>
-    </li>
     <li>
       <a href="../articles/shiny_builder.html">Using Volcano3D to create Shiny Apps</a>
     </li>
@@ -168,182 +165,97 @@ sample data and polar coordinates." />
     </div>
 
     <div class="ref-description">
-    <p>This function creates a polar object of S4 class for downstream plots 
+    <p>This function creates a 'volc3d' object of S3 class for downstream plots 
 containing the p-values from a three-way group comparison, expression data 
 sample data and polar coordinates.</p>
     </div>
 
     <pre class="usage"><span class='fu'>polar_coords</span><span class='op'>(</span>
-  <span class='va'>sampledata</span>,
-  <span class='va'>contrast</span>,
-  <span class='va'>pvalues</span>,
-  <span class='va'>expression</span>,
-  groups <span class='op'>=</span> <span class='cn'>NULL</span>,
-  p_col_suffix <span class='op'>=</span> <span class='st'>"pvalues"</span>,
-  padj_col_suffix <span class='op'>=</span> <span class='st'>"padj"</span>,
-  fc_col_suffix <span class='op'>=</span> <span class='cn'>NULL</span>,
-  padjust_method <span class='op'>=</span> <span class='st'>"BH"</span>,
-  multi_group_prefix <span class='op'>=</span> <span class='cn'>NULL</span>,
-  non_sig_name <span class='op'>=</span> <span class='st'>"Not Significant"</span>,
-  significance_cutoff <span class='op'>=</span> <span class='fl'>0.01</span>,
-  fc_cutoff <span class='op'>=</span> <span class='fl'>0.3</span>,
-  label_column <span class='op'>=</span> <span class='cn'>NULL</span>,
-  cutoff_criteria <span class='op'>=</span> <span class='st'>"pvalue"</span>
+  <span class='va'>outcome</span>,
+  <span class='va'>data</span>,
+  pvals <span class='op'>=</span> <span class='cn'>NULL</span>,
+  padj <span class='op'>=</span> <span class='va'>pvals</span>,
+  pcutoff <span class='op'>=</span> <span class='fl'>0.05</span>,
+  scheme <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='st'>"grey60"</span>, <span class='st'>"red"</span>, <span class='st'>"gold2"</span>, <span class='st'>"green3"</span>, <span class='st'>"cyan"</span>, <span class='st'>"blue"</span>, <span class='st'>"purple"</span><span class='op'>)</span>,
+  labs <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>sampledata</th>
-      <td><p>A data frame containing the sample information.
-This must contain: an ID column containing the sample IDs which can be 
-matched to the `expression` data and a 
-contrast column containing the three-level factor used for contrasts.</p></td>
+      <th>outcome</th>
+      <td><p>Outcome vector with 3 groups, ideally as a factor. If it is
+not a factor, this will be coerced to a factor. This must have exactly 3
+levels. NOTE: if `pvals` is given, the order of the levels in `outcome`
+must correspond to the order of columns in `pvals`.</p></td>
     </tr>
     <tr>
-      <th>contrast</th>
-      <td><p>The column name in `sampledata` which contains the 
-three-level factor used for contrast.</p></td>
+      <th>data</th>
+      <td><p>Dataframe or matrix with variables in columns</p></td>
     </tr>
     <tr>
-      <th>pvalues</th>
-      <td><p>A data frame containing:</p><ul>
-<li><p>three `p_col_suffix` columns: one for 
-the pvalue for each comparison between groups;</p></li>
-<li><p>three optional `fc_col_suffix` columns for the fold change between 
-each comparison (if NULL, no Fold Change columns are included);</p></li>
-<li><p>three optional `padj_col_suffix` columns (if NULL 
-adjusted p values are calculated using `padjust_method`);</p></li>
-<li><p>and optional 'p', 
-'padj and 'fc' columns for a three-way test, such as ANOVA or likelihood 
-ratio test, defined by `multi_group_prefix`.</p></li>
-</ul></td>
+      <th>pvals</th>
+      <td><p>Matrix or dataframe with p-values. The first column represents a
+test across all 3 categories such as one-way ANOVA or likelihood ratio
+test. Columns 2-4 represent pairwise tests comparing groups A vs B, A vs C
+and B vs C, where A, B, C represent levels 1, 2, 3 in `outcome`. Columns
+2-4 must be provided in the correct order. If `pvals` is not given, it is
+calculated using the function [calc_pvals].</p></td>
     </tr>
     <tr>
-      <th>expression</th>
-      <td><p>An optional data frame containing expression data for
-downstream analysis and visualisation. The rows must contain probes which
-match the rows in pvalues and the columns must contain samples which match
-<code>sampledata$ID</code>.</p></td>
+      <th>padj</th>
+      <td><p>Matrix or dataframe with adjusted p-values. If not supplied,
+defaults to use nominal p-values from `pvals`.</p></td>
     </tr>
     <tr>
-      <th>groups</th>
-      <td><p>The groups to be compared (if NULL this defaults
-to <code><a href='https://rdrr.io/r/base/levels.html'>levels(sampledata[, 'contrasts'])</a></code>).</p></td>
+      <th>pcutoff</th>
+      <td><p>Cut-off for p-value significance</p></td>
     </tr>
     <tr>
-      <th>p_col_suffix</th>
-      <td><p>The suffix word to define columns containing p values
-(default = 'pvalues'). These must not contain underscores;</p></td>
+      <th>scheme</th>
+      <td><p>Vector of colours starting with non-significant variables</p></td>
     </tr>
     <tr>
-      <th>padj_col_suffix</th>
-      <td><p>The suffix word to define columns containing adjusted
-p values (default = 'padj').  These must not contain underscores. 
-If NULL these will be calculated using <code>padjust_method</code></p></td>
+      <th>labs</th>
+      <td><p>Optional character vector for labelling groups. Default `NULL`
+leads to abbreviated labels based on levels in `outcome` using
+[abbreviate]. A vector of length 3 with custom abbreviated names for the
+outcome levels can be supplied. Otherwise a vector length 7 is expected, of
+the form "ns", "B+", "B+C+", "C+", "A+C+", "A+", "A+B+", where "ns" means
+non-significant and A, B, C refer to levels 1, 2, 3 in `outcome`, and must
+be in the correct order.</p></td>
     </tr>
     <tr>
-      <th>fc_col_suffix</th>
-      <td><p>The optional suffix word to define columns containing 
-log fold change values (default = 'logFC'). These must not contain 
-underscores.</p></td>
-    </tr>
-    <tr>
-      <th>padjust_method</th>
-      <td><p>The method used to calculate adjusted p values if 
-padj_col_suffix is NULL (default = 'BH'). See <code><a href='https://rdrr.io/r/stats/p.adjust.html'>p.adjust</a></code>. 
-If NULL no adjusted pvalue is calculated.</p></td>
-    </tr>
-    <tr>
-      <th>multi_group_prefix</th>
-      <td><p>Optional column prefix for statistics (p, padj, 
-and fold change) across all three groups (typically ANOVA or likelihood 
-ratio tests). default = NULL. These must not contain underscores</p></td>
-    </tr>
-    <tr>
-      <th>non_sig_name</th>
-      <td><p>Category name to assign to non-significant points</p></td>
-    </tr>
-    <tr>
-      <th>significance_cutoff</th>
-      <td><p>Value defining the significance cut-off (points 
-with pvalues below this point will be classed as <code>non_sig_name</code>)</p></td>
-    </tr>
-    <tr>
-      <th>fc_cutoff</th>
-      <td><p>The cut-off for fold change, below which markers will be
-classed as <code>non_sig_name</code>` (default = 0.3).</p></td>
-    </tr>
-    <tr>
-      <th>label_column</th>
-      <td><p>Optional column name in pvalues for markers to be 
-labelled with at plotting stage. If NULL the rownames of pvalues are used.</p></td>
-    </tr>
-    <tr>
-      <th>cutoff_criteria</th>
-      <td><p>Whether to use pvalue or padj for the colour coding 
-significance cutoff.</p></td>
+      <th>...</th>
+      <td><p>Optional arguments passed to [calc_pvals]</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns an S4 polar object containing:</p><ul>
-<li><p>'polar' A data.frame containing:</p><ul>
-<li><p>The mean expression for each of the three groups in comparison</p></li>
-<li><p>The z-score polar coordinates: 'y_zscore', 'x_zscore' and 
-      'r_zscore'</p></li>
-<li><p>The fold-change polar coordinates: 'y_fc', 'x_fc' and 'r_fc'</p></li>
-<li><p>'angle': The angle in radians for polar coordinates</p></li>
-<li><p>'angle_degrees': The angle in degrees</p></li>
-<li><p>'max_exp': The maximally expressed group</p></li>
-<li><p>'sig': The significance group</p></li>
-</ul></li>
-<li><p>'pvalues' A data frame containing the p-values, adjusted p-values,
-  and optional log(fold changes) for all three comparisons between groups in 
-  the contrast factor, as well as optional multi-group tests.</p></li>
-<li><p>'sampledata' Sample data with column ID and contrast</p></li>
-<li><p>'contrast' The column name in `sampledata`` which contains the
-  three-group contrast factor used for comparisons.</p></li>
-<li><p>'multi_group_test' Column name prefix for statistical tests between
-  all three groups</p></li>
-<li><p>'expression' An optional data frame or matrix containing the
-  expression data</p></li>
-<li><p>'non_sig_name' The category name for variables which are classed as 
-  not significant</p></li>
+    <p>Returns an S4 'volc3d' object containing:</p><ul>
+<li><p>'df' A list of 2 dataframes. Each dataframe contains both x,y,z
+  coordinates as well as polar coordinates r, angle. The first dataframe has
+  coordinates on scaled data. The 2nd dataframe has unscaled data (e.g. log2
+  fold change for gene expression).</p></li>
+<li><p>'outcome' The three-group contrast factor used for comparisons</p></li>
+<li><p>'data' Dataframe or matrix containing the expression data</p></li>
+<li><p>'pvals' A dataframe containing p-values. First column is the 3-way
+  comparison (LRT or ANOVA). Columns 2-4 are pairwise comparisons between
+  groups A vs B, A vs C and B vs C, where A, B, C are the 3 levels in the
+  outcome factor.</p></li>
+<li><p>'padj' A dataframe containing p-values adjusted for multiple testing</p></li>
 </ul>
 
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Lewis, Myles J., et al. (2019).
-<a href='https://www.cell.com/cell-reports/fulltext/S2211-1247(19)31007-1'>
-Molecular portraits of early rheumatoid arthritis identify clinical and
-treatment response phenotypes.</a>
-<em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span>
-<span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'>polar_coords</span><span class='op'>(</span>sampledata<span class='op'>=</span><span class='va'>syn_example_meta</span>,
-                    contrast<span class='op'>=</span><span class='st'>"Pathotype"</span>,
-                    groups <span class='op'>=</span> <span class='cn'>NULL</span>,
-                    pvalues <span class='op'>=</span> <span class='va'>syn_example_p</span>,
-                    expression <span class='op'>=</span> <span class='va'>syn_example_rld</span>,
-                    p_col_suffix <span class='op'>=</span> <span class='st'>"pvalue"</span>,
-                    padj_col_suffix <span class='op'>=</span> <span class='st'>"padj"</span>,
-                    fc_col_suffix <span class='op'>=</span> <span class='cn'>NULL</span>,
-                    padjust_method <span class='op'>=</span> <span class='st'>"BH"</span>,
-                    multi_group_prefix <span class='op'>=</span> <span class='cn'>NULL</span>,
-                    non_sig_name <span class='op'>=</span> <span class='st'>"Not Significant"</span>,
-                    significance_cutoff <span class='op'>=</span> <span class='fl'>0.01</span>, 
-                    fc_cutoff<span class='op'>=</span><span class='fl'>0.3</span>, 
-                    label_column <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>syn_polar</span><span class='op'>@</span><span class='va'>polar</span><span class='op'>$</span><span class='va'>sig</span><span class='op'>)</span> 
-</div><div class='output co'>#&gt; 
-#&gt;          Fibroid+ Fibroid+Lymphoid+  Fibroid+Myeloid+         Lymphoid+ 
-#&gt;                 9                 1               310               124 
-#&gt; Lymphoid+Myeloid+   Not Significant 
-#&gt;                55                 1 </div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'>polar_coords</span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>syn_example_meta</span><span class='op'>$</span><span class='va'>Pathotype</span>,</span>
+<span class='r-in'>                          data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>syn_example_rld</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

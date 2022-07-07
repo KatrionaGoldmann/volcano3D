@@ -10,9 +10,6 @@ authors:
   Katriona Goldmann:
     href: https://github.com/KatrionaGoldmann
 
-
-
-
 toc:
   depth: 5
 
@@ -28,8 +25,6 @@ navbar:
           href: articles/Extended_Vignette.html
         - text: -------
         - text: "Additional Tutorials"
-        - text: "Generating Pvalues Objects"
-          href: articles/pvalues_generator.html
         - text: "Using Volcano3D to create Shiny Apps"
           href: articles/shiny_builder.html
     - icon: fas fa-newspaper

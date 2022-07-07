@@ -89,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
       </span>
     </div>
 
@@ -117,9 +117,6 @@
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Additional Tutorials</li>
-    <li>
-      <a href="../articles/pvalues_generator.html">Generating Pvalues Objects</a>
-    </li>
     <li>
       <a href="../articles/shiny_builder.html">Using Volcano3D to create Shiny Apps</a>
     </li>
@@ -163,6 +160,27 @@
       <small>Source: <a href='https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="volcano3d-200" class="section level1">
+<h1 class="page-header" data-toc-text="2.0.0">
+<a href="#volcano3d-200" class="anchor"></a>volcano3D 2.0.0<small> 2022-07-05 </small>
+</h1>
+<div id="29062022" class="section level6">
+<h6>29/06/2022</h6>
+<ul>
+<li>Major update including:</li>
+<li>Significantly simplified pipeline</li>
+<li>Streamlined <code><a href="../reference/polar_coords.html">polar_coords()</a></code> function no longer requires a complex p-value table object</li>
+<li>Conduit functions to make it much easier to make 3d volcano plots and 3-way polar plots from gene expression analysis using ‘DESeq2’ and ‘limma voom’</li>
+<li>Inbuilt statistical tests for group comparison (one-way ANOVA) and pairwise comparisons with easy calculation of p-values and optional adjustment for multiple testing</li>
+<li>
+<code><a href="../reference/polar_coords.html">polar_coords()</a></code> is thus able to accept more general data</li>
+<li>Back compatibility has been maintained for old ‘polar’ class objects</li>
+<li>
+<code>volcano_plot</code> and <code>volcano_trio</code> functions have been deprecated and removed</li>
+<li>Bug fixes</li>
+</ul>
+</div>
+</div>
     <div id="volcano3d-132" class="section level1">
 <h1 class="page-header" data-toc-text="1.3.2">
 <a href="#volcano3d-132" class="anchor"></a>volcano3D 1.3.2<small> Unreleased </small>
