@@ -41,7 +41,7 @@
 #'   # Likelihood ratio test
 #'   ddsLRT <- DESeq(dds, test="LRT", reduced= ~ 1)
 #' 
-#'   polar <- deseq_polar(dds, ddsLRT)
+#'   polar <- deseq_polar(dds, ddsLRT, "cond")
 #'   volcano3D(polar)
 #'   radial_ggplot(polar)
 #' }
