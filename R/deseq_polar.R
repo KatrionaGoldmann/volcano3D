@@ -9,8 +9,9 @@
 #'   formula. The function `DESeq` needs to have been run on this object with
 #'   argument `test="LRT"`.
 #' @param contrast Character value specifying column within the metadata stored
-#'   in the DESeq2 dataset objects is the outcome variable. This column must 
-#'   contain a factor with 3 levels.
+#'   in the DESeq2 dataset objects is the outcome variable. This column must
+#'   contain a factor with 3 levels. If not set, the function will select the
+#'   first term in the design formula of `object`.
 #' @param data Optional matrix containing gene expression data. If not supplied,
 #'   the function will pull the expression data from within the DESeq2 object
 #'   using the DESeq2 function `assay()`. NOTE: for consistency with gene
@@ -25,7 +26,7 @@
 #' 
 #' @examples
 #' 
-#' \dontrun{
+#' \donttest{
 #'   library(DESeq2)
 #' 
 #'   counts <- matrix(rnbinom(n=1500, mu=100, size=1/0.5), ncol=15)
@@ -40,14 +41,14 @@
 #'   # Likelihood ratio test
 #'   ddsLRT <- DESeq(dds, test="LRT", reduced= ~ 1)
 #' 
-#'   polar <- deseq_polar(dds, ddsLRT, "cond")
+#'   polar <- deseq_polar(dds, ddsLRT)
 #'   volcano3D(polar)
 #'   radial_ggplot(polar)
 #' }
 #' 
 #' @export
 
-deseq_polar <- function(object, objectLRT, contrast,
+deseq_polar <- function(object, objectLRT, contrast = NULL,
                         data = NULL,
                         pcutoff = 0.05,
                         padj.method = "BH",
@@ -58,6 +59,15 @@ deseq_polar <- function(object, objectLRT, contrast,
   }
   if (!inherits(object, "DESeqDataSet")) stop("Not a DESeqDataSet object")
   if (!inherits(objectLRT, "DESeqDataSet")) stop("Not a DESeqDataSet object")
+  termsDE <- attr(terms(design(object)), "term.labels")
+  termsLRT <- attr(terms(design(objectLRT)), "term.labels")
+  if (!setequal(termsDE, termsLRT)) message("Different full design formulae")
+  if (is.null(contrast)) {
+    contrast <- termsDE[1]
+    message("Setting contrast to `", contrast, "`")
+  }
+  outcome <- object@colData[, contrast]
+  if (nlevels(outcome) != 3) stop("Outcome does not have 3 levels")
   LRT <- DESeq2::results(objectLRT)
   LRT <- as.data.frame(LRT[, c('pvalue', 'padj')])
   if (padj.method == "qvalue") {
@@ -72,7 +82,7 @@ deseq_polar <- function(object, objectLRT, contrast,
     } else !is.na(LRT$padj)
     ptype <- "padj"
   }
-  groups <- levels(object@colData[, contrast])
+  groups <- levels(outcome)
   contrastlist <- list(
     groups[1:2],
     groups[c(3, 1)],
@@ -104,7 +114,7 @@ deseq_polar <- function(object, objectLRT, contrast,
     }
     data <- SummarizedExperiment::assay(vstdata)
   }
-  polar_coords(object@colData[, contrast], t(data), pvals, padj, pcutoff, ...)
+  polar_coords(outcome, t(data), pvals, padj, pcutoff, ...)
 }
 
 

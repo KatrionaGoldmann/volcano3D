@@ -4,14 +4,14 @@
 \alias{significance_subset}
 \title{Extract a subset population}
 \usage{
-significance_subset(polar, significance = NULL, output = "pvalues")
+significance_subset(polar, significance = NULL, output = "pvals")
 }
 \arguments{
 \item{polar}{A polar object including expression data from groups of
 interest. Created by \code{\link{polar_coords}}.}
 
-\item{significance}{Which significance factors to subset to. If NULL 
-levels(syn_polar@polar$sig)[1] is selected.}
+\item{significance}{Which significance factors to subset to. If `NULL` 
+all levels except 'ns' (non-significant) are selected.}
 
 \item{output}{What object to return. Options are "pvals", "padj", "data",
 "df" for subset dataframes, or "polar" to subset the entire 'volc3d' class

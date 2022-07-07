@@ -7,7 +7,7 @@
 deseq_polar(
   object,
   objectLRT,
-  contrast,
+  contrast = NULL,
   data = NULL,
   pcutoff = 0.05,
   padj.method = "BH",
@@ -24,8 +24,9 @@ formula. The function `DESeq` needs to have been run on this object with
 argument `test="LRT"`.}
 
 \item{contrast}{Character value specifying column within the metadata stored
-in the DESeq2 dataset objects is the outcome variable. This column must 
-contain a factor with 3 levels.}
+in the DESeq2 dataset objects is the outcome variable. This column must
+contain a factor with 3 levels. If not set, the function will select the
+first term in the design formula of `object`.}
 
 \item{data}{Optional matrix containing gene expression data. If not supplied,
 the function will pull the expression data from within the DESeq2 object
@@ -49,7 +50,7 @@ This function takes 2 `DESeqDataSet` objects and converts the results to a
 }
 \examples{
 
-\dontrun{
+\donttest{
   library(DESeq2)
 
   counts <- matrix(rnbinom(n=1500, mu=100, size=1/0.5), ncol=15)
@@ -64,7 +65,7 @@ This function takes 2 `DESeqDataSet` objects and converts the results to a
   # Likelihood ratio test
   ddsLRT <- DESeq(dds, test="LRT", reduced= ~ 1)
 
-  polar <- deseq_polar(dds, ddsLRT, "cond")
+  polar <- deseq_polar(dds, ddsLRT)
   volcano3D(polar)
   radial_ggplot(polar)
 }
