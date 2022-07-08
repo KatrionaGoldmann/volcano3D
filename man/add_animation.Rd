@@ -16,12 +16,12 @@ add_animation(
 )
 }
 \arguments{
-\item{p}{The volcano3D plot}
+\item{p}{The \code{\link{volcano3D}} plot}
 
-\item{rotate_icon_path}{The svg icon path for rotation. If NULL a play 
+\item{rotate_icon_path}{The svg icon path for rotation. If `NULL` a play 
 button is used}
 
-\item{stop_icon_path}{The svg icon path for stop button. If NULL a pause 
+\item{stop_icon_path}{The svg icon path for stop button. If `NULL` a pause 
 button is used}
 
 \item{rotate_colour}{The colour for the rotate button (default="#c7c7c7")}
@@ -60,6 +60,9 @@ Lewis, Myles J., et al. (2019).
 Molecular portraits of early rheumatoid arthritis identify clinical and 
 treatment response phenotypes.}
 \emph{Cell reports}, \strong{28}:9
+}
+\seealso{
+\code{\link{volcano3D}}
 }
 \concept{volcanoplot}
 \keyword{hplot}

@@ -1,9 +1,9 @@
 #' Add mode bar button to rotate the plot
 #'
-#' @param p The volcano3D plot
-#' @param rotate_icon_path The svg icon path for rotation. If NULL a play 
+#' @param p The \code{\link{volcano3D}} plot
+#' @param rotate_icon_path The svg icon path for rotation. If `NULL` a play 
 #' button is used
-#' @param stop_icon_path The svg icon path for stop button. If NULL a pause 
+#' @param stop_icon_path The svg icon path for stop button. If `NULL` a pause 
 #' button is used
 #' @param rotate_colour The colour for the rotate button (default="#c7c7c7")
 #' @param stop_colour The colour for the stop button (default='#ff6347', 
@@ -17,6 +17,7 @@
 #' @return Returns a rotating cylindrical 3D plotly plot featuring variables on 
 #' a tri-axis radial graph with the -log10(multi-group test p-value) on the 
 #' z-axis
+#' @seealso \code{\link{volcano3D}}
 #' @references
 #' Lewis, Myles J., et al. (2019).
 #' \href{https://pubmed.ncbi.nlm.nih.gov/31461658/}{
