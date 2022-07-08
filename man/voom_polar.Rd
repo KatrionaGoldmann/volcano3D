@@ -35,6 +35,9 @@ cut-off on the group likelihood ratio test}
 
 \item{...}{Optional arguments passed to [polar_coords()]}
 }
+\value{
+Calls [polar_coords()] to return an S4 'volc3d' object
+}
 \description{
 This function is used instead of [polar_coords()] if you have raw RNA-Seq
 count data. The function takes a design formula, metadata and raw RNA-Seq
@@ -58,4 +61,7 @@ if (requireNamespace("limma", quietly = TRUE) &
   radial_ggplot(polar)
 }
 
+}
+\seealso{
+[polar_coords()] [deseq_polar()]
 }

@@ -21,6 +21,8 @@
 #'   tests are only conducted on genes which reach significant adjusted p-value
 #'   cut-off on the group likelihood ratio test
 #' @param ... Optional arguments passed to [polar_coords()]
+#' @return Calls [polar_coords()] to return an S4 'volc3d' object
+#' @seealso [polar_coords()] [deseq_polar()]
 #' 
 #' @examples
 #' if (requireNamespace("limma", quietly = TRUE) & 
