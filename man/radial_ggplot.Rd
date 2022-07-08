@@ -29,8 +29,9 @@ radial_ggplot(
 )
 }
 \arguments{
-\item{polar}{A 'volc3d' object with the p-values between groups of interest and
-polar coordinates. Created by \code{\link{polar_coords}}.}
+\item{polar}{A 'volc3d' object with the p-values between groups of interest
+and polar coordinates created by \code{\link{polar_coords}},
+\code{\link{deseq_polar}} or \code{\link{voom_polar}}.}
 
 \item{type}{Numeric value whether to use scaled (z-score) or unscaled (fold
 change) as magnitude. Options are 1 = z-score (default) or 2 =
@@ -83,7 +84,8 @@ Returns a polar 'ggplot' object featuring variables on a tri-axis
 radial graph
 }
 \description{
-This function creates a radar plot using 'ggplot' for a three-way comparison
+This function creates a 3-way polar plot using 'ggplot' for a three-class
+comparison.
 }
 \examples{
 data(example_data)
@@ -98,5 +100,8 @@ Lewis, Myles J., et al. (2019).
 Molecular portraits of early rheumatoid arthritis identify clinical and
 treatment response phenotypes.}
 \emph{Cell reports}, \strong{28}:9
+}
+\seealso{
+\code{\link{polar_coords}}
 }
 \keyword{hplot}

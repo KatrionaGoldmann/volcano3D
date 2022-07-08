@@ -29,11 +29,12 @@ radial_plotly(
 )
 }
 \arguments{
-\item{polar}{A polar object with the pvalues between groups of interest and
-polar coordinates. Created by \code{\link{polar_coords}}.}
+\item{polar}{A 'volc3d' object with the p-values between groups of interest
+and polar coordinates created by \code{\link{polar_coords}},
+\code{\link{deseq_polar}} or \code{\link{voom_polar}}.}
 
-\item{type}{Numeric value whether to use scaled (z-score) or unscaled (fold
-change) as magnitude. Options are 1 = z-score (default) or 2 =
+\item{type}{Numeric value whether to use scaled (Z-score) or unscaled (fold
+change) as magnitude. Options are 1 = Z-score (default) or 2 =
 unscaled/fold change.}
 
 \item{colours}{A vector of colour names or hex triplets for the
@@ -75,12 +76,10 @@ NULL this will be calculated using \code{\link[base]{pretty}}.}
 
 \item{axis_angle}{Angle in radians for the radial axis (default = 5/6).}
 
-\item{...}{Optional parameters to pass to
-\code{\link[volcano3D]{polar_grid}}.}
+\item{...}{Optional parameters passed to \code{\link[volcano3D]{polar_grid}}}
 }
 \value{
-Returns a plotly plot featuring variables on a tri-axis
-radial graph
+Returns a plotly plot featuring variables on a tri-axis radial graph
 }
 \description{
 This function creates an interactive plotly object which maps differential
@@ -99,6 +98,9 @@ Lewis, Myles J., et al. (2019).
 Molecular portraits of early rheumatoid arthritis identify clinical and
 treatment response phenotypes.}
 \emph{Cell reports}, \strong{28}:9
+}
+\seealso{
+\code{\link{polar_coords}}
 }
 \keyword{hplot}
 \keyword{iplot}

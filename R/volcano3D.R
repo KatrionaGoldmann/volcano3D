@@ -8,7 +8,8 @@
 #' comparing each variable across the 3 groups.
 #' 
 #' @param polar Object of S4 class 'volc3d' following call to either
-#'   `polar_coords()` or `DESeqToVolc()`
+#'   \code{\link{polar_coords}}, \code{\link{deseq_polar}} or
+#'   \code{\link{voom_polar}}
 #' @param type Either `1` or `2` specifying type of polar coordinates: `1` =
 #'   Z-scaled, `2` = unscaled (equivalent to log2 fold change for gene
 #'   expression).
@@ -21,7 +22,7 @@
 #' @param grid_colour The colour of the cylindrical grid (default "grey80")
 #' @param grid_width The width of the grid lines (default 2)
 #' @param grid_options Optional list of additional arguments to pass to
-#'   `polar_grid()`, eg. `z_axis_ticks` and `r_axis_ticks`
+#'   \code{\link{polar_grid}}, eg. `z_axis_ticks` and `r_axis_ticks`
 #' @param axis_colour The colour of the grid axes and labels (default "black")
 #' @param axis_width The width of axis lines (default 2)
 #' @param marker_size Size of the markers (default 3)
@@ -43,7 +44,7 @@
 #'   (default 0.8). Decreasing this makes the plot appear more squat.
 #' @param camera_eye The (x,y,z) components of the start 'eye' camera vector.
 #'   This vector determines the view point about the origin of this scene.
-#' @param ... Optional arguments passed to `plot_ly`
+#' @param ... Optional arguments passed to \code{\link[plotly:plot_ly]{plot_ly}}
 #' @return Returns a cylindrical 3D plotly plot featuring variables on a 
 #' tri-axis radial graph with the -log10(multi-group test p-value) on the 
 #' z-axis
@@ -53,6 +54,7 @@
 #' Molecular portraits of early rheumatoid arthritis identify clinical and 
 #' treatment response phenotypes.}
 #' \emph{Cell reports}, \strong{28}:9
+#' @seealso \code{\link{polar_coords}}
 #' 
 #' @examples
 #' data(example_data)

@@ -2,10 +2,12 @@
 #'
 #' This function creates an interactive plotly object which maps differential
 #' expression onto a polar coordinates.
-#' @param polar A polar object with the pvalues between groups of interest and
-#' polar coordinates. Created by \code{\link{polar_coords}}.
-#' @param type Numeric value whether to use scaled (z-score) or unscaled (fold
-#'   change) as magnitude. Options are 1 = z-score (default) or 2 =
+#' 
+#' @param polar A 'volc3d' object with the p-values between groups of interest
+#'   and polar coordinates created by \code{\link{polar_coords}},
+#'   \code{\link{deseq_polar}} or \code{\link{voom_polar}}.
+#' @param type Numeric value whether to use scaled (Z-score) or unscaled (fold
+#'   change) as magnitude. Options are 1 = Z-score (default) or 2 =
 #'   unscaled/fold change.
 #' @param colours A vector of colour names or hex triplets for the
 #'   non-significant points and each of the six groups.
@@ -28,10 +30,9 @@
 #' @param axis_ticks A numerical vector of radial axis tick breaks. If
 #' NULL this will be calculated using \code{\link[base]{pretty}}.
 #' @param axis_angle Angle in radians for the radial axis (default = 5/6).
-#' @param ... Optional parameters to pass to
-#' \code{\link[volcano3D]{polar_grid}}.
-#' @return Returns a plotly plot featuring variables on a tri-axis
-#' radial graph
+#' @param ... Optional parameters passed to \code{\link[volcano3D]{polar_grid}}
+#' @return Returns a plotly plot featuring variables on a tri-axis radial graph
+#' @seealso \code{\link{polar_coords}}
 #' @importFrom plotly plot_ly add_trace add_text add_markers layout
 #' @importFrom magrittr %>%
 #' @importFrom stats p.adjust setNames

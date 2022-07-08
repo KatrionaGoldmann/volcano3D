@@ -53,7 +53,9 @@ Returns an S4 'volc3d' object containing:
   \item{'df'} A list of 2 dataframes. Each dataframe contains both x,y,z
   coordinates as well as polar coordinates r, angle. The first dataframe has
   coordinates on scaled data. The 2nd dataframe has unscaled data (e.g. log2
-  fold change for gene expression).
+  fold change for gene expression). The `type` argument in
+  \code{\link{volcano3D}}, \code{\link{radial_plotly}} and
+  \code{\link{radial_ggplot}} corresponds to these dataframes.
   \item{'outcome'} The three-group contrast factor used for comparisons
   \item{'data'} Dataframe or matrix containing the expression data
   \item{'pvals'} A dataframe containing p-values. First column is the 3-way

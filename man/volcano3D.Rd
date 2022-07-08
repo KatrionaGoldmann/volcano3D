@@ -33,7 +33,8 @@ volcano3D(
 }
 \arguments{
 \item{polar}{Object of S4 class 'volc3d' following call to either
-`polar_coords()` or `DESeqToVolc()`}
+\code{\link{polar_coords}}, \code{\link{deseq_polar}} or
+\code{\link{voom_polar}}}
 
 \item{type}{Either `1` or `2` specifying type of polar coordinates: `1` =
 Z-scaled, `2` = unscaled (equivalent to log2 fold change for gene
@@ -55,7 +56,7 @@ coded. If `FALSE` `label_colour` is used.}
 \item{grid_width}{The width of the grid lines (default 2)}
 
 \item{grid_options}{Optional list of additional arguments to pass to
-`polar_grid()`, eg. `z_axis_ticks` and `r_axis_ticks`}
+\code{\link{polar_grid}}, eg. `z_axis_ticks` and `r_axis_ticks`}
 
 \item{axis_colour}{The colour of the grid axes and labels (default "black")}
 
@@ -90,7 +91,7 @@ axis title (default=1.2)}
 \item{camera_eye}{The (x,y,z) components of the start 'eye' camera vector.
 This vector determines the view point about the origin of this scene.}
 
-\item{...}{Optional arguments passed to `plot_ly`}
+\item{...}{Optional arguments passed to \code{\link[plotly:plot_ly]{plot_ly}}}
 }
 \value{
 Returns a cylindrical 3D plotly plot featuring variables on a 
@@ -117,4 +118,7 @@ Lewis, Myles J., et al. (2019).
 Molecular portraits of early rheumatoid arthritis identify clinical and 
 treatment response phenotypes.}
 \emph{Cell reports}, \strong{28}:9
+}
+\seealso{
+\code{\link{polar_coords}}
 }
