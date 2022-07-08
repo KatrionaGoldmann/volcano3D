@@ -36,11 +36,11 @@ cut-off on the group likelihood ratio test}
 \item{...}{Optional arguments passed to [polar_coords()]}
 }
 \description{
-This function is designed for raw RNA-Seq count data and is to be used
-instead of [polar_coords()]. The function takes a design formula, metadata
-and raw RNA-Seq count data and uses 'limma voom' to analyse the data. The
-results are converted to a 'volc3d' object ready for plotting a 3d volcano
-plot or polar plot.
+This function is used instead of [polar_coords()] if you have raw RNA-Seq
+count data. The function takes a design formula, metadata and raw RNA-Seq
+count data and uses 'limma voom' to analyse the data. The results are
+converted to a 'volc3d' object ready for plotting a 3d volcano plot or polar
+plot.
 }
 \examples{
 if (requireNamespace("limma", quietly = TRUE) & 
