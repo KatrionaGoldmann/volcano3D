@@ -27,19 +27,19 @@ setClass("volc3d", slots = list(df = "list",
 #'   test. Columns 2-4 represent pairwise tests comparing groups A vs B, A vs C
 #'   and B vs C, where A, B, C represent levels 1, 2, 3 in `outcome`. Columns
 #'   2-4 must be provided in the correct order. If `pvals` is not given, it is
-#'   calculated using the function [calc_pvals].
+#'   calculated using the function [calc_pvals()].
 #' @param padj Matrix or dataframe with adjusted p-values. If not supplied,
 #'   defaults to use nominal p-values from `pvals`.
 #' @param pcutoff Cut-off for p-value significance
 #' @param scheme Vector of colours starting with non-significant variables
 #' @param labs Optional character vector for labelling groups. Default `NULL`
 #'   leads to abbreviated labels based on levels in `outcome` using
-#'   [abbreviate]. A vector of length 3 with custom abbreviated names for the
+#'   [abbreviate()]. A vector of length 3 with custom abbreviated names for the
 #'   outcome levels can be supplied. Otherwise a vector length 7 is expected, of
 #'   the form "ns", "B+", "B+C+", "C+", "A+C+", "A+", "A+B+", where "ns" means
 #'   non-significant and A, B, C refer to levels 1, 2, 3 in `outcome`, and must
 #'   be in the correct order.
-#' @param ... Optional arguments passed to [calc_pvals]
+#' @param ... Optional arguments passed to [calc_pvals()]
 #' 
 #' @return Returns an S4 'volc3d' object containing:
 #' \itemize{

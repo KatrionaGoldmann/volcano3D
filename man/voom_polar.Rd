@@ -45,6 +45,12 @@ count data and uses 'limma voom' to analyse the data. The results are
 converted to a 'volc3d' object ready for plotting a 3d volcano plot or polar
 plot.
 }
+\details{
+Statistical results for the group and pairwise comparisons are calculated
+using the 'limma voom' pipeline and the results passed to `polar_coords()` to
+generate a 'volc3d' object ready for plotting a 3d volcano plot or polar
+plot.
+}
 \examples{
 if (requireNamespace("limma", quietly = TRUE) & 
     requireNamespace("edgeR", quietly = TRUE)) {
@@ -63,5 +69,5 @@ if (requireNamespace("limma", quietly = TRUE) &
 
 }
 \seealso{
-[polar_coords()] [deseq_polar()]
+[polar_coords()], [deseq_polar()], `voom` in the limma package
 }

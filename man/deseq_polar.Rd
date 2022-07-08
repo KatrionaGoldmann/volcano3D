@@ -76,5 +76,5 @@ and converts the results to a 'volc3d' object, which can be directly plotted.
 
 }
 \seealso{
-[polar_coords()] [voom_polar()]
+[polar_coords()], [voom_polar()]
 }

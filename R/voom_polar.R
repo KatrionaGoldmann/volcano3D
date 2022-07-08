@@ -22,7 +22,12 @@
 #'   cut-off on the group likelihood ratio test
 #' @param ... Optional arguments passed to [polar_coords()]
 #' @return Calls [polar_coords()] to return an S4 'volc3d' object
-#' @seealso [polar_coords()] [deseq_polar()]
+#' @details
+#' Statistical results for the group and pairwise comparisons are calculated
+#' using the 'limma voom' pipeline and the results passed to `polar_coords()` to
+#' generate a 'volc3d' object ready for plotting a 3d volcano plot or polar
+#' plot.
+#' @seealso [polar_coords()], [deseq_polar()], `voom` in the limma package
 #' 
 #' @examples
 #' if (requireNamespace("limma", quietly = TRUE) & 

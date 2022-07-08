@@ -25,7 +25,7 @@
 #'   cut-off on the group likelihood ratio test
 #' @param ... Optional arguments passed to [polar_coords()]
 #' @return Calls [polar_coords()] to return an S4 'volc3d' object
-#' @seealso [polar_coords()] [voom_polar()]
+#' @seealso [polar_coords()], [voom_polar()]
 #' @examples
 #' 
 #' \donttest{
@@ -61,8 +61,8 @@ deseq_polar <- function(object, objectLRT, contrast = NULL,
   }
   if (!inherits(object, "DESeqDataSet")) stop("Not a DESeqDataSet object")
   if (!inherits(objectLRT, "DESeqDataSet")) stop("Not a DESeqDataSet object")
-  termsDE <- attr(terms(design(object)), "term.labels")
-  termsLRT <- attr(terms(design(objectLRT)), "term.labels")
+  termsDE <- attr(terms(DESeq2::design(object)), "term.labels")
+  termsLRT <- attr(terms(DESeq2::design(objectLRT)), "term.labels")
   if (!setequal(termsDE, termsLRT)) message("Different full design formulae")
   if (is.null(contrast)) {
     contrast <- termsDE[1]
