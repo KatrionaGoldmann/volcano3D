@@ -12,9 +12,10 @@ setClass("volc3d", slots = list(df = "list",
 
 #' Coordinates for Three Way Polar Plot
 #'
-#' This function creates a 'volc3d' object of S3 class for downstream plots 
-#' containing the p-values from a three-way group comparison, expression data 
-#' sample data and polar coordinates.
+#' This function creates a 'volc3d' object of S3 class for downstream plots
+#' containing the p-values from a three-way group comparison, expression data
+#' sample data and polar coordinates. For RNA-Seq count data, two functions
+#' [deseq_polar()] or [voom_polar()] can be used instead.
 #'
 #' @param outcome Outcome vector with 3 groups, ideally as a factor. If it is
 #'   not a factor, this will be coerced to a factor. This must have exactly 3
@@ -55,6 +56,7 @@ setClass("volc3d", slots = list(df = "list",
 #'   \item{'padj'} A dataframe containing p-values adjusted for multiple testing
 #' }
 #' 
+#' @seealso [deseq_polar()] [voom_polar()]
 #' @examples
 #' data(example_data)
 #' syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,

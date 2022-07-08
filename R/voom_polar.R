@@ -2,9 +2,11 @@
 
 #' Convert RNA-Seq count data to a volcano3d object using 'limma voom'
 #'
-#' This function takes a design formula, metadata and raw count data and uses
-#' 'limma voom' to analyse the data. The results are converted to a 'volc3d'
-#' object ready for plotting a 3d volcano plot or polar plot.
+#' This function is designed for raw RNA-Seq count data and is to be used
+#' instead of [polar_coords()]. The function takes a design formula, metadata
+#' and raw RNA-Seq count data and uses 'limma voom' to analyse the data. The
+#' results are converted to a 'volc3d' object ready for plotting a 3d volcano
+#' plot or polar plot.
 #'
 #' @param formula Design formula which must be of the form `~ 0 + outcome + ...`.
 #'   The 3-way outcome variable must be the first variable after the '0', and

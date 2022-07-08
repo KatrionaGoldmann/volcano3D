@@ -45,8 +45,10 @@ cut-off on the group likelihood ratio test}
 \item{...}{Optional arguments passed to [polar_coords()]}
 }
 \description{
-This function takes 2 `DESeqDataSet` objects and converts the results to a
-'volc3d' object.
+This function is designed for raw RNA-Seq count data and can be used instead
+of [polar_coords()]. It takes 2 `DESeqDataSet` objects, extracts statistical
+results and converts the results to a 'volc3d' object, which can be directly
+plotted.
 }
 \examples{
 
@@ -65,7 +67,7 @@ This function takes 2 `DESeqDataSet` objects and converts the results to a
   # Likelihood ratio test
   ddsLRT <- DESeq(dds, test="LRT", reduced= ~ 1)
 
-  polar <- deseq_polar(dds, ddsLRT)
+  polar <- deseq_polar(dds, ddsLRT, "cond")
   volcano3D(polar)
   radial_ggplot(polar)
 }

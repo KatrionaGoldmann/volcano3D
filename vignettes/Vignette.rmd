@@ -140,8 +140,24 @@ analysis.
 
 ## Creating Polar Coordinates
 
-First, the differential expression can be mapped to polar coordinates using the
-polar_coords function, which has inputs:
+The function `polar_coords()` is used to map attributes to polar coordinates. If
+you have RNA-Seq count data this step can be skipped and you can use functions
+`deseq_polar()` or `voom_polar()` instead (see [Gene Expression pipeline]).
+
+`polar_coords` accepts raw data and performs all the calculations needed to
+generate coordinates, colours etc for plotting either a 3d volcano plot or
+radial 3-way plot. In brief, the function calculates the mean of each attribute/
+variable for each group and maps the mean level per group onto polar coordinates
+along 3 axes in the x-y plane. The z axis is plotted as -log~10~(p-value) of the
+group statistical test (e.g. likelihood ratio test, one-way ANOVA or
+Kruskal-Wallis test).
+
+A table of p-values can be supplied by the user (see table below for formatting
+requirements). If a table of p-values is absent, p-values are automatically
+calculated by `polar_coords()`. By default one-way ANOVA is used for the group
+comparison and t-tests are used for pairwise tests.
+
+`polar_coords()` has the following inputs:
 
 ```{r, echo=FALSE}
 mytable = data.frame(
@@ -204,14 +220,19 @@ quickly generate a polar plotting object of class 'volc3d' which can be plotted
 either as a 2d polar plot with 3 axes or as a 3d cylindrical plot with a 3d
 volcano plot.
 
+Two functions `deseq_polar()` and `voom_polar()` are available. They both take
+RNA-Seq count data objects as input and extract correct statistical results and
+then internally call `polar_coords()` to create a 'volc3d' class object which
+can be plotted straightaway.
+
 ### Method using DESeq2
 
-This requires takes 2 `DESeqDataSet` objects and converts the results to a
-'volc3d' class object for plotting. `object` is an object of class
-'DESeqDataSet' with the full design formula. Note the function `DESeq` needs to
-have been previously run on this object. `objectLRT` is an object of class
-'DESeqDataSet' with the reduced design formula. The function `DESeq` needs to
-have been run on this object with `DESeq` argument `test="LRT"`.
+This takes 2 `DESeqDataSet` objects and converts the results to a 'volc3d' class
+object for plotting. `object` is an object of class 'DESeqDataSet' with the full
+design formula. Note the function `DESeq` needs to have been previously run on
+this object. `objectLRT` is an object of class 'DESeqDataSet' with the reduced
+design formula. The function `DESeq` needs to have been run on this object with
+`DESeq` argument `test="LRT"`.
 
 Note that in the DESeq2 design formula, the 3-class variable of interest should
 be first.
