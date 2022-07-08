@@ -15,9 +15,9 @@ voom_polar(
 )
 }
 \arguments{
-\item{formula}{Design formula which must be of the form `~ 0 + outcome + ...`.
-The 3-way outcome variable must be the first variable after the '0', and
-this variable must be a factor with exactly 3 levels.}
+\item{formula}{Design formula which must be of the form `~ 0 + outcome +
+...`. The 3-way outcome variable must be the first variable after the '0',
+and this variable must be a factor with exactly 3 levels.}
 
 \item{metadata}{Matrix or dataframe containing metadata as referenced by
 `formula`}
@@ -33,23 +33,23 @@ The option "none" is a pass-through.}
 tests are only conducted on genes which reach significant adjusted p-value
 cut-off on the group likelihood ratio test}
 
-\item{...}{Optional arguments passed to [polar_coords()]}
+\item{...}{Optional arguments passed to \code{\link{polar_coords}}}
 }
 \value{
-Calls [polar_coords()] to return an S4 'volc3d' object
+Calls \code{\link{polar_coords}} to return an S4 'volc3d' object
 }
 \description{
-This function is used instead of [polar_coords()] if you have raw RNA-Seq
-count data. The function takes a design formula, metadata and raw RNA-Seq
-count data and uses 'limma voom' to analyse the data. The results are
+This function is used instead of \code{\link{polar_coords}} if you have raw
+RNA-Seq count data. The function takes a design formula, metadata and raw
+RNA-Seq count data and uses 'limma voom' to analyse the data. The results are
 converted to a 'volc3d' object ready for plotting a 3d volcano plot or polar
 plot.
 }
 \details{
 Statistical results for the group and pairwise comparisons are calculated
-using the 'limma voom' pipeline and the results passed to `polar_coords()` to
-generate a 'volc3d' object ready for plotting a 3d volcano plot or polar
-plot.
+using the 'limma voom' pipeline and the results passed to
+\code{\link{polar_coords}} to generate a 'volc3d' object ready for plotting a
+3d volcano plot or polar plot.
 }
 \examples{
 if (requireNamespace("limma", quietly = TRUE) & 
@@ -69,5 +69,6 @@ if (requireNamespace("limma", quietly = TRUE) &
 
 }
 \seealso{
-[polar_coords()], [deseq_polar()], `voom` in the limma package
+\code{\link{polar_coords}}, \code{\link{deseq_polar}},
+  \code{\link[limma:voom]{voom}} in the limma package
 }

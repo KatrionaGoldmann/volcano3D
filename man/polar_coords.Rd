@@ -28,7 +28,7 @@ test across all 3 categories such as one-way ANOVA or likelihood ratio
 test. Columns 2-4 represent pairwise tests comparing groups A vs B, A vs C
 and B vs C, where A, B, C represent levels 1, 2, 3 in `outcome`. Columns
 2-4 must be provided in the correct order. If `pvals` is not given, it is
-calculated using the function [calc_pvals()].}
+calculated using the function \code{\link{calc_pvals}}.}
 
 \item{padj}{Matrix or dataframe with adjusted p-values. If not supplied,
 defaults to use nominal p-values from `pvals`.}
@@ -45,7 +45,7 @@ the form "ns", "B+", "B+C+", "C+", "A+C+", "A+", "A+B+", where "ns" means
 non-significant and A, B, C refer to levels 1, 2, 3 in `outcome`, and must
 be in the correct order.}
 
-\item{...}{Optional arguments passed to [calc_pvals()]}
+\item{...}{Optional arguments passed to \code{\link{calc_pvals}}}
 }
 \value{
 Returns an S4 'volc3d' object containing:
@@ -67,7 +67,7 @@ Returns an S4 'volc3d' object containing:
 This function creates a 'volc3d' object of S3 class for downstream plots
 containing the p-values from a three-way group comparison, expression data
 sample data and polar coordinates. For RNA-Seq count data, two functions
-[deseq_polar()] or [voom_polar()] can be used instead.
+\code{\link{deseq_polar}} or \code{\link{voom_polar}} can be used instead.
 }
 \examples{
 data(example_data)
@@ -76,5 +76,5 @@ syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
 
 }
 \seealso{
-[deseq_polar()] [voom_polar()]
+\code{\link{deseq_polar}}, \code{\link{voom_polar}}
 }

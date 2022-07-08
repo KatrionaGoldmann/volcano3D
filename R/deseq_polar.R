@@ -1,8 +1,9 @@
 #' Convert DESeq2 objects to a volcano3d object
 #'
-#' This function is used instead of [polar_coords()] if you have raw RNA-Seq
-#' count data. It takes 2 `DESeqDataSet` objects, extracts statistical results
-#' and converts the results to a 'volc3d' object, which can be directly plotted.
+#' This function is used instead of \code{\link{polar_coords}} if you have raw
+#' RNA-Seq count data. It takes 2 `DESeqDataSet` objects, extracts statistical
+#' results and converts the results to a 'volc3d' object, which can be directly
+#' plotted.
 #'
 #' @param object An object of class 'DESeqDataSet' with the full design formula.
 #'   The function `DESeq` needs to have been run.
@@ -19,13 +20,14 @@
 #'   expression datasets, genes are in rows.
 #' @param pcutoff Cut-off for p-value significance
 #' @param padj.method Can be any method available in `p.adjust` or `"qvalue"`.
-#'   The option "none" is a pass-through.
+#'   The option `"none"` is a pass-through.
 #' @param filter_pairwise Logical whether adjusted p-value pairwise statistical
 #'   tests are only conducted on genes which reach significant adjusted p-value
 #'   cut-off on the group likelihood ratio test
-#' @param ... Optional arguments passed to [polar_coords()]
-#' @return Calls [polar_coords()] to return an S4 'volc3d' object
-#' @seealso [polar_coords()], [voom_polar()]
+#' @param ... Optional arguments passed to \code{\link{polar_coords}}
+#' @return Calls \code{\link{polar_coords}} to return an S4 'volc3d' object
+#' @seealso \code{\link{polar_coords}}, \code{\link{voom_polar}},
+#'   \code{\link[DESeq2:DESeq]{DESeq}} in the DESeq2 package
 #' @examples
 #' 
 #' \donttest{

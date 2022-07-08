@@ -15,7 +15,7 @@ setClass("volc3d", slots = list(df = "list",
 #' This function creates a 'volc3d' object of S3 class for downstream plots
 #' containing the p-values from a three-way group comparison, expression data
 #' sample data and polar coordinates. For RNA-Seq count data, two functions
-#' [deseq_polar()] or [voom_polar()] can be used instead.
+#' \code{\link{deseq_polar}} or \code{\link{voom_polar}} can be used instead.
 #'
 #' @param outcome Outcome vector with 3 groups, ideally as a factor. If it is
 #'   not a factor, this will be coerced to a factor. This must have exactly 3
@@ -27,7 +27,7 @@ setClass("volc3d", slots = list(df = "list",
 #'   test. Columns 2-4 represent pairwise tests comparing groups A vs B, A vs C
 #'   and B vs C, where A, B, C represent levels 1, 2, 3 in `outcome`. Columns
 #'   2-4 must be provided in the correct order. If `pvals` is not given, it is
-#'   calculated using the function [calc_pvals()].
+#'   calculated using the function \code{\link{calc_pvals}}.
 #' @param padj Matrix or dataframe with adjusted p-values. If not supplied,
 #'   defaults to use nominal p-values from `pvals`.
 #' @param pcutoff Cut-off for p-value significance
@@ -39,7 +39,7 @@ setClass("volc3d", slots = list(df = "list",
 #'   the form "ns", "B+", "B+C+", "C+", "A+C+", "A+", "A+B+", where "ns" means
 #'   non-significant and A, B, C refer to levels 1, 2, 3 in `outcome`, and must
 #'   be in the correct order.
-#' @param ... Optional arguments passed to [calc_pvals()]
+#' @param ... Optional arguments passed to \code{\link{calc_pvals}}
 #' 
 #' @return Returns an S4 'volc3d' object containing:
 #' \itemize{
@@ -56,7 +56,7 @@ setClass("volc3d", slots = list(df = "list",
 #'   \item{'padj'} A dataframe containing p-values adjusted for multiple testing
 #' }
 #' 
-#' @seealso [deseq_polar()] [voom_polar()]
+#' @seealso \code{\link{deseq_polar}}, \code{\link{voom_polar}}
 #' @examples
 #' data(example_data)
 #' syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,

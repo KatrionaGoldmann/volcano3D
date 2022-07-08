@@ -36,21 +36,22 @@ expression datasets, genes are in rows.}
 \item{pcutoff}{Cut-off for p-value significance}
 
 \item{padj.method}{Can be any method available in `p.adjust` or `"qvalue"`.
-The option "none" is a pass-through.}
+The option `"none"` is a pass-through.}
 
 \item{filter_pairwise}{Logical whether adjusted p-value pairwise statistical
 tests are only conducted on genes which reach significant adjusted p-value
 cut-off on the group likelihood ratio test}
 
-\item{...}{Optional arguments passed to [polar_coords()]}
+\item{...}{Optional arguments passed to \code{\link{polar_coords}}}
 }
 \value{
-Calls [polar_coords()] to return an S4 'volc3d' object
+Calls \code{\link{polar_coords}} to return an S4 'volc3d' object
 }
 \description{
-This function is used instead of [polar_coords()] if you have raw RNA-Seq
-count data. It takes 2 `DESeqDataSet` objects, extracts statistical results
-and converts the results to a 'volc3d' object, which can be directly plotted.
+This function is used instead of \code{\link{polar_coords}} if you have raw
+RNA-Seq count data. It takes 2 `DESeqDataSet` objects, extracts statistical
+results and converts the results to a 'volc3d' object, which can be directly
+plotted.
 }
 \examples{
 
@@ -76,5 +77,6 @@ and converts the results to a 'volc3d' object, which can be directly plotted.
 
 }
 \seealso{
-[polar_coords()], [voom_polar()]
+\code{\link{polar_coords}}, \code{\link{voom_polar}},
+  \code{\link[DESeq2:DESeq]{DESeq}} in the DESeq2 package
 }
