@@ -9,7 +9,7 @@ radial_plotly(
   type = 1,
   colours = polar@scheme,
   label_rows = NULL,
-  arrow_length = 50,
+  arrow_length = 80,
   label_size = 14,
   colour_code_labels = FALSE,
   label_colour = "black",
@@ -42,7 +42,7 @@ non-significant points and each of the six groups.}
 
 \item{label_rows}{A vector of row names or numbers to label.}
 
-\item{arrow_length}{The length of label arrows (default = 50).}
+\item{arrow_length}{The length of label arrows (default = 80).}
 
 \item{label_size}{Font size of labels/annotations (default = 14)}
 

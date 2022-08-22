@@ -12,7 +12,7 @@
 #' @param colours A vector of colour names or hex triplets for the
 #'   non-significant points and each of the six groups.
 #' @param label_rows A vector of row names or numbers to label.
-#' @param arrow_length The length of label arrows (default = 50).
+#' @param arrow_length The length of label arrows (default = 80).
 #' @param label_size Font size of labels/annotations (default = 14)
 #' @param colour_code_labels Logical whether label annotations should be colour
 #' coded. If FALSE label_colour is used.
@@ -33,7 +33,7 @@
 #' @param ... Optional parameters passed to \code{\link[volcano3D]{polar_grid}}
 #' @return Returns a plotly plot featuring variables on a tri-axis radial graph
 #' @seealso \code{\link{polar_coords}}
-#' @importFrom plotly plot_ly add_trace add_text add_markers layout
+#' @importFrom plotly plot_ly add_trace add_text add_markers layout toWebGL
 #' @importFrom magrittr %>%
 #' @importFrom stats p.adjust setNames
 #' @importFrom grDevices hsv
@@ -58,7 +58,7 @@ radial_plotly <- function(polar,
                           type = 1,
                           colours = polar@scheme,
                           label_rows = NULL,
-                          arrow_length = 50,
+                          arrow_length = 80,
                           label_size = 14,
                           colour_code_labels = FALSE,
                           label_colour = "black",
@@ -81,7 +81,8 @@ radial_plotly <- function(polar,
   }
   if(! is(polar, "volc3d")) stop("Not a 'volc3d' class object")
   df <- polar@df[[type]]
-  grid <- polar_grid(df$r, df$z)
+  grid <- polar_grid(df$r, df$z,
+                     axis_angle = axis_angle)
   grid@polar_grid <- grid@polar_grid[grid@polar_grid$area != "cylinder", ]
   polar_grid <- grid@polar_grid
   axes <- grid@axes
@@ -107,14 +108,14 @@ radial_plotly <- function(polar,
            y = row$y,
            text = rownames(row),
            textangle = 0,
-           ax = sign(row$x)*arrow_length*grid@r*cos(theta),
-           ay  = -1*sign(row$x)*arrow_length*grid@r*sin(theta),
+           ax = sign(row$x)*arrow_length*cos(theta),
+           ay  = -sign(row$x)*arrow_length*sin(theta),
            font = list(color = ac, size = label_size),
            arrowcolor = ac,
            arrowwidth = 1,
            arrowhead = 0,
-           xanchor = ifelse(row$x < 0, "right", "left"),
-           xanchor = ifelse(row$y < 0, "bottom", "top"),
+           xanchor = "auto",
+           yanchor = "auto",
            arrowsize = 1.5)
     })
   } else {annot <- list()}
@@ -170,7 +171,8 @@ radial_plotly <- function(polar,
                                           width = marker_outline_width)),
                 hoverinfo = 'text', key = rownames(df),
                 inherit = FALSE, type = "scatter",
-                mode = "markers")
+                mode = "markers") %>%
+    toWebGL()
   
   return(p)
   
