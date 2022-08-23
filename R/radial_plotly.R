@@ -27,13 +27,17 @@
 #' @param axis_label_size Font size for axis labels (default = 10)
 #' @param axis_colour The colour of the grid axes and labels (default="black")
 #' @param axis_width The width of the axis lines (default=2)
-#' @param axis_ticks A numerical vector of radial axis tick breaks. If
-#' NULL this will be calculated using \code{\link[base]{pretty}}.
-#' @param axis_angle Angle in radians for the radial axis (default = 5/6).
 #' @param ... Optional parameters passed to \code{\link[volcano3D]{polar_grid}}
+#'   e.g. `r_axis_ticks` or `axis_angle`
 #' @return Returns a plotly plot featuring variables on a tri-axis radial graph
+#' @details
+#' This function builds a layered plotly object. By default this produces an SVG
+#' output, but this can be slow with 1000s of points. For large number of points
+#' we recommend switching to webGL by piping to `toWebGL()` as shown in the
+#' examples.
+#' 
 #' @seealso \code{\link{polar_coords}}
-#' @importFrom plotly plot_ly add_trace add_text add_markers layout toWebGL
+#' @importFrom plotly plot_ly add_trace add_text add_markers layout
 #' @importFrom magrittr %>%
 #' @importFrom stats p.adjust setNames
 #' @importFrom grDevices hsv
@@ -52,7 +56,12 @@
 #'                           data = t(syn_example_rld))
 #'
 #' radial_plotly(polar = syn_polar, label_rows = c("COBL"))
-
+#' 
+#' ## Faster webGL version for large numbers of points
+#' library(plotly)
+#' radial_plotly(polar = syn_polar, label_rows = c("COBL")) %>%
+#'   toWebGL()
+#'
 
 radial_plotly <- function(polar,
                           type = 1,
@@ -72,8 +81,6 @@ radial_plotly <- function(polar,
                           axis_label_size = 10,
                           axis_colour = "black",
                           axis_width = 2,
-                          axis_ticks = NULL,
-                          axis_angle = 5/6,
                           ...){
   if (is(polar, "polar")) {
     args <- as.list(match.call())[-1]
@@ -81,8 +88,7 @@ radial_plotly <- function(polar,
   }
   if(! is(polar, "volc3d")) stop("Not a 'volc3d' class object")
   df <- polar@df[[type]]
-  grid <- polar_grid(df$r, df$z,
-                     axis_angle = axis_angle)
+  grid <- polar_grid(df$r, df$z, ...)
   grid@polar_grid <- grid@polar_grid[grid@polar_grid$area != "cylinder", ]
   polar_grid <- grid@polar_grid
   axes <- grid@axes
@@ -171,8 +177,7 @@ radial_plotly <- function(polar,
                                           width = marker_outline_width)),
                 hoverinfo = 'text', key = rownames(df),
                 inherit = FALSE, type = "scatter",
-                mode = "markers") %>%
-    toWebGL()
+                mode = "markers")
   
   return(p)
   

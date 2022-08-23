@@ -2,9 +2,9 @@ News
 =====
 
 # volcano3D 2.0.2
-###### 22/08/2022
-* `radial_plotly` pipes to webGL for increased speed
-* Fix labels in `radial_plotly`
+###### 23/08/2022
+* Add example of piping `radial_plotly` to webGL for increased speed
+* Fix labels and pass through of arguments in `radial_plotly`
 
 # volcano3D 2.0.0
 ###### 29/06/2022

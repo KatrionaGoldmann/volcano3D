@@ -23,8 +23,6 @@ radial_plotly(
   axis_label_size = 10,
   axis_colour = "black",
   axis_width = 2,
-  axis_ticks = NULL,
-  axis_angle = 5/6,
   ...
 )
 }
@@ -71,12 +69,8 @@ coded. If FALSE label_colour is used.}
 
 \item{axis_width}{The width of the axis lines (default=2)}
 
-\item{axis_ticks}{A numerical vector of radial axis tick breaks. If
-NULL this will be calculated using \code{\link[base]{pretty}}.}
-
-\item{axis_angle}{Angle in radians for the radial axis (default = 5/6).}
-
-\item{...}{Optional parameters passed to \code{\link[volcano3D]{polar_grid}}}
+\item{...}{Optional parameters passed to \code{\link[volcano3D]{polar_grid}}
+e.g. `r_axis_ticks` or `axis_angle`}
 }
 \value{
 Returns a plotly plot featuring variables on a tri-axis radial graph
@@ -85,12 +79,24 @@ Returns a plotly plot featuring variables on a tri-axis radial graph
 This function creates an interactive plotly object which maps differential
 expression onto a polar coordinates.
 }
+\details{
+This function builds a layered plotly object. By default this produces an SVG
+output, but this can be slow with 1000s of points. For large number of points
+we recommend switching to webGL by piping to `toWebGL()` as shown in the
+examples.
+}
 \examples{
 data(example_data)
 syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
                           data = t(syn_example_rld))
 
 radial_plotly(polar = syn_polar, label_rows = c("COBL"))
+
+## Faster webGL version for large numbers of points
+library(plotly)
+radial_plotly(polar = syn_polar, label_rows = c("COBL")) \%>\%
+  toWebGL()
+
 }
 \references{
 Lewis, Myles J., et al. (2019).
