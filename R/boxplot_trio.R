@@ -45,6 +45,7 @@
 #' geom_point scale_color_manual aes geom_jitter element_rect aes_string
 #' element_text
 #' @importFrom methods is
+#' @importFrom stats setNames
 #' @keywords hplot
 #' @references
 #' Lewis, Myles J., et al. (2019).

@@ -39,8 +39,6 @@
 #' @seealso \code{\link{polar_coords}}
 #' @importFrom plotly plot_ly add_trace add_text add_markers layout
 #' @importFrom magrittr %>%
-#' @importFrom stats p.adjust setNames
-#' @importFrom grDevices hsv
 #' @importFrom methods is
 #' @references
 #' Lewis, Myles J., et al. (2019).

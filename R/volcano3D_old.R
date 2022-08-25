@@ -1,6 +1,7 @@
 setClassUnion("character_or_NULL", c("character", "NULL"))
 setClassUnion("df_or_matrix", c("data.frame", "matrix"))
 
+# old S4 class
 setClass("polar", slots = list(sampledata = "data.frame",
                                contrast = "character",
                                pvalues = "data.frame",
@@ -9,6 +10,7 @@ setClass("polar", slots = list(sampledata = "data.frame",
                                polar = "df_or_matrix",
                                non_sig_name = "character"))
 
+#' @importFrom stats setNames
 
 volcano3D_v1 <- function(polar,
                       colours=c("green3", "cyan", "blue", 

@@ -1,5 +1,6 @@
 
 #' @importFrom grDevices col2rgb
+#' @importFrom stats setNames
 
 boxplot_trio_v1 <- function(polar,
                          value,

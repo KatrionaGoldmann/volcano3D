@@ -23,7 +23,6 @@ radial_ggplot(
   marker_size = 3,
   marker_outline_colour = "white",
   marker_outline_width = 0.5,
-  axis_angle = 1/6,
   legend_size = 20,
   ...
 )
@@ -71,13 +70,10 @@ coded. If FALSE `label_colour` is used.}
 
 \item{marker_outline_width}{Width for marker outline (default = 0.5)}
 
-\item{axis_angle}{Angle for the radial axis labels in pi radians
-(default = 1/6).}
-
 \item{legend_size}{Size for the legend text (default = 20).}
 
-\item{...}{Optional grid parameters to pass to
-\code{\link[volcano3D]{polar_grid}}.}
+\item{...}{Optional parameters passed to \code{\link[volcano3D]{polar_grid}}
+e.g. `r_axis_ticks` or `axis_angle`}
 }
 \value{
 Returns a polar 'ggplot' object featuring variables on a tri-axis

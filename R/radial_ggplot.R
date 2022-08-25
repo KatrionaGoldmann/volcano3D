@@ -27,18 +27,14 @@
 #' @param marker_size Size of the markers (default = 3)
 #' @param marker_outline_colour Colour for marker outline (default = white)
 #' @param marker_outline_width Width for marker outline (default = 0.5)
-#' @param axis_angle Angle for the radial axis labels in pi radians
-#' (default = 1/6).
 #' @param legend_size Size for the legend text (default = 20).
-#' @param ... Optional grid parameters to pass to
-#' \code{\link[volcano3D]{polar_grid}}.
+#' @param ... Optional parameters passed to \code{\link[volcano3D]{polar_grid}}
+#'   e.g. `r_axis_ticks` or `axis_angle`
 #' @return Returns a polar 'ggplot' object featuring variables on a tri-axis
 #' radial graph
 #' @importFrom ggplot2 theme ggplot labs geom_path geom_path geom_text annotate
 #' geom_point scale_color_manual aes element_blank coord_fixed geom_segment
 #' arrow unit element_rect aes_string scale_fill_manual element_text
-#' @importFrom graphics text
-#' @importFrom grDevices hsv
 #' @importFrom methods is
 #' @keywords hplot
 #' @references
@@ -74,7 +70,6 @@ radial_ggplot <- function(polar,
                           marker_size = 3,
                           marker_outline_colour = "white",
                           marker_outline_width = 0.5,
-                          axis_angle = 1/6,
                           legend_size = 20,
                           ...){
     if (is(polar, "polar")) {
@@ -84,9 +79,7 @@ radial_ggplot <- function(polar,
     if(! is(polar, "volc3d")) stop("polar must be a 'volc3d' object")
     polar_df <- polar@df[[type]]
 
-    grid <- polar_grid(r_vector = polar_df$r,
-                       axis_angle = axis_angle,
-                       ...)
+    grid <- polar_grid(r_vector = polar_df$r, ...)
 
     grid@polar_grid <- grid@polar_grid[grid@polar_grid$area != "cylinder", ]
 
