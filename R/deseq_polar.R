@@ -122,8 +122,8 @@ deseq_polar <- function(object, objectLRT, contrast = NULL,
 }
 
 
-deseq_qvalue <- function(df) {
-  q <- qval(df$pvalue[!is.na(df$padj)])
+deseq_qvalue <- function(df, method = "qvalue") {
+  q <- qval(df$pvalue[!is.na(df$padj)], method)
   df$qvalue <- 1  # NA converted to 1
   df$qvalue[!is.na(df$padj)] <- q
   df

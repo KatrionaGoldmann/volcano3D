@@ -56,6 +56,9 @@ setClass("volc3d", slots = list(df = "list",
 #'   groups A vs B, A vs C and B vs C, where A, B, C are the 3 levels in the
 #'   outcome factor.
 #'   \item{'padj'} A dataframe containing p-values adjusted for multiple testing
+#'   \item{'pcutoff} Numeric value for cut-off for p-value significance
+#'   \item{'scheme'} Character vector with colour scheme for plotting
+#'   \item{'labs'} Character vector with labels for colour groups
 #' }
 #' 
 #' @seealso \code{\link{deseq_polar}}, \code{\link{voom_polar}}
