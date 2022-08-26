@@ -135,8 +135,8 @@ polar_coords <- function(
                labs = levels(ptab$lab))
 }
 
-#' Calculate polar coordinates from expression data
-#'
+
+# Calculate polar coordinates from expression data
 polar_xy <- function(df, angle_offset = 0) {
   y <- sinpi(1/3) * (df[,2] - df[,3])
   x <- df[,1] - (cospi(1/3) * (df[,3] + df[,2]))
@@ -239,7 +239,8 @@ calc_pvals <- function(outcome,
 }
 
 
-#' Perform correction for multiple testing
+# Perform correction for multiple testing
+
 #' @importFrom stats p.adjust p.adjust.methods
 #'
 qval <- function(p, method = "qvalue") {
@@ -256,7 +257,8 @@ qval <- function(p, method = "qvalue") {
   q
 }
 
-#' Assign grouping based on pairwise and group significance
+# Assign grouping based on pairwise and group significance
+
 #' @importFrom Rfast rowMins
 #'
 polar_p <- function(outcome, df1, pvals, padj = pvals, pcutoff = 0.05,
