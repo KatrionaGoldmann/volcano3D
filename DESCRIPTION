@@ -1,7 +1,7 @@
 Package: volcano3D
 Type: Package
 Title: 3D Volcano Plots and Polar Plots for Three-Class Data
-Version: 2.0.2
+Version: 2.0.3
 Authors@R: c(person("Katriona", "Goldmann", role = c("aut", "cre"),
                        email = "k.goldmann@qmul.ac.uk",
                        comment = c(ORCID = "0000-0002-9073-6323")),
