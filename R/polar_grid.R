@@ -87,6 +87,7 @@ polar_grid <- function(r_vector = NULL,
                        axes_from_origin = TRUE,
                        ...){
   
+  # Determine the radial axis breaks
   if(is.null(r_axis_ticks)) {
     r_breaks <- pretty(r_vector, ...)
   } else{ r_breaks <- r_axis_ticks}
@@ -94,6 +95,7 @@ polar_grid <- function(r_vector = NULL,
   r_breaks <- sort(r_breaks)
   if(r_breaks[1] != 0) r_breaks <- c(0, r_breaks)
   
+  # Determine the z-axis breaks (for 3D volcano)
   if(is.null(z_axis_ticks)) {
     z_breaks <- pretty(z_vector)
   } else{ z_breaks <- z_axis_ticks }
@@ -119,6 +121,7 @@ polar_grid <- function(r_vector = NULL,
   # radial spokes out
   mz <- switch(as.character(is.null(z_breaks)), "TRUE"=0, "FALSE"=max(z_breaks))
   
+  # The polar grid
   polar_grid_top <- data.frame(
     x = unlist(lapply(c(1:n_spokes), function(i){
       c(max(r_breaks)/n_r_breaks*cospi(i*2/n_spokes),
@@ -148,6 +151,7 @@ polar_grid <- function(r_vector = NULL,
                            area = "cylinder")
   }
   
+  # The cylindrical coordinates
   polar_grid <- rbind(polar_grid_top, cylindrical_grid, cylinder)
   
   # Add the three axes
@@ -169,6 +173,7 @@ polar_grid <- function(r_vector = NULL,
                               xend = cospi(0:2 * 2/3),
                               yend = sinpi(0:2 * 2/3))
   
+  # Label the axes
   axis_labs <- data.frame(x = radial_spokes$xend*max(r_breaks),
                           y = radial_spokes$yend*(max(r_breaks)) )
   
@@ -185,7 +190,7 @@ polar_grid <- function(r_vector = NULL,
                             text = format(r_breaks[2:length(r_breaks)],
                                           digits = 2))
   
-  
+  # Output as a grid object
   methods::new("grid",
                polar_grid = polar_grid,
                axes = axes,

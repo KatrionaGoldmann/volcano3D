@@ -90,6 +90,8 @@ volcano3D <- function(polar, type = 1,
                       z_aspectratio = 0.8,
                       camera_eye = list(x=0.9, y=0.9, z=0.9),
                       ...) {
+  
+  # Check the input data
   if (is(polar, "polar")) {
     args <- as.list(match.call())[-1]
     return(do.call(volcano3D_v1, args))  # for back compatibility
@@ -97,6 +99,8 @@ volcano3D <- function(polar, type = 1,
   if (!is(polar, "volc3d")) stop("Not a 'volc3d' class object")
   args <- list(r_vector = polar@df[[type]]$r, z_vector = polar@df[[type]]$z)
   args <- append(args, grid_options)
+  
+  # Build the coordinate system
   grid <- do.call(polar_grid, args)
   polar_grid <- grid@polar_grid
   axes <- grid@axes
@@ -115,8 +119,8 @@ volcano3D <- function(polar, type = 1,
                            range = xyrange)
   df <- polar@df[[type]]
   
+  # Label rows
   if(length(label_rows) != 0){
-    
     if(! all(is.numeric(label_rows))) {
       if(! all(label_rows %in% rownames(df))) {
         stop("label_rows must be in rownames(polar_df)")
@@ -137,11 +141,14 @@ volcano3D <- function(polar, type = 1,
     })
   } else {annot <- list()}
   
-  plot_ly(polar@df[[type]], x = ~x, y = ~y, z = ~z, color = ~lab, colors = polar@scheme,
-          hoverinfo='text',
-          text = ~paste0(rownames(polar@df[[type]]), "<br>theta = ", as.integer(angle),
+  # Generate plotly plot
+  plot_ly(polar@df[[type]], x = ~x, y = ~y, z = ~z, color = ~lab, 
+          colors = polar@scheme,  hoverinfo='text',
+          text = ~paste0(rownames(polar@df[[type]]), 
+                         "<br>theta = ", as.integer(angle),
                          ", r = ", formatC(r, digits = 3),
-                         "<br>P = ", format(pvalue, digits = 3, scientific = 3)),
+                         "<br>P = ", 
+                         format(pvalue, digits = 3, scientific = 3)),
           key = rownames(polar@df[[type]]),
           marker = list(size = marker_size,
                         line = list(color = marker_outline_colour, 

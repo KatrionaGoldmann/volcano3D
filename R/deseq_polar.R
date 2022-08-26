@@ -56,7 +56,10 @@ deseq_polar <- function(object, objectLRT, contrast = NULL,
                         data = NULL,
                         pcutoff = 0.05,
                         padj.method = "BH",
-                        filter_pairwise = TRUE, ...) {
+                        filter_pairwise = TRUE, 
+                        ...) {
+  
+  # Check packages and input data
   if (!requireNamespace("DESeq2", quietly = TRUE)) {
     stop("Can't find package DESeq2. Try:
            BiocManager::install('DESeq2')", call. = FALSE)
@@ -72,6 +75,8 @@ deseq_polar <- function(object, objectLRT, contrast = NULL,
   }
   outcome <- object@colData[, contrast]
   if (nlevels(outcome) != 3) stop("Outcome does not have 3 levels")
+  
+  # Group statistics
   LRT <- DESeq2::results(objectLRT)
   LRT <- as.data.frame(LRT[, c('pvalue', 'padj')])
   if (padj.method == "qvalue") {
@@ -87,11 +92,9 @@ deseq_polar <- function(object, objectLRT, contrast = NULL,
     ptype <- "padj"
   }
   groups <- levels(outcome)
-  contrastlist <- list(
-    groups[1:2],
-    groups[c(3, 1)],
-    groups[2:3]
-  )
+  contrastlist <- list(groups[1:2], groups[c(3, 1)], groups[2:3])
+  
+  # Pairwise statistics
   pairres <- lapply(contrastlist, function(i) {
     res <- DESeq2::results(object, contrast = c(contrast, i))
     as.data.frame(res[, c('pvalue', 'padj')])
@@ -106,7 +109,10 @@ deseq_polar <- function(object, objectLRT, contrast = NULL,
     out
   })
   padj <- cbind(LRT[, ptype], pairadj[[1]], pairadj[[2]], pairadj[[3]])
-  dimnames(pvals) <- dimnames(padj) <- list(rownames(LRT), c("LRT", "AvB", "AvC", "BvC"))
+  dimnames(pvals) <- dimnames(padj) <- list(rownames(LRT), 
+                                            c("LRT", "AvB", "AvC", "BvC"))
+  
+  # Extract expression data
   if (is.null(data)) {
     vstdata <- if (nrow(object) < 1000) {
       DESeq2::varianceStabilizingTransformation(object)

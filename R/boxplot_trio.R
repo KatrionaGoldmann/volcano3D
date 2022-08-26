@@ -74,6 +74,8 @@ boxplot_trio <- function(polar,
                          step_increase = 0.05,
                          plot_method="ggplot",
                          ...){
+  
+  # Check the input data
   if (is(polar, "polar")) {
     args <- as.list(match.call())[-1]
     return(do.call(boxplot_trio_v1, args))  # for back compatibility
@@ -136,20 +138,19 @@ boxplot_trio <- function(polar,
     })
   }
 
-  df <- data.frame(
-                   "group" = outcome,
+  df <- data.frame("group" = outcome,
                    "row" = expression[value, ])
   df <- df[! is.na(df$row), ]
   df <- df[df$group %in% levels_order, ]
 
-  # relevel based on defined order
+  # re-level based on defined order
   df$group <- factor(df$group, levels_order)
   df$col <- factor(df$group, labels=colour_map[match(levels(df$group),
                                                      names(colour_map))])
 
   map_pos <- setNames(seq_along(levels(df$group)), levels(df$group))
 
-  # Calculate the pvalues depending on test
+  # Calculate the p-values depending on test
   if(test %in% c("t.test", "wilcox.test", "anova", "kruskal.test")){
     pvals <- compare_means(formula = row ~ group, data = df,
                            comparisons = my_comparisons,
@@ -164,7 +165,7 @@ boxplot_trio <- function(polar,
       pvals$new_p_label <- pvals$p.format
     } else pvals <- pvals$p
     
-    # groups comparisons
+    # group comparisons
   } else if (! grepl("multi", test)){
     
     pvals <- switch(test,

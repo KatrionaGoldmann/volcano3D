@@ -53,6 +53,8 @@ voom_polar <- function(formula, metadata, counts,
                        pcutoff = 0.05,
                        padj.method = "BH",
                        filter_pairwise = TRUE, ...) {
+  
+  # Check packages and input data
   if (!requireNamespace("edgeR", quietly = TRUE)) {
     stop("Can't find package edgeR. Try:
            BiocManager::install('edgeR')", call. = FALSE)
@@ -62,11 +64,13 @@ voom_polar <- function(formula, metadata, counts,
            BiocManager::install('limma')", call. = FALSE)
   }
   # force formula to have no intercept
-  if (attr(terms(formula), "intercept") != 0) formula <- update(formula, ~ . -1)
+  if (attr(terms(formula), "intercept") != 0) formula <- update(formula, ~. -1)
   modterms <- attr(terms(formula), "term.labels")
   outcome_col <- modterms[1]
-  if (nlevels(metadata[, outcome_col]) != 3) stop("Outcome does not have 3 levels")
+  if (nlevels(metadata[, outcome_col]) != 3) 
+    stop("Outcome does not have 3 levels")
   
+  # Set up data
   vdesign <- model.matrix(formula, data = metadata)
   contrast_set <- list(paste0(colnames(vdesign)[1] , "-", colnames(vdesign)[2]),
                        paste0(colnames(vdesign)[1] , "-", colnames(vdesign)[3]),
@@ -79,7 +83,8 @@ voom_polar <- function(formula, metadata, counts,
   keep <- edgeR::filterByExpr(dge, vdesign)
   dge <- dge[keep, , keep.lib.sizes = FALSE]
   dge <- edgeR::calcNormFactors(dge)
-  # voom
+  
+  # Perform voom
   v <- limma::voom(dge, vdesign, plot = FALSE)
   fit1 <- limma::lmFit(v, vdesign)
   fit <- limma::contrasts.fit(fit1, contrast.matrix) 
@@ -96,8 +101,12 @@ voom_polar <- function(formula, metadata, counts,
                  Pvals_limma_DE[[1]]$P.Value, 
                  Pvals_limma_DE[[2]]$P.Value, 
                  Pvals_limma_DE[[3]]$P.Value)
+
+  # Multiple testing correction
   LRTpadj <- qval(Pvals_overall, method = padj.method)
-  ind <- if (filter_pairwise) LRTpadj < pcutoff else rep_len(TRUE, length(LRTpadj))
+  ind <- if(filter_pairwise){
+    LRTpadj < pcutoff
+  } else {rep_len(TRUE, length(LRTpadj))}
   pairadj <- apply(pvals[, 2:4], 2, function(res) {
     out <- rep_len(NA, length(LRTpadj))
     out[ind] <- qval(res[ind], method = padj.method)
@@ -105,6 +114,7 @@ voom_polar <- function(formula, metadata, counts,
   })
   padj <- cbind(LRTpadj, pairadj)
   
-  polar_coords(metadata[, outcome_col], t(log2(counts[keep, ] + 1)), pvals, padj, pcutoff, ...)
+  polar_coords(metadata[, outcome_col], t(log2(counts[keep, ] + 1)), 
+               pvals, padj, pcutoff, ...)
 }
 

@@ -1,5 +1,15 @@
 setClassUnion("df_or_matrix", c("data.frame", "matrix"))
 
+#' An S4 class to define the polar coordinates.
+#'
+#' @slot df List of coordinate data frames for scaled and unscaled expression
+#' @slot outcome Outcome vector
+#' @slot data Expression data
+#' @slot pvals Matrix or dataframe with p-values
+#' @slot padj Matrix adjusted p-values
+#' @slot pcutoff Cut-off for p-value significance
+#' @slot scheme Vector for colour scheme
+#' @slot labs Character vector for labelling groups
 setClass("volc3d", slots = list(df = "list",
                                 outcome = "factor",
                                 data = "df_or_matrix",
@@ -67,11 +77,17 @@ setClass("volc3d", slots = list(df = "list",
 #' @importFrom methods is
 #' @export
 #'
-polar_coords <- function(outcome, data,
-                       pvals = NULL, padj = pvals, pcutoff = 0.05,
-                       scheme = c('grey60', 'red', 'gold2', 'green3', 
-                                  'cyan', 'blue', 'purple'),
-                       labs = NULL, ...) {
+polar_coords <- function(
+    outcome, 
+    data,
+    pvals = NULL, 
+    padj = pvals, 
+    pcutoff = 0.05,
+    scheme = c('grey60', 'red', 'gold2', 'green3', 'cyan', 'blue', 'purple'),
+    labs = NULL, 
+    ...) {
+  
+  # Run checks on input data
   if (length(outcome) != nrow(data)) {
     stop("Number of rows in `data` differs from `outcome`")}
   if (any(is.na(outcome))) {
@@ -84,21 +100,31 @@ polar_coords <- function(outcome, data,
   outcome <- droplevels(outcome)
   if (nlevels(outcome) != 3) stop("`outcome` must have 3 levels")
   data <- as.matrix(data)
+  
+  # Scale data and calculate mean expression for each group
   data_sc <- scale(data)
   df1 <- vapply(levels(outcome), function(i) colMeans(data_sc[outcome == i, ]),
                 numeric(ncol(data)))
   df2 <- vapply(levels(outcome), function(i) colMeans(data[outcome == i, ]),
                 numeric(ncol(data)))
+  
+  # Transform to polar coordinates
   df1 <- polar_xy(df1)
   df2 <- polar_xy(df2)
+  
+  # Calculate p-values if not provided
   if (is.null(pvals)) {
     pv <- calc_pvals(outcome, data, pcutoff, ...)
     pvals <- pv$pvals
     padj <- pv$padj
   }
+  
+  # Assign significance groupings
   ptab <- polar_p(outcome, df1, pvals, padj, pcutoff, scheme, labs)
   df1 <- cbind(df1, ptab)
   df2 <- cbind(df2, ptab)
+  
+  # Output final object
   methods::new("volc3d",
                df = list(scaled = df1, unscaled = df2),
                outcome = outcome, data = data, pvals = pvals, padj = padj,
@@ -106,7 +132,8 @@ polar_coords <- function(outcome, data,
                labs = levels(ptab$lab))
 }
 
-
+#' Calculate polar coordinates from expression data
+#'
 polar_xy <- function(df, angle_offset = 0) {
   y <- sinpi(1/3) * (df[,2] - df[,3])
   x <- df[,1] - (cospi(1/3) * (df[,3] + df[,2]))
@@ -142,33 +169,43 @@ polar_xy <- function(df, angle_offset = 0) {
 #' @importFrom matrixTests row_wilcoxon_twosample
 #' @export
 #'
-calc_pvals <- function(outcome, data,
+calc_pvals <- function(outcome, 
+                       data,
                        pcutoff = 0.05,
                        padj.method = "BH",
                        group_test = c("anova", "kruskal.test"),
                        pairwise_test = c("t.test", "wilcoxon"),
                        exact = FALSE,
                        filter_pairwise = TRUE) {
+  
+  # Structure and check input data
   group_test <- match.arg(group_test)
   pairwise_test <- match.arg(pairwise_test)
   outcome <- as.factor(outcome)
   if (nlevels(outcome) != 3) stop("`outcome` must have 3 levels")
   data <- as.matrix(data)
+  
+  # Perform group statistical tests
   res <- switch(group_test,
                 "anova" = Rfast::ftests(data, outcome),
                 "kruskal.test" = Rfast::kruskaltests(data, outcome))
   rownames(res) <- colnames(data)
   onewayp <- res[, 2]
+  
+  # Perform pairwise statistical tests
   indx <- lapply(levels(outcome), function(i) outcome == i)
   if (pairwise_test == "wilcoxon") {
     res1 <- suppressWarnings(
-      matrixTests::row_wilcoxon_twosample(t(data[indx[[1]], ]), t(data[indx[[2]], ]),
+      matrixTests::row_wilcoxon_twosample(t(data[indx[[1]], ]), 
+                                          t(data[indx[[2]], ]),
                                           exact = exact))
     res2 <- suppressWarnings(
-      matrixTests::row_wilcoxon_twosample(t(data[indx[[1]], ]), t(data[indx[[3]], ]),
+      matrixTests::row_wilcoxon_twosample(t(data[indx[[1]], ]), 
+                                          t(data[indx[[3]], ]),
                                           exact = exact))
     res3 <- suppressWarnings(
-      matrixTests::row_wilcoxon_twosample(t(data[indx[[2]], ]), t(data[indx[[3]], ]),
+      matrixTests::row_wilcoxon_twosample(t(data[indx[[2]], ]), 
+                                          t(data[indx[[3]], ]),
                                           exact = exact))
   } else {
     res1 <- Rfast::ttests(data[indx[[1]], ], data[indx[[2]], ])
@@ -179,6 +216,8 @@ calc_pvals <- function(outcome, data,
   p2 <- res2[, "pvalue"]
   p3 <- res3[, "pvalue"]
   pvals <- cbind(onewayp, p1, p2, p3)
+  
+  # Perform correction for multiple testing, optional
   if (padj.method == "none") {
     padj <- pvals
   } else {
@@ -197,10 +236,13 @@ calc_pvals <- function(outcome, data,
 }
 
 
+#' Perform correction for multiple testing
 #' @importFrom stats p.adjust p.adjust.methods
 #'
 qval <- function(p, method = "qvalue") {
   if (method %in% p.adjust.methods) return(p.adjust(p, method = method))
+  
+  # For qvalue, check if installed
   if (!requireNamespace("qvalue", quietly = TRUE)) {
     stop("Can't find package qvalue. Try:
            BiocManager::install('qvalue')",
@@ -211,30 +253,37 @@ qval <- function(p, method = "qvalue") {
   q
 }
 
-
+#' Assign grouping based on pairwise and group significance
 #' @importFrom Rfast rowMins
 #'
 polar_p <- function(outcome, df1, pvals, padj = pvals, pcutoff = 0.05,
                     scheme = c('grey60', 'red', 'gold2', 'green3', 
                                'cyan', 'blue', 'purple'),
                     labs = NULL) {
+  
+  # Check pairwise significance by cutoff
   pvalue <- pvals[,1]
   z <- -log10(pvals[,1])
   paircut <- padj[, 2:4] < pcutoff
   paircut <- paircut *1  # convert matrix to numeric
+  
+  # Find the downregulated group
   mincol <- Rfast::rowMins(as.matrix(df1[, 1:3]))
   mincol2 <- c("A", "B", "C")[mincol]
   pairmerge <- paste0(mincol2, paircut[,1], paircut[,2], paircut[,3])
   pgroup <- rep_len(1, nrow(df1))
-  # sequence AB, AC, BC
-  pgroup[grep("A10.|C.01", pairmerge)] <- 2  # red
-  pgroup[grep("A01.|B0.1", pairmerge)] <- 4  # green
-  pgroup[grep("B1.0|C.10", pairmerge)] <- 6  # blue
-  pgroup[grep("A11.", pairmerge)] <- 3  # yellow
-  pgroup[grep("B1.1", pairmerge)] <- 5  # cyan
-  pgroup[grep("C.11", pairmerge)] <- 7  # purple
-  pgroup[pvals[,1] > pcutoff] <- 1  # ns for all p_lrt < cutoff
+  
+  # Assign groups depending on pairwise significance: sequence AB, AC, BC
+  pgroup[grep("A10.|C.01", pairmerge)] <- 2  # default red
+  pgroup[grep("A01.|B0.1", pairmerge)] <- 4  # default green
+  pgroup[grep("B1.0|C.10", pairmerge)] <- 6  # default blue
+  pgroup[grep("A11.", pairmerge)] <- 3  # default yellow
+  pgroup[grep("B1.1", pairmerge)] <- 5  # default cyan
+  pgroup[grep("C.11", pairmerge)] <- 7  # default purple
+  pgroup[pvals[ ,1] > pcutoff] <- 1  # not significant for all p_group > cutoff
   col <- scheme[pgroup]
+  
+  # Label the groups by upregulation
   if (is.null(labs) | length(labs) == 3) {
     abbrev <- if (length(labs) == 3) labs else abbreviate(levels(outcome), 1)
     labs <- c("ns",
