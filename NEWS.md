@@ -1,6 +1,11 @@
 News
 =====
 
+# volcano3D 2.0.3
+###### 26/08/2022
+* Add `deseq_2x3_polar()` function for 2x3 factor design comparisons using
+DESeq2.
+
 # volcano3D 2.0.2
 ###### 23/08/2022
 * Add example of piping `radial_plotly` to webGL for increased speed
