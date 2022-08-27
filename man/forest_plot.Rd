@@ -4,7 +4,14 @@
 \alias{forest_plot}
 \title{Forest plot individual gene from 2x3 factor analysis}
 \usage{
-forest_plot(object, gene, scheme = c("red", "green3", "blue"), ...)
+forest_plot(
+  object,
+  gene,
+  scheme = c("red", "green3", "blue"),
+  labs = NULL,
+  error_type = c("ci", "se"),
+  ...
+)
 }
 \arguments{
 \item{object}{A 'volc3d' class object}
@@ -12,6 +19,11 @@ forest_plot(object, gene, scheme = c("red", "green3", "blue"), ...)
 \item{gene}{Gene to plot}
 
 \item{scheme}{Vector of 3 colours for plotting}
+
+\item{labs}{Optional character vector of labels for the groups}
+
+\item{error_type}{Either "ci" or "se" to specify whether error bars use 95%
+confidence intervals or standard error.}
 
 \item{...}{Optional arguments passed to [plot()]}
 }
