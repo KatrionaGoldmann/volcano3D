@@ -18,15 +18,15 @@ add_animation(
 \arguments{
 \item{p}{The \code{\link{volcano3D}} plot}
 
-\item{rotate_icon_path}{The svg icon path for rotation. If `NULL` a play 
+\item{rotate_icon_path}{The svg icon path for rotation. If \code{NULL} a play
 button is used}
 
-\item{stop_icon_path}{The svg icon path for stop button. If `NULL` a pause 
+\item{stop_icon_path}{The svg icon path for stop button. If \code{NULL} a pause
 button is used}
 
 \item{rotate_colour}{The colour for the rotate button (default="#c7c7c7")}
 
-\item{stop_colour}{The colour for the stop button (default='#ff6347', 
+\item{stop_colour}{The colour for the stop button (default='#ff6347',
 a.k.a 'tomato')}
 
 \item{scale}{Scaling for rotation button}
@@ -37,8 +37,8 @@ a.k.a 'tomato')}
 should stop rotation when triggered (e.g. shiny_event_names = c('replot'))}
 }
 \value{
-Returns a rotating cylindrical 3D plotly plot featuring variables on 
-a tri-axis radial graph with the -log10(multi-group test p-value) on the 
+Returns a rotating cylindrical 3D plotly plot featuring variables on
+a tri-axis radial graph with the -log10(multi-group test p-value) on the
 z-axis
 }
 \description{
@@ -57,7 +57,7 @@ add_animation(p)
 \references{
 Lewis, Myles J., et al. (2019).
 \href{https://pubmed.ncbi.nlm.nih.gov/31461658/}{
-Molecular portraits of early rheumatoid arthritis identify clinical and 
+Molecular portraits of early rheumatoid arthritis identify clinical and
 treatment response phenotypes.}
 \emph{Cell reports}, \strong{28}:9
 }

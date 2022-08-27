@@ -15,18 +15,17 @@ voom_polar(
 )
 }
 \arguments{
-\item{formula}{Design formula which must be of the form `~ 0 + outcome +
-...`. The 3-way outcome variable must be the first variable after the '0',
+\item{formula}{Design formula which must be of the form \code{~ 0 + outcome + ...}. The 3-way outcome variable must be the first variable after the '0',
 and this variable must be a factor with exactly 3 levels.}
 
 \item{metadata}{Matrix or dataframe containing metadata as referenced by
-`formula`}
+\code{formula}}
 
 \item{counts}{Matrix containing raw gene expression count data}
 
 \item{pcutoff}{Cut-off for p-value significance}
 
-\item{padj.method}{Can be any method available in `p.adjust` or `"qvalue"`.
+\item{padj.method}{Can be any method available in \code{p.adjust} or \code{"qvalue"}.
 The option "none" is a pass-through.}
 
 \item{filter_pairwise}{Logical whether adjusted p-value pairwise statistical
@@ -70,5 +69,5 @@ if (requireNamespace("limma", quietly = TRUE) &
 }
 \seealso{
 \code{\link{polar_coords}}, \code{\link{deseq_polar}},
-  \code{\link[limma:voom]{voom}} in the limma package
+\code{\link[limma:voom]{voom}} in the limma package
 }

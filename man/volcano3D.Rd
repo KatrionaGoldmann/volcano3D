@@ -36,8 +36,8 @@ volcano3D(
 \code{\link{polar_coords}}, \code{\link{deseq_polar}} or
 \code{\link{voom_polar}}}
 
-\item{type}{Either `1` or `2` specifying type of polar coordinates: `1` =
-Z-scaled, `2` = unscaled (equivalent to log2 fold change for gene
+\item{type}{Either \code{1} or \code{2} specifying type of polar coordinates: \code{1} =
+Z-scaled, \code{2} = unscaled (equivalent to log2 fold change for gene
 expression).}
 
 \item{label_rows}{A vector of row names or numbers to label}
@@ -47,7 +47,7 @@ expression).}
 \item{arrow_length}{The length of label arrows (default 100)}
 
 \item{colour_code_labels}{Logical whether label annotations should be colour
-coded. If `FALSE` `label_colour` is used.}
+coded. If \code{FALSE} \code{label_colour} is used.}
 
 \item{label_colour}{HTML colour of annotation labels if not colour coded.}
 
@@ -56,7 +56,7 @@ coded. If `FALSE` `label_colour` is used.}
 \item{grid_width}{The width of the grid lines (default 2)}
 
 \item{grid_options}{Optional list of additional arguments to pass to
-\code{\link{polar_grid}}, eg. `z_axis_ticks` and `r_axis_ticks`}
+\code{\link{polar_grid}}, eg. \code{z_axis_ticks} and \code{r_axis_ticks}}
 
 \item{axis_colour}{The colour of the grid axes and labels (default "black")}
 
@@ -79,7 +79,7 @@ outline)}
 
 \item{radial_axis_title_size}{The font size for the radial (default=15)}
 
-\item{radial_axis_title_offset}{The position scaling between grid and radial 
+\item{radial_axis_title_offset}{The position scaling between grid and radial
 axis title (default=1.2)}
 
 \item{xy_aspectratio}{The aspect ratio for the xy axis compared to z (default
@@ -94,8 +94,8 @@ This vector determines the view point about the origin of this scene.}
 \item{...}{Optional arguments passed to \code{\link[plotly:plot_ly]{plot_ly}}}
 }
 \value{
-Returns a cylindrical 3D plotly plot featuring variables on a 
-tri-axis radial graph with the -log10(multi-group test p-value) on the 
+Returns a cylindrical 3D plotly plot featuring variables on a
+tri-axis radial graph with the -log10(multi-group test p-value) on the
 z-axis
 }
 \description{
@@ -115,7 +115,7 @@ volcano3D(syn_polar)
 \references{
 Lewis, Myles J., et al. (2019).
 \href{https://pubmed.ncbi.nlm.nih.gov/31461658/}{
-Molecular portraits of early rheumatoid arthritis identify clinical and 
+Molecular portraits of early rheumatoid arthritis identify clinical and
 treatment response phenotypes.}
 \emph{Cell reports}, \strong{28}:9
 }

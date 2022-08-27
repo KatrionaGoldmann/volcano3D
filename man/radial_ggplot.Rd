@@ -46,7 +46,7 @@ the six groups.}
 \item{label_size}{Font size of labels/annotations (default = 5).}
 
 \item{colour_code_labels}{Logical whether label annotations should be colour
-coded. If FALSE `label_colour` is used.}
+coded. If FALSE \code{label_colour} is used.}
 
 \item{label_colour}{Colour of annotation labels if not colour coded}
 
@@ -73,7 +73,7 @@ coded. If FALSE `label_colour` is used.}
 \item{legend_size}{Size for the legend text (default = 20).}
 
 \item{...}{Optional parameters passed to \code{\link[volcano3D]{polar_grid}}
-e.g. `r_axis_ticks` or `axis_angle`}
+e.g. \code{r_axis_ticks} or \code{axis_angle}}
 }
 \value{
 Returns a polar 'ggplot' object featuring variables on a tri-axis

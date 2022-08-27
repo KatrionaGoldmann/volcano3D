@@ -10,7 +10,7 @@ significance_subset(polar, significance = NULL, output = "pvals")
 \item{polar}{A polar object including expression data from groups of
 interest. Created by \code{\link{polar_coords}}.}
 
-\item{significance}{Which significance factors to subset to. If `NULL` 
+\item{significance}{Which significance factors to subset to. If \code{NULL}
 all levels except 'ns' (non-significant) are selected.}
 
 \item{output}{What object to return. Options are "pvals", "padj", "data",

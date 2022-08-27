@@ -36,7 +36,7 @@ if z_vector is NULL).}
 
 \item{n_spokes}{the number of outward spokes to be plotted (default = 12)}
 
-\item{axes_from_origin}{Whether the axis should start at 0 or the first 
+\item{axes_from_origin}{Whether the axis should start at 0 or the first
 break (default = TRUE)}
 
 \item{...}{optional parameters for \code{\link[base]{pretty}} on the r axis}
@@ -44,14 +44,14 @@ break (default = TRUE)}
 \value{
 Returns an S4 grid object containing:
 \itemize{
-  \item{'polar_grid'} The coordinates for a radial grid
-  \item{'axes'} The axes features for 'plotly'
-  \item{'axis_labels'} The axis labels
-  \item{'r'} The grid radius
-  \item{'z'} The grid height
-  \item{'text_coords'} The coordinates for text labels
-  \item{'n_r_breaks'} The number of ticks on the r axis
-  \item{'n_r_breaks'} The number of ticks on the z axis
+\item{'polar_grid'} The coordinates for a radial grid
+\item{'axes'} The axes features for 'plotly'
+\item{'axis_labels'} The axis labels
+\item{'r'} The grid radius
+\item{'z'} The grid height
+\item{'text_coords'} The coordinates for text labels
+\item{'n_r_breaks'} The number of ticks on the r axis
+\item{'n_r_breaks'} The number of ticks on the z axis
 }
 }
 \description{

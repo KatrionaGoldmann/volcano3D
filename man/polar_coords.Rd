@@ -18,31 +18,31 @@ polar_coords(
 \arguments{
 \item{outcome}{Outcome vector with 3 groups, ideally as a factor. If it is
 not a factor, this will be coerced to a factor. This must have exactly 3
-levels. NOTE: if `pvals` is given, the order of the levels in `outcome`
-must correspond to the order of columns in `pvals`.}
+levels. NOTE: if \code{pvals} is given, the order of the levels in \code{outcome}
+must correspond to the order of columns in \code{pvals}.}
 
 \item{data}{Dataframe or matrix with variables in columns}
 
 \item{pvals}{Matrix or dataframe with p-values. The first column represents a
 test across all 3 categories such as one-way ANOVA or likelihood ratio
 test. Columns 2-4 represent pairwise tests comparing groups A vs B, A vs C
-and B vs C, where A, B, C represent levels 1, 2, 3 in `outcome`. Columns
-2-4 must be provided in the correct order. If `pvals` is not given, it is
+and B vs C, where A, B, C represent levels 1, 2, 3 in \code{outcome}. Columns
+2-4 must be provided in the correct order. If \code{pvals} is not given, it is
 calculated using the function \code{\link{calc_pvals}}.}
 
 \item{padj}{Matrix or dataframe with adjusted p-values. If not supplied,
-defaults to use nominal p-values from `pvals`.}
+defaults to use nominal p-values from \code{pvals}.}
 
 \item{pcutoff}{Cut-off for p-value significance}
 
 \item{scheme}{Vector of colours starting with non-significant variables}
 
-\item{labs}{Optional character vector for labelling groups. Default `NULL`
-leads to abbreviated labels based on levels in `outcome` using
-[abbreviate()]. A vector of length 3 with custom abbreviated names for the
+\item{labs}{Optional character vector for labelling groups. Default \code{NULL}
+leads to abbreviated labels based on levels in \code{outcome} using
+\code{\link[=abbreviate]{abbreviate()}}. A vector of length 3 with custom abbreviated names for the
 outcome levels can be supplied. Otherwise a vector length 7 is expected, of
 the form "ns", "B+", "B+C+", "C+", "A+C+", "A+", "A+B+", where "ns" means
-non-significant and A, B, C refer to levels 1, 2, 3 in `outcome`, and must
+non-significant and A, B, C refer to levels 1, 2, 3 in \code{outcome}, and must
 be in the correct order.}
 
 \item{...}{Optional arguments passed to \code{\link{calc_pvals}}}
@@ -50,22 +50,22 @@ be in the correct order.}
 \value{
 Returns an S4 'volc3d' object containing:
 \itemize{
-  \item{'df'} A list of 2 dataframes. Each dataframe contains both x,y,z
-  coordinates as well as polar coordinates r, angle. The first dataframe has
-  coordinates on scaled data. The 2nd dataframe has unscaled data (e.g. log2
-  fold change for gene expression). The `type` argument in
-  \code{\link{volcano3D}}, \code{\link{radial_plotly}} and
-  \code{\link{radial_ggplot}} corresponds to these dataframes.
-  \item{'outcome'} The three-group contrast factor used for comparisons
-  \item{'data'} Dataframe or matrix containing the expression data
-  \item{'pvals'} A dataframe containing p-values. First column is the 3-way
-  comparison (LRT or ANOVA). Columns 2-4 are pairwise comparisons between
-  groups A vs B, A vs C and B vs C, where A, B, C are the 3 levels in the
-  outcome factor.
-  \item{'padj'} A dataframe containing p-values adjusted for multiple testing
-  \item{'pcutoff} Numeric value for cut-off for p-value significance
-  \item{'scheme'} Character vector with colour scheme for plotting
-  \item{'labs'} Character vector with labels for colour groups
+\item{'df'} A list of 2 dataframes. Each dataframe contains both x,y,z
+coordinates as well as polar coordinates r, angle. The first dataframe has
+coordinates on scaled data. The 2nd dataframe has unscaled data (e.g. log2
+fold change for gene expression). The \code{type} argument in
+\code{\link{volcano3D}}, \code{\link{radial_plotly}} and
+\code{\link{radial_ggplot}} corresponds to these dataframes.
+\item{'outcome'} The three-group contrast factor used for comparisons
+\item{'data'} Dataframe or matrix containing the expression data
+\item{'pvals'} A dataframe containing p-values. First column is the 3-way
+comparison (LRT or ANOVA). Columns 2-4 are pairwise comparisons between
+groups A vs B, A vs C and B vs C, where A, B, C are the 3 levels in the
+outcome factor.
+\item{'padj'} A dataframe containing p-values adjusted for multiple testing
+\item{'pcutoff} Numeric value for cut-off for p-value significance
+\item{'scheme'} Character vector with colour scheme for plotting
+\item{'labs'} Character vector with labels for colour groups
 }
 }
 \description{

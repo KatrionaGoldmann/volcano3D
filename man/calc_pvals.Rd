@@ -24,7 +24,7 @@ levels.}
 
 \item{pcutoff}{Cut-off for p-value significance}
 
-\item{padj.method}{Can be any method available in `p.adjust` or `"qvalue"`.
+\item{padj.method}{Can be any method available in \code{p.adjust} or \code{"qvalue"}.
 The option "none" is a pass-through.}
 
 \item{group_test}{Specifies statistical test for 3-class group comparison.
@@ -32,9 +32,9 @@ The option "none" is a pass-through.}
 
 \item{pairwise_test}{Specifies statistical test for pairwise comparisons}
 
-\item{exact}{Logical which is only used with `pairwise_test = "wilcoxon"`}
+\item{exact}{Logical which is only used with \code{pairwise_test = "wilcoxon"}}
 
-\item{filter_pairwise}{Logical. If `TRUE` (the default) p-value adjustment on
+\item{filter_pairwise}{Logical. If \code{TRUE} (the default) p-value adjustment on
 pairwise statistical tests is only conducted on attributes which reached
 the threshold for significance after p-value adjustment on the group
 statistical test.}

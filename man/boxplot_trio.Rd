@@ -31,24 +31,24 @@ levels_order. Default = c('green3', 'blue', 'red') ).}
 
 \item{test}{The statistical test used to compare expression.
 Allowed values include: \itemize{
- \item \code{polar_pvalue} (default) and 'polar_padj' for the pvalues
- and adjusted pvalues in the polar object.
- \item \code{polar_multi_pvalue} and \code{polar_multi_padj} for the pvalues
- and adjusted pvalues across all groups using the
- \code{polar@multi_group_test } columns.
- \item \code{\link[stats]{t.test}} (parametric) and
- \code{\link[stats]{wilcox.test}} (non-parametric). Perform comparison
- between groups of samples.
- \item \code{\link[stats]{anova}} (parametric) and
- \code{\link[stats]{kruskal.test}} (non-parametric). Perform one-way ANOVA
- test comparing multiple groups. }}
+\item \code{polar_pvalue} (default) and 'polar_padj' for the pvalues
+and adjusted pvalues in the polar object.
+\item \code{polar_multi_pvalue} and \code{polar_multi_padj} for the pvalues
+and adjusted pvalues across all groups using the
+\code{polar@multi_group_test } columns.
+\item \code{\link[stats]{t.test}} (parametric) and
+\code{\link[stats]{wilcox.test}} (non-parametric). Perform comparison
+between groups of samples.
+\item \code{\link[stats]{anova}} (parametric) and
+\code{\link[stats]{kruskal.test}} (non-parametric). Perform one-way ANOVA
+test comparing multiple groups. }}
 
 \item{levels_order}{A character vector stating the contrast groups to be
-plotted, in order. If `NULL` this defaults to the levels in
-`polar@outcome`.}
+plotted, in order. If \code{NULL} this defaults to the levels in
+\code{polar@outcome}.}
 
 \item{my_comparisons}{A list of contrasts to pass to
-\code{\link[ggpubr]{stat_compare_means}}. If `NULL` (default) all contrast
+\code{\link[ggpubr]{stat_compare_means}}. If \code{NULL} (default) all contrast
 pvalues are calculated and plotted.}
 
 \item{text_size}{The font size of text (default = 10)}

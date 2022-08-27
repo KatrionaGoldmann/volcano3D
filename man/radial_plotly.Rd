@@ -70,7 +70,7 @@ coded. If FALSE label_colour is used.}
 \item{axis_width}{The width of the axis lines (default=2)}
 
 \item{...}{Optional parameters passed to \code{\link[volcano3D]{polar_grid}}
-e.g. `r_axis_ticks` or `axis_angle`}
+e.g. \code{r_axis_ticks} or \code{axis_angle}}
 }
 \value{
 Returns a plotly plot featuring variables on a tri-axis radial graph
@@ -82,7 +82,7 @@ expression onto a polar coordinates.
 \details{
 This function builds a layered plotly object. By default this produces an SVG
 output, but this can be slow with 1000s of points. For large number of points
-we recommend switching to webGL by piping to `toWebGL()` as shown in the
+we recommend switching to webGL by piping to \code{toWebGL()} as shown in the
 examples.
 }
 \examples{

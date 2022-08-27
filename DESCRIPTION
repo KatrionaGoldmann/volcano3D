@@ -26,6 +26,7 @@ biocViews:
 Depends: R (>= 3.5)
 VignetteBuilder: knitr
 RoxygenNote: 7.2.0
+Roxygen: list(markdown = TRUE)
 NeedsCompilation: no
 Packaged: 2020-02-16 18:03:28 UTC; kgoldmann
 Imports:

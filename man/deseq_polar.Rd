@@ -17,26 +17,26 @@ deseq_polar(
 }
 \arguments{
 \item{object}{An object of class 'DESeqDataSet' with the full design formula.
-The function `DESeq` needs to have been run.}
+The function \code{DESeq} needs to have been run.}
 
 \item{objectLRT}{An object of class 'DESeqDataSet' with the reduced design
-formula. The function `DESeq` needs to have been run on this object with
-argument `test="LRT"`.}
+formula. The function \code{DESeq} needs to have been run on this object with
+argument \code{test="LRT"}.}
 
 \item{contrast}{Character value specifying column within the metadata stored
 in the DESeq2 dataset objects is the outcome variable. This column must
 contain a factor with 3 levels. If not set, the function will select the
-first term in the design formula of `object`.}
+first term in the design formula of \code{object}.}
 
 \item{data}{Optional matrix containing gene expression data. If not supplied,
 the function will pull the expression data from within the DESeq2 object
-using the DESeq2 function `assay()`. NOTE: for consistency with gene
+using the DESeq2 function \code{assay()}. NOTE: for consistency with gene
 expression datasets, genes are in rows.}
 
 \item{pcutoff}{Cut-off for p-value significance}
 
-\item{padj.method}{Can be any method available in `p.adjust` or `"qvalue"`.
-The option `"none"` is a pass-through.}
+\item{padj.method}{Can be any method available in \code{p.adjust} or \code{"qvalue"}.
+The option \code{"none"} is a pass-through.}
 
 \item{filter_pairwise}{Logical whether adjusted p-value pairwise statistical
 tests are only conducted on genes which reach significant adjusted p-value
@@ -49,7 +49,7 @@ Calls \code{\link{polar_coords}} to return an S4 'volc3d' object
 }
 \description{
 This function is used instead of \code{\link{polar_coords}} if you have raw
-RNA-Seq count data. It takes 2 `DESeqDataSet` objects, extracts statistical
+RNA-Seq count data. It takes 2 \code{DESeqDataSet} objects, extracts statistical
 results and converts the results to a 'volc3d' object, which can be directly
 plotted.
 }
@@ -78,5 +78,5 @@ plotted.
 }
 \seealso{
 \code{\link{polar_coords}}, \code{\link{voom_polar}},
-  \code{\link[DESeq2:DESeq]{DESeq}} in the DESeq2 package
+\code{\link[DESeq2:DESeq]{DESeq}} in the DESeq2 package
 }

@@ -5,7 +5,7 @@
 \alias{syn_example_rld}
 \title{PEAC synovial gene expression data}
 \format{
-A data frame with 500 rows representing the most significant 
+A data frame with 500 rows representing the most significant
 genes/probes and 81 columns representing samples.
 }
 \source{
@@ -16,7 +16,7 @@ genes/probes and 81 columns representing samples.
 syn_example_rld
 }
 \description{
-A dataset containing the gene expression data for 81 synovial biopsies from 
+A dataset containing the gene expression data for 81 synovial biopsies from
 the PEAC cohort
 }
 \keyword{datasets}

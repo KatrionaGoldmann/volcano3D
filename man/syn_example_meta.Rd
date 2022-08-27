@@ -7,7 +7,7 @@
 \format{
 A data frame with 81 rows and 1 variables:
 \describe{
-  \item{Pathotype}{The synovial biopsy histological pathotype}
+\item{Pathotype}{The synovial biopsy histological pathotype}
 }
 }
 \source{
@@ -18,7 +18,7 @@ A data frame with 81 rows and 1 variables:
 syn_example_meta
 }
 \description{
-A dataset containing sample data for 81 synovial biopsies from the PEAC 
+A dataset containing sample data for 81 synovial biopsies from the PEAC
 cohort
 }
 \keyword{datasets}
