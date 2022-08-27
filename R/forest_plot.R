@@ -20,7 +20,8 @@ forest_plot <- function(object, gene,
                         error_type = c("ci", "se"),
                         transpose = FALSE,
                         ...) {
-  if (!is(object, "volc3d")) stop("Not a 'volc3d' class object")
+  if (!is(object, "volc3d") | length(obj@df) != 3) {
+    stop("Not a 2x3 analysis 'volc3d' class object")}
   error_type <- match.arg(error_type)
   df <- object@df[[2]]
   x <- unlist(df[gene, 1:3])
@@ -79,7 +80,8 @@ forest_plotly <- function(object, gene,
                           labs = NULL,
                           error_type = c("ci", "se"),
                           transpose = FALSE) {
-  if (!is(object, "volc3d")) stop("Not a 'volc3d' class object")
+  if (!is(object, "volc3d") | length(obj@df) != 3) {
+    stop("Not a 2x3 analysis 'volc3d' class object")}
   error_type <- match.arg(error_type)
   df <- object@df[[2]]
   x <- unlist(df[gene, 1:3])

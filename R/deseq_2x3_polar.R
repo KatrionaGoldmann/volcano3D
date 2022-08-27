@@ -97,7 +97,7 @@ deseq_2x3_polar <- function(object,
   df2 <- cbind(df2, ptab)
   
   methods::new("volc3d",
-               df = list(scaled = df1, unscaled = df2),
+               df = list(scaled = df1, unscaled = df2, type = "2x3_polar"),
                outcome = outcome,
                data = data.frame(), pvals = pvals, padj = padj,
                pcutoff = pcutoff, scheme = scheme,
