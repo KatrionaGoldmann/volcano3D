@@ -1,10 +1,11 @@
 News
 =====
 
-# volcano3D 2.0.3
-###### 26/08/2022
+# volcano3D 2.0.4
+###### 28/08/2022
 * Add `deseq_2x3_polar()` function for 2x3 factor design comparisons using
 DESeq2.
+* Add `forest_plot` for plotting genes for 2x3 factor comparisons
 
 # volcano3D 2.0.2
 ###### 23/08/2022
