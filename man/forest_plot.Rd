@@ -65,6 +65,11 @@ confidence intervals or standard error}
 
 \item{...}{Optional arguments}
 }
+\value{
+Returns a plot using either base graphics (\code{forest_plot}), plotly
+(\code{forest_plotly}) or ggplot2 (\code{forest_ggplot}). \code{forest_plot} also
+invisibly returns the dataframe used for plotting.
+}
 \description{
 Forest plot individual gene from 2x3 factor analysis using either base
 graphics, plotly or ggplot2.

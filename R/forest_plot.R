@@ -16,6 +16,9 @@
 #' @param transpose Logical whether to transpose the plot
 #' @param mar Vector of margins on four sides. See [par()]
 #' @param ... Optional arguments
+#' @return Returns a plot using either base graphics (`forest_plot`), plotly
+#'   (`forest_plotly`) or ggplot2 (`forest_ggplot`). `forest_plot` also
+#'   invisibly returns the dataframe used for plotting.
 #' @seealso [deseq_2x3_polar()]
 #' @importFrom graphics abline arrows axis legend par points text
 #' @export
@@ -65,6 +68,7 @@ forest_plot <- function(object, gene,
   }
   legend("topright", legend=colnames(object@df[[2]])[1:3], pch=19, col=scheme,
          bty="n", cex=0.8, inset = c(0,-0.25), xpd = NA)
+  invisible(data)
 }
 
 
