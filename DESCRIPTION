@@ -37,6 +37,7 @@ Imports:
     magrittr,
     methods,
     Rfast,
+    rlang,
     matrixTests
 Suggests:
     DESeq2,
