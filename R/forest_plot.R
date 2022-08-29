@@ -32,8 +32,6 @@ forest_plot <- function(object, gene,
                         transpose = FALSE,
                         mar = if (transpose) c(5, 7, 5, 4) else c(5, 5, 5, 3),
                         ...) {
-  if (!is(object, "volc3d") | length(object@df) != 3) {
-    stop("Not a 2x3 analysis 'volc3d' class object")}
   error_type <- match.arg(error_type)
   data <- forest_df(object, gene, labs, error_type, gap)
   xrange <- range(c(data$val-data$CI, data$val+data$CI, 0), na.rm=TRUE)
@@ -81,8 +79,6 @@ forest_plotly <- function(object, gene,
                           error_width = 4,
                           gap = 1,
                           transpose = FALSE, ...) {
-  if (!is(object, "volc3d") | length(object@df) != 3) {
-    stop("Not a 2x3 analysis 'volc3d' class object")}
   error_type <- match.arg(error_type)
   data <- forest_df(object, gene, labs, error_type, gap) 
   if (transpose) {
@@ -127,8 +123,6 @@ forest_ggplot <- function(object, gene,
                           error_width = 0.3,
                           gap = 1,
                           transpose = FALSE, ...) {
-  if (!is(object, "volc3d") | length(object@df) != 3) {
-    stop("Not a 2x3 analysis 'volc3d' class object")}
   error_type <- match.arg(error_type)
   data <- forest_df(object, gene, labs, error_type, gap)
   vdiff <- diff(range(c(data$val-data$CI, data$val+data$CI, 0), na.rm=TRUE))
@@ -168,6 +162,8 @@ forest_ggplot <- function(object, gene,
 
 forest_df <- function(object, gene,
                       labs = NULL, error_type = "ci", gap = 1) {
+  if (!is(object, "volc3d") | length(object@df) != 3) {
+    stop("Not a 2x3 analysis 'volc3d' class object")}
   df <- object@df[[2]]
   val <- as.vector(t(df[gene, 1:3]))
   CI <- as.vector(t(df[gene, 4:6]))
