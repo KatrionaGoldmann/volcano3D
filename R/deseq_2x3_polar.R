@@ -64,6 +64,8 @@ deseq_2x3_polar <- function(object,
     stop("Can't find package DESeq2. Try:
            BiocManager::install('DESeq2')", call. = FALSE)
   }
+  if (!all.equal(object[[1]]@design, object[[3]]@design, object[[3]]@design)) {
+    stop("Design formulae differ")}
   process <- match.arg(process)
   res <- lapply(object, function(i) {
     if (is.data.frame(i)) return(i)
