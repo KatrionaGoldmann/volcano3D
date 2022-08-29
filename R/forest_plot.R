@@ -78,6 +78,7 @@ forest_plotly <- function(object, gene,
                           scheme = c('red', 'green3', 'blue'),
                           labs = NULL,
                           error_type = c("ci", "se"),
+                          error_width = 4,
                           gap = 1,
                           transpose = FALSE, ...) {
   if (!is(object, "volc3d") | length(object@df) != 3) {
@@ -90,7 +91,8 @@ forest_plotly <- function(object, gene,
     plot_ly(data = data, x = ~val, y = ~pos,
             colors = scheme, color = ~labs,
             type = 'scatter', mode = 'markers',
-            error_x = list(array = ~CI, color = ~labs), ...) %>%
+            error_x = list(array = ~CI, color = ~labs, width = error_width),
+            ...) %>%
       layout(xaxis = list(title = "log<sub>2</sub> FC"),
              yaxis = list(title = "",
                           ticktext = gene,
@@ -102,7 +104,8 @@ forest_plotly <- function(object, gene,
     plot_ly(data = data, y = ~val, x = ~pos,
             colors = scheme, color = ~labs,
             type = 'scatter', mode = 'markers',
-            error_y = list(array = ~CI, color = ~labs), ...) %>%
+            error_y = list(array = ~CI, color = ~labs, width = error_width),
+            ...) %>%
       layout(yaxis = list(title = "log<sub>2</sub> FC"),
              xaxis = list(title = "",
                           ticktext = gene,

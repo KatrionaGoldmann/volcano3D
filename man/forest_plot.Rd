@@ -25,6 +25,7 @@ forest_plotly(
   scheme = c("red", "green3", "blue"),
   labs = NULL,
   error_type = c("ci", "se"),
+  error_width = 4,
   gap = 1,
   transpose = FALSE,
   ...
