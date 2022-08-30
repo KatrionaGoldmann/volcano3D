@@ -77,7 +77,7 @@ deseq_2x3_polar <- function(object,
       as.data.frame(DESeq2::results(i))
     } else as.data.frame(i)
   })
-  rn <- unique(unlist(lapply(res, rownames)))
+  rn <- Reduce(intersect, lapply(res, rownames))
   df1 <- getCols(res, rn, 'stat')
   df2 <- getCols(res, rn, 'log2FoldChange')
   if (process == "negative") {
