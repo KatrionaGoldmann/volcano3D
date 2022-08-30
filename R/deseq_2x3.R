@@ -2,10 +2,10 @@
 #' 2 x 3 factor DESeq2 analysis
 #' 
 #' Experimental function for performing 2x3 factor DESeq2 analyses. Output can
-#' be passed to [deseq_2x3_polar()]. Example usage would include
-#' comparing gene expression against a binary outcome e.g. response vs
-#' non-response, across 3 drugs. The design would be `~ response` and `group`
-#' refers to the medication column.
+#' be passed to [deseq_2x3_polar()] and subsequently plotted. Example usage
+#' would include comparing gene expression against a binary outcome e.g.
+#' response vs non-response, across 3 drugs: the design would be `~ response`
+#' and `group` would refer to the medication column in the metadata.
 #' 
 #' @param object An object of class 'DESeqDataSet' containing full dataset
 #' @param design Design formula. The main contrast is taken from the first term
@@ -59,11 +59,11 @@ deseq_2x3 <- function(object, design, group, ...) {
   counts <- SummarizedExperiment::assay(object)
   colDat <- SummarizedExperiment::colData(object)
   contrast <- attr(terms(design), "term.labels")[1]
-  if (nlevels(colDat[, contrast]) != 2) stop("design contrast is not binary")
+  if (nlevels(colDat[, contrast]) != 2) stop(contrast, " is not binary in `design`")
   if (!group %in% colnames(colDat)) {
-    stop("`group` is not a column in sample information in `colData`")}
+    stop(group, " is not a column in sample information in `colData`")}
   groups <- colDat[, group]
-  if (nlevels(groups) != 3) stop("`group` does not have 3 levels")
+  if (nlevels(groups) != 3) stop(group, " does not have 3 levels")
   res <- lapply(levels(groups), function(i) {
     message(group, " = ", i)
     dds <- DESeq2::DESeqDataSetFromMatrix(counts[, groups == i],
