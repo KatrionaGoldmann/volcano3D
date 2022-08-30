@@ -66,9 +66,14 @@ comparisons between the outcome factor for groups A, B, C respectively.
 }
 \description{
 This function is used instead of \code{\link{polar_coords}} if you have raw
-RNA-Seq count data. It takes 3 \code{DESeqDataSet} objects each with the same
-binary comparison, extracts statistical results and converts the results to a
-'volc3d' object, which can be directly plotted. Example usage would include
-comparing gene expression against a binary outcome e.g. response vs
-non-response, across 3 drugs.
+RNA-Seq count data. It takes results from a 2x3 design DESeq2 analysis using
+\code{\link[=deseq_2x3]{deseq_2x3()}}. Alternatively it will accept a list of 3 \code{DESeqDataSet} or
+\code{DESeqResults} objects each with the same type of binary comparison across 3
+groups. Statistical results are extracted and converted to a 'volc3d' object,
+which can be directly plotted. Example usage would include comparing gene
+expression against a binary outcome e.g. response vs non-response, across 3
+drugs.
+}
+\seealso{
+\code{\link[=deseq_2x3]{deseq_2x3()}}
 }

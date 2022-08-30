@@ -57,17 +57,17 @@ deseq_2x3 <- function(object, design, group, ...) {
   }
   if (!inherits(object, "DESeqDataSet")) stop("Not a DESeqDataSet object")
   counts <- SummarizedExperiment::assay(object)
-  colData <- SummarizedExperiment::colData(object)
+  colDat <- SummarizedExperiment::colData(object)
   contrast <- attr(terms(design), "term.labels")[1]
-  if (nlevels(colData[, contrast]) != 2) stop("design contrast is not binary")
-  if (!group %in% colnames(colData)) {
+  if (nlevels(colDat[, contrast]) != 2) stop("design contrast is not binary")
+  if (!group %in% colnames(colDat)) {
     stop("`group` is not a column in sample information in `colData`")}
-  groups <- colData[, group]
+  groups <- colDat[, group]
   if (nlevels(groups) != 3) stop("`group` does not have 3 levels")
   res <- lapply(levels(groups), function(i) {
     message(group, " = ", i)
     dds <- DESeq2::DESeqDataSetFromMatrix(counts[, groups == i],
-                                          colData[groups == i, ], design)
+                                          colDat[groups == i, ], design)
     dds <- DESeq2::DESeq(dds, ...)
     DESeq2::results(dds)
   })
