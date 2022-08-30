@@ -64,12 +64,15 @@ deseq_2x3_polar <- function(object,
     stop("Can't find package DESeq2. Try:
            BiocManager::install('DESeq2')", call. = FALSE)
   }
-  if (!all.equal(object[[1]]@design, object[[3]]@design, object[[3]]@design)) {
-    stop("Design formulae differ")}
+  if (is(object[[1]], "DESeqDataSet")) {
+    if (!all.equal(object[[1]]@design, object[[3]]@design, object[[3]]@design)) {
+      message("Design formulae differ")}
+  }
   process <- match.arg(process)
   res <- lapply(object, function(i) {
-    if (is.data.frame(i)) return(i)
-    as.data.frame(DESeq2::results(i))
+    if (is(i, "DESeqDataSet")) {
+      as.data.frame(DESeq2::results(i))
+    } else as.data.frame(i)
   })
   rn <- unique(unlist(lapply(res, rownames)))
   df1 <- getCols(res, rn, 'stat')
