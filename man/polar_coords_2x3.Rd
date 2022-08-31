@@ -61,10 +61,10 @@ changes and significant p-values have an inverted colour scheme.}
 \item{labs}{Optional character vector for labelling groups. Default \code{NULL}
 leads to abbreviated labels based on levels in \code{outcome} using
 \code{\link[=abbreviate]{abbreviate()}}. A vector of length 3 with custom abbreviated names for the
-outcome levels can be supplied. Otherwise a vector length 7 is expected, of
-the form "ns", "B+", "B+C+", "C+", "A+C+", "A+", "A+B+", where "ns" means
-non-significant and A, B, C refer to levels 1, 2, 3 in \code{outcome}, and must
-be in the correct order.}
+outcome levels can be supplied. Otherwise a vector length 8 is expected, of
+the form "ns", "A+", "A+B+", "B+", "B+C+", "C+", "A+C+", "A+B+C+", where
+"ns" means non-significant and A, B, C refer to levels 1, 2, 3 in
+\code{outcome}, and must be in the correct order.}
 
 \item{...}{Optional arguments passed to \code{\link{calc_stats_2x3}}}
 }
