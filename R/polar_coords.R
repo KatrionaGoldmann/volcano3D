@@ -71,7 +71,8 @@ setClass("volc3d", slots = list(df = "list",
 #'   \item{'labs'} Character vector with labels for colour groups
 #' }
 #' 
-#' @seealso \code{\link{deseq_polar}}, \code{\link{voom_polar}}
+#' @seealso \code{\link{deseq_polar}}, \code{\link{voom_polar}},
+#'   \code{\link{calc_pvals}}
 #' @examples
 #' data(example_data)
 #' syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
