@@ -105,6 +105,12 @@ comparison. Unscaled polar coordinates are generated as difference between
 means for each group comparison. If p-values are not supplied they are
 calculated by \link{calc_stats_2x3} using either t-tests or wilcoxon tests.
 
+The z axis for 3d volcano plots does not have as clear a corollary in 2x3
+analysis as for the standard 3-way analysis (which uses the likelihood ratio
+test for the 3 groups). For 2x3 polar analysis the smallest p-value from the
+3 group pairwise comparisons for each gene is used to generate a z coordinate
+as -log10(p-value).
+
 The colour scheme is not as straightforward as for the standard polar plot
 and volcano3D plot since genes (or attributes) can be significantly up or
 downregulated in the response comparison for each of the 3 groups.
