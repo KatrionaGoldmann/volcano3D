@@ -1,5 +1,5 @@
 
-#' Coordinates for Three Way Polar Plot
+#' Coordinates for three way polar plot from 2x3 factor analysis
 #'
 #' This function creates a 'volc3d' object of S4 class for downstream plots
 #' containing the p-values from a 2x3 factor analysis, expression data

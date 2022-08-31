@@ -2,7 +2,7 @@
 % Please edit documentation in R/polar_coords_2x3.R
 \name{polar_coords_2x3}
 \alias{polar_coords_2x3}
-\title{Coordinates for Three Way Polar Plot}
+\title{Coordinates for three way polar plot from 2x3 factor analysis}
 \usage{
 polar_coords_2x3(
   data,
