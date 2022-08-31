@@ -36,12 +36,12 @@
 #' @details
 #' This function generates a 'volc3d' class object for visualising a 2x3 way
 #' analysis for RNA-Seq data. For usual workflow it is typically preceded by a
-#' call to [deseq_2x3] which runs the 3x DESeq2 analyses required.
+#' call to [deseq_2x3()] which runs the 3x DESeq2 analyses required.
 #' 
 #' Scaled polar coordinates are generated using the log2 fold change for each
 #' group comparison. Unscaled polar coordinates are based on the DESeq2
 #' statistic for each group comparison. If p-values are not supplied they are
-#' calculated by [calc_stats_2x3] using t-tests or wilcoxon tests.
+#' calculated by [calc_stats_2x3()] using t-tests or wilcoxon tests.
 #' 
 #' The colour scheme is not as straightforward as for the standard polar plot
 #' and volcano3D plot since genes (or attributes) can be significantly up or

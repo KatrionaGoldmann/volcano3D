@@ -92,12 +92,12 @@ the binary comparison for the outcome for each of the 3 groups.
 This function creates a 'volc3d' object of S4 class for downstream plots
 containing the p-values from a 2x3 factor analysis, expression data
 sample data and polar coordinates. For RNA-Seq count data, two functions
-\code{\link{deseq_2x3}} followed by \link{deseq_2x3_polar} can be used instead.
+\code{\link{deseq_2x3}} followed by \code{\link[=deseq_2x3_polar]{deseq_2x3_polar()}} can be used instead.
 }
 \details{
 This function is designed for manually generating a 'volc3d' class object for
 visualising a 2x3 way analysis comparing a large number of attributes such as
-genes. For RNA-Seq data we suggest using \link{deseq_2x3} and \link{deseq_2x3_polar}
+genes. For RNA-Seq data we suggest using \code{\link[=deseq_2x3]{deseq_2x3()}} and \code{\link[=deseq_2x3_polar]{deseq_2x3_polar()}}
 functions in sequence instead.
 
 Scaled polar coordinates are generated using the t-score for each group

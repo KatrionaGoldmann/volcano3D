@@ -4,7 +4,7 @@
 #' This function creates a 'volc3d' object of S4 class for downstream plots
 #' containing the p-values from a 2x3 factor analysis, expression data
 #' sample data and polar coordinates. For RNA-Seq count data, two functions
-#' \code{\link{deseq_2x3}} followed by [deseq_2x3_polar] can be used instead.
+#' \code{\link{deseq_2x3}} followed by [deseq_2x3_polar()] can be used instead.
 #'
 #' @param data Dataframe or matrix with variables in columns and samples in rows
 #' @param metadata Dataframe of sample information with samples in rows
@@ -45,7 +45,7 @@
 #' @details
 #' This function is designed for manually generating a 'volc3d' class object for
 #' visualising a 2x3 way analysis comparing a large number of attributes such as
-#' genes. For RNA-Seq data we suggest using [deseq_2x3] and [deseq_2x3_polar]
+#' genes. For RNA-Seq data we suggest using [deseq_2x3()] and [deseq_2x3_polar()]
 #' functions in sequence instead.
 #' 
 #' Scaled polar coordinates are generated using the t-score for each group
