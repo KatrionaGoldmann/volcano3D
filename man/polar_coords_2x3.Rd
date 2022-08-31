@@ -97,13 +97,13 @@ sample data and polar coordinates. For RNA-Seq count data, two functions
 \details{
 This function is designed for manually generating a 'volc3d' class object for
 visualising a 2x3 way analysis comparing a large number of attributes such as
-genes. For RNA-Seq data we suggest using \code{\link[=deseq_2x3]{deseq_2x3()}} and \code{\link[=deseq_2x3_polar]{deseq_2x3_polar()}}
-functions in sequence instead.
+genes. For RNA-Seq data we suggest using \code{\link[=deseq_2x3]{deseq_2x3()}} and
+\code{\link[=deseq_2x3_polar]{deseq_2x3_polar()}} functions in sequence instead.
 
 Scaled polar coordinates are generated using the t-score for each group
 comparison. Unscaled polar coordinates are generated as difference between
 means for each group comparison. If p-values are not supplied they are
-calculated by \link{calc_stats_2x3} using either t-tests or wilcoxon tests.
+calculated by \code{\link[=calc_stats_2x3]{calc_stats_2x3()}} using either t-tests or wilcoxon tests.
 
 The z axis for 3d volcano plots does not have as clear a corollary in 2x3
 analysis as for the standard 3-way analysis (which uses the likelihood ratio
