@@ -114,7 +114,9 @@ voom_polar <- function(formula, metadata, counts,
   })
   padj <- cbind(LRTpadj, pairadj)
   
-  polar_coords(metadata[, outcome_col], t(log2(counts[keep, ] + 1)), 
+  out <- polar_coords(metadata[, outcome_col], t(log2(counts[keep, ] + 1)), 
                pvals, padj, pcutoff, ...)
+  out@df$type <- "voom_polar"
+  out
 }
 

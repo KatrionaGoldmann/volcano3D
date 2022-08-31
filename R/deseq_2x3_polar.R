@@ -16,7 +16,7 @@
 #'   non-response, group C etc. The names of the groups are taken from the list
 #'   names.
 #' @param pcutoff Cut-off for p-value significance
-#' @param padj.method Can be any method available in `p.adjust` or `"qvalue"`.
+#' @param padj.method Can be `"qvalue"` or any method available in `p.adjust`.
 #'   The option `"none"` is a pass-through.
 #' @param process Character value specifying colour process for statistical
 #'   significant genes: "positive" specifies genes are coloured if fold change
@@ -33,6 +33,37 @@
 #'   the form "ns", "A+", "A+B+", "B+", "B+C+", "C+", "A+C+", "A+B+C+", where
 #'   "ns" means non-significant and A, B, C refer to levels 1, 2, 3 in
 #'   `outcome`, and must be in the correct order.
+#' @details
+#' This function generates a 'volc3d' class object for visualising a 2x3 way
+#' analysis for RNA-Seq data. For usual workflow it is typically preceded by a
+#' call to [deseq_2x3()] which runs the 3x DESeq2 analyses required.
+#' 
+#' Scaled polar coordinates are based on the DESeq2 statistic for each group
+#' comparison. Unscaled polar coordinates are generated using the log2 fold
+#' change for each group comparison.
+#' 
+#' The z axis for 3d volcano plots does not have as clear a corollary in 2x3
+#' analysis as for the standard 3-way analysis (which uses the likelihood ratio
+#' test for the 3 groups). For 2x3 polar analysis the smallest p-value from the
+#' 3 group pairwise comparisons for each gene is used to generate a z coordinate
+#' as -log10(p-value).
+#' 
+#' The colour scheme is not as straightforward as for the standard polar plot
+#' and volcano3D plot since genes (or attributes) can be significantly up or
+#' downregulated in the response comparison for each of the 3 groups.
+#' `process = "positive"` means that genes are labelled with colours if a gene
+#' is significantly upregulated in the response for that group. This uses the
+#' primary colours (RGB) so that if a gene is upregulated in both red and blue
+#' groups it becomes purple etc with secondary colours. If the gene is
+#' upregulated in all 3 groups it is labelled black. Non-significant genes are
+#' in grey.
+#' 
+#' With `process = "negative"` genes are coloured when they are significantly
+#' downregulated. With `process = "two.sided"` the colour scheme means that both
+#' significantly up- and down-regulated genes are coloured with downregulated
+#' genes labelled with inverted colours (i.e. cyan is the inverse of red etc).
+#' However, significant upregulation in a group takes precedence.
+#' 
 #' @return Returns an S4 'volc3d' object containing:
 #' \itemize{
 #'   \item{'df'} A list of 2 dataframes. Each dataframe contains both x,y,z
@@ -105,7 +136,7 @@ deseq_2x3_polar <- function(object,
   df2 <- cbind(df2, ptab)
   
   methods::new("volc3d",
-               df = list(scaled = df1, unscaled = df2, type = "2x3_polar"),
+               df = list(scaled = df1, unscaled = df2, type = "deseq_2x3_polar"),
                outcome = outcome,
                data = data.frame(), pvals = pvals, padj = padj,
                pcutoff = pcutoff, scheme = scheme,

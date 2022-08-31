@@ -26,7 +26,7 @@ argument \code{test="LRT"}.}
 \item{contrast}{Character value specifying column within the metadata stored
 in the DESeq2 dataset objects is the outcome variable. This column must
 contain a factor with 3 levels. If not set, the function will select the
-first term in the design formula of \code{object}.}
+last term in the design formula of \code{object} as per DESeq2 convention.}
 
 \item{data}{Optional matrix containing gene expression data. If not supplied,
 the function will pull the expression data from within the DESeq2 object

@@ -23,10 +23,10 @@ Returns a list of 3 DESeq2 results objects which can be passed onto
 }
 \description{
 Experimental function for performing 2x3 factor DESeq2 analyses. Output can
-be passed to \code{\link[=deseq_2x3_polar]{deseq_2x3_polar()}}. Example usage would include
-comparing gene expression against a binary outcome e.g. response vs
-non-response, across 3 drugs. The design would be \code{~ response} and \code{group}
-refers to the medication column.
+be passed to \code{\link[=deseq_2x3_polar]{deseq_2x3_polar()}} and subsequently plotted. Example usage
+would include comparing gene expression against a binary outcome e.g.
+response vs non-response, across 3 drugs: the design would be \code{~ response}
+and \code{group} would refer to the medication column in the metadata.
 }
 \examples{
 \donttest{
