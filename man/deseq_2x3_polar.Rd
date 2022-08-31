@@ -23,7 +23,7 @@ names.}
 
 \item{pcutoff}{Cut-off for p-value significance}
 
-\item{padj.method}{Can be any method available in \code{p.adjust} or \code{"qvalue"}.
+\item{padj.method}{Can be \code{"qvalue"} or any method available in \code{p.adjust}.
 The option \code{"none"} is a pass-through.}
 
 \item{process}{Character value specifying colour process for statistical
@@ -73,6 +73,32 @@ groups. Statistical results are extracted and converted to a 'volc3d' object,
 which can be directly plotted. Example usage would include comparing gene
 expression against a binary outcome e.g. response vs non-response, across 3
 drugs.
+}
+\details{
+This function generates a 'volc3d' class object for visualising a 2x3 way
+analysis for RNA-Seq data. For usual workflow it is typically preceded by a
+call to \link{deseq_2x3} which runs the 3x DESeq2 analyses required.
+
+Scaled polar coordinates are generated using the log2 fold change for each
+group comparison. Unscaled polar coordinates are based on the DESeq2
+statistic for each group comparison. If p-values are not supplied they are
+calculated by \link{calc_stats_2x3} using t-tests or wilcoxon tests.
+
+The colour scheme is not as straightforward as for the standard polar plot
+and volcano3D plot since genes (or attributes) can be significantly up or
+downregulated in the response comparison for each of the 3 groups.
+\code{process = "positive"} means that genes are labelled with colours if a gene
+is significantly upregulated in the response for that group. This uses the
+primary colours (RGB) so that if a gene is upregulated in both red and blue
+groups it becomes purple etc with secondary colours. If the gene is
+upregulated in all 3 groups it is labelled black. Non-significant genes are
+in grey.
+
+With \code{process = "negative"} genes are coloured when they are significantly
+downregulated. With \code{process = "two.sided"} the colour scheme means that both
+significantly up- and down-regulated genes are coloured with downregulated
+genes labelled with inverted colours (i.e. cyan is the inverse of red etc).
+However, significant upregulation in a group takes precedence.
 }
 \seealso{
 \code{\link[=deseq_2x3]{deseq_2x3()}}

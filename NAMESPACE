@@ -3,6 +3,7 @@
 export(add_animation)
 export(boxplot_trio)
 export(calc_pvals)
+export(calc_stats_2x3)
 export(deseq_2x3)
 export(deseq_2x3_polar)
 export(deseq_polar)

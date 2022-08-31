@@ -22,7 +22,7 @@ setClass("volc3d", slots = list(df = "list",
 
 #' Coordinates for Three Way Polar Plot
 #'
-#' This function creates a 'volc3d' object of S3 class for downstream plots
+#' This function creates a 'volc3d' object of S4 class for downstream plots
 #' containing the p-values from a three-way group comparison, expression data
 #' sample data and polar coordinates. For RNA-Seq count data, two functions
 #' \code{\link{deseq_polar}} or \code{\link{voom_polar}} can be used instead.
@@ -130,7 +130,7 @@ polar_coords <- function(
   
   # Output final object
   methods::new("volc3d",
-               df = list(scaled = df1, unscaled = df2),
+               df = list(scaled = df1, unscaled = df2, type = "polar_coords"),
                outcome = outcome, data = data, pvals = pvals, padj = padj,
                pcutoff = pcutoff, scheme = scheme,
                labs = levels(ptab$lab))
