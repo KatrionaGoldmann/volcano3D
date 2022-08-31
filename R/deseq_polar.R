@@ -13,7 +13,7 @@
 #' @param contrast Character value specifying column within the metadata stored
 #'   in the DESeq2 dataset objects is the outcome variable. This column must
 #'   contain a factor with 3 levels. If not set, the function will select the
-#'   first term in the design formula of `object`.
+#'   last term in the design formula of `object` as per DESeq2 convention.
 #' @param data Optional matrix containing gene expression data. If not supplied,
 #'   the function will pull the expression data from within the DESeq2 object
 #'   using the DESeq2 function `assay()`. NOTE: for consistency with gene
@@ -70,7 +70,7 @@ deseq_polar <- function(object, objectLRT, contrast = NULL,
   termsLRT <- attr(terms(DESeq2::design(objectLRT)), "term.labels")
   if (!setequal(termsDE, termsLRT)) message("Different full design formulae")
   if (is.null(contrast)) {
-    contrast <- termsDE[1]
+    contrast <- termsDE[length(termsDE)]
     message("Setting contrast to `", contrast, "`")
   }
   outcome <- object@colData[, contrast]
@@ -124,7 +124,9 @@ deseq_polar <- function(object, objectLRT, contrast = NULL,
     }
     data <- SummarizedExperiment::assay(vstdata)
   }
-  polar_coords(outcome, t(data), pvals, padj, pcutoff, ...)
+  out <- polar_coords(outcome, t(data), pvals, padj, pcutoff, ...)
+  out@df$type <- "deseq_polar"
+  out
 }
 
 

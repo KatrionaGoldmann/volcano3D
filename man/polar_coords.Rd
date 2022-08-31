@@ -69,7 +69,7 @@ outcome factor.
 }
 }
 \description{
-This function creates a 'volc3d' object of S3 class for downstream plots
+This function creates a 'volc3d' object of S4 class for downstream plots
 containing the p-values from a three-way group comparison, expression data
 sample data and polar coordinates. For RNA-Seq count data, two functions
 \code{\link{deseq_polar}} or \code{\link{voom_polar}} can be used instead.
@@ -81,5 +81,6 @@ syn_polar <- polar_coords(outcome = syn_example_meta$Pathotype,
 
 }
 \seealso{
-\code{\link{deseq_polar}}, \code{\link{voom_polar}}
+\code{\link{deseq_polar}}, \code{\link{voom_polar}},
+\code{\link{calc_pvals}}
 }
