@@ -127,6 +127,13 @@ polar_coords_2x3 <- function(data,
   }
   if (nlevels(group) != 3) stop("Number of levels in group is not 3")
   if (nlevels(outcome) != 2) stop("Number of levels in outcome is not 2")
+  if (any(is.na(outcome), is.na(group))) {
+    ok <- complete.cases(outcome, group)
+    data <- data[ok,]
+    outcome <- outcome[ok]
+    group <- group[ok]
+    message("Removing NA from outcome/group")
+  }
   
   res <- calc_stats_2x3(data, outcome, group, pcutoff, padj.method, ...)
   rn <- Reduce(intersect, lapply(res, rownames))

@@ -107,9 +107,9 @@ polar_coords <- function(
   
   # Scale data and calculate mean expression for each group
   data_sc <- scale(data)
-  df1 <- vapply(levels(outcome), function(i) colMeans(data_sc[outcome == i, ]),
+  df1 <- vapply(levels(outcome), function(i) colMeans(data_sc[outcome == i, ], na.rm = TRUE),
                 numeric(ncol(data)))
-  df2 <- vapply(levels(outcome), function(i) colMeans(data[outcome == i, ]),
+  df2 <- vapply(levels(outcome), function(i) colMeans(data[outcome == i, ], na.rm = TRUE),
                 numeric(ncol(data)))
   
   # Transform to polar coordinates
