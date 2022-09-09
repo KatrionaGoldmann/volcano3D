@@ -226,7 +226,7 @@ forest_df <- function(object, gene,
   pos <- rep.int(1:3, ngene) + rep(seq(from=0, by=3+gap, length.out=ngene), each = 3)
   if (is.null(labs)) labs <- abbreviate(colnames(df)[1:3], 3)
   pval <- as.vector(t(object@padj[gene,]))
-  data <- data.frame(gene = rep(gene, each = 3),
+  data <- data.frame(gene = factor(rep(gene, each = 3), levels = gene),
                      labs = factor(rep_len(1:3, 3*ngene),
                                    labels = labs),
                      pos = pos,
