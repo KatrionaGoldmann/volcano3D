@@ -10,7 +10,6 @@ Meta
 Outputs
 *.icloud
 CRAN-RELEASE
-vignettes/*md
 /doc/
 /Meta/
-*.png
+docs
