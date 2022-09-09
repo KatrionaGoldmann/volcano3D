@@ -38,6 +38,7 @@ forest_ggplot(
   labs = NULL,
   error_type = c("ci", "se"),
   error_width = 0.3,
+  facet = TRUE,
   gap = 1,
   transpose = FALSE,
   ...
@@ -65,6 +66,8 @@ confidence intervals or standard error}
 \item{mar}{Vector of margins on four sides. See \code{\link[=par]{par()}}}
 
 \item{...}{Optional arguments}
+
+\item{facet}{Logical whether to use facets for individual genes (ggplot2 only)}
 }
 \value{
 Returns a plot using either base graphics (\code{forest_plot}), plotly

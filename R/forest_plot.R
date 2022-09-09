@@ -12,6 +12,7 @@
 #' @param error_type Either "ci" or "se" to specify whether error bars use 95%
 #'   confidence intervals or standard error
 #' @param error_width Width of error bars
+#' @param facet Logical whether to use facets for individual genes (ggplot2 only)
 #' @param gap Size of gap between groupings for each gene
 #' @param transpose Logical whether to transpose the plot
 #' @param mar Vector of margins on four sides. See [par()]
@@ -44,8 +45,8 @@ forest_plot <- function(object, gene,
                       xlab = bquote("log"[2]~"FC"), ylab = "")
     if (length(new.args)) plot.args[names(new.args)] <- new.args
     do.call("plot", plot.args)
-    arrows(data$val-data$CI, data$pos, data$val+data$CI, code=3, angle=90, length=error_width,
-           col=scheme)
+    arrows(data$val-data$CI, data$pos, data$val+data$CI, code=3, angle=90,
+           length=error_width, col=scheme)
     points(data$val, y = data$pos, pch=19, col=scheme)
     abline(v = 0, lty = 2)
     axis(2, data$pos, data$labs, tick = FALSE, las = 1)
@@ -56,8 +57,8 @@ forest_plot <- function(object, gene,
                       ylab = bquote("log"[2]~"FC"), xlab = "", las = 1)
     if (length(new.args)) plot.args[names(new.args)] <- new.args
     do.call("plot", plot.args)
-    arrows(data$pos, data$val-data$CI, y1 = data$val+data$CI, code=3, angle=90, length=error_width,
-           col=scheme)
+    arrows(data$pos, data$val-data$CI, y1 = data$val+data$CI, code=3, angle=90,
+           length=error_width, col=scheme)
     points(data$pos, data$val, pch=19, col=scheme)
     abline(h = 0, lty = 2)
     axis(1, data$pos, data$labs, tick = FALSE, las = 1)
@@ -113,7 +114,8 @@ forest_plotly <- function(object, gene,
 
 #' @rdname forest_plot
 #' @importFrom ggplot2 geom_errorbar geom_vline geom_hline scale_x_continuous
-#'   scale_y_continuous theme_minimal xlab ylab
+#'   scale_y_continuous theme_minimal xlab ylab facet_grid expand_limits
+#'   theme_bw element_line
 #' @importFrom rlang .data
 #' @export
 forest_ggplot <- function(object, gene,
@@ -121,41 +123,93 @@ forest_ggplot <- function(object, gene,
                           labs = NULL,
                           error_type = c("ci", "se"),
                           error_width = 0.3,
+                          facet = TRUE,
                           gap = 1,
                           transpose = FALSE, ...) {
   error_type <- match.arg(error_type)
   data <- forest_df(object, gene, labs, error_type, gap)
   vdiff <- diff(range(c(data$val-data$CI, data$val+data$CI, 0), na.rm=TRUE))
-  if (transpose) {
-    ggplot(data, aes(y=.data$pos, x=.data$val, color=.data$labs)) +
-      geom_errorbar(aes(xmin=.data$val-.data$CI, xmax=.data$val+.data$CI),
-                    width=error_width) +
-      geom_point() +
-      scale_color_manual(values = scheme) +
-      xlab(bquote("log"[2]~"FC")) + ylab("") + labs(color = "") +
-      scale_y_continuous(breaks=data$pos[seq_along(gene)*3-1], labels=gene) +
-      geom_vline(xintercept = 0, linetype = "dashed") +
-      annotate(geom = "text",
-               y = data$pos,
-               x = max(data$val + data$CI, na.rm=TRUE) +vdiff*0.05,
-               label = data$stars) +
-      theme_minimal() +
-      theme(axis.text = element_text(colour = "black"))
+  
+  if (facet) {
+    if (transpose) {
+      xmax <- max(data$val + data$CI, na.rm=TRUE)
+      ggplot(data, aes(y=.data$labs, x=.data$val, color=.data$labs)) +
+        geom_vline(xintercept = 0, linetype = "dashed", colour = "grey40") +
+        geom_errorbar(aes(xmin=.data$val-.data$CI, xmax=.data$val+.data$CI),
+                      width=error_width) +
+        geom_point() +
+        scale_color_manual(values = scheme) +
+        facet_grid(gene ~ .) +
+        xlab(bquote("log"[2]~"FC")) + ylab("") + labs(color = "") +
+        geom_text(y = data$labs,
+                  x = xmax +vdiff*0.05,
+                  colour = "black",
+                  label = data$stars, show.legend = FALSE) +
+        expand_limits(x= xmax + vdiff * 0.04) +
+        theme_bw() +
+        theme(axis.text = element_text(colour = "black"),
+              panel.grid.major = element_blank(),
+              panel.grid.minor = element_blank(),
+              panel.spacing = unit(0, "cm"),
+              strip.background = element_rect(fill="grey90"))
+    } else {
+      # not transposed
+      ymax <- max(data$val + data$CI, na.rm=TRUE)
+      ggplot(data, aes(x=.data$labs, y=.data$val, color=.data$labs)) +
+        geom_hline(yintercept = 0, linetype = "dashed", colour = "grey40") +
+        geom_errorbar(aes(ymin=.data$val-.data$CI, ymax=.data$val+.data$CI),
+                      width=error_width) +
+        geom_point() +
+        scale_color_manual(values = scheme) +
+        facet_grid(. ~ gene) +
+        ylab(bquote("log"[2]~"FC")) + xlab("") + labs(color = "") +
+        geom_text(x = data$labs,
+                  y = ymax +vdiff*0.04,
+                  colour = "black",
+                  label = data$stars, show.legend = FALSE) +
+        expand_limits(y= ymax + vdiff * 0.04) +
+        theme_bw() +
+        theme(axis.text = element_text(colour = "black"),
+              panel.grid.major = element_blank(),
+              panel.grid.minor = element_blank(),
+              panel.spacing = unit(0, "cm"),
+              strip.background = element_rect(colour=NA, fill=NA))
+    }
   } else {
-    ggplot(data, aes(x=.data$pos, y=.data$val, color=.data$labs)) +
-      geom_errorbar(aes(ymin=.data$val-.data$CI, ymax=.data$val+.data$CI),
-                    width=error_width) +
-      geom_point() +
-      scale_color_manual(values = scheme) +
-      ylab(bquote("log"[2]~"FC")) + xlab("") + labs(color = "") +
-      scale_x_continuous(breaks=data$pos[seq_along(gene)*3-1], labels=gene) +
-      geom_hline(yintercept = 0, linetype = "dashed") +
-      annotate(geom = "text",
-               x = data$pos,
-               y = max(data$val + data$CI, na.rm=TRUE) +vdiff*0.03,
-               label = data$stars) +
-      theme_minimal() +
-      theme(axis.text = element_text(colour = "black"))
+    # single plot, no facets
+    if (transpose) {
+      ggplot(data, aes(y=.data$pos, x=.data$val, color=.data$labs)) +
+        geom_errorbar(aes(xmin=.data$val-.data$CI, xmax=.data$val+.data$CI),
+                      width=error_width) +
+        geom_point() +
+        scale_color_manual(values = scheme) +
+        xlab(bquote("log"[2]~"FC")) + ylab("") + labs(color = "") +
+        scale_y_continuous(breaks=data$pos[seq_along(gene)*3-1], labels=gene) +
+        geom_vline(xintercept = 0, linetype = "dashed") +
+        annotate(geom = "text",
+                 y = data$pos,
+                 x = max(data$val + data$CI, na.rm=TRUE) +vdiff*0.05,
+                 label = data$stars) +
+        theme_minimal() +
+        theme(axis.text = element_text(colour = "black"),
+              axis.line.x = element_line(color="black"))
+    } else {
+      ggplot(data, aes(x=.data$pos, y=.data$val, color=.data$labs)) +
+        geom_errorbar(aes(ymin=.data$val-.data$CI, ymax=.data$val+.data$CI),
+                      width=error_width) +
+        geom_point() +
+        scale_color_manual(values = scheme) +
+        ylab(bquote("log"[2]~"FC")) + xlab("") + labs(color = "") +
+        scale_x_continuous(breaks=data$pos[seq_along(gene)*3-1], labels=gene) +
+        geom_hline(yintercept = 0, linetype = "dashed") +
+        annotate(geom = "text",
+                 x = data$pos,
+                 y = max(data$val + data$CI, na.rm=TRUE) +vdiff*0.03,
+                 label = data$stars) +
+        theme_minimal() +
+        theme(axis.text = element_text(colour = "black"),
+              axis.line.y = element_line(color="black"))
+    }
   }
 }
 

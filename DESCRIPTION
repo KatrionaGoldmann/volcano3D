@@ -1,7 +1,7 @@
 Package: volcano3D
 Type: Package
 Title: 3D Volcano Plots and Polar Plots for Three-Class Data
-Version: 2.0.6
+Version: 2.0.7
 Authors@R: c(person("Katriona", "Goldmann", role = c("aut", "cre"),
                        email = "k.goldmann@qmul.ac.uk",
                        comment = c(ORCID = "0000-0002-9073-6323")),
@@ -25,7 +25,7 @@ LazyData: true
 biocViews:
 Depends: R (>= 3.5)
 VignetteBuilder: knitr
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Roxygen: list(markdown = TRUE)
 NeedsCompilation: no
 Packaged: 2020-02-16 18:03:28 UTC; kgoldmann

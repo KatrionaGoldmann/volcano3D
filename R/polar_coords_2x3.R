@@ -96,6 +96,7 @@
 #' 
 #' @seealso \code{\link{deseq_2x3}}, \code{\link{deseq_2x3_polar}},
 #'   \code{\link{calc_stats_2x3}}
+#' @importFrom stats complete.cases
 #' @export
 
 polar_coords_2x3 <- function(data,
