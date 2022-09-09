@@ -47,7 +47,7 @@ data such as gene expression or other biological data across 3 classes, and this
 is covered in the main vignette. However, an alternative use of 3-way radial
 plots and 3d volcano plots is for 2x3-way analysis. In this type of analysis
 there is a binary factor such as drug response (responders vs non-responders)
-and a 2nd factor in 3 groups such as a trial with 3 drugs.
+and a 2nd factor with 3 classes such as a trial with 3 drugs.
 
 ## Example
 
@@ -115,20 +115,21 @@ labs <- c('MS4A1', 'TNXA', 'FLG2', 'MYBPC1')
 radial_plotly(obj, type=2, label_rows = labs) %>% toWebGL()
 ```
 
-```{r radial_2x3_pos, echo = FALSE, message=FALSE, fig.align='center', out.width='80%', out.extra='style="border: 0;"'}
+```{r radial_2x3_pos, echo = FALSE, message=FALSE, fig.align='center', out.width='70%', out.extra='style="border: 0;"'}
 knitr::include_graphics("radial_2x3_pos.png")
 ```
 
 A 3d volcano plot can be generated too.
 
-```{r volc_2x3, echo = FALSE, message=FALSE, fig.align='center', out.width='80%', out.extra='style="border: 0;"'}
+```{r volc_2x3, echo = FALSE, message=FALSE, fig.align='center', out.width='70%', out.extra='style="border: 0;"'}
 knitr::include_graphics("volc3d_2x3.png")
 ```
 
-For both radial_plotly or 
-
 To show genes which are significantly increased in non-responders for each drug,
-we use the argument `process = "negative"`.
+we reprocess the object using the argument `process = "negative"` as this leads
+to a different colour scheme for each gene. The polar coordinates are
+essentially flipped as each axis represents increased expression in
+non-responders.
 
 ```{r, eval=FALSE}
 obj <- deseq_2x3_polar(data1, process = "negative")
@@ -136,7 +137,7 @@ labs <- c('MS4A1', 'TNXA', 'FLG2', 'MYBPC1')
 radial_plotly(obj, type=2, label_rows = labs) %>% toWebGL()
 ```
 
-```{r radial_2x3_neg, echo = FALSE, message=FALSE, fig.align='center', out.width='80%', out.extra='style="border: 0;"'}
+```{r radial_2x3_neg, echo = FALSE, message=FALSE, fig.align='center', out.width='70%', out.extra='style="border: 0;"'}
 knitr::include_graphics("radial_2x3_neg.png")
 ```
 
@@ -184,20 +185,23 @@ are performed. Options here include unpaired t-test and Wilcoxon test (see
 
 The colour scheme is not as straightforward as for the standard polar plot and
 volcano3D plot since genes (or attributes) can be significantly up or
-downregulated in the response comparison for each of the 3 groups. process =
-"positive" means that genes are labelled with colours if a gene is significantly
-upregulated in the response for that group. This uses the primary colours (RGB)
-so that if a gene is upregulated in both red and blue group it becomes purple
-etc with secondary colours. If the gene is upregulated in all 3 groups it is
-labelled black. Non-significant genes are in grey.
+downregulated in the response comparison for each of the 3 groups.
+`process = "positive"` means that genes are labelled with colours if a gene is
+significantly upregulated in the response for that group. This uses the primary
+colours (RGB) so that if a gene is upregulated in both red and blue group it
+becomes purple etc with secondary colours. If the gene is upregulated in all 3
+groups it is labelled black. Non-significant genes are in grey.
 
-With process = "negative" genes are coloured when they are significantly
-downregulated. With process = "two.sided" the colour scheme means that both
-significantly up- and down-regulated genes are coloured with downregulated genes
-labelled with inverted colours (i.e. cyan is the inverse of red etc). However,
-significant upregulation in a group takes precedence.
+With `process = "negative"` genes are coloured when they are significantly
+downregulated. With `process = "two.sided"` the colour scheme means that both
+significantly up- and down-regulated genes are coloured with down-regulated
+genes labelled with inverted colours (i.e. cyan is the inverse of red etc).
+However, significant upregulation in a group takes precedence.
 
-The end result is a 'volc3d' class object for downstream plotting.
+With `process = "negative"` the polar coordinates are also flipped as each axis
+now represents upregulated expression in non-responders.
+
+The end result is a `volc3d` class object for downstream plotting.
 
 ## Forest plots
 
@@ -208,7 +212,7 @@ differences in binary response between the 3 groups.
 forest_ggplot(obj, c("MS4A1", "FLG2", "SFN")
 ```
 
-```{r forest, echo = FALSE, message=FALSE, fig.align='center', out.width='80%', out.extra='style="border: 0;"'}
+```{r forest, echo = FALSE, message=FALSE, fig.align='center', out.width='70%', out.extra='style="border: 0;"'}
 knitr::include_graphics("forest.png")
 ```
 
