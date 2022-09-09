@@ -8,7 +8,7 @@
 #' and `group` would refer to the medication column in the metadata.
 #' 
 #' @param object An object of class 'DESeqDataSet' containing full dataset
-#' @param design Design formula. The main contrast is taken from the first term
+#' @param design Design formula. The main contrast is taken from the last term
 #'   of the formula and must be a binary factor.
 #' @param group Character value for the column with the 3-way grouping factor
 #'   within the sample information data `colData`
@@ -58,7 +58,8 @@ deseq_2x3 <- function(object, design, group, ...) {
   if (!inherits(object, "DESeqDataSet")) stop("Not a DESeqDataSet object")
   counts <- SummarizedExperiment::assay(object)
   colDat <- SummarizedExperiment::colData(object)
-  contrast <- attr(terms(design), "term.labels")[1]
+  termsDE <- attr(terms(design), "term.labels")
+  contrast <- termsDE[length(termsDE)]
   if (nlevels(colDat[, contrast]) != 2) stop(contrast, " is not binary in `design`")
   if (!group %in% colnames(colDat)) {
     stop(group, " is not a column in sample information in `colData`")}

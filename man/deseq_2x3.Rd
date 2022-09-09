@@ -9,7 +9,7 @@ deseq_2x3(object, design, group, ...)
 \arguments{
 \item{object}{An object of class 'DESeqDataSet' containing full dataset}
 
-\item{design}{Design formula. The main contrast is taken from the first term
+\item{design}{Design formula. The main contrast is taken from the last term
 of the formula and must be a binary factor.}
 
 \item{group}{Character value for the column with the 3-way grouping factor
