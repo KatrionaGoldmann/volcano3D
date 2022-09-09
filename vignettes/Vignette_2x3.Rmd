@@ -163,24 +163,24 @@ Gaussian) gene expression data with genes in columns and samples in rows.
 
 `polar_coords_2x3()` accepts raw data and performs all the calculations needed
 to generate coordinates, colours etc for plotting radial 3-way plots or 3d
-volcano plots. This differs from the original polar_coords() function in that it
+volcano plots. This differs from the original `polar_coords()` function in that it
 is the mean difference between the 2-way response outcome which is used to map
 coordinates along each axis for each of the 3 groups for unscaled polar
 coordinates.
 
-Scaled polar coordinates are generated using the t-statistic for each group
+Scaled polar coordinates are generated using the *t*-statistic for each group
 comparison.
 
 There is no straightforward equivalent of a one-way ANOVA or likelihood ratio
-test to use for the z axis as is used in the simpler 3-way analysis for standard
-3-way radial plots/ 3d volcano plots. So instead the z axis in a 2x3-way
+test to use for the *z* axis as is used in the simpler 3-way analysis for standard
+3-way radial plots/ 3d volcano plots. So instead the *z* axis in a 2x3-way
 analysis uses the smallest p-value from each of the 3 paired comparisons. This
-p-value is transformed as usual as -log10(p).
+p-value is transformed as usual as -log~10~(p).
 
 A table of p-values can be supplied by the user. But if a table of p-values is
 absent, p-values are automatically calculated by `polar_coords_2x3()`. Each of
 the 3 groups is subsetted and pairwise comparisons of the binary response factor
-are performed. Options here include unpaired t-test and Wilcoxon test (see
+are performed. Options here include unpaired *t*-test and Wilcoxon test (see
 `calc_stats_2x3()`).
 
 The colour scheme is not as straightforward as for the standard polar plot and

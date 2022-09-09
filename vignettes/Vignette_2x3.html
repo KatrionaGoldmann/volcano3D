@@ -1631,22 +1631,23 @@ refers the the binary response column in <code>metadata</code>.
 <p><code>polar_coords_2x3()</code> accepts raw data and performs all the
 calculations needed to generate coordinates, colours etc for plotting
 radial 3-way plots or 3d volcano plots. This differs from the original
-polar_coords() function in that it is the mean difference between the
-2-way response outcome which is used to map coordinates along each axis
-for each of the 3 groups for unscaled polar coordinates.</p>
-<p>Scaled polar coordinates are generated using the t-statistic for each
-group comparison.</p>
+<code>polar_coords()</code> function in that it is the mean difference
+between the 2-way response outcome which is used to map coordinates
+along each axis for each of the 3 groups for unscaled polar
+coordinates.</p>
+<p>Scaled polar coordinates are generated using the <em>t</em>-statistic
+for each group comparison.</p>
 <p>There is no straightforward equivalent of a one-way ANOVA or
-likelihood ratio test to use for the z axis as is used in the simpler
-3-way analysis for standard 3-way radial plots/ 3d volcano plots. So
-instead the z axis in a 2x3-way analysis uses the smallest p-value from
-each of the 3 paired comparisons. This p-value is transformed as usual
-as -log10(p).</p>
+likelihood ratio test to use for the <em>z</em> axis as is used in the
+simpler 3-way analysis for standard 3-way radial plots/ 3d volcano
+plots. So instead the <em>z</em> axis in a 2x3-way analysis uses the
+smallest p-value from each of the 3 paired comparisons. This p-value is
+transformed as usual as -log<sub>10</sub>(p).</p>
 <p>A table of p-values can be supplied by the user. But if a table of
 p-values is absent, p-values are automatically calculated by
 <code>polar_coords_2x3()</code>. Each of the 3 groups is subsetted and
 pairwise comparisons of the binary response factor are performed.
-Options here include unpaired t-test and Wilcoxon test (see
+Options here include unpaired <em>t</em>-test and Wilcoxon test (see
 <code>calc_stats_2x3()</code>).</p>
 <p>The colour scheme is not as straightforward as for the standard polar
 plot and volcano3D plot since genes (or attributes) can be significantly
@@ -1690,9 +1691,9 @@ Bioinformatics</a> at Queen Mary University London.</p>
 <pre><code>## 
 ## To cite package &#39;volcano3D&#39; in publications use:
 ## 
-##   Katriona Goldmann and Myles Lewis (2022). volcano3D: 3D Volcano Plots
-##   and Polar Plots for Three-Class Data. R package version 2.0.0.
-##   https://CRAN.R-project.org/package=volcano3D
+##   Goldmann K, Lewis M (2022). _volcano3D: 3D Volcano Plots and Polar
+##   Plots for Three-Class Data_. R package version 2.0.0,
+##   &lt;https://CRAN.R-project.org/package=volcano3D&gt;.
 ## 
 ## A BibTeX entry for LaTeX users is
 ## 
