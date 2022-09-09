@@ -4,7 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Generates interactive plots for analysing and visualising 
+    three-class high dimensional data. It is particularly suited to visualising 
+    differences in continuous attributes such as gene/protein/biomarker 
+    expression levels between three groups. Differential gene/biomarker 
+    expression analysis between two classes is typically shown as a volcano 
+    plot. However, with three groups this type of visualisation is particularly 
+    difficult to interpret. This package generates 3D volcano plots and 3-way 
+    polar plots for easier interpretation of three-class data.">
 <title>3D Volcano Plots and Polar Plots for Three-Class Data • volcano3D</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -12,12 +20,11 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="3D Volcano Plots and Polar Plots for Three-Class Data">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="3D Volcano Plots and Polar Plots for Three-Class Data">
 <meta property="og:description" content="Generates interactive plots for analysing and visualising 
     three-class high dimensional data. It is particularly suited to visualising 
     differences in continuous attributes such as gene/protein/biomarker 
@@ -30,143 +37,109 @@
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-158679490-1"></script><script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-158679490-1');
-</script>
+<![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fa fa-home"></span>
-     
-  </a>
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="index.html">volcano3D</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.7</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
-      </ul>
-<ul class="nav navbar-nav navbar-right">
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fas fa-book"></span>
-     
-    Getting Started
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="articles/Extended_Vignette.html">Volcano3D Vignette</a>
-    </li>
-    <li class="divider">
-    <li class="dropdown-header">Additional Tutorials</li>
-    <li>
-      <a href="articles/shiny_builder.html">Using Volcano3D to create Shiny Apps</a>
-    </li>
-  </ul>
-</li>
-<li>
-  <a href="news/index.html">
-    <span class="fas fa-newspaper"></span>
-     
-    news
-  </a>
-</li>
-<li>
-  <a href="reference/index.html">
-    <span class="far fa-file-code"></span>
-     
-    Reference Manual
-  </a>
-</li>
-<li>
-  <a href="https://github.com/KatrionaGoldmann/volcano3D">
-    <span class="fab fa-github"></span>
-     
-    github
-  </a>
-</li>
-      </ul>
-</div>
-<!--/.nav-collapse -->
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/Extended_Vignette.html">volcano3D Vignette</a>
+    <a class="dropdown-item" href="articles/Vignette.html">volcano3D</a>
+    <a class="dropdown-item" href="articles/Vignette_2x3.html">volcano3D: 2x3-way analysis</a>
+    <a class="dropdown-item" href="articles/shiny_builder.html">Building a Shiny App</a>
   </div>
-<!--/.container -->
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
+</li>
+      </ul>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/KatrionaGoldmann/volcano3D/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
-<!--/.navbar -->
 
-      
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-
-
-<div id="volcano3d-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#volcano3d-" class="anchor"></a>volcano3D <img src="logo.png" align="right" alt="" width="200" hspace="20">
-</h1></div>
+    
+  </div>
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9">
+<div class="section level1">
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="volcano3d-">volcano3D <a class="anchor" aria-label="anchor" href="#volcano3d-"></a>
+</h1>
+</div>
 <p>The volcano3D package enables exploration of probes differentially expressed between three groups. Its main purpose is for the visualisation of differentially expressed genes in a three-dimensional volcano plot. These plots can be converted to interactive visualisations using plotly.</p>
-<p>The <a href="file:///Users/kgoldmann/Documents/Analyses/volcano_package/volcano3D/docs/articles/Extended_Vignette.html">vignette</a> explores a case study from the PEAC rheumatoid arthritis trial (Pathobiology of Early Arthritis Cohort). The methodology has been published in <a href="https://doi.org/10.1016/j.celrep.2019.07.091">Lewis, Myles J., et al. <em>Molecular portraits of early rheumatoid arthritis identify clinical and treatment response phenotypes</em>. Cell reports 28.9 (2019): 2455-2470. (DOI: 10.1016/j.celrep.2019.07.091)</a> with an interactive web tool available at <a href="https://peac.hpc.qmul.ac.uk" class="uri">https://peac.hpc.qmul.ac.uk</a>.</p>
-<p>This tool acts as a searchable interface to examine relationships between individual synovial and blood gene transcript levels and histological, clinical, and radiographic parameters, and clinical response at 6 months. An interactive interface allows the gene module analysis to be explored for relationships between modules and clinical parameters. The PEAC interactive web tool was creating as an <a href="https://shiny.rstudio.com">R Shiny app</a> and deployed to the web using a server.</p>
+<p>The <a href="file:///Users/kgoldmann/Documents/Analyses/volcano_package/volcano3D/docs/articles/Extended_Vignette.html">vignette</a> explores a case study from the PEAC rheumatoid arthritis trial (Pathobiology of Early Arthritis Cohort). The methodology has been published in <a href="https://doi.org/10.1016/j.celrep.2019.07.091" class="external-link">Lewis, Myles J., et al. <em>Molecular portraits of early rheumatoid arthritis identify clinical and treatment response phenotypes</em>. Cell reports 28.9 (2019): 2455-2470. (DOI: 10.1016/j.celrep.2019.07.091)</a> with an interactive web tool available at <a href="https://peac.hpc.qmul.ac.uk" class="external-link uri">https://peac.hpc.qmul.ac.uk</a>.</p>
+<p>This tool acts as a searchable interface to examine relationships between individual synovial and blood gene transcript levels and histological, clinical, and radiographic parameters, and clinical response at 6 months. An interactive interface allows the gene module analysis to be explored for relationships between modules and clinical parameters. The PEAC interactive web tool was creating as an <a href="https://shiny.rstudio.com" class="external-link">R Shiny app</a> and deployed to the web using a server.</p>
 <p>There are also supplementary vignettes for further information on:</p>
 <ul>
-<li><a href="https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html">using the volcano3D package to create and deploy a shiny app</a></li>
+<li><a href="https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html" class="external-link">using the volcano3D package to create and deploy a shiny app</a></li>
 </ul>
-<div id="getting-started" class="section level2">
-<h2 class="hasAnchor">
-<a href="#getting-started" class="anchor"></a>Getting Started</h2>
-<div id="prerequisites" class="section level3">
-<h3 class="hasAnchor">
-<a href="#prerequisites" class="anchor"></a>Prerequisites</h3>
+<div class="section level2">
+<h2 id="getting-started">Getting Started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
+</h2>
+<div class="section level3">
+<h3 id="prerequisites">Prerequisites<a class="anchor" aria-label="anchor" href="#prerequisites"></a>
+</h3>
 <ul>
-<li><a href="https://cran.r-project.org/web/packages/ggplot2/index.html">ggplot2</a></li>
-<li><a href="https://cran.r-project.org/web/packages/ggpubr/index.html">ggpubr</a></li>
-<li><a href="https://cran.r-project.org/web/packages/plotly/index.html">plotly</a></li>
+<li><a href="https://cran.r-project.org/web/packages/ggplot2/index.html" class="external-link">ggplot2</a></li>
+<li><a href="https://cran.r-project.org/web/packages/ggpubr/index.html" class="external-link">ggpubr</a></li>
+<li><a href="https://cran.r-project.org/web/packages/plotly/index.html" class="external-link">plotly</a></li>
 </ul>
 </div>
-<div id="install-from-cran" class="section level3">
-<h3 class="hasAnchor">
-<a href="#install-from-cran" class="anchor"></a>Install from CRAN</h3>
-<p><a href="https://cran.r-project.org/package=volcano3D"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a></p>
+<div class="section level3">
+<h3 id="install-from-cran">Install from CRAN<a class="anchor" aria-label="anchor" href="#install-from-cran"></a>
+</h3>
+<p><a href="https://cran.r-project.org/package=volcano3D" class="external-link"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"volcano3D"</span>)</span></code></pre></div>
 </div>
-<div id="install-from-github" class="section level3">
-<h3 class="hasAnchor">
-<a href="#install-from-github" class="anchor"></a>Install from Github</h3>
-<p><a href="https://GitHub.com/KatrionaGoldmann/volcano3D/tags/"><img src="https://img.shields.io/github/tag/KatrionaGoldmann/volcano3D.svg" alt="GitHub tag"></a></p>
+<div class="section level3">
+<h3 id="install-from-github">Install from Github<a class="anchor" aria-label="anchor" href="#install-from-github"></a>
+</h3>
+<p><a href="https://GitHub.com/KatrionaGoldmann/volcano3D/tags/" class="external-link"><img src="https://img.shields.io/github/tag/KatrionaGoldmann/volcano3D.svg" alt="GitHub tag"></a></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(volcano3D)</span></code></pre></div>
 </div>
-<div id="volcano3d-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#volcano3d-data" class="anchor"></a>volcano3D data</h3>
-<p>The sample data can then also be installed either from <a href="https://github.com/KatrionaGoldmann/volcano3Ddata">source</a> or using:</p>
+<div class="section level3">
+<h3 id="volcano3d-data">volcano3D data<a class="anchor" aria-label="anchor" href="#volcano3d-data"></a>
+</h3>
+<p>The sample data can then also be installed either from <a href="https://github.com/KatrionaGoldmann/volcano3Ddata" class="external-link">source</a> or using:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"KatrionaGoldmann/volcano3Ddata"</span>)</span></code></pre></div>
 </div>
 </div>
-<div id="citation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h2>
-<p>volcano3D was developed by the bioinformatics team at the <a href="https://www.qmul.ac.uk/whri/emr/">Experimental Medicine &amp; Rheumatology department</a> and <a href="https://www.qmul.ac.uk/c4tb/">Centre for Translational Bioinformatics</a> at Queen Mary University London.</p>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
+<p>volcano3D was developed by the bioinformatics team at the <a href="https://www.qmul.ac.uk/whri/emr/" class="external-link">Experimental Medicine &amp; Rheumatology department</a> and <a href="https://www.qmul.ac.uk/c4tb/" class="external-link">Centre for Translational Bioinformatics</a> at Queen Mary University London.</p>
 <p>If you use this package please cite as:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">"volcano3D"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -195,128 +168,72 @@
 </div>
 </div>
 
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="links">
-<h2>Links</h2>
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=volcano3D">https://​cloud.r-project.org/​package=volcano3D</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/KatrionaGoldmann/volcano3D/">https://​github.com/​KatrionaGoldmann/​volcano3D/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/KatrionaGoldmann/volcano3D/issues">https://​github.com/​KatrionaGoldmann/​volcano3D/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=volcano3D" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/KatrionaGoldmann/volcano3D/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/KatrionaGoldmann/volcano3D/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-2">GPL-2</a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-2" class="external-link">GPL-2</a></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing volcano3D</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>
-<a href="https://github.com/KatrionaGoldmann">Katriona Goldmann</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-9073-6323" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>
-<a href="https://www.qmul.ac.uk/whri/people/academic-staff/items/lewismyles.html">Myles Lewis</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-9365-5345" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Katriona Goldmann <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-9073-6323" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Myles Lewis <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-9365-5345" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html"><img src="https://img.shields.io/badge/lifecycle-stable-blue.svg" alt="Lifecycle: Stable"></a></li>
-<li><a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html"><img src="https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg" alt="License: GPL v2"></a></li>
-<li><a href="https://cran.r-project.org/package=volcano3D"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a></li>
-<li><a href="https://cran.rstudio.com/package=volcano3D"><img src="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange" alt="Downloads"></a></li>
-<li><a href="https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md"><img src="https://img.shields.io/badge/last%20git%20commit-2021--02--22-turquoise.svg" alt="2021-02-22"></a></li>
-<li><a href="http://hits.dwyl.com/KatrionaGoldmann/volcano3D"><img src="http://hits.dwyl.com/KatrionaGoldmann/volcano3D.svg" alt="HitCount"></a></li>
-<li><a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/"><img src="https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg" alt="GitHub issues"></a></li>
-<li><a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/"><img src="https://img.shields.io/travis/KatrionaGoldmann/volcano3D.svg" alt="build"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-blue.svg" alt="Lifecycle: Stable"></a></li>
+<li><a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html" class="external-link"><img src="https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg" alt="License: GPL v2"></a></li>
+<li><a href="https://cran.r-project.org/package=volcano3D" class="external-link"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a></li>
+<li><a href="https://cran.rstudio.com/package=volcano3D" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange" alt="Downloads"></a></li>
+<li><a href="https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md" class="external-link"><img src="https://img.shields.io/badge/last%20git%20commit-2021--02--22-turquoise.svg" alt="2021-02-22"></a></li>
+<li><a href="http://hits.dwyl.com/KatrionaGoldmann/volcano3D" class="external-link"><img src="http://hits.dwyl.com/KatrionaGoldmann/volcano3D.svg" alt="HitCount"></a></li>
+<li><a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/" class="external-link"><img src="https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg" alt="GitHub issues"></a></li>
+<li><a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/" class="external-link"><img src="https://img.shields.io/travis/KatrionaGoldmann/volcano3D.svg" alt="build"></a></li>
 </ul>
 </div>
-</div>
-</div>
 
-
-      <footer><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
-<style>
-  #left {
-    float:left;
-  }
-  #right {
-    width:100%;
-    position:relative;
-    text-align:right;
-    align:right;
-    float:right;
-  }
-  *.icon-grey {color: lightgrey}
-  j {
-    text-align:center;
-    vertical-align:middle;
-    position: relative;
-    padding-bottom: 12px;
-  }
-  .smadge:after{
-    content:"EMR";
-    position: absolute;
-    background: lightgrey;
-    height:1.2rem;
-    top:1rem;
-    right:-1rem;
-    width:2.3rem;
-    text-align: center;
-    line-height: 1rem;;
-    font-size: 1rem;
-    color: #cc0099;
-    border-radius: 10%;
-  }
-  .bladge:after{
-    content:"C4TB";
-    position: absolute;
-    background: lightgrey;
-    height:1.2rem;
-    top:1rem;
-    right:-1rem;
-    width:2.7rem;
-    text-align: center;
-    line-height: 1rem;;
-    font-size: 1rem;
-    color: #cc0099;
-    border-radius: 10%;
-  }
-</style>
-<div id="left">
-Developed by <a href="https://www.turing.ac.uk/people/enrichment-students/katriona-goldmann">Katriona Goldmann</a> and <a href="https://www.qmul.ac.uk/whri/people/academic-staff/items/lewismyles.html">Myles Lewis</a>
+  </aside>
 </div>
 
-<div id="right">
-<a href="https://www.qmul.ac.uk/whri/emr/"><j class="fa fa-university fa-2x  icon-grey smadge" aria-hidden="false" style="color:#cc0099"></j></a>
-<span style="margin-left:1rem"></span>
 
-<a href="https://www.qmul.ac.uk/c4tb/"><j class="fa fa-university fa-2x  icon-grey bladge" aria-hidden="false" style="color:#cc0099"></j></a>
-<span style="margin-left:1rem"></span>
-
-<a href="https://towardsdatascience.com/interactive-differential-expression-analysis-with-volcano3d-cf6c37b5aa6a"><i class="fab fa-medium-m fa-2x" style="color:#cc0099"></i></a>
-<span style="margin-left:1rem"></span>
-<a href="mailto:k.goldmann@qmul.ac.uk" class="fas fa-envelope fa-2x" style="color:#cc0099">
-</a><span style="margin-left:1rem"></span>
-
-<a href="https://github.com/KatrionaGoldmann"><i class="fab fa-github fa-2x" style="color:#cc0099"></i></a>
-<span style="margin-left:1rem"></span>
-
-<a href="https://twitter.com/_katriona"><i class="fab fa-twitter fa-2x" style="color:#cc0099"></i></a>
+    <footer><div class="pkgdown-footer-left">
+  <p></p>
+<p>Developed by Katriona Goldmann, Myles Lewis.</p>
 </div>
 
-      </footer>
+<div class="pkgdown-footer-right">
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+</div>
+
+    </footer>
 </div>
 
   
 
+  
 
   </body>
 </html>
