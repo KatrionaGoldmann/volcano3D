@@ -89,8 +89,21 @@ The design formula can contain covariates, however the main contrast should be
 the last term of the formula as is standard in DESeq2 analysis.
 
 The function `deseq_2x3()` returns a list of 3 DESeq2 objects containing the
-response analysis for each of the three drugs. This object is passed to
-`deseq_2x3_polar()` to generate a `volc3d` class object for plotting.
+response analysis for each of the three drugs. These response vs non-response
+differential expression comparisons can be quickly visualised with the
+`easyVolcano()` function from the R package `easylabel`, which is designed for
+DESeq2 and limma objects and uses an interactive R/shiny interface.
+
+```{r, eval=FALSE}
+library(easylabel)
+df <- as.data.frame(res[[1]])  # results for the first drug  
+easyVolcano(df)
+```
+
+The `deseq_2x3` output is passed to `deseq_2x3_polar()` to generate a `volc3d`
+class object for plotting. Thus the 3-way radial plot and 3d volcano plot
+simplify visualisation of the 2x3-way analysis, replacing 3 volcano plots with a
+single radial plot or 3d volcano plot.
 
 ```{r, eval=FALSE}
 # Generate polar object
@@ -102,6 +115,8 @@ radial_plotly(obj)
 # 3d plot
 volcano3D(obj)
 ```
+
+## Real world example
 
 The example below using real data from the STRAP trial demonstrates a 3-way
 radial plot highlighting the relationship between genes significantly increased

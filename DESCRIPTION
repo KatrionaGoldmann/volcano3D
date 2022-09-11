@@ -48,4 +48,5 @@ Suggests:
     knitr,
     rmarkdown,
     kableExtra,
-    usethis
+    usethis,
+    easylabel
