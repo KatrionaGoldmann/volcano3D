@@ -216,8 +216,10 @@ forest_ggplot <- function(object, genes,
 
 forest_df <- function(object, genes,
                       labs = NULL, error_type = "ci", gap = 1) {
-  if (!is(object, "volc3d") | length(object@df) != 3) {
-    stop("Not a 2x3 analysis 'volc3d' class object")}
+  if(! is(object, "volc3d")) stop("Not a 'volc3d' class object")
+  if(!object@df$type %in% c("polar_coords_2x3", "deseq_2x3_polar")) {
+    stop("Not a 2x3-way analysis")
+  }
   df <- object@df[[2]]
   val <- as.vector(t(df[genes, 1:3]))
   CI <- as.vector(t(df[genes, 4:6]))
