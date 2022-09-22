@@ -5,14 +5,13 @@ v2](https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg)](https://www
 [![CRAN
 status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange)](https://cran.rstudio.com/package=volcano3D)
-[![2021-02-22](https://img.shields.io/badge/last%20git%20commit-2021--02--22-turquoise.svg)](https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md)
+[![2022-09-22](https://img.shields.io/badge/last%20git%20commit-2022--09--22-turquoise.svg)](https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md)
 [![HitCount](http://hits.dwyl.com/KatrionaGoldmann/volcano3D.svg)](http://hits.dwyl.com/KatrionaGoldmann/volcano3D)
 [![GitHub
 issues](https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/issues/)
 [![build](https://img.shields.io/travis/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/issues/)
 
-volcano3D <img src="logo.png" align="right" alt="" width="200" hspace="20" />
-=============================================================================
+# volcano3D <img src="logo.png" align="right" alt="" width="200" hspace="20" />
 
 The volcano3D package enables exploration of probes differentially
 expressed between three groups. Its main purpose is for the
@@ -40,11 +39,15 @@ app](https://shiny.rstudio.com) and deployed to the web using a server.
 
 There are also supplementary vignettes for further information on:
 
--   [using the volcano3D package to create and deploy a shiny
-    app](https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html)
+-   Using the volcano3D package to perform 2x3-way analysis. In this
+    type of analysis there is a binary factor such as drug response
+    (responders vs non-responders) and a 2nd factor with 3 classes such
+    as a trial with 3 drugs. See
+    [here](https://katrionagoldmann.github.io/volcano3D/articles/Vignette_2x3.html).
+-   Using the volcano3D package to create and deploy a shiny app. See
+    [here](https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html).
 
-Getting Started
----------------
+## Getting Started
 
 ### Prerequisites
 
@@ -75,8 +78,7 @@ The sample data can then also be installed either from
 
     install_github("KatrionaGoldmann/volcano3Ddata")
 
-Citation
---------
+## Citation
 
 volcano3D was developed by the bioinformatics team at the [Experimental
 Medicine & Rheumatology department](https://www.qmul.ac.uk/whri/emr/)
@@ -91,20 +93,18 @@ If you use this package please cite as:
     ## 
     ## To cite package 'volcano3D' in publications use:
     ## 
-    ##   Katriona Goldmann and Myles Lewis (2021). volcano3D: Interactive
-    ##   Plotting of Three-Way Differential Expression Analysis.
-    ##   https://katrionagoldmann.github.io/volcano3D/index.html,
-    ##   https://github.com/KatrionaGoldmann/volcano3D.
+    ##   Katriona Goldmann and Myles Lewis (2022). volcano3D: 3D Volcano Plots
+    ##   and Polar Plots for Three-Class Data. R package version 2.0.0.
+    ##   https://CRAN.R-project.org/package=volcano3D
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
     ##   @Manual{,
-    ##     title = {volcano3D: Interactive Plotting of Three-Way Differential Expression
-    ## Analysis},
+    ##     title = {volcano3D: 3D Volcano Plots and Polar Plots for Three-Class Data},
     ##     author = {Katriona Goldmann and Myles Lewis},
-    ##     year = {2021},
-    ##     note = {https://katrionagoldmann.github.io/volcano3D/index.html,
-    ## https://github.com/KatrionaGoldmann/volcano3D},
+    ##     year = {2022},
+    ##     note = {R package version 2.0.0},
+    ##     url = {https://CRAN.R-project.org/package=volcano3D},
     ##   }
 
 or:

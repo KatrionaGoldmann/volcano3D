@@ -12,7 +12,8 @@
 #' @param error_type Either "ci" or "se" to specify whether error bars use 95%
 #'   confidence intervals or standard error
 #' @param error_width Width of error bars
-#' @param facet Logical whether to use facets for individual genes (ggplot2 only)
+#' @param facet Logical whether to use facets for individual genes (ggplot2 
+#' only)
 #' @param gap Size of gap between groupings for each gene
 #' @param transpose Logical whether to transpose the plot
 #' @param mar Vector of margins on four sides. See [par()]
@@ -50,7 +51,7 @@ forest_plot <- function(object, genes,
     points(data$val, y = data$pos, pch=19, col=scheme)
     abline(v = 0, lty = 2)
     axis(2, data$pos, data$labs, tick = FALSE, las = 1)
-    axis(2, data$pos[seq_along(genes)*3-1], genes, tick = FALSE, line=2, las = 1)
+    axis(2, data$pos[seq_along(genes)*3-1], genes, tick = FALSE, line=2, las=1)
     text(xrange[2]+ diff(xrange)*0.06, data$pos, data$stars, xpd = NA)
   } else {
     plot.args <- list(x = NA, ylim = xrange, xlim = prange, xaxt="n", bty = "n",
@@ -184,7 +185,8 @@ forest_ggplot <- function(object, genes,
         geom_point() +
         scale_color_manual(values = scheme) +
         xlab(bquote("log"[2]~"FC")) + ylab("") + labs(color = "") +
-        scale_y_continuous(breaks=data$pos[seq_along(genes)*3-1], labels=genes) +
+        scale_y_continuous(breaks=data$pos[seq_along(genes)*3-1], 
+                           labels=genes) +
         geom_vline(xintercept = 0, linetype = "dashed") +
         annotate(geom = "text",
                  y = data$pos,
@@ -200,7 +202,8 @@ forest_ggplot <- function(object, genes,
         geom_point() +
         scale_color_manual(values = scheme) +
         ylab(bquote("log"[2]~"FC")) + xlab("") + labs(color = "") +
-        scale_x_continuous(breaks=data$pos[seq_along(genes)*3-1], labels=genes) +
+        scale_x_continuous(breaks=data$pos[seq_along(genes)*3-1], 
+                           labels=genes) +
         geom_hline(yintercept = 0, linetype = "dashed") +
         annotate(geom = "text",
                  x = data$pos,
@@ -225,7 +228,8 @@ forest_df <- function(object, genes,
   CI <- as.vector(t(df[genes, 4:6]))
   if (error_type == "ci") CI <- CI * 1.96
   ngenes <- length(genes)
-  pos <- rep.int(1:3, ngenes) + rep(seq(from=0, by=3+gap, length.out=ngenes), each = 3)
+  pos <- rep.int(1:3, ngenes) + 
+    rep(seq(from=0, by=3+gap, length.out=ngenes), each = 3)
   if (is.null(labs)) labs <- abbreviate(colnames(df)[1:3], 3)
   pval <- as.vector(t(object@padj[genes,]))
   data <- data.frame(gene = factor(rep(genes, each = 3), levels = genes),

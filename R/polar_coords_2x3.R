@@ -161,7 +161,7 @@ polar_coords_2x3 <- function(data,
   df2 <- cbind(df2, ptab)
   
   methods::new("volc3d",
-               df = list(scaled = df1, unscaled = df2, type = "polar_coords_2x3"),
+               df = list(scaled=df1, unscaled=df2, type="polar_coords_2x3"),
                outcome = outcome,
                data = data, pvals = pvals, padj = padj,
                pcutoff = pcutoff, scheme = scheme,

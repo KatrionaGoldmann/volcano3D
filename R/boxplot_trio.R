@@ -85,7 +85,7 @@ boxplot_trio <- function(polar,
   expression <- t(polar@data)
   pvalues <- polar@pvals
   padj <- polar@padj
-
+  
   if(! test %in% c("polar_pvalue", "polar_padj", "polar_multi_pvalue",
                    "polar_multi_padj", "t.test", "wilcox.test", "anova",
                    "kruskal.test")) {
@@ -115,41 +115,41 @@ boxplot_trio <- function(polar,
     }
     return(x)
   }))
-
+  
   if(length(value) > 1) stop("value must be of length 1")
   if(! value %in% rownames(expression)) {
     stop("value/gene is not in rownames(expression)")
   }
-
+  
   if(! plot_method %in% c('plotly', 'ggplot')){
     stop("plot_method must be either plotly or ggplot")
   }
-
+  
   colour_map <- setNames(box_colours, levels_order)
-
+  
   if(is.character(value)) {
     index <- which(rownames(expression) ==  value)
   }
-
+  
   if(is.null(my_comparisons)) {
     comps <- levels_order
     my_comparisons <- lapply(seq_len(ncol(combn(comps, 2))), function(i) {
       as.character(combn(comps, 2)[, i])
     })
   }
-
+  
   df <- data.frame("group" = outcome,
                    "row" = expression[value, ])
   df <- df[! is.na(df$row), ]
   df <- df[df$group %in% levels_order, ]
-
+  
   # re-level based on defined order
   df$group <- factor(df$group, levels_order)
   df$col <- factor(df$group, labels=colour_map[match(levels(df$group),
                                                      names(colour_map))])
-
+  
   map_pos <- setNames(seq_along(levels(df$group)), levels(df$group))
-
+  
   # Calculate the p-values depending on test
   if(test %in% c("t.test", "wilcox.test", "anova", "kruskal.test")){
     pvals <- compare_means(formula = row ~ group, data = df,
@@ -184,9 +184,9 @@ boxplot_trio <- function(polar,
       (1.01 + step_increase*(seq_len(nrow(pvals))-1))
     comp_use <- unlist(lapply(my_comparisons, function(x) { 
       c(paste0(x[1], "_", x[2]), paste0(x[2], "_", x[1]))
-      }))
+    }))
     pvals <- pvals[pvals$comp %in% comp_use, ]
-
+    
     # multi group comparisons
   } else{
     # polar_multi_test
@@ -194,7 +194,7 @@ boxplot_trio <- function(polar,
                     "polar_multi_pvalue" = pvalues[value, 1],
                     "polar_multi_padj" = padj[value, 1])
   }
-
+  
   if(plot_method == 'ggplot'){
     p <- ggboxplot(data = df,
                    x = "group",
@@ -213,10 +213,10 @@ boxplot_trio <- function(polar,
             plot.background = element_rect(fill="transparent", color=NA),
             panel.background = element_rect(fill="transparent", colour=NA),
             legend.background = element_rect(fill="transparent", colour=NA))
-
-
+    
+    
     if(! grepl("multi", test) & !(test %in% c("anova", "kruskal.test"))){
-
+      
       p <- p + stat_pvalue_manual(
         data = pvals, label = "p.format",
         xmin = "group1", xmax = "group2",
@@ -241,8 +241,9 @@ boxplot_trio <- function(polar,
                   marker = list(size = 6, color=~col),
                   hoverinfo = "text",
                   text = paste0(rownames(df),
-                    "<br>Group: ", df$group,
-                                 "<br>Expression: ", format(df$row, digits = 3)),
+                                "<br>Group: ", df$group,
+                                "<br>Expression: ", 
+                                format(df$row, digits = 3)),
                   showlegend = FALSE) %>%
       layout(legend = list(orientation = "h",
                            x =0.5, xanchor = "center",
@@ -251,8 +252,8 @@ boxplot_trio <- function(polar,
       xaxis = list(title = "", tickvals = 1:3,
                    ticktext = levels(df$group)),
       yaxis = list(title = value))
-
-
+    
+    
     lines <- list()
     if(! grepl("multi", test)){
       for (i in seq_len(nrow(pvals))) {
@@ -262,7 +263,7 @@ boxplot_trio <- function(polar,
         line[c("y0", "y1")] <- pvals$y.position[i]
         lines <- c(lines, list(line))
       }
-
+      
       a <- list(
         x = as.numeric(pvals$x.position),
         y = pvals$y.position,
@@ -273,9 +274,9 @@ boxplot_trio <- function(polar,
         font = list(color = stat_colour),
         showarrow = FALSE
       )
-
+      
       p <- p %>% layout(annotations = a, shapes=lines)
-
+      
     } else{
       a <- list(
         x = 2,
@@ -286,13 +287,13 @@ boxplot_trio <- function(polar,
         font = list(color = stat_colour),
         showarrow = FALSE
       )
-
+      
       p <- p %>% layout(annotations = a)
     }
-
-
+    
+    
   }
-
+  
   return(p)
 }
 

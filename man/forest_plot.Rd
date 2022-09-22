@@ -67,7 +67,8 @@ confidence intervals or standard error}
 
 \item{...}{Optional arguments}
 
-\item{facet}{Logical whether to use facets for individual genes (ggplot2 only)}
+\item{facet}{Logical whether to use facets for individual genes (ggplot2
+only)}
 }
 \value{
 Returns a plot using either base graphics (\code{forest_plot}), plotly

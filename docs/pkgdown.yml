@@ -1,10 +1,10 @@
 pandoc: '2.18'
-pkgdown: 2.0.6
+pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   Extended_Vignette: Extended_Vignette.html
   Vignette: Vignette.html
   Vignette_2x3: Vignette_2x3.html
   shiny_builder: shiny_builder.html
-last_built: 2022-09-11T13:59Z
+last_built: 2022-09-22T15:48Z
 

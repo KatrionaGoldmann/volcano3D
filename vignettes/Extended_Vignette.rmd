@@ -46,7 +46,8 @@ with an interactive web tool available at
 
 There are also supplementary vignettes with further information on:
 
-- [using the volcano3D package to create and deploy a shiny app](https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html)
+- Using the volcano3D package to perform 2x3-way analysis. In this type of analysis there is a binary factor such as drug response (responders vs non-responders) and a 2nd factor with 3 classes such as a trial with 3 drugs. See [here](https://katrionagoldmann.github.io/volcano3D/articles/Vignette_2x3.html).
+- Using the volcano3D package to create and deploy a shiny app. See [here](https://katrionagoldmann.github.io/volcano3D/articles/shiny_builder.html).
 
 ## Getting Started
 

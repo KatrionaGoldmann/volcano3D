@@ -60,7 +60,9 @@ deseq_2x3 <- function(object, design, group, ...) {
   colDat <- SummarizedExperiment::colData(object)
   termsDE <- attr(terms(design), "term.labels")
   contrast <- termsDE[length(termsDE)]
-  if (nlevels(colDat[, contrast]) != 2) stop(contrast, " is not binary in `design`")
+  if (nlevels(colDat[, contrast]) != 2) {
+    stop(contrast, " is not binary in `design`")
+  }
   if (!group %in% colnames(colDat)) {
     stop(group, " is not a column in sample information in `colData`")}
   groups <- colDat[, group]

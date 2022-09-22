@@ -49,7 +49,7 @@ show_grid <- function(grid,
     axis_settings_xy <- list(title = "", zeroline = FALSE, showline = FALSE,
                              showticklabels = FALSE, showgrid = FALSE,
                              autotick = FALSE, showspikes = FALSE)
-    axis_settings_xy[['range']] <- c(-grid@r, grid@r) * 1.05 * z_axis_title_offset
+    axis_settings_xy[['range']] <- c(-grid@r, grid@r)*1.05*z_axis_title_offset
 
     grid_cyl <- grid
     cyl <- plot_ly(height = plot_height) %>%

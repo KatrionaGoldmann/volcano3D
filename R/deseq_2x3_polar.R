@@ -99,7 +99,9 @@ deseq_2x3_polar <- function(object,
            BiocManager::install('DESeq2')", call. = FALSE)
   }
   if (is(object[[1]], "DESeqDataSet")) {
-    if (!all.equal(object[[1]]@design, object[[3]]@design, object[[3]]@design)) {
+    if (!all.equal(object[[1]]@design, 
+                   object[[3]]@design, 
+                   object[[3]]@design)){
       message("Design formulae differ")}
   }
   process <- match.arg(process)
@@ -136,7 +138,9 @@ deseq_2x3_polar <- function(object,
   df2 <- cbind(df2, ptab)
   
   methods::new("volc3d",
-               df = list(scaled = df1, unscaled = df2, type = "deseq_2x3_polar"),
+               df = list(scaled = df1, 
+                         unscaled = df2, 
+                         type = "deseq_2x3_polar"),
                outcome = outcome,
                data = data.frame(), pvals = pvals, padj = padj,
                pcutoff = pcutoff, scheme = scheme,
