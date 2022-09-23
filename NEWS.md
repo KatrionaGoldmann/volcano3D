@@ -2,7 +2,7 @@ News
 =====
 
 # volcano3D 2.0.8
-###### 09/09/2022
+###### 23/09/2022
 * Add back `fc_cutoff` option
 
 # volcano3D 2.0.7
