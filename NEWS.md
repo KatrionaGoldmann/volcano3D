@@ -1,6 +1,10 @@
 News
 =====
 
+# volcano3D 2.0.8
+###### 09/09/2022
+* Add back `fc_cutoff` option
+
 # volcano3D 2.0.7
 ###### 09/09/2022
 * Add `deseq_2x3()` function for 2x3 factor design comparisons using DESeq2

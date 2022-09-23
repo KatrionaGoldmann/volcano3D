@@ -8,7 +8,6 @@ calc_stats_2x3(
   data,
   outcome,
   group,
-  pcutoff,
   padj.method,
   test = c("t.test", "wilcoxon"),
   exact = FALSE
@@ -20,8 +19,6 @@ calc_stats_2x3(
 \item{outcome}{Factor with 2 levels}
 
 \item{group}{Factor with 3 levels}
-
-\item{pcutoff}{Cut-off for p-value significance}
 
 \item{padj.method}{Can be \code{"qvalue"} or any method available in \code{p.adjust}.
 The option \code{"none"} is a pass-through.}

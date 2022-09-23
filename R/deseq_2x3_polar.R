@@ -16,6 +16,7 @@
 #'   non-response, group C etc. The names of the groups are taken from the list
 #'   names.
 #' @param pcutoff Cut-off for p-value significance
+#' @param fc_cutoff Cut-off for fold change on radial axis
 #' @param padj.method Can be `"qvalue"` or any method available in `p.adjust`.
 #'   The option `"none"` is a pass-through.
 #' @param process Character value specifying colour process for statistical
@@ -88,6 +89,7 @@
 
 deseq_2x3_polar <- function(object,
                             pcutoff = 0.05,
+                            fc_cutoff = NULL,
                             padj.method = "BH",
                             process = c("positive", "negative", "two.sided"),
                             scheme = c('grey60', 'red', 'gold2', 'green3', 
@@ -133,7 +135,8 @@ deseq_2x3_polar <- function(object,
   padj <- getCols(res, rn, 'padj')
   outcome <- factor(levels = names(res))
   
-  ptab <- polar_p2x3(df2, pvals, padj, pcutoff, process, scheme, labs)
+  ptab <- polar_p2x3(df2, pvals, padj, pcutoff, fc_cutoff, process, scheme,
+                     labs)
   df1 <- cbind(df1, ptab)
   df2 <- cbind(df2, ptab)
   
@@ -160,6 +163,7 @@ getCols <- function(res, rn, col) {
 
 polar_p2x3 <- function(df, pvals, padj = pvals,
                        pcutoff = 0.05,
+                       fc_cutoff = NULL,
                        process = "positive",
                        scheme = c('grey60', 'red', 'gold2', 'green3', 
                                   'cyan', 'blue', 'purple', 'black'),
@@ -183,6 +187,9 @@ polar_p2x3 <- function(df, pvals, padj = pvals,
     pcheck[posrs == 0, ] <- pneg[posrs == 0, ]
   }
   pset <- paste0(pcheck[,1], pcheck[,2], pcheck[,3])
+  if (!is.null(fc_cutoff)) {
+    pset[df[, 'r'] < fc_cutoff] <- '000'
+  }
   if (is.null(labs) | length(labs) == 3) {
     abbrev <- if (length(labs) == 3) labs else abbreviate(outcome_levels, 1)
     labs <- c("ns",

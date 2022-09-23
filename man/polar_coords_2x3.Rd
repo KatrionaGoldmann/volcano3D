@@ -12,6 +12,7 @@ polar_coords_2x3(
   pvals = NULL,
   padj = pvals,
   pcutoff = 0.05,
+  fc_cutoff = NULL,
   padj.method = "BH",
   process = c("positive", "negative", "two.sided"),
   scheme = c("grey60", "red", "gold2", "green3", "cyan", "blue", "purple", "black"),
@@ -44,6 +45,8 @@ specified in \code{group}.}
 defaults to use nominal p-values from \code{pvals}.}
 
 \item{pcutoff}{Cut-off for p-value significance}
+
+\item{fc_cutoff}{Cut-off for fold change on radial axis}
 
 \item{padj.method}{Can be \code{"qvalue"} or any method available in \code{p.adjust}.
 The option \code{"none"} is a pass-through.}

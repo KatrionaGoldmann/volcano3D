@@ -24,6 +24,7 @@
 #' @param padj Matrix or dataframe with adjusted p-values. If not supplied,
 #'   defaults to use nominal p-values from `pvals`.
 #' @param pcutoff Cut-off for p-value significance
+#' @param fc_cutoff Cut-off for fold change on radial axis
 #' @param padj.method Can be `"qvalue"` or any method available in `p.adjust`.
 #'   The option `"none"` is a pass-through.
 #' @param process Character value specifying colour process for statistical
@@ -106,6 +107,7 @@ polar_coords_2x3 <- function(data,
                              pvals = NULL, 
                              padj = pvals,
                              pcutoff = 0.05,
+                             fc_cutoff = NULL,
                              padj.method = "BH",
                              process = c("positive", "negative", "two.sided"),
                              scheme = c('grey60', 'red', 'gold2', 'green3', 
@@ -136,7 +138,7 @@ polar_coords_2x3 <- function(data,
     message("Removing NA from outcome/group")
   }
   
-  res <- calc_stats_2x3(data, outcome, group, pcutoff, padj.method, ...)
+  res <- calc_stats_2x3(data, outcome, group, padj.method, ...)
   rn <- Reduce(intersect, lapply(res, rownames))
   df1 <- getCols(res, rn, 'statistic')
   df2 <- getCols(res, rn, 'mean.diff')
@@ -156,7 +158,8 @@ polar_coords_2x3 <- function(data,
   df2 <- polar_xy(df2)
   outcome <- factor(levels = levels(group))
   
-  ptab <- polar_p2x3(df2, pvals, padj, pcutoff, process, scheme, labs)
+  ptab <- polar_p2x3(df2, pvals, padj, pcutoff, fc_cutoff, process, scheme,
+                     labs)
   df1 <- cbind(df1, ptab)
   df2 <- cbind(df2, ptab)
   
@@ -174,7 +177,6 @@ polar_coords_2x3 <- function(data,
 #' @param data Dataframe or matrix with variables in columns and samples in rows
 #' @param outcome Factor with 2 levels
 #' @param group Factor with 3 levels
-#' @param pcutoff Cut-off for p-value significance
 #' @param padj.method Can be `"qvalue"` or any method available in `p.adjust`.
 #'   The option `"none"` is a pass-through.
 #' @param test Character value specifying the statistical test between the 2
@@ -183,7 +185,7 @@ polar_coords_2x3 <- function(data,
 #' @importFrom matrixTests col_t_welch col_wilcoxon_twosample
 #' @export
 #' 
-calc_stats_2x3 <- function(data, outcome, group, pcutoff, padj.method,
+calc_stats_2x3 <- function(data, outcome, group, padj.method,
                            test = c("t.test", "wilcoxon"),
                            exact = FALSE) {
   test <- match.arg(test)

@@ -10,6 +10,7 @@ polar_coords(
   pvals = NULL,
   padj = pvals,
   pcutoff = 0.05,
+  fc_cutoff = NULL,
   scheme = c("grey60", "red", "gold2", "green3", "cyan", "blue", "purple"),
   labs = NULL,
   ...
@@ -34,6 +35,8 @@ calculated using the function \code{\link{calc_pvals}}.}
 defaults to use nominal p-values from \code{pvals}.}
 
 \item{pcutoff}{Cut-off for p-value significance}
+
+\item{fc_cutoff}{Cut-off for fold change on radial axis}
 
 \item{scheme}{Vector of colours starting with non-significant variables}
 

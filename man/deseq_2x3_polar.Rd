@@ -7,6 +7,7 @@
 deseq_2x3_polar(
   object,
   pcutoff = 0.05,
+  fc_cutoff = NULL,
   padj.method = "BH",
   process = c("positive", "negative", "two.sided"),
   scheme = c("grey60", "red", "gold2", "green3", "cyan", "blue", "purple", "black"),
@@ -22,6 +23,8 @@ non-response, group C etc. The names of the groups are taken from the list
 names.}
 
 \item{pcutoff}{Cut-off for p-value significance}
+
+\item{fc_cutoff}{Cut-off for fold change on radial axis}
 
 \item{padj.method}{Can be \code{"qvalue"} or any method available in \code{p.adjust}.
 The option \code{"none"} is a pass-through.}

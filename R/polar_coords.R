@@ -41,6 +41,7 @@ setClass("volc3d", slots = list(df = "list",
 #' @param padj Matrix or dataframe with adjusted p-values. If not supplied,
 #'   defaults to use nominal p-values from `pvals`.
 #' @param pcutoff Cut-off for p-value significance
+#' @param fc_cutoff Cut-off for fold change on radial axis
 #' @param scheme Vector of colours starting with non-significant variables
 #' @param labs Optional character vector for labelling groups. Default `NULL`
 #'   leads to abbreviated labels based on levels in `outcome` using
@@ -87,6 +88,7 @@ polar_coords <- function(
     pvals = NULL, 
     padj = pvals, 
     pcutoff = 0.05,
+    fc_cutoff = NULL,
     scheme = c('grey60', 'red', 'gold2', 'green3', 'cyan', 'blue', 'purple'),
     labs = NULL, 
     ...) {
@@ -124,7 +126,7 @@ polar_coords <- function(
   }
   
   # Assign significance groupings
-  ptab <- polar_p(outcome, df1, pvals, padj, pcutoff, scheme, labs)
+  ptab <- polar_p(outcome, df2, pvals, padj, pcutoff, fc_cutoff, scheme, labs)
   df1 <- cbind(df1, ptab)
   df2 <- cbind(df2, ptab)
   
@@ -262,7 +264,8 @@ qval <- function(p, method = "qvalue") {
 
 #' @importFrom Rfast rowMins
 #'
-polar_p <- function(outcome, df1, pvals, padj = pvals, pcutoff = 0.05,
+polar_p <- function(outcome, df2, pvals, padj = pvals, pcutoff = 0.05,
+                    fc_cutoff = NULL,
                     scheme = c('grey60', 'red', 'gold2', 'green3', 
                                'cyan', 'blue', 'purple'),
                     labs = NULL) {
@@ -274,10 +277,10 @@ polar_p <- function(outcome, df1, pvals, padj = pvals, pcutoff = 0.05,
   paircut <- paircut *1  # convert matrix to numeric
   
   # Find the downregulated group
-  mincol <- Rfast::rowMins(as.matrix(df1[, 1:3]))
+  mincol <- Rfast::rowMins(as.matrix(df2[, 1:3]))
   mincol2 <- c("A", "B", "C")[mincol]
   pairmerge <- paste0(mincol2, paircut[,1], paircut[,2], paircut[,3])
-  pgroup <- rep_len(1, nrow(df1))
+  pgroup <- rep_len(1, nrow(df2))
   
   # Assign groups depending on pairwise significance: sequence AB, AC, BC
   pgroup[grep("A10.|C.01", pairmerge)] <- 2  # default red
@@ -287,6 +290,9 @@ polar_p <- function(outcome, df1, pvals, padj = pvals, pcutoff = 0.05,
   pgroup[grep("B1.1", pairmerge)] <- 5  # default cyan
   pgroup[grep("C.11", pairmerge)] <- 7  # default purple
   pgroup[pvals[ ,1] > pcutoff] <- 1  # not significant for all p_group > cutoff
+  if (!is.null(fc_cutoff)) {
+    pgroup[df2[, 'r'] < fc_cutoff] <- 1
+  }
   col <- scheme[pgroup]
   
   # Label the groups by upregulation
