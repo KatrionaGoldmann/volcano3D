@@ -4,12 +4,11 @@ Stable](https://img.shields.io/badge/lifecycle-stable-blue.svg)](https://lifecyc
 v2](https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
-[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange)](https://cran.rstudio.com/package=volcano3D)
-[![2022-09-22](https://img.shields.io/badge/last%20git%20commit-2022--09--22-turquoise.svg)](https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md)
-[![HitCount](http://hits.dwyl.com/KatrionaGoldmann/volcano3D.svg)](http://hits.dwyl.com/KatrionaGoldmann/volcano3D)
+[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange)](https://cran.r-project.org/package=volcano3D)
+[![2023-05-16](https://img.shields.io/badge/last%20git%20commit-2023--05--16-turquoise.svg)](https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md)
 [![GitHub
 issues](https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/issues/)
-[![build](https://img.shields.io/travis/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/issues/)
+[![Build](https://github.com/KatrionaGoldmann/volcano3D/actions/workflows/r.yml/badge.svg)](https://github.com/KatrionaGoldmann/volcano3D/actions/workflows/r.yml/badge.svg)
 
 # volcano3D <img src="logo.png" align="right" alt="" width="200" hspace="20" />
 
@@ -35,7 +34,8 @@ histological, clinical, and radiographic parameters, and clinical
 response at 6 months. An interactive interface allows the gene module
 analysis to be explored for relationships between modules and clinical
 parameters. The PEAC interactive web tool was creating as an [R Shiny
-app](https://shiny.rstudio.com) and deployed to the web using a server.
+app](https://www.rstudio.com/products/shiny/) and deployed to the web
+using a server.
 
 There are also supplementary vignettes for further information on:
 
@@ -51,9 +51,9 @@ There are also supplementary vignettes for further information on:
 
 ### Prerequisites
 
--   [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)
--   [ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
--   [plotly](https://cran.r-project.org/web/packages/plotly/index.html)
+-   [ggplot2](https://cran.r-project.org/package=ggplot2)
+-   [ggpubr](https://cran.r-project.org/package=ggpubr)
+-   [plotly](https://cran.r-project.org/package=plotly)
 
 ### Install from CRAN
 
@@ -93,18 +93,18 @@ If you use this package please cite as:
     ## 
     ## To cite package 'volcano3D' in publications use:
     ## 
-    ##   Katriona Goldmann and Myles Lewis (2022). volcano3D: 3D Volcano Plots
-    ##   and Polar Plots for Three-Class Data. R package version 2.0.0.
-    ##   https://CRAN.R-project.org/package=volcano3D
+    ##   Goldmann K, Lewis M (2020). _volcano3D: 3D Volcano Plots and Polar
+    ##   Plots for Three-Class Data_.
+    ##   https://katrionagoldmann.github.io/volcano3D/index.html,
+    ##   https://github.com/KatrionaGoldmann/volcano3D.
     ## 
     ## A BibTeX entry for LaTeX users is
     ## 
     ##   @Manual{,
     ##     title = {volcano3D: 3D Volcano Plots and Polar Plots for Three-Class Data},
     ##     author = {Katriona Goldmann and Myles Lewis},
-    ##     year = {2022},
-    ##     note = {R package version 2.0.0},
-    ##     url = {https://CRAN.R-project.org/package=volcano3D},
+    ##     year = {2020},
+    ##     note = {https://katrionagoldmann.github.io/volcano3D/index.html, https://github.com/KatrionaGoldmann/volcano3D},
     ##   }
 
 or:

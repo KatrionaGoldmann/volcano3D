@@ -1,13 +1,13 @@
 Package: volcano3D
 Type: Package
 Title: 3D Volcano Plots and Polar Plots for Three-Class Data
-Version: 2.0.8
+Version: 2.0.9
 Authors@R: c(person("Katriona", "Goldmann", role = c("aut", "cre"),
-                       email = "k.goldmann@qmul.ac.uk",
+                       email = "katrionagoldmann@gmail.com",
                        comment = c(ORCID = "0000-0002-9073-6323")),
                 person("Myles", "Lewis", role = c("aut"),
                 comment = c(ORCID = "0000-0001-9365-5345")))
-Maintainer: Katriona Goldmann <k.goldmann@qmul.ac.uk>
+Maintainer: Katriona Goldmann <katrionagoldmann@gmail.com>
 URL: https://katrionagoldmann.github.io/volcano3D/index.html, https://github.com/KatrionaGoldmann/volcano3D
 BugReports: https://github.com/KatrionaGoldmann/volcano3D/issues
 Description: Generates interactive plots for analysing and visualising 

@@ -64,7 +64,7 @@ identify clinical and treatment response phenotypes_. Cell reports 28.9 (2019):
 (DOI: 10.1016/j.celrep.2019.07.091)](https://doi.org/10.1016/j.celrep.2019.07.091)
 with an interactive, searchable web tool available at 
 [https://peac.hpc.qmul.ac.uk](https://peac.hpc.qmul.ac.uk). This was creating as an 
-[R Shiny app](https://shiny.rstudio.com) and deployed to the web using a server. 
+[R Shiny app](https://www.rstudio.com/products/shiny/) and deployed to the web using a server. 
 
 
 There are also supplementary vignettes with further information on:
@@ -77,9 +77,8 @@ There are also supplementary vignettes with further information on:
 [![CRAN status](https://www.r-pkg.org/badges/version/volcano3D)](https://cran.r-project.org/package=volcano3D)
 [![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange)](https://cranlogs.r-pkg.org/badges/grand-total/volcano3D)
 `r paste0("[![", Sys.Date(),"]","(",paste0("https://img.shields.io/badge/last%20commit-", gsub('-', '--', Sys.Date()),"-turquoise.svg"), ")]","(",'https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md',")")`
-[![Build Status](https://travis-ci.org/KatrionaGoldmann/volcano3D.svg?branch=master)](https://travis-ci.org/KatrionaGoldmann/volcano3D)
+[![Build](https://github.com/KatrionaGoldmann/volcano3D/actions/workflows/r.yml/badge.svg)](https://github.com/KatrionaGoldmann/volcano3D/actions/workflows/r.yml/badge.svg)
 [![GitHub issues](https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/issues/)
-[![build](https://img.shields.io/travis/KatrionaGoldmann/volcano3D.svg)](https://GitHub.com/KatrionaGoldmann/volcano3D/issues/)
 
 
 ## Getting Started
