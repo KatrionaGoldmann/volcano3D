@@ -19,3 +19,4 @@ Logo.png
 ^.*\.icloud
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
+^.github
