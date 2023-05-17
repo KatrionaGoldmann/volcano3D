@@ -10,8 +10,8 @@ output:
     number_sections: false
 vignette: >
   %\VignetteIndexEntry{volcano3D}
-  %\VignetteEngine{knitr::knitr}
-  %\usepackage[utf8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
   
 <style>
