@@ -90,7 +90,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fas fa-book"></span>
      
     Getting Started
@@ -169,7 +169,7 @@
     <p>Subsets data according to the significance groups.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>significance_subset</span><span class='op'>(</span><span class='va'>polar</span>, significance <span class='op'>=</span> <span class='cn'>NULL</span>, output <span class='op'>=</span> <span class='st'>"pvals"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span><span class='fu'>significance_subset</span><span class='op'>(</span><span class='va'>polar</span>, significance <span class='op'>=</span> <span class='cn'>NULL</span>, output <span class='op'>=</span> <span class='st'>"pvals"</span><span class='op'>)</span></span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,6 +192,10 @@ object.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Returns an object (type defined by <code>output</code>) with rows susbet to
+those which satisfy the significance condition.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Lewis, Myles J., et al. (2019).
@@ -201,11 +205,11 @@ treatment response phenotypes.</a>
 <em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>syn_example_meta</span><span class='op'>$</span><span class='va'>Pathotype</span>,</span>
-<span class='r-in'>                          data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>syn_example_rld</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='va'>subset</span> <span class='op'>&lt;-</span> <span class='fu'>significance_subset</span><span class='op'>(</span><span class='va'>syn_polar</span>, <span class='st'>"L+"</span>, <span class='st'>"df"</span><span class='op'>)</span></span>
+    <pre class="examples"><span class='r-in'><span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span></span></span>
+<span class='r-in'><span><span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>syn_example_meta</span><span class='op'>$</span><span class='va'>Pathotype</span>,</span></span>
+<span class='r-in'><span>                          data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>syn_example_rld</span><span class='op'>)</span><span class='op'>)</span></span></span>
+<span class='r-in'><span></span></span>
+<span class='r-in'><span><span class='va'>subset</span> <span class='op'>&lt;-</span> <span class='fu'>significance_subset</span><span class='op'>(</span><span class='va'>syn_polar</span>, <span class='st'>"L+"</span>, <span class='st'>"df"</span><span class='op'>)</span></span></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

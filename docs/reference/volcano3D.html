@@ -94,7 +94,7 @@ comparing each variable across the 3 groups." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
       </span>
     </div>
 
@@ -109,7 +109,7 @@ comparing each variable across the 3 groups." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fas fa-book"></span>
      
     Getting Started
@@ -177,32 +177,32 @@ categories. The z axis represents -log10 P value for the one-way test
 comparing each variable across the 3 groups.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>volcano3D</span><span class='op'>(</span>
-  <span class='va'>polar</span>,
-  type <span class='op'>=</span> <span class='fl'>1</span>,
-  label_rows <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='op'>)</span>,
-  label_size <span class='op'>=</span> <span class='fl'>14</span>,
-  arrow_length <span class='op'>=</span> <span class='fl'>100</span>,
-  colour_code_labels <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  label_colour <span class='op'>=</span> <span class='st'>"black"</span>,
-  grid_colour <span class='op'>=</span> <span class='st'>"grey80"</span>,
-  grid_width <span class='op'>=</span> <span class='fl'>2</span>,
-  grid_options <span class='op'>=</span> <span class='cn'>NULL</span>,
-  axis_colour <span class='op'>=</span> <span class='st'>"black"</span>,
-  axis_width <span class='op'>=</span> <span class='fl'>2</span>,
-  marker_size <span class='op'>=</span> <span class='fl'>3</span>,
-  marker_outline_width <span class='op'>=</span> <span class='fl'>0</span>,
-  marker_outline_colour <span class='op'>=</span> <span class='st'>"white"</span>,
-  z_axis_title_offset <span class='op'>=</span> <span class='fl'>1.2</span>,
-  z_axis_title_size <span class='op'>=</span> <span class='fl'>12</span>,
-  z_axis_angle <span class='op'>=</span> <span class='fl'>0.5</span>,
-  radial_axis_title_size <span class='op'>=</span> <span class='fl'>14</span>,
-  radial_axis_title_offset <span class='op'>=</span> <span class='fl'>1.2</span>,
-  xy_aspectratio <span class='op'>=</span> <span class='fl'>1</span>,
-  z_aspectratio <span class='op'>=</span> <span class='fl'>0.8</span>,
-  camera_eye <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>0.9</span>, y <span class='op'>=</span> <span class='fl'>0.9</span>, z <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span><span class='fu'>volcano3D</span><span class='op'>(</span></span>
+<span>  <span class='va'>polar</span>,</span>
+<span>  type <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span>  label_rows <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
+<span>  label_size <span class='op'>=</span> <span class='fl'>14</span>,</span>
+<span>  arrow_length <span class='op'>=</span> <span class='fl'>100</span>,</span>
+<span>  colour_code_labels <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
+<span>  label_colour <span class='op'>=</span> <span class='st'>"black"</span>,</span>
+<span>  grid_colour <span class='op'>=</span> <span class='st'>"grey80"</span>,</span>
+<span>  grid_width <span class='op'>=</span> <span class='fl'>2</span>,</span>
+<span>  grid_options <span class='op'>=</span> <span class='cn'>NULL</span>,</span>
+<span>  axis_colour <span class='op'>=</span> <span class='st'>"black"</span>,</span>
+<span>  axis_width <span class='op'>=</span> <span class='fl'>2</span>,</span>
+<span>  marker_size <span class='op'>=</span> <span class='fl'>3</span>,</span>
+<span>  marker_outline_width <span class='op'>=</span> <span class='fl'>0</span>,</span>
+<span>  marker_outline_colour <span class='op'>=</span> <span class='st'>"white"</span>,</span>
+<span>  z_axis_title_offset <span class='op'>=</span> <span class='fl'>1.2</span>,</span>
+<span>  z_axis_title_size <span class='op'>=</span> <span class='fl'>12</span>,</span>
+<span>  z_axis_angle <span class='op'>=</span> <span class='fl'>0.5</span>,</span>
+<span>  radial_axis_title_size <span class='op'>=</span> <span class='fl'>14</span>,</span>
+<span>  radial_axis_title_offset <span class='op'>=</span> <span class='fl'>1.2</span>,</span>
+<span>  xy_aspectratio <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span>  z_aspectratio <span class='op'>=</span> <span class='fl'>0.8</span>,</span>
+<span>  camera_eye <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fl'>0.9</span>, y <span class='op'>=</span> <span class='fl'>0.9</span>, z <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span>,</span>
+<span>  <span class='va'>...</span></span>
+<span><span class='op'>)</span></span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -335,11 +335,11 @@ treatment response phenotypes.</a>
     <div class='dont-index'><p><code><a href='polar_coords.html'>polar_coords</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>syn_example_meta</span><span class='op'>$</span><span class='va'>Pathotype</span>,</span>
-<span class='r-in'>                          data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>syn_example_rld</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'>volcano3D</span><span class='op'>(</span><span class='va'>syn_polar</span><span class='op'>)</span></span>
-<span class='r-in'></span>
+    <pre class="examples"><span class='r-in'><span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span></span></span>
+<span class='r-in'><span><span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>syn_example_meta</span><span class='op'>$</span><span class='va'>Pathotype</span>,</span></span>
+<span class='r-in'><span>                          data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>syn_example_rld</span><span class='op'>)</span><span class='op'>)</span></span></span>
+<span class='r-in'><span><span class='fu'>volcano3D</span><span class='op'>(</span><span class='va'>syn_polar</span><span class='op'>)</span></span></span>
+<span class='r-in'><span></span></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

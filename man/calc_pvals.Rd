@@ -39,6 +39,13 @@ pairwise statistical tests is only conducted on attributes which reached
 the threshold for significance after p-value adjustment on the group
 statistical test.}
 }
+\value{
+Returns a list with first element representing a data frame of
+unadjusted p-values and the second element adjusted p-values. Each dataframe
+contains 4 columns: the first column is the 3-way comparison (LRT or ANOVA).
+Columns 2-4 are pairwise comparisons between groups A vs B, A vs C and
+B vs C, where A, B, C are the 3 levels in the outcome factor.
+}
 \description{
 Internal function for calculating 3-class group test (either one-way ANOVA or
 Kruskal-Wallis test) and pairwise tests (either t-test or Wilcoxon test) on

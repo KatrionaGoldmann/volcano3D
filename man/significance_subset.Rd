@@ -17,6 +17,10 @@ all levels except 'ns' (non-significant) are selected.}
 "df" for subset dataframes, or "polar" to subset the entire 'volc3d' class
 object.}
 }
+\value{
+Returns an object (type defined by \code{output}) with rows susbet to
+those which satisfy the significance condition.
+}
 \description{
 Subsets data according to the significance groups.
 }

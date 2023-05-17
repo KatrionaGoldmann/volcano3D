@@ -183,6 +183,8 @@ polar_coords_2x3 <- function(data,
 #'   level response outcome. Current options are "t.test" or "wilcoxon".
 #' @param exact Logical for whether to use an exact test (Wilcoxon test only)
 #' @importFrom matrixTests col_t_welch col_wilcoxon_twosample
+#' @return A list containing a data frame with summary statistics for the 
+#' comparisons between the outcome, for each group level. 
 #' @export
 #' 
 calc_stats_2x3 <- function(data, outcome, group, padj.method,

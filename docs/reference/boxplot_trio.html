@@ -91,7 +91,7 @@ groups in a boxplot using either ggplot or plotly." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
       </span>
     </div>
 
@@ -106,7 +106,7 @@ groups in a boxplot using either ggplot or plotly." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fas fa-book"></span>
      
     Getting Started
@@ -171,20 +171,20 @@ groups in a boxplot using either ggplot or plotly." />
 groups in a boxplot using either ggplot or plotly.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>boxplot_trio</span><span class='op'>(</span>
-  <span class='va'>polar</span>,
-  <span class='va'>value</span>,
-  box_colours <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"green3"</span>, <span class='st'>"blue"</span>, <span class='st'>"red"</span><span class='op'>)</span>,
-  test <span class='op'>=</span> <span class='st'>"polar_pvalue"</span>,
-  levels_order <span class='op'>=</span> <span class='cn'>NULL</span>,
-  my_comparisons <span class='op'>=</span> <span class='cn'>NULL</span>,
-  text_size <span class='op'>=</span> <span class='fl'>10</span>,
-  stat_colour <span class='op'>=</span> <span class='st'>"black"</span>,
-  stat_size <span class='op'>=</span> <span class='fl'>3</span>,
-  step_increase <span class='op'>=</span> <span class='fl'>0.05</span>,
-  plot_method <span class='op'>=</span> <span class='st'>"ggplot"</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span><span class='fu'>boxplot_trio</span><span class='op'>(</span></span>
+<span>  <span class='va'>polar</span>,</span>
+<span>  <span class='va'>value</span>,</span>
+<span>  box_colours <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"green3"</span>, <span class='st'>"blue"</span>, <span class='st'>"red"</span><span class='op'>)</span>,</span>
+<span>  test <span class='op'>=</span> <span class='st'>"polar_pvalue"</span>,</span>
+<span>  levels_order <span class='op'>=</span> <span class='cn'>NULL</span>,</span>
+<span>  my_comparisons <span class='op'>=</span> <span class='cn'>NULL</span>,</span>
+<span>  text_size <span class='op'>=</span> <span class='fl'>10</span>,</span>
+<span>  stat_colour <span class='op'>=</span> <span class='st'>"black"</span>,</span>
+<span>  stat_size <span class='op'>=</span> <span class='fl'>3</span>,</span>
+<span>  step_increase <span class='op'>=</span> <span class='fl'>0.05</span>,</span>
+<span>  plot_method <span class='op'>=</span> <span class='st'>"ggplot"</span>,</span>
+<span>  <span class='va'>...</span></span>
+<span><span class='op'>)</span></span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -273,12 +273,12 @@ treatment response phenotypes.</a>
 <em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>syn_example_meta</span><span class='op'>$</span><span class='va'>Pathotype</span>,</span>
-<span class='r-in'>                          data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>syn_example_rld</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='fu'>boxplot_trio</span><span class='op'>(</span><span class='va'>syn_polar</span>, value <span class='op'>=</span> <span class='st'>"COBL"</span>, plot_method<span class='op'>=</span><span class='st'>"plotly"</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'>boxplot_trio</span><span class='op'>(</span><span class='va'>syn_polar</span>, value <span class='op'>=</span> <span class='st'>"COBL"</span><span class='op'>)</span></span>
+    <pre class="examples"><span class='r-in'><span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span></span></span>
+<span class='r-in'><span><span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>syn_example_meta</span><span class='op'>$</span><span class='va'>Pathotype</span>,</span></span>
+<span class='r-in'><span>                          data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>syn_example_rld</span><span class='op'>)</span><span class='op'>)</span></span></span>
+<span class='r-in'><span></span></span>
+<span class='r-in'><span><span class='fu'>boxplot_trio</span><span class='op'>(</span><span class='va'>syn_polar</span>, value <span class='op'>=</span> <span class='st'>"COBL"</span>, plot_method<span class='op'>=</span><span class='st'>"plotly"</span><span class='op'>)</span></span></span>
+<span class='r-in'><span><span class='fu'>boxplot_trio</span><span class='op'>(</span><span class='va'>syn_polar</span>, value <span class='op'>=</span> <span class='st'>"COBL"</span><span class='op'>)</span></span></span>
 <span class='r-plt img'><img src='boxplot_trio-1.png' alt='' width='700' height='433' /></span>
 </pre>
   </div>

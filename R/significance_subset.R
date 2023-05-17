@@ -15,6 +15,8 @@
 #' treatment response phenotypes.}
 #' \emph{Cell reports}, \strong{28}:9
 #' @importFrom methods slot
+#' @return Returns an object (type defined by `output`) with rows susbet to 
+#' those which satisfy the significance condition.  
 #' @export
 #' @examples
 #' data(example_data)

@@ -44,7 +44,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
       </span>
     </div>
 
@@ -59,7 +59,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fas fa-book"></span>
      
     Getting Started
@@ -111,7 +111,7 @@
 
       
 
-      </header><script src="Vignette_2x3_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><script src="Vignette_2x3_files/header-attrs-2.21/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>volcano3D: 2x3-way analysis</h1>
@@ -166,22 +166,22 @@ package DESeq2. Since there are 3 distinct drugs this becomes a
 followed by generation of a ‘volc3d’ class results object for plotting
 and visualisation of the results.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://katrionagoldmann.github.io/volcano3D/index.html">volcano3D</a></span><span class="op">)</span>
-
-<span class="co"># Basic DESeq2 set up</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mikelove/DESeq2">DESeq2</a></span><span class="op">)</span>
-
-<span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html">rnbinom</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">3000</span>, mu<span class="op">=</span><span class="fl">100</span>, size<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">0.5</span><span class="op">)</span>, ncol<span class="op">=</span><span class="fl">30</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"gene"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span>
-<span class="va">cond</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, each<span class="op">=</span><span class="fl">5</span><span class="op">)</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>
-<span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, each<span class="op">=</span><span class="fl">15</span><span class="op">)</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="st">'non.responder'</span>, <span class="st">'responder'</span><span class="op">)</span><span class="op">)</span>
-<span class="va">metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>drug <span class="op">=</span> <span class="va">cond</span>, response <span class="op">=</span> <span class="va">resp</span><span class="op">)</span>
-
-<span class="co"># Full dataset object construction</span>
-<span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSetFromMatrix</a></span><span class="op">(</span><span class="va">counts</span>, <span class="va">metadata</span>, <span class="op">~</span><span class="va">response</span><span class="op">)</span>
-
-<span class="co"># Perform 3x DESeq2 analyses comparing binary response for each drug</span>
-<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deseq_2x3.html">deseq_2x3</a></span><span class="op">(</span><span class="va">dds</span>, <span class="op">~</span><span class="va">response</span>, <span class="st">"drug"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://katrionagoldmann.github.io/volcano3D/index.html">volcano3D</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Basic DESeq2 set up</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mikelove/DESeq2">DESeq2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html">rnbinom</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">3000</span>, mu<span class="op">=</span><span class="fl">100</span>, size<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">0.5</span><span class="op">)</span>, ncol<span class="op">=</span><span class="fl">30</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"gene"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span></span>
+<span><span class="va">cond</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, each<span class="op">=</span><span class="fl">5</span><span class="op">)</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, each<span class="op">=</span><span class="fl">15</span><span class="op">)</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'non.responder'</span>, <span class="st">'responder'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">metadata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>drug <span class="op">=</span> <span class="va">cond</span>, response <span class="op">=</span> <span class="va">resp</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Full dataset object construction</span></span>
+<span><span class="va">dds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/DESeq2/man/DESeqDataSet.html">DESeqDataSetFromMatrix</a></span><span class="op">(</span><span class="va">counts</span>, <span class="va">metadata</span>, <span class="op">~</span><span class="va">response</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Perform 3x DESeq2 analyses comparing binary response for each drug</span></span>
+<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deseq_2x3.html">deseq_2x3</a></span><span class="op">(</span><span class="va">dds</span>, <span class="op">~</span><span class="va">response</span>, <span class="st">"drug"</span><span class="op">)</span></span></code></pre></div>
 <p>The design formula can contain covariates, however the main contrast
 should be the last term of the formula as is standard in DESeq2
 analysis.</p>
@@ -192,23 +192,23 @@ be quickly visualised with the <code><a href="https://rdrr.io/pkg/easylabel/man/
 the R package <code>easylabel</code>, which is designed for DESeq2 and
 limma objects and uses an interactive R/shiny interface.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">easylabel</span><span class="op">)</span>
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>  <span class="co"># results for the first drug  </span>
-<span class="fu"><a href="https://rdrr.io/pkg/easylabel/man/easyVolcano.html">easyVolcano</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">easylabel</span><span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>  <span class="co"># results for the first drug  </span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/easylabel/man/easyVolcano.html">easyVolcano</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div>
 <p>The <code>deseq_2x3</code> output is passed to
 <code><a href="../reference/deseq_2x3_polar.html">deseq_2x3_polar()</a></code> to generate a <code>volc3d</code> class
 object for plotting. Thus the 3-way radial plot and 3d volcano plot
 simplify visualisation of the 2x3-way analysis, replacing 3 volcano
 plots with a single radial plot or 3d volcano plot.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Generate polar object</span>
-<span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deseq_2x3_polar.html">deseq_2x3_polar</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span>
-
-<span class="co"># 2d plot</span>
-<span class="fu"><a href="../reference/radial_plotly.html">radial_plotly</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span>
-
-<span class="co"># 3d plot</span>
-<span class="fu"><a href="../reference/volcano3D.html">volcano3D</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Generate polar object</span></span>
+<span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deseq_2x3_polar.html">deseq_2x3_polar</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 2d plot</span></span>
+<span><span class="fu"><a href="../reference/radial_plotly.html">radial_plotly</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 3d plot</span></span>
+<span><span class="fu"><a href="../reference/volcano3D.html">volcano3D</a></span><span class="op">(</span><span class="va">obj</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div id="real-world-example" class="section level2">
 <h2 class="hasAnchor">
@@ -220,9 +220,9 @@ The pipe to <code><a href="https://rdrr.io/pkg/plotly/man/toWebGL.html">toWebGL(
 webGL instead of SVG in plotly scatter plots. Alternatively, a ggplot2
 version can be plotted using <code><a href="../reference/radial_ggplot.html">radial_ggplot()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deseq_2x3_polar.html">deseq_2x3_polar</a></span><span class="op">(</span><span class="va">data1</span><span class="op">)</span>
-<span class="va">labs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="st">'MS4A1'</span>, <span class="st">'TNXA'</span>, <span class="st">'FLG2'</span>, <span class="st">'MYBPC1'</span><span class="op">)</span>
-<span class="fu"><a href="../reference/radial_plotly.html">radial_plotly</a></span><span class="op">(</span><span class="va">obj</span>, type<span class="op">=</span><span class="fl">2</span>, label_rows <span class="op">=</span> <span class="va">labs</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/plotly/man/toWebGL.html">toWebGL</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deseq_2x3_polar.html">deseq_2x3_polar</a></span><span class="op">(</span><span class="va">data1</span><span class="op">)</span></span>
+<span><span class="va">labs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'MS4A1'</span>, <span class="st">'TNXA'</span>, <span class="st">'FLG2'</span>, <span class="st">'MYBPC1'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/radial_plotly.html">radial_plotly</a></span><span class="op">(</span><span class="va">obj</span>, type<span class="op">=</span><span class="fl">2</span>, label_rows <span class="op">=</span> <span class="va">labs</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/plotly/man/toWebGL.html">toWebGL</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="radial_2x3_pos.png" width="70%" style="border: 0;"></p>
 <p>A 3d volcano plot can be generated too.</p>
 <p><img src="volc3d_2x3.png" width="70%" style="border: 0;"></p>
@@ -232,9 +232,9 @@ each drug, we reprocess the object using the argument
 scheme for each gene. The polar coordinates are essentially flipped as
 each axis represents increased expression in non-responders.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deseq_2x3_polar.html">deseq_2x3_polar</a></span><span class="op">(</span><span class="va">data1</span>, process <span class="op">=</span> <span class="st">"negative"</span><span class="op">)</span>
-<span class="va">labs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html">c</a></span><span class="op">(</span><span class="st">'MS4A1'</span>, <span class="st">'TNXA'</span>, <span class="st">'FLG2'</span>, <span class="st">'MYBPC1'</span><span class="op">)</span>
-<span class="fu"><a href="../reference/radial_plotly.html">radial_plotly</a></span><span class="op">(</span><span class="va">obj</span>, type<span class="op">=</span><span class="fl">2</span>, label_rows <span class="op">=</span> <span class="va">labs</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/plotly/man/toWebGL.html">toWebGL</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/deseq_2x3_polar.html">deseq_2x3_polar</a></span><span class="op">(</span><span class="va">data1</span>, process <span class="op">=</span> <span class="st">"negative"</span><span class="op">)</span></span>
+<span><span class="va">labs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'MS4A1'</span>, <span class="st">'TNXA'</span>, <span class="st">'FLG2'</span>, <span class="st">'MYBPC1'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/radial_plotly.html">radial_plotly</a></span><span class="op">(</span><span class="va">obj</span>, type<span class="op">=</span><span class="fl">2</span>, label_rows <span class="op">=</span> <span class="va">labs</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/plotly/man/toWebGL.html">toWebGL</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="radial_2x3_neg.png" width="70%" style="border: 0;"></p>
 </div>
 <div id="custom-2x3-way-analysis" class="section level2">
@@ -244,11 +244,11 @@ each axis represents increased expression in non-responders.</p>
 data types, the function <code><a href="../reference/polar_coords_2x3.html">polar_coords_2x3()</a></code> is used to map
 attributes to polar coordinates in a 2x3-way analysis.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">polar_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/polar_coords_2x3.html">polar_coords_2x3</a></span><span class="op">(</span><span class="va">vstdata</span>, <span class="va">metadata</span>, <span class="st">"ACR.response.status"</span>,
-                              <span class="st">"Randomised.Medication"</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/radial_plotly.html">radial_plotly</a></span><span class="op">(</span><span class="va">polar_obj</span>, type<span class="op">=</span><span class="fl">2</span><span class="op">)</span>
-<span class="fu"><a href="../reference/volcano3D.html">volcano3D</a></span><span class="op">(</span><span class="va">polar_obj</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">polar_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/polar_coords_2x3.html">polar_coords_2x3</a></span><span class="op">(</span><span class="va">vstdata</span>, <span class="va">metadata</span>, <span class="st">"ACR.response.status"</span>,</span>
+<span>                              <span class="st">"Randomised.Medication"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/radial_plotly.html">radial_plotly</a></span><span class="op">(</span><span class="va">polar_obj</span>, type<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/volcano3D.html">volcano3D</a></span><span class="op">(</span><span class="va">polar_obj</span><span class="op">)</span></span></code></pre></div>
 <p>In the above code example <code>vstdata</code> contains transformed
 (approximately Gaussian) gene expression data with genes in columns and
 samples in rows. <code>metadata</code> is a dataframe of sample
@@ -303,7 +303,7 @@ plotting.</p>
 <a href="#forest-plots" class="anchor"></a>Forest plots</h2>
 <p>Specific genes/variables can be interrogated using a forest plot to
 investigate differences in binary response between the 3 groups.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">forest_ggplot</span>(obj, <span class="fu">c</span>(<span class="st">"MS4A1"</span>, <span class="st">"FLG2"</span>, <span class="st">"SFN"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">forest_ggplot</span>(obj, <span class="fu">c</span>(<span class="st">"MS4A1"</span>, <span class="st">"FLG2"</span>, <span class="st">"SFN"</span>)</span></code></pre></div>
 <p><img src="forest.png" width="70%" style="border: 0;"></p>
 <p>The related functions <code><a href="../reference/forest_plot.html">forest_plot()</a></code> and
 <code><a href="../reference/forest_plot.html">forest_plotly()</a></code> can be used to generate plots in base
@@ -318,12 +318,12 @@ Rheumatology department</a> and <a href="https://www.qmul.ac.uk/c4tb/">Centre fo
 Bioinformatics</a> at Queen Mary University London.</p>
 <p>If you use this package please cite as:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">"volcano3D"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">"volcano3D"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
 ## To cite package 'volcano3D' in publications use:
 ## 
-##   Katriona Goldmann and Myles Lewis (2020). volcano3D: 3D Volcano Plots
-##   and Polar Plots for Three-Class Data.
+##   Goldmann K, Lewis M (2020). _volcano3D: 3D Volcano Plots and Polar
+##   Plots for Three-Class Data_.
 ##   https://katrionagoldmann.github.io/volcano3D/index.html,
 ##   https://github.com/KatrionaGoldmann/volcano3D.
 ## 

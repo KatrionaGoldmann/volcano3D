@@ -28,6 +28,10 @@ level response outcome. Current options are "t.test" or "wilcoxon".}
 
 \item{exact}{Logical for whether to use an exact test (Wilcoxon test only)}
 }
+\value{
+A list containing a data frame with summary statistics for the
+comparisons between the outcome, for each group level.
+}
 \description{
 Calculate p-values for 2x3-way analysis
 }

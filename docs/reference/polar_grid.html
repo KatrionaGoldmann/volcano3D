@@ -91,7 +91,7 @@ plot" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
       </span>
     </div>
 
@@ -106,7 +106,7 @@ plot" />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fas fa-book"></span>
      
     Getting Started
@@ -171,16 +171,16 @@ plot" />
 plot</p>
     </div>
 
-    <pre class="usage"><span class='fu'>polar_grid</span><span class='op'>(</span>
-  r_vector <span class='op'>=</span> <span class='cn'>NULL</span>,
-  z_vector <span class='op'>=</span> <span class='cn'>NULL</span>,
-  r_axis_ticks <span class='op'>=</span> <span class='cn'>NULL</span>,
-  z_axis_ticks <span class='op'>=</span> <span class='cn'>NULL</span>,
-  axis_angle <span class='op'>=</span> <span class='fl'>5</span><span class='op'>/</span><span class='fl'>6</span>,
-  n_spokes <span class='op'>=</span> <span class='fl'>12</span>,
-  axes_from_origin <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  <span class='va'>...</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span><span class='fu'>polar_grid</span><span class='op'>(</span></span>
+<span>  r_vector <span class='op'>=</span> <span class='cn'>NULL</span>,</span>
+<span>  z_vector <span class='op'>=</span> <span class='cn'>NULL</span>,</span>
+<span>  r_axis_ticks <span class='op'>=</span> <span class='cn'>NULL</span>,</span>
+<span>  z_axis_ticks <span class='op'>=</span> <span class='cn'>NULL</span>,</span>
+<span>  axis_angle <span class='op'>=</span> <span class='fl'>5</span><span class='op'>/</span><span class='fl'>6</span>,</span>
+<span>  n_spokes <span class='op'>=</span> <span class='fl'>12</span>,</span>
+<span>  axes_from_origin <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span>  <span class='va'>...</span></span>
+<span><span class='op'>)</span></span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -250,15 +250,15 @@ treatment response phenotypes.</a>
 <em>Cell reports</em>, <strong>28</strong>:9</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>syn_example_meta</span><span class='op'>$</span><span class='va'>Pathotype</span>,</span>
-<span class='r-in'>                          data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>syn_example_rld</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='va'>grid</span> <span class='op'>&lt;-</span> <span class='fu'>polar_grid</span><span class='op'>(</span>r_vector<span class='op'>=</span><span class='va'>syn_polar</span><span class='op'>@</span><span class='va'>df</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>r</span>,</span>
-<span class='r-in'>           z_vector<span class='op'>=</span><span class='cn'>NULL</span>,</span>
-<span class='r-in'>           r_axis_ticks <span class='op'>=</span> <span class='cn'>NULL</span>,</span>
-<span class='r-in'>           z_axis_ticks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>8</span>, <span class='fl'>16</span>, <span class='fl'>32</span><span class='op'>)</span>,</span>
-<span class='r-in'>           n_spokes <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span></span>
+    <pre class="examples"><span class='r-in'><span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span></span></span>
+<span class='r-in'><span><span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>syn_example_meta</span><span class='op'>$</span><span class='va'>Pathotype</span>,</span></span>
+<span class='r-in'><span>                          data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>syn_example_rld</span><span class='op'>)</span><span class='op'>)</span></span></span>
+<span class='r-in'><span></span></span>
+<span class='r-in'><span><span class='va'>grid</span> <span class='op'>&lt;-</span> <span class='fu'>polar_grid</span><span class='op'>(</span>r_vector<span class='op'>=</span><span class='va'>syn_polar</span><span class='op'>@</span><span class='va'>df</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>r</span>,</span></span>
+<span class='r-in'><span>           z_vector<span class='op'>=</span><span class='cn'>NULL</span>,</span></span>
+<span class='r-in'><span>           r_axis_ticks <span class='op'>=</span> <span class='cn'>NULL</span>,</span></span>
+<span class='r-in'><span>           z_axis_ticks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>8</span>, <span class='fl'>16</span>, <span class='fl'>32</span><span class='op'>)</span>,</span></span>
+<span class='r-in'><span>           n_spokes <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span></span></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

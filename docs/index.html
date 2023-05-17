@@ -51,7 +51,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
       </span>
     </div>
 
@@ -66,7 +66,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fas fa-book"></span>
      
     Getting Started
@@ -145,8 +145,8 @@ between individual synovial and blood gene transcript levels and
 histological, clinical, and radiographic parameters, and clinical
 response at 6 months. An interactive interface allows the gene module
 analysis to be explored for relationships between modules and clinical
-parameters. The PEAC interactive web tool was creating as an <a href="https://shiny.rstudio.com">R Shiny app</a> and deployed to the web
-using a server.</p>
+parameters. The PEAC interactive web tool was creating as an <a href="https://www.rstudio.com/products/shiny/">R Shiny app</a> and
+deployed to the web using a server.</p>
 <p>There are also supplementary vignettes for further information
 on:</p>
 <ul>
@@ -163,31 +163,31 @@ trial with 3 drugs. See <a href="https://katrionagoldmann.github.io/volcano3D/ar
 <h3 class="hasAnchor">
 <a href="#prerequisites" class="anchor"></a>Prerequisites</h3>
 <ul>
-<li><a href="https://cran.r-project.org/web/packages/ggplot2/index.html">ggplot2</a></li>
-<li><a href="https://cran.r-project.org/web/packages/ggpubr/index.html">ggpubr</a></li>
-<li><a href="https://cran.r-project.org/web/packages/plotly/index.html">plotly</a></li>
+<li><a href="https://cran.r-project.org/package=ggplot2">ggplot2</a></li>
+<li><a href="https://cran.r-project.org/package=ggpubr">ggpubr</a></li>
+<li><a href="https://cran.r-project.org/package=plotly">plotly</a></li>
 </ul>
 </div>
 <div id="install-from-cran" class="section level3">
 <h3 class="hasAnchor">
 <a href="#install-from-cran" class="anchor"></a>Install from CRAN</h3>
 <p><a href="https://cran.r-project.org/package=volcano3D"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"volcano3D"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"volcano3D"</span>)</span></code></pre></div>
 </div>
 <div id="install-from-github" class="section level3">
 <h3 class="hasAnchor">
 <a href="#install-from-github" class="anchor"></a>Install from Github</h3>
 <p><a href="https://GitHub.com/KatrionaGoldmann/volcano3D/tags/"><img src="https://img.shields.io/github/tag/KatrionaGoldmann/volcano3D.svg" alt="GitHub tag"></a></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(volcano3D)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"KatrionaGoldmann/volcano3D"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(volcano3D)</span></code></pre></div>
 </div>
 <div id="volcano3d-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#volcano3d-data" class="anchor"></a>volcano3D data</h3>
 <p>The sample data can then also be installed either from <a href="https://github.com/KatrionaGoldmann/volcano3Ddata">source</a> or
 using:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"KatrionaGoldmann/volcano3Ddata"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">install_github</span>(<span class="st">"KatrionaGoldmann/volcano3Ddata"</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="citation" class="section level2">
@@ -197,24 +197,24 @@ using:</p>
 Rheumatology department</a> and <a href="https://www.qmul.ac.uk/c4tb/">Centre for Translational
 Bioinformatics</a> at Queen Mary University London.</p>
 <p>If you use this package please cite as:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">"volcano3D"</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">## To cite package 'volcano3D' in publications use:</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="do">##   Katriona Goldmann and Myles Lewis (2022). volcano3D: 3D Volcano Plots</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="do">##   and Polar Plots for Three-Class Data. R package version 2.0.0.</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="do">##   https://CRAN.R-project.org/package=volcano3D</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="do">## A BibTeX entry for LaTeX users is</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="do">##   @Manual{,</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="do">##     title = {volcano3D: 3D Volcano Plots and Polar Plots for Three-Class Data},</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="do">##     author = {Katriona Goldmann and Myles Lewis},</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="do">##     year = {2022},</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="do">##     note = {R package version 2.0.0},</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="do">##     url = {https://CRAN.R-project.org/package=volcano3D},</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="do">##   }</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">"volcano3D"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="do">## To cite package 'volcano3D' in publications use:</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="do">##   Goldmann K, Lewis M (2020). _volcano3D: 3D Volcano Plots and Polar</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="do">##   Plots for Three-Class Data_.</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="do">##   https://katrionagoldmann.github.io/volcano3D/index.html,</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="do">##   https://github.com/KatrionaGoldmann/volcano3D.</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="do">## A BibTeX entry for LaTeX users is</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="do">##   @Manual{,</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="do">##     title = {volcano3D: 3D Volcano Plots and Polar Plots for Three-Class Data},</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="do">##     author = {Katriona Goldmann and Myles Lewis},</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="do">##     year = {2020},</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="do">##     note = {https://katrionagoldmann.github.io/volcano3D/index.html, https://github.com/KatrionaGoldmann/volcano3D},</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="do">##   }</span></span></code></pre></div>
 <p>or:</p>
 <blockquote>
 <p>Lewis, Myles J., et al. <em>Molecular portraits of early rheumatoid
@@ -260,11 +260,10 @@ reports 28.9 (2019): 2455-2470.</p>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html"><img src="https://img.shields.io/badge/lifecycle-stable-blue.svg" alt="Lifecycle: Stable"></a></li>
 <li><a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html"><img src="https://img.shields.io/badge/License-GPL%20v2-mediumpurple.svg" alt="License: GPL v2"></a></li>
 <li><a href="https://cran.r-project.org/package=volcano3D"><img src="https://www.r-pkg.org/badges/version/volcano3D" alt="CRAN status"></a></li>
-<li><a href="https://cran.rstudio.com/package=volcano3D"><img src="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange" alt="Downloads"></a></li>
-<li><a href="https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md"><img src="https://img.shields.io/badge/last%20git%20commit-2022--09--22-turquoise.svg" alt="2022-09-22"></a></li>
-<li><a href="http://hits.dwyl.com/KatrionaGoldmann/volcano3D"><img src="http://hits.dwyl.com/KatrionaGoldmann/volcano3D.svg" alt="HitCount"></a></li>
+<li><a href="https://cran.r-project.org/package=volcano3D"><img src="https://cranlogs.r-pkg.org/badges/grand-total/volcano3D?color=orange" alt="Downloads"></a></li>
+<li><a href="https://github.com/KatrionaGoldmann/volcano3D/blob/master/NEWS.md"><img src="https://img.shields.io/badge/last%20git%20commit-2023--05--16-turquoise.svg" alt="2023-05-16"></a></li>
 <li><a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/"><img src="https://img.shields.io/github/issues/KatrionaGoldmann/volcano3D.svg" alt="GitHub issues"></a></li>
-<li><a href="https://GitHub.com/KatrionaGoldmann/volcano3D/issues/"><img src="https://img.shields.io/travis/KatrionaGoldmann/volcano3D.svg" alt="build"></a></li>
+<li><a href="https://github.com/KatrionaGoldmann/volcano3D/actions/workflows/r.yml/badge.svg"><img src="https://github.com/KatrionaGoldmann/volcano3D/actions/workflows/r.yml/badge.svg" alt="Build"></a></li>
 </ul>
 </div>
 </div>

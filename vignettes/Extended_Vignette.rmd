@@ -1,13 +1,13 @@
 ---
-title: "volcano3D Vignette"
+title: "Volcano3D Vignette"
 author: "Katriona Goldmann"
 output: rmarkdown::html_vignette
 toc:
   depth: 5
 vignette: >
-  \VignetteIndexEntry{volcano3D Package}
-  \VignetteEngine{knitr::knitr}
-  \usepackage[utf8]{inputenc}
+  %\VignetteIndexEntry{Volcano3D Vignette}
+  %\VignetteEngine{knitr::knitr}
+  %\usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include = FALSE, echo = FALSE}

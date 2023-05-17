@@ -90,7 +90,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">volcano3D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.9</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fas fa-book"></span>
      
     Getting Started
@@ -169,16 +169,16 @@
     <p>Add mode bar button to rotate the plot</p>
     </div>
 
-    <pre class="usage"><span class='fu'>add_animation</span><span class='op'>(</span>
-  <span class='va'>p</span>,
-  rotate_icon_path <span class='op'>=</span> <span class='cn'>NULL</span>,
-  stop_icon_path <span class='op'>=</span> <span class='cn'>NULL</span>,
-  rotate_colour <span class='op'>=</span> <span class='st'>"#c7c7c7"</span>,
-  stop_colour <span class='op'>=</span> <span class='st'>"#ff6347"</span>,
-  scale <span class='op'>=</span> <span class='st'>"scale(0.4) translate(-4, -4)"</span>,
-  speed <span class='op'>=</span> <span class='fl'>320</span>,
-  shiny_event_names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span><span class='fu'>add_animation</span><span class='op'>(</span></span>
+<span>  <span class='va'>p</span>,</span>
+<span>  rotate_icon_path <span class='op'>=</span> <span class='cn'>NULL</span>,</span>
+<span>  stop_icon_path <span class='op'>=</span> <span class='cn'>NULL</span>,</span>
+<span>  rotate_colour <span class='op'>=</span> <span class='st'>"#c7c7c7"</span>,</span>
+<span>  stop_colour <span class='op'>=</span> <span class='st'>"#ff6347"</span>,</span>
+<span>  scale <span class='op'>=</span> <span class='st'>"scale(0.4) translate(-4, -4)"</span>,</span>
+<span>  speed <span class='op'>=</span> <span class='fl'>320</span>,</span>
+<span>  shiny_event_names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='op'>)</span></span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -238,14 +238,14 @@ treatment response phenotypes.</a>
     <div class='dont-index'><p><code><a href='volcano3D.html'>volcano3D</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span></span>
-<span class='r-in'><span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>syn_example_meta</span><span class='op'>$</span><span class='va'>Pathotype</span>,</span>
-<span class='r-in'>                          data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>syn_example_rld</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'></span>
-<span class='r-in'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='volcano3D.html'>volcano3D</a></span><span class='op'>(</span><span class='va'>syn_polar</span>, </span>
-<span class='r-in'>    label_rows <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"COBL"</span>, <span class='st'>"TREX2"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'>add_animation</span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span></span>
-<span class='r-in'></span>
+    <pre class="examples"><span class='r-in'><span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_data</span><span class='op'>)</span></span></span>
+<span class='r-in'><span><span class='va'>syn_polar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='polar_coords.html'>polar_coords</a></span><span class='op'>(</span>outcome <span class='op'>=</span> <span class='va'>syn_example_meta</span><span class='op'>$</span><span class='va'>Pathotype</span>,</span></span>
+<span class='r-in'><span>                          data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>syn_example_rld</span><span class='op'>)</span><span class='op'>)</span></span></span>
+<span class='r-in'><span></span></span>
+<span class='r-in'><span><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='volcano3D.html'>volcano3D</a></span><span class='op'>(</span><span class='va'>syn_polar</span>, </span></span>
+<span class='r-in'><span>    label_rows <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"COBL"</span>, <span class='st'>"TREX2"</span><span class='op'>)</span><span class='op'>)</span></span></span>
+<span class='r-in'><span><span class='fu'>add_animation</span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span></span></span>
+<span class='r-in'><span></span></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

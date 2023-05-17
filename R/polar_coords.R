@@ -173,6 +173,11 @@ polar_xy <- function(df, angle_offset = 0) {
 #'   statistical test.
 #' @importFrom Rfast ftests ttests kruskaltests
 #' @importFrom matrixTests row_wilcoxon_twosample
+#' @return Returns a list with first element representing a data frame of 
+#' unadjusted p-values and the second element adjusted p-values. Each dataframe 
+#' contains 4 columns: the first column is the 3-way comparison (LRT or ANOVA). 
+#' Columns 2-4 are pairwise comparisons between groups A vs B, A vs C and 
+#' B vs C, where A, B, C are the 3 levels in the outcome factor.
 #' @export
 #'
 calc_pvals <- function(outcome, 
