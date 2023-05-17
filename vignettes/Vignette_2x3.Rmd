@@ -10,8 +10,8 @@ output:
     number_sections: false
 vignette: >
   %\VignetteIndexEntry{2x3-way analysis}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+  %\VignetteEngine{knitr::knitr}
+  %\usepackage[utf8]{inputenc}
 ---
   
 <style>
