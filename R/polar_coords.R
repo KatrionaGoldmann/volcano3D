@@ -171,8 +171,8 @@ polar_xy <- function(df, angle_offset = 0) {
 #'   pairwise statistical tests is only conducted on attributes which reached
 #'   the threshold for significance after p-value adjustment on the group
 #'   statistical test.
-#' @importFrom Rfast ftests ttests kruskaltests
-#' @importFrom matrixTests row_wilcoxon_twosample
+#' @importFrom Rfast ttests kruskaltests
+#' @importFrom matrixTests row_wilcoxon_twosample col_oneway_welch
 #' @return Returns a list with first element representing a data frame of 
 #' unadjusted p-values and the second element adjusted p-values. Each dataframe 
 #' contains 4 columns: the first column is the 3-way comparison (LRT or ANOVA). 
@@ -198,10 +198,10 @@ calc_pvals <- function(outcome,
   
   # Perform group statistical tests
   res <- switch(group_test,
-                "anova" = Rfast::ftests(data, outcome),
+                "anova" = matrixTests::col_oneway_welch(data, outcome),
                 "kruskal.test" = Rfast::kruskaltests(data, outcome))
   rownames(res) <- colnames(data)
-  onewayp <- res[, 2]
+  onewayp <- res[, "pvalue"]
   
   # Perform pairwise statistical tests
   indx <- lapply(levels(outcome), function(i) outcome == i)
@@ -240,6 +240,7 @@ calc_pvals <- function(outcome,
     padj$p1[index] <- qval(p1[index], method = padj.method)
     padj$p2[index] <- qval(p2[index], method = padj.method)
     padj$p3[index] <- qval(p3[index], method = padj.method)
+    rownames(padj) <- colnames(data)
   }
   padj <- as.matrix(padj)
   

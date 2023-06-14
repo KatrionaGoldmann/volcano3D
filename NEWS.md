@@ -1,10 +1,15 @@
 News
 =====
 
+# volcano3D 2.0.10
+###### 14/06/2023
+* Change one-way ANOVA matrix test in `calc_pvals()` from `Rfast::ftests()` to 
+the more accurate and correct `matrixTests::col_oneway_welch()`
+
 # volcano3D 2.0.9
 ###### 16/05/2022
 * Update URLs in README.md and vignette
-* update author and maintainer email addresses
+* Update author and maintainer email addresses
 
 # volcano3D 2.0.8
 ###### 23/09/2022
