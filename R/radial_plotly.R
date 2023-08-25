@@ -107,7 +107,8 @@ radial_plotly <- function(polar,
     annot <- lapply(label_rows, function(i) {
       row  <- df[i, ]
       theta <- atan(row$y/row$x)
-      if(colour_code_labels) ac <- row$col else ac <- label_colour 
+      if(colour_code_labels) ac <- row$col else ac <- label_colour
+      ac <- col2hex(ac)
       list(x = row$x,
            y = row$y,
            text = rownames(row),

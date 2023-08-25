@@ -1,6 +1,10 @@
 News
 =====
 
+# volcano3D 2.0.11
+###### 25/08/2023
+* Fix wrong colours in plotly label annotations
+
 # volcano3D 2.0.10
 ###### 14/06/2023
 * Change one-way ANOVA matrix test in `calc_pvals()` from `Rfast::ftests()` to 

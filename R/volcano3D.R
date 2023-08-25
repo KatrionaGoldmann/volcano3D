@@ -131,7 +131,8 @@ volcano3D <- function(polar, type = 1,
       }}
     annot <- lapply(label_rows, function(i) {
       row <- df[i, ]
-      if(colour_code_labels) ac <- row$col else ac <- label_colour 
+      if(colour_code_labels) ac <- row$col else ac <- label_colour
+      ac <- col2hex(ac)
       annot <- list(x = row$x, y = row$y, z = row$z, 
                     text = rownames(row), 
                     textangle = 0, ax = arrow_length, ay  = 0,
@@ -218,3 +219,11 @@ volcano3D <- function(polar, type = 1,
     )
 }
 
+
+# from gplots
+col2hex <- function(cname) {
+  colMat <- grDevices::col2rgb(cname)
+  grDevices::rgb(red = colMat[1,] / 255,
+                 green = colMat[2,] / 255,
+                 blue = colMat[3,] / 255)
+}
