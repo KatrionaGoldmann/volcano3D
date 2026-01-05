@@ -20,3 +20,4 @@ Logo.png
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
 ^.github
+^\.github$

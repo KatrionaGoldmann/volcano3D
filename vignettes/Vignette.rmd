@@ -28,7 +28,6 @@ fig.height = 7,
 fig.width=7, 
 fig.align = "center")
 library(knitr)
-library(kableExtra)
 ```
 
 # volcano3D
@@ -195,8 +194,7 @@ mytable = data.frame(
   
 )
 
-kable(t(mytable), row.names = FALSE, col.names = c("Variable", "Details")) %>%
-  kable_styling(font_size=11)
+kable(t(mytable), row.names = FALSE, col.names = c("Variable", "Details")) 
 ```
 
 This can be applied to the example data as below: 
@@ -399,9 +397,8 @@ htmlwidgets::saveWidget(as_widget(p), "volcano3D.html")
 # Citation
 
 volcano3D was developed by the bioinformatics team at the
-[Experimental Medicine & Rheumatology department](https://www.qmul.ac.uk/whri/emr/)
-and [Centre for Translational Bioinformatics](https://www.qmul.ac.uk/c4tb/) at
-Queen Mary University London.
+[Experimental Medicine & Rheumatology department](https://www.qmul.ac.uk/whri/emr/) at
+Queen Mary University of London.
 
 If you use this package please cite as:
 

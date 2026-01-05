@@ -47,6 +47,5 @@ Suggests:
     SummarizedExperiment,
     knitr,
     rmarkdown,
-    kableExtra,
     usethis,
     easylabel
