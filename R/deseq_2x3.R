@@ -15,11 +15,10 @@
 #' @param ... Optional arguments passed to `DESeq()`.
 #' @return Returns a list of 3 DESeq2 results objects which can be passed onto
 #'   [deseq_2x3_polar()]
-#' @examplesIf rlang::is_installed("DESeq2")
+#' @examplesIf requireNamespace("DESeq2", quietly = TRUE)
 #' 
 #' \donttest{
 #' # Basic DESeq2 set up
-#' library(DESeq2)
 #' 
 #' counts <- matrix(rnbinom(n=3000, mu=100, size=1/0.5), ncol=30)
 #' rownames(counts) <- paste0("gene", 1:100)
