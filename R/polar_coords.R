@@ -227,10 +227,12 @@ calc_pvals <- function(outcome,
   p2 <- res2[, "pvalue"]
   p3 <- res3[, "pvalue"]
   pvals <- cbind(onewayp, p1, p2, p3)
+  rownames(pvals) <- colnames(data)
   
   # Perform correction for multiple testing, optional
   if (padj.method == "none") {
     padj <- pvals
+    rownames(padj) <- colnames(data)
   } else {
     onewaypadj <- qval(onewayp, method = padj.method)
     index <- if (filter_pairwise) {
