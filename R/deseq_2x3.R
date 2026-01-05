@@ -15,7 +15,7 @@
 #' @param ... Optional arguments passed to `DESeq()`.
 #' @return Returns a list of 3 DESeq2 results objects which can be passed onto
 #'   [deseq_2x3_polar()]
-#' @examples
+#' @examplesIf rlang::is_installed("DESeq2")
 #' \donttest{
 #' # Basic DESeq2 set up
 #' library(DESeq2)

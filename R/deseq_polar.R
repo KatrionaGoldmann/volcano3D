@@ -28,7 +28,7 @@
 #' @return Calls \code{\link{polar_coords}} to return an S4 'volc3d' object
 #' @seealso \code{\link{polar_coords}}, \code{\link{voom_polar}},
 #'   \code{\link[DESeq2:DESeq]{DESeq}} in the DESeq2 package
-#' @examples
+#' @examplesIf rlang::is_installed("DESeq2")
 #' 
 #' \donttest{
 #'   library(DESeq2)
