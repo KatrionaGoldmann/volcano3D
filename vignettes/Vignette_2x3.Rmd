@@ -38,7 +38,6 @@ library(knitr)
 library(ggplot2)
 library(ggpubr)
 library(plotly)
-library(usethis)
 ```
 
 The main work flow for using volcano3D is ideal for comparing high dimensional
