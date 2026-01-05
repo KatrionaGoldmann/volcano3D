@@ -17,7 +17,7 @@
 #'   [deseq_2x3_polar()]
 #' @examples
 #' 
-#' \donttest{
+#' \dontrun{
 #' # Basic DESeq2 set up
 #' 
 #' if (rlang::is_installed("DESeq2")) {
