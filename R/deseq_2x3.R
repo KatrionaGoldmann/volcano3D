@@ -15,12 +15,11 @@
 #' @param ... Optional arguments passed to `DESeq()`.
 #' @return Returns a list of 3 DESeq2 results objects which can be passed onto
 #'   [deseq_2x3_polar()]
-#' @examples
+#' @examplesIf rlang::is_installed("DESeq2")
 #' 
-#' \dontrun{
+#' \donttest{
 #' # Basic DESeq2 set up
 #' 
-#' if (rlang::is_installed("DESeq2")) {
 #'   library(DESeq2)
 #'   counts <- matrix(rnbinom(n=3000, mu=100, size=1/0.5), ncol=30)
 #'   rownames(counts) <- paste0("gene", 1:100)
@@ -42,7 +41,6 @@
 #'   
 #'   # 3d plot
 #'   volcano3D(obj)
-#'  }
 #' }
 #' 
 #' @export

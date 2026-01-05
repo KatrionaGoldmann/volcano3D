@@ -54,6 +54,7 @@ results and converts the results to a 'volc3d' object, which can be directly
 plotted.
 }
 \examples{
+\dontshow{if (rlang::is_installed("DESeq2")) withAutoprint(\{ # examplesIf}
 
 \donttest{
   library(DESeq2)
@@ -74,7 +75,7 @@ plotted.
   volcano3D(polar)
   radial_ggplot(polar)
 }
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{polar_coords}}, \code{\link{voom_polar}},

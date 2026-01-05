@@ -29,30 +29,32 @@ response vs non-response, across 3 drugs: the design would be \code{~ response}
 and \code{group} would refer to the medication column in the metadata.
 }
 \examples{
+\dontshow{if (rlang::is_installed("DESeq2")) withAutoprint(\{ # examplesIf}
+
 \donttest{
 # Basic DESeq2 set up
-library(DESeq2)
 
-counts <- matrix(rnbinom(n=3000, mu=100, size=1/0.5), ncol=30)
-rownames(counts) <- paste0("gene", 1:100)
-cond <- rep(factor(rep(1:3, each=5), labels = c('A', 'B', 'C')), 2)
-resp <- factor(rep(1:2, each=15), labels = c('non.responder', 'responder'))
-metadata <- data.frame(drug = cond, response = resp)
-
-# Full dataset object construction
-dds <- DESeqDataSetFromMatrix(counts, metadata, ~response)
-
-# Perform 3x DESeq2 analyses comparing binary response for each drug
-res <- deseq_2x3(dds, ~response, "drug")
-
-# Generate polar object
-obj <- deseq_2x3_polar(res)
-
-# 2d plot
-radial_plotly(obj)
-
-# 3d plot
-volcano3D(obj)
+  library(DESeq2)
+  counts <- matrix(rnbinom(n=3000, mu=100, size=1/0.5), ncol=30)
+  rownames(counts) <- paste0("gene", 1:100)
+  cond <- rep(factor(rep(1:3, each=5), labels = c('A', 'B', 'C')), 2)
+  resp <- factor(rep(1:2, each=15), labels = c('non.responder', 'responder'))
+  metadata <- data.frame(drug = cond, response = resp)
+  
+  # Full dataset object construction
+  dds <- DESeqDataSetFromMatrix(counts, metadata, ~response)
+  
+  # Perform 3x DESeq2 analyses comparing binary response for each drug
+  res <- deseq_2x3(dds, ~response, "drug")
+  
+  # Generate polar object
+  obj <- deseq_2x3_polar(res)
+  
+  # 2d plot
+  radial_plotly(obj)
+  
+  # 3d plot
+  volcano3D(obj)
 }
-
+\dontshow{\}) # examplesIf}
 }
